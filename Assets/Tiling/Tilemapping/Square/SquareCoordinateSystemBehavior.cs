@@ -1,7 +1,7 @@
 ﻿using Assets.Tiling.SquareCoords;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping
+namespace Assets.Tiling.Tilemapping.Square
 {
     public class SquareCoordinateSystemBehavior : MonoBehaviour
     {

@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace Assets.Tiling.Tilemapping
+namespace Assets.Tiling.Tilemapping.Square
 {
     [Serializable]
     public struct SquareTileMapTile
@@ -42,7 +41,7 @@ namespace Assets.Tiling.Tilemapping
 
         private void Awake()
         {
-            var mat = this.GetComponent<MeshRenderer>().material;
+            var mat = GetComponent<MeshRenderer>().material;
             var textureSize = new Vector2(mat.mainTexture.width, mat.mainTexture.height);
 
             tileTypesDictionary = tileTypes.ToDictionary(x => x.ID, tileType =>
@@ -57,7 +56,7 @@ namespace Assets.Tiling.Tilemapping
                     uv10 = new Vector2(uv11.x, uv00.y),
                     ID = tileType.ID
                 };
-                
+
             });
             tiles = new Dictionary<SquareCoordinate, string>();
             tiles[new SquareCoordinate(0, 0)] = "ground";
@@ -81,7 +80,7 @@ namespace Assets.Tiling.Tilemapping
                 var point = Utilities.GetMousePos2D();
                 var coords = coordSystem.coordinateSystem.FromRealPosition(point);
 
-                if(coordinateCopyIndexes.TryGetValue(coords, out var index))
+                if (coordinateCopyIndexes.TryGetValue(coords, out var index))
                 {
                     if (tileTypesDictionary.TryGetValue(editTile, out var tileconfig))
                     {
@@ -136,10 +135,10 @@ namespace Assets.Tiling.Tilemapping
             var targetMesh = new Mesh();
             var copier = new MeshCopier(sourceMesh, 1, targetMesh, 1);
 
-            foreach(var coord in coordRange)
+            foreach (var coord in coordRange)
             {
                 string tileType;
-                if(!tiles.TryGetValue(coord, out tileType))
+                if (!tiles.TryGetValue(coord, out tileType))
                 {
                     tileType = defaultTile;
                 }
@@ -154,6 +153,7 @@ namespace Assets.Tiling.Tilemapping
                     tileConfig.uv11,
                     tileConfig.uv10,
                 };
+
 
                 var indexAdded = copier.NextCopy(tileLocation, UVOverride: uvs);
                 copier.CopySubmeshTrianglesToOffsetIndex(0, 0);

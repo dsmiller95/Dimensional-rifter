@@ -79,9 +79,10 @@ namespace Assets.MapGen
         public int NextCopy(
             Vector3 offset,
             Color? vertexColor = null,
-            Vector2[] UVOverride = null)
+            Vector2[] UVOverride = null,
+            Quaternion localMeshRotation = default)
         {
-            CopyVertexesToOffset(offset);
+            CopyVertexesToOffset(offset, localMeshRotation);
             CopyOrSetColors(vertexColor);
             CopyUVsToOffsetIndex(UVOverride);
 
@@ -121,12 +122,13 @@ namespace Assets.MapGen
             }
         }
 
-        private void CopyVertexesToOffset(Vector3 offset)
+        private void CopyVertexesToOffset(Vector3 offset, Quaternion rotation)
         {
             var sourceVertexes = sourceMesh.vertices;
             for (var vert = 0; vert < sourceVertexes.Length; vert++)
             {
-                targetVertexes.Add(sourceVertexes[vert] + offset);
+                var rotatedSource = rotation * sourceVertexes[vert];
+                targetVertexes.Add(rotatedSource + offset);
             }
         }
 
