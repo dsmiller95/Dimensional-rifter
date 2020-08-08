@@ -339,13 +339,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileTypes:
-  - coords0: {x: 0, y: 3}
-    flatTop: 1
+  - coords0:
+      u: 0
+      v: 0
+      R: 1
     ID: ground
-  - coords0: {x: 1443, y: 774}
-    flatTop: 0
+  - coords0:
+      u: 1
+      v: 1
+      R: 0
     ID: water
-  sideLength: 896
+  sideLength: 542
+  tilePadding: 28
   coordSystem: {fileID: 591496557}
   coordRange:
     coord0:

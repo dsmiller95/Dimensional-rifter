@@ -10,11 +10,10 @@ namespace Assets.Tiling.Tilemapping.Triangle
     public struct TriangleTileMapTile
     {
         /// <summary>
-        /// the coordinate of the left-most vertex. if flatTop == true, this vertex is the left-top
-        /// if flatTop == false, the vertex is the left-bottom one
+        /// the coordinate of the tile in the tileset
+        ///  the true positioning will be determined based off of a triangular coordinate system scaled to match the sprite sheet
         /// </summary>
-        public Vector2 coords0;
-        public bool flatTop;
+        public TriangleCoordinate coords0;
         public string ID;
     }
 
@@ -23,7 +22,8 @@ namespace Assets.Tiling.Tilemapping.Triangle
     public class TriangleTileMap : MonoBehaviour
     {
         public TriangleTileMapTile[] tileTypes;
-        public int sideLength;
+        public float sideLength;
+        public float tilePadding;
 
         private Dictionary<string, TriangleTileMapTileInternal> tileTypesDictionary;
 
@@ -34,7 +34,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public string defaultTile;
         public string editTile;
 
-        private static readonly float triangleHeightBySideLength = Mathf.Sqrt(3) / 2f;
+        //private static readonly float triangleHeightBySideLength = Mathf.Sqrt(3) / 2f;
 
         public struct TriangleTileMapTileInternal
         {
@@ -52,22 +52,36 @@ namespace Assets.Tiling.Tilemapping.Triangle
             var mat = GetComponent<MeshRenderer>().material;
             var textureSize = new Vector2(mat.mainTexture.width, mat.mainTexture.height);
 
-            var triHeight = triangleHeightBySideLength * sideLength * Vector2.up;
+            var trueSideLength = sideLength + tilePadding * 2;
+
+            var textureSpaceCoordinateSystem = new CoordinateSystemScale<TriangleCoordinate>(new TriangleCoordinateSystem(), Vector2.one * trueSideLength);
+            var pos0 = textureSpaceCoordinateSystem.ToRealPosition(new TriangleCoordinate(0, 0, false));
+
+            var uv0s = GetTriangleVertextes(new TriangleCoordinate(0, 0, false), textureSpaceCoordinateSystem, trueSideLength);
+
+            var textureSpaceOrigin = uv0s.First();
 
             tileTypesDictionary = tileTypes.ToDictionary(x => x.ID, tileType =>
             {
                 var result = new TriangleTileMapTileInternal { ID = tileType.ID };
 
-                result.uv0 = tileType.coords0;
-                if (tileType.flatTop)
-                {
-                    result.uv1 = result.uv0 + Vector2.right * sideLength;
-                    result.uv2 = result.uv0 + Vector2.right * (sideLength / 2f) + triHeight;
-                }else
-                {
-                    result.uv1 = result.uv0 + Vector2.right * (sideLength / 2f) - triHeight;
-                    result.uv2 = result.uv0 + Vector2.right * sideLength;
-                }
+                var uvsInTextureSpace = GetTriangleVertextes(tileType.coords0, textureSpaceCoordinateSystem, sideLength).ToArray();
+
+                result.uv0 = uvsInTextureSpace[0] - textureSpaceOrigin;
+                result.uv1 = uvsInTextureSpace[1] - textureSpaceOrigin;
+                result.uv2 = uvsInTextureSpace[2] - textureSpaceOrigin;
+                //result.uv0 = tileType.coords0;
+                //if (tileType.flatTop)
+                //{
+                //    result.uv1 = result.uv0 + Vector2.right * sideLength;
+                //    result.uv2 = result.uv0 + Vector2.right * (sideLength / 2f) + triHeight;
+                //}else
+                //{
+                //    result.uv1 = result.uv0 + Vector2.right * (sideLength / 2f) - triHeight;
+                //    result.uv2 = result.uv0 + Vector2.right * sideLength;
+                //}
+
+                // transform from coords in texture space to coords in UV space
                 result.uv0 = result.uv0.InverseScale(textureSize);
                 result.uv1 = result.uv1.InverseScale(textureSize);
                 result.uv2 = result.uv2.InverseScale(textureSize);
@@ -75,9 +89,9 @@ namespace Assets.Tiling.Tilemapping.Triangle
                 // UV coords pivot from lower-left
                 // but pixel coords are input based on (0,0) in upper-left
                 // so invert the UV to transform into UV-space
-                result.uv0.y = 1 - result.uv0.y;
-                result.uv1.y = 1 - result.uv1.y;
-                result.uv2.y = 1 - result.uv2.y;
+                //result.uv0.y = 1 - result.uv0.y;
+                //result.uv1.y = 1 - result.uv1.y;
+                //result.uv2.y = 1 - result.uv2.y;
 
                 return result;
             });
@@ -86,6 +100,22 @@ namespace Assets.Tiling.Tilemapping.Triangle
             tiles[new TriangleCoordinate(0, 0, false)] = "ground";
             tiles[new TriangleCoordinate(1, 0, false)] = "ground";
             tiles[new TriangleCoordinate(0, 1, false)] = "ground";
+        }
+
+        private static readonly Vector2[] triangleVerts = new Vector2[] {
+                new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
+                new Vector3(  0f, 1/Mathf.Sqrt(3)),
+                new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
+        private static IEnumerable<Vector2> GetTriangleVertextes(TriangleCoordinate coord, ICoordinateSystem<TriangleCoordinate> coordSystem, float triangleScale)
+        {
+            IEnumerable<Vector2> verts = triangleVerts;
+            if (coord.R)
+            {
+                var rotation = Quaternion.Euler(0, 0, 60);
+                verts = verts.Select(x => (Vector2)(rotation * x));
+            }
+            var location = coordSystem.ToRealPosition(coord);
+            return verts.Select(x => (x * triangleScale) + location);
         }
 
         public void Start()
@@ -99,6 +129,8 @@ namespace Assets.Tiling.Tilemapping.Triangle
             {
                 var point = Utilities.GetMousePos2D();
                 var coords = coordSystem.coordinateSystem.FromRealPosition(point);
+
+                Debug.Log(coords);
 
                 if (coordinateCopyIndexes.TryGetValue(coords, out var index))
                 {

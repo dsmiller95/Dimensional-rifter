@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -55,6 +56,7 @@ namespace Assets.Tiling.TriangleCoords
         private static readonly Vector2 yBasis = new Vector2(-1f / Mathf.Sqrt(3), 2f / Mathf.Sqrt(3));
 
         private static readonly Vector2 rBasis = new Vector2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
+
 
         public TriangleCoordinate FromRealPosition(Vector2 realWorldPos)
         {

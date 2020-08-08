@@ -73,6 +73,7 @@
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
+    <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
