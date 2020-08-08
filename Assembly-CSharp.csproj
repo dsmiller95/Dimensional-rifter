@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangularCoordinateSystem.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Utilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
@@ -74,6 +74,9 @@
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapUtilities.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
+    <Compile Include="Assets\Tiling\SquareCoords\SquareTileMapSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

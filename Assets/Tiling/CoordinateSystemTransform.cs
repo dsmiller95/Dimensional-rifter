@@ -15,6 +15,11 @@ public class CoordinateSystemTransform<T> : ICoordinateSystem<T> where T : ICoor
         this.transform = transform;
     }
 
+    public T DefaultCoordinate()
+    {
+        return basis.DefaultCoordinate();
+    }
+
     public T FromRealPosition(Vector2 realWorldPos)
     {
         var transformedPos = transform.InverseTransformPoint(realWorldPos);

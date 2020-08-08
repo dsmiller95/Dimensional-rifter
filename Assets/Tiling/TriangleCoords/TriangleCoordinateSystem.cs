@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -84,6 +85,39 @@ namespace Assets.Tiling.TriangleCoords
             var realCoord = uComponent + vComponent;
             realCoord += (coordinate.R ? 1 : -1) * rBasis;
             return realCoord;
+        }
+
+        private static readonly Vector2[] triangleVerts = new Vector2[] {
+                new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
+                new Vector3(  0f, 1/Mathf.Sqrt(3)),
+                new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
+        /// <summary>
+        /// Get a list of vertexes representing the triangle around the given triangular coordinate, with a side length of <paramref name="triangleScale"/>
+        /// </summary>
+        /// <param name="coord">The triangle coordinate</param>
+        /// <param name="coordinateSystem">The coordinate system to use to translate the position of the triangle verts</param>
+        /// <param name="triangleScale">the scale</param>
+        /// <returns>an IEnumerable of 3 vertextes representing the triangle, rotating clockwise around the triangle</returns>
+        public static IEnumerable<Vector2> GetTriangleVertextesAround(TriangleCoordinate coord, float triangleScale, ICoordinateSystem<TriangleCoordinate> coordinateSystem = null)
+        {
+            IEnumerable<Vector2> verts = triangleVerts;
+            if (coord.R)
+            {
+                var rotation = Quaternion.Euler(0, 0, 60);
+                verts = verts.Select(x => (Vector2)(rotation * x));
+            }
+            verts = verts.Select(x => x * triangleScale);
+            if(coordinateSystem != null)
+            {
+                var location = coordinateSystem.ToRealPosition(coord);
+                verts = verts.Select(x => x + location);
+            }
+            return verts;
+        }
+
+        public TriangleCoordinate DefaultCoordinate()
+        {
+            return new TriangleCoordinate(0, 0, false);
         }
     }
 }

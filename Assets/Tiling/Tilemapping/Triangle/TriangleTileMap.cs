@@ -16,6 +16,11 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public TriangleCoordinate coords0;
         public string ID;
     }
+    public struct MultiVertTileConfig
+    {
+        public string ID;
+        public Vector2[] uvs;
+    }
 
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshFilter))]
@@ -25,7 +30,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public float sideLength;
         public float tilePadding;
 
-        private Dictionary<string, TriangleTileMapTileInternal> tileTypesDictionary;
+        private Dictionary<string, MultiVertTileConfig> tileTypesDictionary;
 
         public TriangleCoordinateSystemBehavior coordSystem;
         public TriangleRhomboidCoordinateRange coordRange;
@@ -34,88 +39,35 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public string defaultTile;
         public string editTile;
 
-        //private static readonly float triangleHeightBySideLength = Mathf.Sqrt(3) / 2f;
-
-        public struct TriangleTileMapTileInternal
-        {
-            /// <summary>
-            /// uvs will always start from left-most coord and rotate clockwise from there
-            /// </summary>
-            public Vector2 uv0;
-            public Vector2 uv1;
-            public Vector2 uv2;
-            public string ID;
-        }
+        private GenericTileMapContainer<TriangleCoordinate> tileMapContainer;
+        private ITileMapSystem<TriangleCoordinate> tileMapSystem;
 
         private void Awake()
         {
-            var mat = GetComponent<MeshRenderer>().material;
-            var textureSize = new Vector2(mat.mainTexture.width, mat.mainTexture.height);
+            var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
+            var textureSize = new Vector2(mainTex.width, mainTex.height);
 
-            var trueSideLength = sideLength + tilePadding * 2;
-
-            var textureSpaceCoordinateSystem = new CoordinateSystemScale<TriangleCoordinate>(new TriangleCoordinateSystem(), Vector2.one * trueSideLength);
-            var pos0 = textureSpaceCoordinateSystem.ToRealPosition(new TriangleCoordinate(0, 0, false));
-
-            var uv0s = GetTriangleVertextes(new TriangleCoordinate(0, 0, false), textureSpaceCoordinateSystem, trueSideLength);
-
-            var textureSpaceOrigin = uv0s.First();
-
-            tileTypesDictionary = tileTypes.ToDictionary(x => x.ID, tileType =>
+            tileMapSystem = new TriangleTileMapSystem();
+            tileMapContainer = new GenericTileMapContainer<TriangleCoordinate>(new TileTextureData
             {
-                var result = new TriangleTileMapTileInternal { ID = tileType.ID };
+                sideLength = sideLength,
+                padding = tilePadding
+            }, tileMapSystem);
 
-                var uvsInTextureSpace = GetTriangleVertextes(tileType.coords0, textureSpaceCoordinateSystem, sideLength).ToArray();
+            var convertedUVs = tileMapContainer.ConvertToStandardUVConfig(
+                tileTypes.Select(x => new TileConfig<TriangleCoordinate>
+                {
+                    ID = x.ID,
+                    tileCoordinate = x.coords0
+                }),
+                mainTex);
+            tileTypesDictionary = convertedUVs.ToDictionary(x => x.ID);
 
-                result.uv0 = uvsInTextureSpace[0] - textureSpaceOrigin;
-                result.uv1 = uvsInTextureSpace[1] - textureSpaceOrigin;
-                result.uv2 = uvsInTextureSpace[2] - textureSpaceOrigin;
-                //result.uv0 = tileType.coords0;
-                //if (tileType.flatTop)
-                //{
-                //    result.uv1 = result.uv0 + Vector2.right * sideLength;
-                //    result.uv2 = result.uv0 + Vector2.right * (sideLength / 2f) + triHeight;
-                //}else
-                //{
-                //    result.uv1 = result.uv0 + Vector2.right * (sideLength / 2f) - triHeight;
-                //    result.uv2 = result.uv0 + Vector2.right * sideLength;
-                //}
-
-                // transform from coords in texture space to coords in UV space
-                result.uv0 = result.uv0.InverseScale(textureSize);
-                result.uv1 = result.uv1.InverseScale(textureSize);
-                result.uv2 = result.uv2.InverseScale(textureSize);
-
-                // UV coords pivot from lower-left
-                // but pixel coords are input based on (0,0) in upper-left
-                // so invert the UV to transform into UV-space
-                //result.uv0.y = 1 - result.uv0.y;
-                //result.uv1.y = 1 - result.uv1.y;
-                //result.uv2.y = 1 - result.uv2.y;
-
-                return result;
-            });
             tiles = new Dictionary<TriangleCoordinate, string>();
             tiles[new TriangleCoordinate(0, 0, true)] = "ground";
             tiles[new TriangleCoordinate(0, 0, false)] = "ground";
             tiles[new TriangleCoordinate(1, 0, false)] = "ground";
             tiles[new TriangleCoordinate(0, 1, false)] = "ground";
-        }
-
-        private static readonly Vector2[] triangleVerts = new Vector2[] {
-                new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
-                new Vector3(  0f, 1/Mathf.Sqrt(3)),
-                new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
-        private static IEnumerable<Vector2> GetTriangleVertextes(TriangleCoordinate coord, ICoordinateSystem<TriangleCoordinate> coordSystem, float triangleScale)
-        {
-            IEnumerable<Vector2> verts = triangleVerts;
-            if (coord.R)
-            {
-                var rotation = Quaternion.Euler(0, 0, 60);
-                verts = verts.Select(x => (Vector2)(rotation * x));
-            }
-            var location = coordSystem.ToRealPosition(coord);
-            return verts.Select(x => (x * triangleScale) + location);
         }
 
         public void Start()
@@ -136,13 +88,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
                 {
                     if (tileTypesDictionary.TryGetValue(editTile, out var tileconfig))
                     {
-                        var uvs = new Vector2[]
-                        {
-                            tileconfig.uv0,
-                            tileconfig.uv1,
-                            tileconfig.uv2,
-                        };
-                        meshEditor.SetUVForVertexesAtDuplicate(index, uvs);
+                        meshEditor.SetUVForVertexesAtDuplicate(index, tileconfig.uvs);
                     }
                 }
             }
@@ -155,10 +101,11 @@ namespace Assets.Tiling.Tilemapping.Triangle
         {
             Mesh sourceMesh = new Mesh();
             sourceMesh.subMeshCount = 1;
-            sourceMesh.SetVertices(new Vector3[] {
-                new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
-                new Vector3(  0f, 1/Mathf.Sqrt(3)),
-                new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)),});
+            sourceMesh.SetVertices(
+                TriangleCoordinateSystem.GetTriangleVertextesAround(new TriangleCoordinate(0, 0, false), 1)
+                .Select(x => (Vector3)x)
+                .ToList()
+              );
             sourceMesh.SetColors(new Color[]
             {
                 Color.white,
@@ -176,7 +123,6 @@ namespace Assets.Tiling.Tilemapping.Triangle
                 new Vector2(1, 1),
             });
 
-            ICoordinateSystem<TriangleCoordinate> rectCoords = coordSystem.coordinateSystem;
             coordinateCopyIndexes = new Dictionary<TriangleCoordinate, int>();
 
             var targetMesh = new Mesh();
@@ -191,14 +137,9 @@ namespace Assets.Tiling.Tilemapping.Triangle
                 }
 
                 var tileConfig = tileTypesDictionary[tileType];
-                var tileLocation = rectCoords.ToRealPosition(coord);
+                var tileLocation = coordSystem.coordinateSystem.ToRealPosition(coord);
 
-                Vector2[] uvs = new Vector2[]
-                     {
-                        tileConfig.uv0,
-                        tileConfig.uv1,
-                        tileConfig.uv2,
-                     };
+                Vector2[] uvs = tileConfig.uvs;
 
                 var rotation = !coord.R ? 0f : 60f;
                 rotation += Random.Range(0, 2) * 120f;

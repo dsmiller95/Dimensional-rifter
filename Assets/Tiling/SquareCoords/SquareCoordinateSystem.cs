@@ -60,5 +60,35 @@ namespace Assets.Tiling.SquareCoords
         {
             return new Vector2(coordinate.column, coordinate.row);
         }
+
+
+        private static readonly Vector2[] squareVerts = new Vector2[] {
+                new Vector3(-.5f,-.5f),
+                new Vector3(-.5f, .5f),
+                new Vector3( .5f, .5f),
+                new Vector3( .5f,-.5f),};
+        /// <summary>
+        /// Get a list of vertexes representing the square around the given square coordinate, with a side length of <paramref name="squareScale"/>
+        /// </summary>
+        /// <param name="coord">The sqaure coordinate</param>
+        /// <param name="coordinateSystem">The coordinate system to use to translate the position of the verts</param>
+        /// <param name="squareScale">the scale</param>
+        /// <returns>an IEnumerable of 4 vertextes representing the square, rotating clockwise around the center</returns>
+        public static IEnumerable<Vector2> GetSquareVertsAround(SquareCoordinate coord, float squareScale, ICoordinateSystem<SquareCoordinate> coordinateSystem = null)
+        {
+            IEnumerable<Vector2> verts = squareVerts;
+            verts = verts.Select(x => x * squareScale);
+            if (coordinateSystem != null)
+            {
+                var location = coordinateSystem.ToRealPosition(coord);
+                verts = verts.Select(x => x + location);
+            }
+            return verts;
+        }
+
+        public SquareCoordinate DefaultCoordinate()
+        {
+            return new SquareCoordinate(0, 0);
+        }
     }
 }

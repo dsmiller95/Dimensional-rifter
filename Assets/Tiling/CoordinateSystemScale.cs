@@ -20,6 +20,11 @@ public class CoordinateSystemScale<T> : ICoordinateSystem<T> where T : ICoordina
         this.scale = scale;
     }
 
+    public T DefaultCoordinate()
+    {
+        return basis.DefaultCoordinate();
+    }
+
     public T FromRealPosition(Vector2 realWorldPos)
     {
         var transformedPos = realWorldPos.InverseScale(scale);

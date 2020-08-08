@@ -170,5 +170,10 @@ namespace Simulation.Tiling.HexCoords
         {
             return RealToTileMap(realWorldPos).ToAxial();
         }
+
+        public AxialCoordinate DefaultCoordinate()
+        {
+            return new AxialCoordinate(0, 0);
+        }
     }
 }

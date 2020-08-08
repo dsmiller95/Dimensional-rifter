@@ -1,5 +1,6 @@
 ﻿using Assets.MapGen;
 using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping.Triangle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,7 @@ namespace Assets.Tiling.Tilemapping.Square
     [Serializable]
     public struct SquareTileMapTile
     {
-        public Vector2 coords0;
-        public Vector2 coords1;
+        public SquareCoordinate coords0;
         public string ID;
     }
 
@@ -20,7 +20,11 @@ namespace Assets.Tiling.Tilemapping.Square
     public class SquareTileMap : MonoBehaviour
     {
         public SquareTileMapTile[] tileTypes;
-        private Dictionary<string, SquareTileMapTileInternal> tileTypesDictionary;
+        public float sideLength;
+        public float tilePadding;
+
+
+        private Dictionary<string, MultiVertTileConfig> tileTypesDictionary;
 
         public SquareCoordinateSystemBehavior coordSystem;
         public SquareCoordinateRange coordRange;
@@ -29,35 +33,31 @@ namespace Assets.Tiling.Tilemapping.Square
         public string defaultTile;
         public string editTile;
 
-
-        public struct SquareTileMapTileInternal
-        {
-            public Vector2 uv00;
-            public Vector2 uv01;
-            public Vector2 uv11;
-            public Vector2 uv10;
-            public string ID;
-        }
+        private GenericTileMapContainer<SquareCoordinate> tileMapContainer;
+        private ITileMapSystem<SquareCoordinate> tileMapSystem;
 
         private void Awake()
         {
-            var mat = GetComponent<MeshRenderer>().material;
-            var textureSize = new Vector2(mat.mainTexture.width, mat.mainTexture.height);
 
-            tileTypesDictionary = tileTypes.ToDictionary(x => x.ID, tileType =>
+            var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
+
+            tileMapSystem = new SquareTileMapSystem();
+            tileMapContainer = new GenericTileMapContainer<SquareCoordinate>(new TileTextureData
             {
-                var uv00 = new Vector2(tileType.coords0.x / textureSize.x, tileType.coords0.y / textureSize.y);
-                var uv11 = new Vector2(tileType.coords1.x / textureSize.x, tileType.coords1.y / textureSize.y);
-                return new SquareTileMapTileInternal
-                {
-                    uv00 = uv00,
-                    uv11 = uv11,
-                    uv01 = new Vector2(uv00.x, uv11.y),
-                    uv10 = new Vector2(uv11.x, uv00.y),
-                    ID = tileType.ID
-                };
+                sideLength = sideLength,
+                padding = tilePadding
+            }, tileMapSystem);
 
-            });
+            var convertedUVs = tileMapContainer.ConvertToStandardUVConfig(
+                tileTypes.Select(x => new TileConfig<SquareCoordinate>
+                {
+                    ID = x.ID,
+                    tileCoordinate = x.coords0
+                }),
+                mainTex);
+            tileTypesDictionary = convertedUVs.ToDictionary(x => x.ID);
+
+
             tiles = new Dictionary<SquareCoordinate, string>();
             tiles[new SquareCoordinate(0, 0)] = "ground";
             tiles[new SquareCoordinate(1, 1)] = "ground";
@@ -84,14 +84,7 @@ namespace Assets.Tiling.Tilemapping.Square
                 {
                     if (tileTypesDictionary.TryGetValue(editTile, out var tileconfig))
                     {
-                        var uvs = new Vector2[]
-                        {
-                            tileconfig.uv00,
-                            tileconfig.uv01,
-                            tileconfig.uv11,
-                            tileconfig.uv10,
-                        };
-                        meshEditor.SetUVForVertexesAtDuplicate(index, uvs);
+                        meshEditor.SetUVForVertexesAtDuplicate(index, tileconfig.uvs);
                     }
                 }
             }
@@ -104,11 +97,10 @@ namespace Assets.Tiling.Tilemapping.Square
         {
             Mesh sourceMesh = new Mesh();
             sourceMesh.subMeshCount = 1;
-            sourceMesh.SetVertices(new Vector3[] {
-                new Vector3(-.5f,-.5f),
-                new Vector3(-.5f, .5f),
-                new Vector3( .5f, .5f),
-                new Vector3( .5f,-.5f),});
+            sourceMesh.SetVertices(
+                SquareCoordinateSystem.GetSquareVertsAround(new SquareCoordinate(0, 0), 1)
+                .Select(x => (Vector3)x)
+                .ToList());
             sourceMesh.SetColors(new Color[]
             {
                 Color.white,
@@ -146,16 +138,7 @@ namespace Assets.Tiling.Tilemapping.Square
                 var tileConfig = tileTypesDictionary[tileType];
                 var tileLocation = rectCoords.ToRealPosition(coord);
 
-                var uvs = new Vector2[]
-                {
-                    tileConfig.uv00,
-                    tileConfig.uv01,
-                    tileConfig.uv11,
-                    tileConfig.uv10,
-                };
-
-
-                var indexAdded = copier.NextCopy(tileLocation, UVOverride: uvs);
+                var indexAdded = copier.NextCopy(tileLocation, UVOverride: tileConfig.uvs);
                 copier.CopySubmeshTrianglesToOffsetIndex(0, 0);
 
                 coordinateCopyIndexes[coord] = indexAdded;
