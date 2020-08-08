@@ -267,6 +267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9df91685ede274fb1c8385ac837311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sideLength: 0
+  tilePadding: 0
+  tileTypes: []
 --- !u!4 &591496558
 Transform:
   m_ObjectHideFlags: 0
@@ -310,6 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7deb97f1575214b47b2c03565bef19e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sideLength: 0
+  tilePadding: 0
 --- !u!4 &1129562206
 Transform:
   m_ObjectHideFlags: 0
@@ -342,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1409907441
 Transform:
   m_ObjectHideFlags: 0
@@ -370,19 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ac47118009d2e4b986cb897c44402d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileTypes:
-  - coords0:
-      u: 0
-      v: 0
-      R: 1
-    ID: ground
-  - coords0:
-      u: 1
-      v: 1
-      R: 0
-    ID: water
-  sideLength: 542
-  tilePadding: 28
+  tileSet: {fileID: 1738807958}
   coordSystem: {fileID: 591496557}
   coordRange:
     coord0:
@@ -462,7 +455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1488591887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,17 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be8882fd943a2d4cad09099faa8c11e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileTypes:
-  - coords0:
-      row: 0
-      column: 0
-    ID: ground
-  - coords0:
-      row: 0
-      column: 1
-    ID: water
-  sideLength: 16
-  tilePadding: 0
+  tileSet: {fileID: 1828254215}
   coordSystem: {fileID: 1129562205}
   coordRange:
     coord0:
@@ -560,3 +543,113 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1738807957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1738807959}
+  - component: {fileID: 1738807958}
+  m_Layer: 0
+  m_Name: triangle tile set
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1738807958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738807957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f70e11814daf044795133ad42854c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideLength: 542
+  tilePadding: 28
+  tileTypes:
+  - coords0:
+      u: 0
+      v: 0
+      R: 1
+    ID: ground
+  - coords0:
+      u: 1
+      v: 1
+      R: 0
+    ID: water
+--- !u!4 &1738807959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738807957}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1828254214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1828254216}
+  - component: {fileID: 1828254215}
+  m_Layer: 0
+  m_Name: square tile set
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1828254215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828254214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce427b4c519ea64b93a78b1116086c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideLength: 16
+  tilePadding: 0
+  tileTypes:
+  - coords0:
+      row: 0
+      column: 0
+    ID: ground
+  - coords0:
+      row: 0
+      column: 1
+    ID: water
+--- !u!4 &1828254216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828254214}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

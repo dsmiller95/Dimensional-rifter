@@ -1,16 +1,12 @@
 ﻿using Assets.Tiling.SquareCoords;
-using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
 {
-    public class SquareCoordinateSystemBehavior : MonoBehaviour
+    public class SquareCoordinateSystemBehavior : CoordinateSystemBehavior<SquareCoordinate>
     {
-        public CoordinateSystemTransform<SquareCoordinate> coordinateSystem;
-
-        public void Awake()
+        protected override ICoordinateSystem<SquareCoordinate> BaseCoordinateSystem()
         {
-            var basis = new SquareCoordinateSystem();
-            coordinateSystem = new CoordinateSystemTransform<SquareCoordinate>(basis, transform);
+            return new SquareCoordinateSystem();
         }
     }
 }

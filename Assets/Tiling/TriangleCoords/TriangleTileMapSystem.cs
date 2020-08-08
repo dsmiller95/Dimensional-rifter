@@ -18,6 +18,14 @@ namespace Assets.Tiling.TriangleCoords
             return new TriangleCoordinateSystem();
         }
 
+        public int[] GetTileTriangles()
+        {
+            return new int[]
+            {
+                0, 1, 2
+            };
+        }
+
         public IEnumerable<Vector2> GetVertexesAround(TriangleCoordinate coord, float sideLength, ICoordinateSystem<TriangleCoordinate> translateCoordinateSystem)
         {
             return TriangleCoordinateSystem.GetTriangleVertextesAround(coord, sideLength, translateCoordinateSystem);

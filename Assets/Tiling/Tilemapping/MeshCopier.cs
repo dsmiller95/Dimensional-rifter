@@ -77,12 +77,20 @@ namespace Assets.MapGen
         /// <param name="offset"></param>
         /// <returns>and index which can be used to modify this specific copy in the mesh post-creation</returns>
         public int NextCopy(
-            Vector3 offset,
+            Vector3 offset = default,
             Color? vertexColor = null,
             Vector2[] UVOverride = null,
-            Quaternion localMeshRotation = default)
+            Quaternion localMeshRotation = default,
+            IEnumerable<Vector3> vertexOverrides = null)
         {
-            CopyVertexesToOffset(offset, localMeshRotation);
+            if(vertexOverrides != null)
+            {
+                CopyVertexOverrides(vertexOverrides);
+            }
+            else
+            {
+                CopyVertexesToOffset(offset, localMeshRotation);
+            }
             CopyOrSetColors(vertexColor);
             CopyUVsToOffsetIndex(UVOverride);
 
@@ -119,6 +127,16 @@ namespace Assets.MapGen
                 {
                     targetColors.Add(colorOverride.Value);
                 }
+            }
+        }
+
+        private void CopyVertexOverrides(IEnumerable<Vector3> overrides)
+        {
+            var preAdd = targetVertexes.Count;
+            targetVertexes.AddRange(overrides);
+            if (targetVertexes.Count - preAdd != sourceVertexCount)
+            {
+                throw new System.Exception("Cannot handle a vertex override which is different than the source vertex count");
             }
         }
 

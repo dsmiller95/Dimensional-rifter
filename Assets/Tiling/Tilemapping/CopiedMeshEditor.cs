@@ -10,7 +10,7 @@ namespace Assets.MapGen
     public class CopiedMeshEditor
     {
         private Mesh sourceMesh;
-        private Mesh targetMesh;
+        public Mesh targetMesh;
         private int sourceMeshVertexSize;
 
         public CopiedMeshEditor(

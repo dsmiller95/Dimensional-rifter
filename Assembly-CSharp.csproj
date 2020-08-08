@@ -74,9 +74,14 @@
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapUtilities.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\GenericTileMapContainer.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareTileMapSystem.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\CombinedTileMap.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemBehavior.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileSet.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

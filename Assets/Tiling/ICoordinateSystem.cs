@@ -6,6 +6,9 @@ namespace Assets.Tiling
     public interface ITileMapSystem<T> where T : ICoordinate
     {
         IEnumerable<Vector2> GetVertexesAround(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem = null);
+
+        int[] GetTileTriangles();
+
         ICoordinateSystem<T> GetBasicCoordinateSystem();
     }
 

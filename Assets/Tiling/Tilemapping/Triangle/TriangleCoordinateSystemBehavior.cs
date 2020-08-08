@@ -1,16 +1,16 @@
 ﻿using Assets.Tiling.TriangleCoords;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
 {
-    public class TriangleCoordinateSystemBehavior : MonoBehaviour
+    public class TriangleCoordinateSystemBehavior : CoordinateSystemBehavior<TriangleCoordinate>
     {
-        public CoordinateSystemTransform<TriangleCoordinate> coordinateSystem;
+        public TriangleTileMapTile[] tileTypes;
 
-        public void Awake()
+        protected override ICoordinateSystem<TriangleCoordinate> BaseCoordinateSystem()
         {
-            var basis = new TriangleCoordinateSystem();
-            coordinateSystem = new CoordinateSystemTransform<TriangleCoordinate>(basis, transform);
+            return new TriangleCoordinateSystem();
         }
     }
 }

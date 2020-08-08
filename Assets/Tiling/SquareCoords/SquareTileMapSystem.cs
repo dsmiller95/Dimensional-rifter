@@ -13,6 +13,15 @@ namespace Assets.Tiling.SquareCoords
             return new SquareCoordinateSystem();
         }
 
+        public int[] GetTileTriangles()
+        {
+            return new int[]
+            {
+                0, 1, 2,
+                2, 3, 0
+            };
+        }
+
         public IEnumerable<Vector2> GetVertexesAround(SquareCoordinate coord, float sideLength, ICoordinateSystem<SquareCoordinate> translateCoordinateSystem)
         {
             return SquareCoordinateSystem.GetSquareVertsAround(coord, sideLength, translateCoordinateSystem);
