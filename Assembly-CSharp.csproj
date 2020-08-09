@@ -55,36 +55,36 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileMap.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileSet.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Utilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileSet.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\GenericTileMapContainer.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
+    <Compile Include="Assets\Tiling\SquareCoords\SquareTileMapSystem.cs" />
+    <Compile Include="Assets\LinqExtensions.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemTransform.cs" />
+    <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\Tiling\ICoordinateSystem.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
-    <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\GenericTileMapContainer.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareTileMapSystem.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemBehavior.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileSet.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileSet.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
-    <Compile Include="Assets\LinqExtensions.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

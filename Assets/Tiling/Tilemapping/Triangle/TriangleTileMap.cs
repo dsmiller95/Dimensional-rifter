@@ -1,7 +1,5 @@
 ﻿using Assets.Tiling.TriangleCoords;
-using Extensions;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
@@ -17,7 +15,8 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public TriangleTriangleCoordinateRange coordRange;
 
         public override ICoordinateRange<TriangleCoordinate> CoordinateRange => coordRange;
-        public override ICoordinateSystem<TriangleCoordinate> CoordinateSystem => coordSystem.coordinateSystem;
+        public override ICoordinateSystem<TriangleCoordinate> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
+        public override ICoordinateSystem<TriangleCoordinate> WorldSpaceCoordinateSystem => coordSystem.coordinateSystem;
 
         public string editTile;
 
@@ -57,7 +56,6 @@ namespace Assets.Tiling.Tilemapping.Triangle
                 var point = Utilities.GetMousePos2D();
                 var coords = coordSystem.coordinateSystem.FromRealPosition(point);
 
-                Debug.Log(coords);
                 tileMapContainer.SetTile(coords, editTile);
             }
         }

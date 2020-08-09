@@ -5,7 +5,7 @@ namespace Assets.Tiling.Tilemapping
 {
     public struct SubCoordinateSystem
     {
-        public CoordinateSystemBehavior<ICoordinate> coordinateSystem;
+        public CoordinateSystemTransformBehavior<ICoordinate> coordinateSystem;
     }
 
     public class CombinationTileMapManager : MonoBehaviour
@@ -27,6 +27,39 @@ namespace Assets.Tiling.Tilemapping
                 var tileMap = allTileMaps[i];
                 tileMap.SetupMyMesh(allColliders.Skip(i + 1));
             }
+        }
+
+
+        private bool isPlacingTileMap;
+        public TileMapRegionNoCoordinateType tileMapPrefab;
+        private TileMapRegionNoCoordinateType currentPlacingTileMap;
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
+            {
+                this.BeginTileMapPlace();
+            }else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)
+            {
+                this.FinishTileMapPlace();
+            }else if (isPlacingTileMap)
+            {
+                // do some placement
+            }
+        }
+
+        public void BeginTileMapPlace()
+        {
+            isPlacingTileMap = true;
+            currentPlacingTileMap = Instantiate(tileMapPrefab, transform);//todo: make a new tile map?
+        }
+
+        public void FinishTileMapPlace()
+        {
+            isPlacingTileMap = false;
+
+            //TODO: so some thing to finalize?
+
+            currentPlacingTileMap = null;
         }
 
     }

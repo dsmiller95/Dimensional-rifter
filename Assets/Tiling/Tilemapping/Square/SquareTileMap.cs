@@ -1,7 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
-using Extensions;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
@@ -16,7 +14,8 @@ namespace Assets.Tiling.Tilemapping.Square
         public SquareCoordinateRange coordRange;
 
         public override ICoordinateRange<SquareCoordinate> CoordinateRange => coordRange;
-        public override ICoordinateSystem<SquareCoordinate> CoordinateSystem => coordSystem.coordinateSystem;
+        public override ICoordinateSystem<SquareCoordinate> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
+        public override ICoordinateSystem<SquareCoordinate> WorldSpaceCoordinateSystem => coordSystem.coordinateSystem;
 
         public string editTile;
 

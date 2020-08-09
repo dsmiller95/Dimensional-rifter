@@ -4,11 +4,9 @@ using UnityEngine;
 namespace Assets.Tiling.Tilemapping.Square
 {
     [ExecuteInEditMode]
-    public class SquareCoordinateSystemBehavior : CoordinateSystemBehavior<SquareCoordinate>
+    public class SquareCoordinateSystemBehavior : CoordinateSystemTransformBehavior<SquareCoordinate>
     {
-        protected override ICoordinateSystem<SquareCoordinate> BaseCoordinateSystem()
-        {
-            return new SquareCoordinateSystem();
-        }
+        public override ICoordinateSystem<SquareCoordinate> BaseCoordinateSystem =>
+            new SquareCoordinateSystem();
     }
 }
