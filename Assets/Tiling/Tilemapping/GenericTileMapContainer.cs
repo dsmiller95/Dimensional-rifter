@@ -17,6 +17,13 @@ namespace Assets.Tiling.Tilemapping
         public Vector2[] uvs;
     }
 
+    /// <summary>
+    /// Responsible for: Storing data about which tiles are where on the map
+    ///     And generating the tileMap mesh. Exposes methods to select which coordinates
+    ///     to bake into the mesh, as well as methods which can be used to quickly visually remove
+    ///     tiles from the mesh for higher-frequency calls
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GenericTileMapContainer<T> where T : ICoordinate
     {
         private TileSet<T> tileSet;
@@ -126,7 +133,6 @@ namespace Assets.Tiling.Tilemapping
 
             var targetMesh = new Mesh();
             var copier = new MeshCopier(sourceMesh, 1, targetMesh, 1);
-
 
             foreach (var coord in range)
             {

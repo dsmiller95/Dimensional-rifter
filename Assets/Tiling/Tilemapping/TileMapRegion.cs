@@ -24,6 +24,14 @@ namespace Assets.Tiling.Tilemapping
         public abstract void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
     }
 
+    /// <summary>
+    /// Abstract behavior responsible for owning and coordinating the layout of tiles
+    ///     implementations must instantiate their own TileMapSystem and tileMapContainer in Awake(). They must also 
+    ///     provide getters for the coordinate system used to layout the tileMap, these can be set in the inspector.
+    /// Must also provide a coordinate range getter which will be used to determine which tiles the <see cref="GenericTileMapContainer{T}"/>
+    ///     will instantiate, as well as how this region will overlap with other tilemap regions
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [RequireComponent(typeof(PolygonCollider2D))]
     public abstract class TileMapRegion<T> : TileMapRegionNoCoordinateType where T : ICoordinate
     {
@@ -75,7 +83,7 @@ namespace Assets.Tiling.Tilemapping
             //  may only be relevant to rectangular coordinates
             foreach (var loadedCoordinate in tileMapContainer.GetBakedTiles())
             {
-                var collides = this.GetCollidesWith(loadedCoordinate, colliders, colliderFlagSpace);
+                var collides = GetCollidesWith(loadedCoordinate, colliders, colliderFlagSpace);
                 tileMapContainer.SetTileEnabled(loadedCoordinate, !collides);
             }
         }
@@ -86,7 +94,7 @@ namespace Assets.Tiling.Tilemapping
             var colliderBounds = GetTileBounds(coord);
 
             var anyColliders = false;
-            for(var i = 0; i < otherBounds.Length; i++)
+            for (var i = 0; i < otherBounds.Length; i++)
             {
                 colliderFlagSpace[i] = otherBounds[i].bounds.Intersects(colliderBounds);
                 anyColliders |= colliderFlagSpace[i];

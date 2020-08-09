@@ -62,28 +62,21 @@ namespace Assets.Tiling.Tilemapping
             {
                 tileMapToMove.transform.position += (Vector3)(mouseDelta);
                 UpdateTileMapsBelow(tileMapToMove);
-                // do some placement
             }
         }
 
         private bool isPlacingTileMap;
-        //private TileMapRegionNoCoordinateType tileMapToMove;
 
         public void BeginMovingTileMap(TileMapRegionNoCoordinateType tileMap)
         {
             isPlacingTileMap = true;
             BakeAllTileMapMeshes(tileMap);
-
-            // tileMapToMove = Instantiate(tileMapPrefab, transform);//todo: make a new tile map?
         }
 
         public void FinishMovingTileMap()
         {
             isPlacingTileMap = false;
             BakeAllTileMapMeshes();
-
-            //TODO: so some thing to finalize?
-            //tileMapToMove = null;
         }
 
         private void UpdateTileMapsBelow(TileMapRegionNoCoordinateType tileMap)

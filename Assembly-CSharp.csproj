@@ -86,6 +86,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
+    <Compile Include="Assets\WorldObjects\TileMapMemeber.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -1,5 +1,4 @@
 ﻿using Assets.Tiling.SquareCoords;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
