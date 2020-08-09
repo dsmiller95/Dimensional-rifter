@@ -71,7 +71,7 @@
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\GenericTileMapContainer.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareTileMapSystem.cs" />
+    <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
     <Compile Include="Assets\LinqExtensions.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />

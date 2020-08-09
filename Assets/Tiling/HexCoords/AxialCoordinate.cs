@@ -104,7 +104,7 @@ namespace Simulation.Tiling.HexCoords
 
         public override int GetHashCode()
         {
-            return q + (r << 16);
+            return q ^ (r << 16);
         }
 
         public override string ToString()

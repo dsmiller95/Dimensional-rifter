@@ -53,13 +53,14 @@ namespace Assets.Tiling.Tilemapping
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
         public override void BakeMeshAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {
-            var colliderList = collidersToAvoid.ToList();
+            var colliderList = collidersToAvoid.ToArray();
+            var colliderFlagSpace = colliderList.Select(x => false).ToArray();
             var setupMesh = tileMapContainer.BakeTilemapMesh(
                 CoordinateRange,
                 defaultTile,
                 UnscaledCoordinateSystem,
                 (coord, position) =>
-                    !GetCollidesWith(coord, colliderList));
+                    !GetCollidesWith(coord, colliderList, colliderFlagSpace));
 
             var meshHolder = GetComponent<MeshFilter>();
             meshHolder.mesh = setupMesh;
@@ -67,39 +68,66 @@ namespace Assets.Tiling.Tilemapping
 
         public override void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid)
         {
-            var colliders = collidersToAvoid.ToList();
+            var colliders = collidersToAvoid.ToArray();
+            var colliderFlagSpace = colliders.Select(x => false).ToArray();
+            //TODO: Performance
+            // allow for some way to limit the tiles we iterate here based on the bounds of the polygon colliders.
+            //  may only be relevant to rectangular coordinates
             foreach (var loadedCoordinate in tileMapContainer.GetBakedTiles())
             {
-                var collides = this.GetCollidesWith(loadedCoordinate, colliders);
+                var collides = this.GetCollidesWith(loadedCoordinate, colliders, colliderFlagSpace);
                 tileMapContainer.SetTileEnabled(loadedCoordinate, !collides);
             }
         }
 
-        private bool GetCollidesWith(T coord, IList<PolygonCollider2D> otherBounds)
+
+        private bool GetCollidesWith(T coord, PolygonCollider2D[] otherBounds, bool[] colliderFlagSpace)
         {
-            // TODO: performance
-            // could use a bounding-box overlap check to pre-check which bounds we might collide with, before comparing all the points
+            var colliderBounds = GetTileBounds(coord);
+
+            var anyColliders = false;
+            for(var i = 0; i < otherBounds.Length; i++)
+            {
+                colliderFlagSpace[i] = otherBounds[i].bounds.Intersects(colliderBounds);
+                anyColliders |= colliderFlagSpace[i];
+            }
+            if (!anyColliders)
+            {
+                return false;
+            }
 
             var individualTileVertexesWorldSpace = GetTileBoundingVertsWorldSpace(coord).ToArray();
 
-            var pointCollides = otherBounds
-                .Any(collide =>
-                    individualTileVertexesWorldSpace
-                        .Any(point => collide.OverlapPoint(point))
-                 );
-
-            if (!pointCollides)
+            for (var i = 0; i < otherBounds.Length; i++)
             {
-                //if the individual points are inside the big collider list
-                // then check to see if any of the big collider's points are inside the individual tile
-
-                var colliderPointsWorldSpace = otherBounds.SelectMany(x => x.GetPath(0).Select(point => x.transform.TransformPoint(point)));
-
-                var individualTileCollider = SetupIndividualCollider(GetTileBoundingVertsLocalSpace(coord));
-
-                pointCollides = colliderPointsWorldSpace.Any(point => individualTileCollider.OverlapPoint(point));
+                if (colliderFlagSpace[i])
+                {
+                    var collidesWithThisCollider = individualTileVertexesWorldSpace
+                        .Any(point => otherBounds[i].OverlapPoint(point));
+                    if (collidesWithThisCollider)
+                    {
+                        return true;
+                    }
+                }
             }
-            return pointCollides;
+
+            var individualTileCollider = SetupIndividualCollider(GetTileBoundingVertsLocalSpace(coord));
+
+            for (var i = 0; i < otherBounds.Length; i++)
+            {
+                if (colliderFlagSpace[i])
+                {
+                    var bigColliderPoints = otherBounds[i]
+                        .GetPath(0)
+                        .Select(point => otherBounds[i].transform.TransformPoint(point));
+                    if (bigColliderPoints.Any(point => individualTileCollider.OverlapPoint(point)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -120,6 +148,11 @@ namespace Assets.Tiling.Tilemapping
         {
             IndividualCellCollider.SetPath(0, vertexes.ToArray());
             return IndividualCellCollider;
+        }
+
+        private Bounds GetTileBounds(T coord)
+        {
+            return tileMapSystem.GetRawBounds(coord, sideLength, WorldSpaceCoordinateSystem);
         }
 
         private IEnumerable<Vector2> GetTileBoundingVertsLocalSpace(T coord)

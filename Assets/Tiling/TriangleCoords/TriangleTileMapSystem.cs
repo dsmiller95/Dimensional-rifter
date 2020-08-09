@@ -16,6 +16,14 @@ namespace Assets.Tiling.TriangleCoords
             return new TriangleCoordinateSystem();
         }
 
+        private static Vector3 BoundBoxSize = Vector3.one * 2f / Mathf.Sqrt(3);
+
+        public Bounds GetRawBounds(TriangleCoordinate coord, float sideLength, ICoordinateSystem<TriangleCoordinate> translateCoordinateSystem = null)
+        {
+            var position = translateCoordinateSystem.ToRealPosition(coord);
+            return new Bounds(position, BoundBoxSize * sideLength);
+        }
+
         public int[] GetTileTriangles()
         {
             return new int[]

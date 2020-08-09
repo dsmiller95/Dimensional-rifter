@@ -24,7 +24,7 @@ namespace Assets.Tiling.Tilemapping.Square
             base.Awake();
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
-            tileMapSystem = new SquareTileMapSystem();
+            tileMapSystem = new SquareNonRotatedTileMapSystem();
             tileMapContainer = new GenericTileMapContainer<SquareCoordinate>(tileSet, tileMapSystem);
 
             tileMapContainer.SetupTilesOnGivenTexture(

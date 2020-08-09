@@ -39,6 +39,25 @@ namespace Assets.Tiling.TriangleCoords
             return new TriangleCoordinate(a.u + b.u, a.v + b.v, a.R);
         }
 
+        public override int GetHashCode()
+        {
+            var coords = (u << 16)^(v);
+            if (R)
+            {
+                return coords ^ (1 << 31);
+            }
+            return coords;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is TriangleCoordinate coord)
+            {
+                return coord.R == R && coord.u == u && coord.v == v;
+            }
+            return false;
+        }
+
         public override string ToString()
         {
             return $"u: {u}, v: {v}, R: {R}";

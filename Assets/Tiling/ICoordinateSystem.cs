@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Tiling
 {
     public interface ITileMapSystem<T> where T : ICoordinate
     {
+        Bounds GetRawBounds(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem);
+
         IEnumerable<Vector2> GetVertexesAround(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem = null);
 
         int[] GetTileTriangles();

@@ -73,9 +73,13 @@ namespace Assets.Tiling.Tilemapping
 
         public void SetTileEnabled(T coordinate, bool enabled)
         {
+            var isTileDisabled = disabledCoordinates.Contains(coordinate);
+            if(enabled == !isTileDisabled)
+            {
+                return;
+            }
             if (coordinateCopyIndexes.TryGetValue(coordinate, out var index))
             {
-                var isTileDisabled = disabledCoordinates.Contains(coordinate);
                 if (isTileDisabled && enabled)
                 {
                     meshEditor.EnableGeometryAtDuplicate(index);

@@ -35,8 +35,6 @@ namespace Assets.Tiling.Tilemapping
             }
         }
 
-
-
         private Vector2 lastMousePos;
         public TileMapRegionNoCoordinateType tileMapToMove;
         private void Update()

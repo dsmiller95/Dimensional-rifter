@@ -30,6 +30,20 @@ namespace Assets.Tiling.SquareCoords
         {
             return $"row: {row}, col: {column}";
         }
+
+        public override int GetHashCode()
+        {
+            return (row << 16) ^ column;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is SquareCoordinate coord)
+            {
+                return coord.row == row && coord.column == column;
+            }
+            return false;
+        }
     }
 
 
