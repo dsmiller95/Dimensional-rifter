@@ -16,6 +16,8 @@ namespace Assets.MapGen
         private int sourceSubmeshes;
         private int targetSubmeshes;
 
+        public static readonly Vector3 EjectionVector = new Vector3(1000, 1000, 1000);
+
         //private Vector3[] offsets;
 
         public MeshCopier(

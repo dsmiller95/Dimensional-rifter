@@ -20,6 +20,7 @@ namespace Assets.Tiling.Tilemapping
 
     public class GenericTileMapContainer<T> where T : ICoordinate
     {
+
         private TileSet<T> tileSet;
         private ITileMapSystem<T> tileMapSystem;
 
@@ -69,6 +70,21 @@ namespace Assets.Tiling.Tilemapping
             }
         }
 
+        public void SetTileEnabled(T coordinate, bool enabled)
+        {
+            if (coordinateCopyIndexes.TryGetValue(coordinate, out var index))
+            {
+                if (enabled)
+                {
+                    meshEditor.EnableGeometryAtDuplicate(index);
+                }
+                else 
+                {
+                    meshEditor.DisableGeometryAtDuplicate(index);
+                }
+            }
+        }
+
         private CopiedMeshEditor meshEditor;
         private Dictionary<T, int> coordinateCopyIndexes;
 
@@ -76,7 +92,8 @@ namespace Assets.Tiling.Tilemapping
             ICoordinateRange<T> range,
             Dictionary<T, string> tileInhabitants,
             string defaultTile,
-            ICoordinateSystem<T> tilePlacementSystem)
+            ICoordinateSystem<T> tilePlacementSystem,
+            Func<T, Vector2, bool> tileFilter)
         {
             Mesh sourceMesh = new Mesh();
             sourceMesh.subMeshCount = 1;
@@ -97,8 +114,15 @@ namespace Assets.Tiling.Tilemapping
             var targetMesh = new Mesh();
             var copier = new MeshCopier(sourceMesh, 1, targetMesh, 1);
 
+
             foreach (var coord in range)
             {
+                var tileLocation = tilePlacementSystem.ToRealPosition(coord);
+                if(!tileFilter(coord, tileLocation))
+                {
+                    continue;
+                }
+
                 string tileType;
                 if (!tileInhabitants.TryGetValue(coord, out tileType))
                 {
@@ -106,17 +130,10 @@ namespace Assets.Tiling.Tilemapping
                 }
 
                 var tileConfig = tileTypesDictionary[tileType];
-                var tileLocation = tilePlacementSystem.ToRealPosition(coord);
 
                 Vector2[] uvs = tileConfig.uvs;
 
                 var vertexes = tileMapSystem.GetVertexesAround(coord, 1, tilePlacementSystem).Select(x => (Vector3)x);
-
-                //var rotation = !coord.R ? 0f : 60f;
-                //rotation += Random.Range(0, 2) * 120f;
-
-                
-
                 var indexAdded = copier.NextCopy(tileLocation, UVOverride: uvs, vertexOverrides: vertexes);
                 copier.CopySubmeshTrianglesToOffsetIndex(0, 0);
 

@@ -6,8 +6,6 @@ using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
 {
-
-
     /// <summary>
     /// Represents a coordinate system of squares of side length 1
     /// </summary>

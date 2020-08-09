@@ -74,5 +74,28 @@ namespace Assets.MapGen
                 colorArray[i] = color;
             }
         }
+        public void DisableGeometryAtDuplicate(int duplicateIndex)
+        {
+            this.AddToVectorsAtDuplicate(duplicateIndex, MeshCopier.EjectionVector);
+        }
+
+        public void EnableGeometryAtDuplicate(int duplicateIndex)
+        {
+            this.AddToVectorsAtDuplicate(duplicateIndex, -MeshCopier.EjectionVector);
+        }
+
+        private void AddToVectorsAtDuplicate(int duplicate, Vector3 offset)
+        {
+            var vertices = targetMesh.vertices;
+
+            var beginningColorIndex = duplicate * sourceMeshVertexSize;
+            var endingColorIndex = beginningColorIndex + sourceMeshVertexSize;
+            for (var i = beginningColorIndex; i < endingColorIndex; i++)
+            {
+                vertices[i] += offset;
+            }
+
+            targetMesh.vertices = vertices;
+        }
     }
 }

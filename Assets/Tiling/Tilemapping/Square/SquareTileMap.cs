@@ -8,24 +8,24 @@ namespace Assets.Tiling.Tilemapping.Square
 {
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshFilter))]
-    public class SquareTileMap : MonoBehaviour
+    public class SquareTileMap : TileMapRegion<SquareCoordinate>
     {
         public TileSet<SquareCoordinate> tileSet;
 
         public SquareCoordinateSystemBehavior coordSystem;
         public SquareCoordinateRange coordRange;
 
-        public Dictionary<SquareCoordinate, string> tiles;
-        public string defaultTile;
+        public override ICoordinateRange<SquareCoordinate> CoordinateRange => coordRange;
+        public override ICoordinateSystem<SquareCoordinate> CoordinateSystem => coordSystem.coordinateSystem;
+
         public string editTile;
 
-        private GenericTileMapContainer<SquareCoordinate> tileMapContainer;
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
-            var tileMapSystem = new SquareTileMapSystem();
+            tileMapSystem = new SquareTileMapSystem();
             tileMapContainer = new GenericTileMapContainer<SquareCoordinate>(tileSet, tileMapSystem);
 
             tileMapContainer.SetupTilesOnGivenTexture(
@@ -42,31 +42,14 @@ namespace Assets.Tiling.Tilemapping.Square
             tiles[new SquareCoordinate(0, -2)] = "water";
         }
 
-        public void Start()
+        public override void Start()
         {
-            var setupMesh = tileMapContainer.SetupTilemapMesh(
-                coordRange,
-                tiles,
-                defaultTile,
-                coordSystem.coordinateSystem);
-
-            var meshHolder = GetComponent<MeshFilter>();
-            meshHolder.mesh = setupMesh;
-        }
-
-        public void OnDrawGizmos()
-        {
-            var path = coordRange.BoundingPolygon(coordSystem.coordinateSystem, 1).ToList();
-            Gizmos.color = Color.blue;
-            float size = .5f;
-            foreach (var pair in path.RollingWindow(2))
+            base.Start();
+            var manager = GetComponentInParent<CombinationTileMapManager>();
+            if (manager == null || !manager.isActiveAndEnabled)
             {
-                Gizmos.DrawLine(pair[0], pair[1]);
-                Gizmos.DrawSphere(pair[0], size);
-                size += .3f;
+                SetupMyMesh();
             }
-            Gizmos.DrawLine(path.First(), path.Last());
-            Gizmos.DrawSphere(path.Last(), size);
         }
 
         public void Update()

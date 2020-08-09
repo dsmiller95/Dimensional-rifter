@@ -9,24 +9,25 @@ namespace Assets.Tiling.Tilemapping.Triangle
 
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshFilter))]
-    public class TriangleTileMap : MonoBehaviour
+    public class TriangleTileMap : TileMapRegion<TriangleCoordinate>
     {
         public TileSet<TriangleCoordinate> tileSet;
 
         public TriangleCoordinateSystemBehavior coordSystem;
         public TriangleTriangleCoordinateRange coordRange;
 
-        public Dictionary<TriangleCoordinate, string> tiles;
-        public string defaultTile;
+        public override ICoordinateRange<TriangleCoordinate> CoordinateRange => coordRange;
+        public override ICoordinateSystem<TriangleCoordinate> CoordinateSystem => coordSystem.coordinateSystem;
+
         public string editTile;
 
-        private GenericTileMapContainer<TriangleCoordinate> tileMapContainer;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
-            var tileMapSystem = new TriangleTileMapSystem();
+            tileMapSystem = new TriangleTileMapSystem();
             tileMapContainer = new GenericTileMapContainer<TriangleCoordinate>(tileSet, tileMapSystem);
 
             tileMapContainer.SetupTilesOnGivenTexture(
@@ -39,31 +40,14 @@ namespace Assets.Tiling.Tilemapping.Triangle
             tiles[new TriangleCoordinate(0, 1, false)] = "ground";
         }
 
-        public void OnDrawGizmos()
+        public override void Start()
         {
-            var path = coordRange.BoundingPolygon(coordSystem.coordinateSystem, 1).ToList();
-            Gizmos.color = Color.blue;
-            float size = .5f;
-            foreach (var pair in path.RollingWindow(2))
+            base.Start();
+            var manager = GetComponentInParent<CombinationTileMapManager>();
+            if (manager == null || !manager.isActiveAndEnabled)
             {
-                Gizmos.DrawLine(pair[0], pair[1]);
-                Gizmos.DrawSphere(pair[0], size);
-                size += .3f;
+                SetupMyMesh();
             }
-            Gizmos.DrawLine(path.First(), path.Last());
-            Gizmos.DrawSphere(path.Last(), size);
-        }
-
-        public void Start()
-        {
-            var setupMesh = tileMapContainer.SetupTilemapMesh(
-                coordRange,
-                tiles,
-                defaultTile,
-                coordSystem.coordinateSystem);
-
-            var meshHolder = GetComponent<MeshFilter>();
-            meshHolder.mesh = setupMesh;
         }
 
         public void Update()
