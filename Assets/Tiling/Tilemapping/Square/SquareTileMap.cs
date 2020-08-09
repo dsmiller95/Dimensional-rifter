@@ -1,5 +1,7 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
@@ -21,7 +23,6 @@ namespace Assets.Tiling.Tilemapping.Square
 
         private void Awake()
         {
-
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
             var tileMapSystem = new SquareTileMapSystem();
@@ -51,6 +52,21 @@ namespace Assets.Tiling.Tilemapping.Square
 
             var meshHolder = GetComponent<MeshFilter>();
             meshHolder.mesh = setupMesh;
+        }
+
+        public void OnDrawGizmos()
+        {
+            var path = coordRange.BoundingPolygon(coordSystem.coordinateSystem, 1).ToList();
+            Gizmos.color = Color.blue;
+            float size = .5f;
+            foreach (var pair in path.RollingWindow(2))
+            {
+                Gizmos.DrawLine(pair[0], pair[1]);
+                Gizmos.DrawSphere(pair[0], size);
+                size += .3f;
+            }
+            Gizmos.DrawLine(path.First(), path.Last());
+            Gizmos.DrawSphere(path.Last(), size);
         }
 
         public void Update()

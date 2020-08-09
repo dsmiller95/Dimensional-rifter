@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
 {
@@ -52,6 +53,27 @@ namespace Assets.Tiling.TriangleCoords
         IEnumerator IEnumerable.GetEnumerator()
         {
             return (this as IEnumerable<TriangleCoordinate>).GetEnumerator();
+        }
+
+        public IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<TriangleCoordinate> coordinateSystem, float individualScale)
+        {
+            individualScale *= 2;
+            this.EnsureCoordOrdering();
+
+            var nextPos = coordinateSystem.ToRealPosition(coord0);
+            yield return nextPos - (TriangleCoordinateSystem.rBasis * individualScale);
+
+            var nextCoord = new TriangleCoordinate(coord0.u, coord1.v - 1, false);
+            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            yield return nextPos + Vector2.up * TriangleCoordinateSystem.rBasis.y * 2 * individualScale;
+
+            nextCoord = new TriangleCoordinate(coord1.u - 1, coord1.v - 1, true);
+            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            yield return nextPos + (TriangleCoordinateSystem.rBasis * individualScale);
+
+            nextCoord = new TriangleCoordinate(coord1.u - 1, coord0.v, true);
+            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            yield return nextPos - Vector2.up * TriangleCoordinateSystem.rBasis.y * 2 * individualScale;
         }
     }
 }

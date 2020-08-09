@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
 {
+    [ExecuteInEditMode]
     public class TriangleCoordinateSystemBehavior : CoordinateSystemBehavior<TriangleCoordinate>
     {
         public TriangleTileMapTile[] tileTypes;

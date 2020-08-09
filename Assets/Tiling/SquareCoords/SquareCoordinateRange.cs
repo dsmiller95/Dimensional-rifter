@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Tiling.SquareCoords
 {
@@ -26,7 +27,13 @@ namespace Assets.Tiling.SquareCoords
             }
         }
 
+        /// <summary>
+        /// beginning of the range (inclusive)
+        /// </summary>
         public SquareCoordinate coord0;
+        /// <summary>
+        /// end of the range (exclusive)
+        /// </summary>
         public SquareCoordinate coord1;
 
         IEnumerator<SquareCoordinate> IEnumerable<SquareCoordinate>.GetEnumerator()
@@ -44,6 +51,26 @@ namespace Assets.Tiling.SquareCoords
         IEnumerator IEnumerable.GetEnumerator()
         {
             return (this as IEnumerable<SquareCoordinate>).GetEnumerator();
+        }
+
+        public IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<SquareCoordinate> coordinateSystem, float individualScale)
+        {
+            var halfScale = individualScale / 2;
+
+            var nextPos = coordinateSystem.ToRealPosition(coord0);
+            yield return nextPos - Vector2.one * halfScale;
+
+            var nextCoord = new SquareCoordinate(coord1.row - 1, coord0.column);
+            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            yield return nextPos + new Vector2(-1, 1) * halfScale;
+
+            nextCoord = new SquareCoordinate(coord1.row - 1, coord1.column - 1);
+            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            yield return nextPos + Vector2.one * halfScale;
+
+            nextCoord = new SquareCoordinate(coord0.row, coord1.column - 1);
+            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            yield return nextPos + new Vector2(1, -1) * halfScale;
         }
     }
 }

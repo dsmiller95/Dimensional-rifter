@@ -82,6 +82,8 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileSet.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileSet.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
+    <Compile Include="Assets\LinqExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

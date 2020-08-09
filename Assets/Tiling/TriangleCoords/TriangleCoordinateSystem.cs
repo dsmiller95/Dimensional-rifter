@@ -34,6 +34,10 @@ namespace Assets.Tiling.TriangleCoords
                 yield return new TriangleCoordinate(u - 1, v, true);
             }
         }
+        public static TriangleCoordinate operator +(TriangleCoordinate a, TriangleCoordinate b)
+        {
+            return new TriangleCoordinate(a.u + b.u, a.v + b.v, a.R);
+        }
 
         public override string ToString()
         {
@@ -47,8 +51,8 @@ namespace Assets.Tiling.TriangleCoords
     /// </summary>
     public class TriangleCoordinateSystem : ICoordinateSystem<TriangleCoordinate>
     {
-        private static readonly Vector2 uBasis = new Vector2(1, 0);
-        private static readonly Vector2 vBasis = new Vector2(0.5f, Mathf.Sqrt(3) / 2f);
+        public static readonly Vector2 uBasis = new Vector2(1, 0);
+        public static readonly Vector2 vBasis = new Vector2(0.5f, Mathf.Sqrt(3) / 2f);
 
         /// <summary>
         /// inverse matrix of u and v basis, first coord being u. Used to transform from x - y space to u - v space
@@ -56,7 +60,7 @@ namespace Assets.Tiling.TriangleCoords
         private static readonly Vector2 xBasis = new Vector2(1, 0);
         private static readonly Vector2 yBasis = new Vector2(-1f / Mathf.Sqrt(3), 2f / Mathf.Sqrt(3));
 
-        private static readonly Vector2 rBasis = new Vector2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
+        public static readonly Vector2 rBasis = new Vector2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
 
 
         public TriangleCoordinate FromRealPosition(Vector2 realWorldPos)

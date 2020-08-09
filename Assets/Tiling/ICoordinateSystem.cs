@@ -24,5 +24,11 @@ namespace Assets.Tiling
     public interface ICoordinate { }
 
     public interface ICoordinateRange<T>: IEnumerable<T> where T : ICoordinate
-    { }
+    {
+        /// <summary>
+        /// Generate a collider for this 
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<T> coordinateSystem, float individualScale);
+    }
 }

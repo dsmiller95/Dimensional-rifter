@@ -1,5 +1,7 @@
 ﻿using Assets.Tiling.TriangleCoords;
+using Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
@@ -12,7 +14,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public TileSet<TriangleCoordinate> tileSet;
 
         public TriangleCoordinateSystemBehavior coordSystem;
-        public TriangleRhomboidCoordinateRange coordRange;
+        public TriangleTriangleCoordinateRange coordRange;
 
         public Dictionary<TriangleCoordinate, string> tiles;
         public string defaultTile;
@@ -35,6 +37,21 @@ namespace Assets.Tiling.Tilemapping.Triangle
             tiles[new TriangleCoordinate(0, 0, false)] = "ground";
             tiles[new TriangleCoordinate(1, 0, false)] = "ground";
             tiles[new TriangleCoordinate(0, 1, false)] = "ground";
+        }
+
+        public void OnDrawGizmos()
+        {
+            var path = coordRange.BoundingPolygon(coordSystem.coordinateSystem, 1).ToList();
+            Gizmos.color = Color.blue;
+            float size = .5f;
+            foreach (var pair in path.RollingWindow(2))
+            {
+                Gizmos.DrawLine(pair[0], pair[1]);
+                Gizmos.DrawSphere(pair[0], size);
+                size += .3f;
+            }
+            Gizmos.DrawLine(path.First(), path.Last());
+            Gizmos.DrawSphere(path.Last(), size);
         }
 
         public void Start()
