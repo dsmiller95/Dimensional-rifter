@@ -37,6 +37,8 @@ namespace Assets.Tiling.Tilemapping
 
         private Vector2 lastMousePos;
         public TileMapRegionNoCoordinateType tileMapToMove;
+
+        public TileMapRegionNoCoordinateType tileMapPrefab;
         private void Update()
         {
             var currentMousePos = Utilities.GetMousePos2D();
@@ -46,6 +48,9 @@ namespace Assets.Tiling.Tilemapping
 
             if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
             {
+                var newTileMap = Instantiate(tileMapPrefab, transform).GetComponent<TileMapRegionNoCoordinateType>();
+                newTileMap.BakeMeshAvoidingColliders(null);
+                tileMapToMove = newTileMap;
                 BeginMovingTileMap(tileMapToMove);
             }
             else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)

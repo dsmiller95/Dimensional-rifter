@@ -53,7 +53,7 @@ namespace Assets.Tiling.Tilemapping
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
         public override void BakeMeshAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {
-            var colliderList = collidersToAvoid.ToArray();
+            var colliderList = collidersToAvoid?.ToArray() ?? new PolygonCollider2D[0];
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
             var setupMesh = tileMapContainer.BakeTilemapMesh(
                 CoordinateRange,

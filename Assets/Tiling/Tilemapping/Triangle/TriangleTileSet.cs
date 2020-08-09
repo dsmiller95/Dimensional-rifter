@@ -1,6 +1,7 @@
 ﻿using Assets.Tiling.TriangleCoords;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
 {
@@ -10,6 +11,8 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public TriangleCoordinate coords0;
         public string ID;
     }
+
+    [CreateAssetMenu(fileName = "TriangleTileSet", menuName = "TileSets/Triangle", order = 2)]
     public class TriangleTileSet : TileSet<TriangleCoordinate>
     {
         public TriangleTileMapTile[] tileTypes;

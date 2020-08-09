@@ -61,7 +61,7 @@ namespace Assets.Tiling.Tilemapping
 
         public void SetTile(T coordinate, string tileID)
         {
-            this.tiles[coordinate] = tileID;
+            tiles[coordinate] = tileID;
             if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
             {
                 if (tileTypesDictionary.TryGetValue(tileID, out var tileconfig))
@@ -74,7 +74,7 @@ namespace Assets.Tiling.Tilemapping
         public void SetTileEnabled(T coordinate, bool enabled)
         {
             var isTileDisabled = disabledCoordinates.Contains(coordinate);
-            if(enabled == !isTileDisabled)
+            if (enabled == !isTileDisabled)
             {
                 return;
             }

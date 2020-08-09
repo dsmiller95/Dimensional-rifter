@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
 {
@@ -12,6 +13,7 @@ namespace Assets.Tiling.Tilemapping.Square
         public string ID;
     }
 
+    [CreateAssetMenu(fileName = "SquareTileSet", menuName = "TileSets/Square", order = 1)]
     public class SquareTileSet : TileSet<SquareCoordinate>
     {
         public SquareTileMapTile[] tileTypes;
