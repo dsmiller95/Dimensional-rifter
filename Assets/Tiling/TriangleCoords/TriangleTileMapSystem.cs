@@ -9,7 +9,7 @@ namespace Assets.Tiling.TriangleCoords
     /// <summary>
     /// Represents a coordinate system of squares of side length 1
     /// </summary>
-    public class TriangleTileMapSystem : ITileMapSystem<TriangleCoordinate>
+    public class TriangleTileMapSystem : ITileMapTileShapeStrategy<TriangleCoordinate>
     {
         public ICoordinateSystem<TriangleCoordinate> GetBasicCoordinateSystem()
         {

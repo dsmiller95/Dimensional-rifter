@@ -24,13 +24,13 @@ namespace Assets.Tiling.Tilemapping
     ///     tiles from the mesh for higher-frequency calls
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class GenericTileMapContainer<T> where T : ICoordinate
+    public class TileMapMeshBuilder<T> where T : ICoordinate
     {
         private TileSet<T> tileSet;
-        private ITileMapSystem<T> tileMapSystem;
+        private ITileMapTileShapeStrategy<T> tileMapSystem;
         private Dictionary<T, string> tiles;
 
-        public GenericTileMapContainer(TileSet<T> tileSet, ITileMapSystem<T> tileMappingSystem)
+        public TileMapMeshBuilder(TileSet<T> tileSet, ITileMapTileShapeStrategy<T> tileMappingSystem)
         {
             this.tileSet = tileSet;
             tileMapSystem = tileMappingSystem;

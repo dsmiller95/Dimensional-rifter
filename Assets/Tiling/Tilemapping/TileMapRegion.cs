@@ -12,7 +12,12 @@ namespace Assets.Tiling.Tilemapping
         public float sideLength = 1;
 
         public abstract PolygonCollider2D SetupBoundingCollider();
-        public abstract void BakeMeshAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
+
+        /// <summary>
+        /// Bake the topology for this tile map, not baking any tiles which collide with any colliders in <paramref name="collidersToAvoid"/>
+        /// </summary>
+        /// <param name="collidersToAvoid">Colliders used to exclude tiles from the topology</param>
+        public abstract void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
         /// <summary>
         /// Update the mesh based on a given list of colliders. will hide the tiles which overlap with any of the colliders
         ///     this is faster than baking the mesh, so should be used to update while things are moving. Bake the mesh when things 
@@ -28,15 +33,15 @@ namespace Assets.Tiling.Tilemapping
     /// Abstract behavior responsible for owning and coordinating the layout of tiles
     ///     implementations must instantiate their own TileMapSystem and tileMapContainer in Awake(). They must also 
     ///     provide getters for the coordinate system used to layout the tileMap, these can be set in the inspector.
-    /// Must also provide a coordinate range getter which will be used to determine which tiles the <see cref="GenericTileMapContainer{T}"/>
+    /// Must also provide a coordinate range getter which will be used to determine which tiles the <see cref="TileMapMeshBuilder{T}"/>
     ///     will instantiate, as well as how this region will overlap with other tilemap regions
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [RequireComponent(typeof(PolygonCollider2D))]
     public abstract class TileMapRegion<T> : TileMapRegionNoCoordinateType where T : ICoordinate
     {
-        protected GenericTileMapContainer<T> tileMapContainer;
-        protected ITileMapSystem<T> tileMapSystem;
+        protected TileMapMeshBuilder<T> tileMapContainer;
+        protected ITileMapTileShapeStrategy<T> tileMapSystem;
 
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;
@@ -59,7 +64,7 @@ namespace Assets.Tiling.Tilemapping
         public abstract ICoordinateRange<T> CoordinateRange { get; }
         public abstract ICoordinateSystem<T> UnscaledCoordinateSystem { get; }
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
-        public override void BakeMeshAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
+        public override void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {
             var colliderList = collidersToAvoid?.ToArray() ?? new PolygonCollider2D[0];
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();

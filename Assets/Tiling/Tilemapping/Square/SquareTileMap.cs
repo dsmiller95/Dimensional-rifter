@@ -24,7 +24,7 @@ namespace Assets.Tiling.Tilemapping.Square
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
             tileMapSystem = new SquareNonRotatedTileMapSystem();
-            tileMapContainer = new GenericTileMapContainer<SquareCoordinate>(tileSet, tileMapSystem);
+            tileMapContainer = new TileMapMeshBuilder<SquareCoordinate>(tileSet, tileMapSystem);
 
             tileMapContainer.SetupTilesOnGivenTexture(
                 mainTex);
@@ -40,7 +40,7 @@ namespace Assets.Tiling.Tilemapping.Square
             var manager = GetComponentInParent<CombinationTileMapManager>();
             if (manager == null || !manager.isActiveAndEnabled)
             {
-                BakeMeshAvoidingColliders();
+                BakeTopologyAvoidingColliders();
             }
         }
 

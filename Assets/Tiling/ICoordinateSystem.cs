@@ -9,7 +9,7 @@ namespace Assets.Tiling
     ///     topology information that is returned
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ITileMapSystem<T> where T : ICoordinate
+    public interface ITileMapTileShapeStrategy<T> where T : ICoordinate
     {
         Bounds GetRawBounds(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem);
 

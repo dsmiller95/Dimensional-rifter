@@ -8,7 +8,7 @@ namespace Assets.Tiling.SquareCoords
     /// Represents a coordinate system of squares of side length 1. This system makes the assumption that it is not rotated to save time on frequently
     ///     used calls
     /// </summary>
-    public class SquareNonRotatedTileMapSystem : ITileMapSystem<SquareCoordinate>
+    public class SquareNonRotatedTileMapSystem : ITileMapTileShapeStrategy<SquareCoordinate>
     {
         public ICoordinateSystem<SquareCoordinate> GetBasicCoordinateSystem()
         {

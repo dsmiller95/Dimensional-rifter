@@ -31,7 +31,7 @@ namespace Assets.Tiling.Tilemapping
             for (var i = 0; i < allTileMaps.Length; i++)
             {
                 var tileMap = allTileMaps[i];
-                tileMap.BakeMeshAvoidingColliders(allColliders.Skip(i + 1));
+                tileMap.BakeTopologyAvoidingColliders(allColliders.Skip(i + 1));
             }
         }
 
@@ -49,7 +49,7 @@ namespace Assets.Tiling.Tilemapping
             if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
             {
                 var newTileMap = Instantiate(tileMapPrefab, transform).GetComponent<TileMapRegionNoCoordinateType>();
-                newTileMap.BakeMeshAvoidingColliders(null);
+                newTileMap.BakeTopologyAvoidingColliders(null);
                 tileMapToMove = newTileMap;
                 BeginMovingTileMap(tileMapToMove);
             }

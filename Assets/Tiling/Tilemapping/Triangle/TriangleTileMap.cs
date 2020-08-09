@@ -26,7 +26,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
             tileMapSystem = new TriangleTileMapSystem();
-            tileMapContainer = new GenericTileMapContainer<TriangleCoordinate>(tileSet, tileMapSystem);
+            tileMapContainer = new TileMapMeshBuilder<TriangleCoordinate>(tileSet, tileMapSystem);
 
             tileMapContainer.SetupTilesOnGivenTexture(
                 mainTex);
@@ -43,7 +43,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
             var manager = GetComponentInParent<CombinationTileMapManager>();
             if (manager == null || !manager.isActiveAndEnabled)
             {
-                BakeMeshAvoidingColliders();
+                BakeTopologyAvoidingColliders();
             }
         }
 
