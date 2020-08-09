@@ -12,9 +12,15 @@ namespace Assets.Tiling.Tilemapping
     {
         private void Start()
         {
-            var allTileMaps = GetComponentsInChildren<TileMapRegionNoCoordinateType>();
-            Debug.Log(allTileMaps.Length);
-            if(allTileMaps == null || allTileMaps.Length <= 0)
+            BakeAllTileMapMeshes();
+        }
+
+        private void BakeAllTileMapMeshes(params TileMapRegionNoCoordinateType[] exclude)
+        {
+            var allTileMaps = GetComponentsInChildren<TileMapRegionNoCoordinateType>()
+                .Where(x => !exclude.Contains(x))
+                .ToArray();
+            if (allTileMaps == null || allTileMaps.Length <= 0)
             {
                 return;
             }
@@ -25,41 +31,70 @@ namespace Assets.Tiling.Tilemapping
             for (var i = 0; i < allTileMaps.Length; i++)
             {
                 var tileMap = allTileMaps[i];
-                tileMap.SetupMyMesh(allColliders.Skip(i + 1));
+                tileMap.BakeMeshAvoidingColliders(allColliders.Skip(i + 1));
             }
         }
 
 
-        private bool isPlacingTileMap;
-        public TileMapRegionNoCoordinateType tileMapPrefab;
-        private TileMapRegionNoCoordinateType currentPlacingTileMap;
+
+        private Vector2 lastMousePos;
+        public TileMapRegionNoCoordinateType tileMapToMove;
         private void Update()
         {
+            var currentMousePos = Utilities.GetMousePos2D();
+            var mouseDelta = currentMousePos - lastMousePos;
+            lastMousePos = currentMousePos;
+
+
             if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
             {
-                this.BeginTileMapPlace();
-            }else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)
+                BeginMovingTileMap(tileMapToMove);
+            }
+            else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)
             {
-                this.FinishTileMapPlace();
-            }else if (isPlacingTileMap)
+                FinishMovingTileMap();
+            }
+
+            if (isPlacingTileMap)
             {
+                tileMapToMove.transform.position += (Vector3)(mouseDelta);
+                UpdateTileMapsBelow(tileMapToMove);
                 // do some placement
             }
         }
 
-        public void BeginTileMapPlace()
+        private bool isPlacingTileMap;
+        //private TileMapRegionNoCoordinateType tileMapToMove;
+
+        public void BeginMovingTileMap(TileMapRegionNoCoordinateType tileMap)
         {
             isPlacingTileMap = true;
-            currentPlacingTileMap = Instantiate(tileMapPrefab, transform);//todo: make a new tile map?
+            BakeAllTileMapMeshes(tileMap);
+
+            // tileMapToMove = Instantiate(tileMapPrefab, transform);//todo: make a new tile map?
         }
 
-        public void FinishTileMapPlace()
+        public void FinishMovingTileMap()
         {
             isPlacingTileMap = false;
+            BakeAllTileMapMeshes();
 
             //TODO: so some thing to finalize?
+            //tileMapToMove = null;
+        }
 
-            currentPlacingTileMap = null;
+        private void UpdateTileMapsBelow(TileMapRegionNoCoordinateType tileMap)
+        {
+            var index = tileMap.transform.GetSiblingIndex();
+            var belowTileMaps = transform.GetComponentsInChildren<TileMapRegionNoCoordinateType>().Take(index).ToArray();
+
+            var currentTileMapCollider = tileMap.SetupBoundingCollider();
+            var colliders = new[] { currentTileMapCollider };
+
+            foreach (var tileMapToUpdate in belowTileMaps)
+            {
+                tileMapToUpdate.UpdateMeshTilesBasedOnColliders(colliders);
+            }
         }
 
     }

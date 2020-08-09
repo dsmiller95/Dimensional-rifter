@@ -30,15 +30,9 @@ namespace Assets.Tiling.Tilemapping.Square
             tileMapContainer.SetupTilesOnGivenTexture(
                 mainTex);
 
-
-            tiles = new Dictionary<SquareCoordinate, string>();
-            tiles[new SquareCoordinate(0, 0)] = "ground";
-            tiles[new SquareCoordinate(1, 1)] = "ground";
-            tiles[new SquareCoordinate(2, 2)] = "ground";
-            tiles[new SquareCoordinate(0, 1)] = "water";
-            tiles[new SquareCoordinate(0, 2)] = "water";
-            tiles[new SquareCoordinate(0, -1)] = "water";
-            tiles[new SquareCoordinate(0, -2)] = "water";
+            tileMapContainer.SetTile(new SquareCoordinate(0, 0), "ground");
+            tileMapContainer.SetTile(new SquareCoordinate(1, 1), "ground");
+            tileMapContainer.SetTile(new SquareCoordinate(2, 2), "ground");
         }
 
         public override void Start()
@@ -47,7 +41,7 @@ namespace Assets.Tiling.Tilemapping.Square
             var manager = GetComponentInParent<CombinationTileMapManager>();
             if (manager == null || !manager.isActiveAndEnabled)
             {
-                SetupMyMesh();
+                BakeMeshAvoidingColliders();
             }
         }
 

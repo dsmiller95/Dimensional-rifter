@@ -32,11 +32,10 @@ namespace Assets.Tiling.Tilemapping.Triangle
             tileMapContainer.SetupTilesOnGivenTexture(
                 mainTex);
 
-            tiles = new Dictionary<TriangleCoordinate, string>();
-            tiles[new TriangleCoordinate(0, 0, true)] = "ground";
-            tiles[new TriangleCoordinate(0, 0, false)] = "ground";
-            tiles[new TriangleCoordinate(1, 0, false)] = "ground";
-            tiles[new TriangleCoordinate(0, 1, false)] = "ground";
+            tileMapContainer.SetTile(new TriangleCoordinate(0, 0, true), "ground");
+            tileMapContainer.SetTile(new TriangleCoordinate(0, 0, false), "ground");
+            tileMapContainer.SetTile(new TriangleCoordinate(1, 0, false), "ground");
+            tileMapContainer.SetTile(new TriangleCoordinate(0, 1, false), "ground");
         }
 
         public override void Start()
@@ -45,7 +44,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
             var manager = GetComponentInParent<CombinationTileMapManager>();
             if (manager == null || !manager.isActiveAndEnabled)
             {
-                SetupMyMesh();
+                BakeMeshAvoidingColliders();
             }
         }
 

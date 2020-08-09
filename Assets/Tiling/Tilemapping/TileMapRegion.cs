@@ -12,7 +12,16 @@ namespace Assets.Tiling.Tilemapping
         public float sideLength = 1;
 
         public abstract PolygonCollider2D SetupBoundingCollider();
-        public abstract void SetupMyMesh(IEnumerable<PolygonCollider2D> collidersToAvoid = null);
+        public abstract void BakeMeshAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
+        /// <summary>
+        /// Update the mesh based on a given list of colliders. will hide the tiles which overlap with any of the colliders
+        ///     this is faster than baking the mesh, so should be used to update while things are moving. Bake the mesh when things 
+        ///     stop moving
+        /// Will only hide the tiles which are colliding with a collider in collidersToAvoid, if some were hidden before then they will get shown again
+        ///     if they no longer intersect
+        /// </summary>
+        /// <param name="collidersToAvoid"></param>
+        public abstract void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
     }
 
     [RequireComponent(typeof(PolygonCollider2D))]
@@ -20,7 +29,6 @@ namespace Assets.Tiling.Tilemapping
     {
         protected GenericTileMapContainer<T> tileMapContainer;
         protected ITileMapSystem<T> tileMapSystem;
-        public Dictionary<T, string> tiles;
 
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;
@@ -43,12 +51,11 @@ namespace Assets.Tiling.Tilemapping
         public abstract ICoordinateRange<T> CoordinateRange { get; }
         public abstract ICoordinateSystem<T> UnscaledCoordinateSystem { get; }
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
-        public override void SetupMyMesh(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
+        public override void BakeMeshAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {
             var colliderList = collidersToAvoid.ToList();
-            var setupMesh = tileMapContainer.SetupTilemapMesh(
+            var setupMesh = tileMapContainer.BakeTilemapMesh(
                 CoordinateRange,
-                tiles,
                 defaultTile,
                 UnscaledCoordinateSystem,
                 (coord, position) =>
@@ -56,6 +63,16 @@ namespace Assets.Tiling.Tilemapping
 
             var meshHolder = GetComponent<MeshFilter>();
             meshHolder.mesh = setupMesh;
+        }
+
+        public override void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid)
+        {
+            var colliders = collidersToAvoid.ToList();
+            foreach (var loadedCoordinate in tileMapContainer.GetBakedTiles())
+            {
+                var collides = this.GetCollidesWith(loadedCoordinate, colliders);
+                tileMapContainer.SetTileEnabled(loadedCoordinate, !collides);
+            }
         }
 
         private bool GetCollidesWith(T coord, IList<PolygonCollider2D> otherBounds)

@@ -1,5 +1,4 @@
 ﻿using Assets.MapGen;
-using Assets.Tiling.Tilemapping.Triangle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +19,15 @@ namespace Assets.Tiling.Tilemapping
 
     public class GenericTileMapContainer<T> where T : ICoordinate
     {
-
         private TileSet<T> tileSet;
         private ITileMapSystem<T> tileMapSystem;
+        private Dictionary<T, string> tiles;
 
         public GenericTileMapContainer(TileSet<T> tileSet, ITileMapSystem<T> tileMappingSystem)
         {
             this.tileSet = tileSet;
             tileMapSystem = tileMappingSystem;
+            tiles = new Dictionary<T, string>();
         }
 
         private IDictionary<string, MultiVertTileConfig> tileTypesDictionary;
@@ -61,7 +61,8 @@ namespace Assets.Tiling.Tilemapping
 
         public void SetTile(T coordinate, string tileID)
         {
-            if (coordinateCopyIndexes.TryGetValue(coordinate, out var index))
+            this.tiles[coordinate] = tileID;
+            if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
             {
                 if (tileTypesDictionary.TryGetValue(tileID, out var tileconfig))
                 {
@@ -74,23 +75,31 @@ namespace Assets.Tiling.Tilemapping
         {
             if (coordinateCopyIndexes.TryGetValue(coordinate, out var index))
             {
-                if (enabled)
+                var isTileDisabled = disabledCoordinates.Contains(coordinate);
+                if (isTileDisabled && enabled)
                 {
                     meshEditor.EnableGeometryAtDuplicate(index);
+                    disabledCoordinates.Remove(coordinate);
                 }
-                else 
+                else if (!isTileDisabled && !enabled)
                 {
                     meshEditor.DisableGeometryAtDuplicate(index);
+                    disabledCoordinates.Add(coordinate);
                 }
             }
         }
 
+        public IEnumerable<T> GetBakedTiles()
+        {
+            return coordinateCopyIndexes.Keys;
+        }
+
         private CopiedMeshEditor meshEditor;
         private Dictionary<T, int> coordinateCopyIndexes;
+        private ISet<T> disabledCoordinates;
 
-        public Mesh SetupTilemapMesh(
+        public Mesh BakeTilemapMesh(
             ICoordinateRange<T> range,
-            Dictionary<T, string> tileInhabitants,
             string defaultTile,
             ICoordinateSystem<T> tilePlacementSystem,
             Func<T, Vector2, bool> tileFilter)
@@ -118,13 +127,13 @@ namespace Assets.Tiling.Tilemapping
             foreach (var coord in range)
             {
                 var tileLocation = tilePlacementSystem.ToRealPosition(coord);
-                if(!tileFilter(coord, tileLocation))
+                if (!tileFilter(coord, tileLocation))
                 {
                     continue;
                 }
 
                 string tileType;
-                if (!tileInhabitants.TryGetValue(coord, out tileType))
+                if (!tiles.TryGetValue(coord, out tileType))
                 {
                     tileType = defaultTile;
                 }
@@ -141,6 +150,8 @@ namespace Assets.Tiling.Tilemapping
             }
 
             meshEditor = copier.FinalizeCopy();
+
+            disabledCoordinates = new HashSet<T>();
 
             return targetMesh;
         }
