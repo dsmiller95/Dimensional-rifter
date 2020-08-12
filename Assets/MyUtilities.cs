@@ -2,7 +2,7 @@
 
 namespace Assets
 {
-    public static class Utilities
+    public static class MyUtilities
     {
         public static Vector2 GetMousePos2D()
         {

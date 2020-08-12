@@ -41,7 +41,7 @@ namespace Assets.Tiling.Tilemapping
         public TileMapRegionNoCoordinateType tileMapPrefab;
         private void Update()
         {
-            var currentMousePos = Utilities.GetMousePos2D();
+            var currentMousePos = MyUtilities.GetMousePos2D();
             var mouseDelta = currentMousePos - lastMousePos;
             lastMousePos = currentMousePos;
 

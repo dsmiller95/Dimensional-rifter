@@ -405,7 +405,7 @@ MonoBehaviour:
     u: 0
     v: 0
     R: 0
-  movementSpeed: 0.3
+  movementSpeed: 0.8
 --- !u!212 &1875615556
 SpriteRenderer:
   m_ObjectHideFlags: 0

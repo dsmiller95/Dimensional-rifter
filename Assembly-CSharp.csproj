@@ -62,7 +62,7 @@
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
-    <Compile Include="Assets\Utilities.cs" />
+    <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
@@ -73,6 +73,8 @@
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
     <Compile Include="Assets\LinqExtensions.cs" />
+    <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
+    <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Pathfinder.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
@@ -88,8 +90,6 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMemeber.cs" />
-    <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
-    <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -1,13 +1,12 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.Square;
 using Assets.Tiling.Tilemapping.Triangle;
 using Assets.Tiling.TriangleCoords;
 using Assets.WorldObjects;
 using Extensions;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using Assets;
 
 /// <summary>
 /// Provides methods to navigate through a tileMap
@@ -35,7 +34,7 @@ public class TileMapMemeber : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetPosition(position, coordinateSystemForInspector.BaseCoordinateSystem);
+        SetPosition(position, coordinateSystemForInspector.coordinateSystem);
         lastMove = Time.time;
     }
 
@@ -45,22 +44,34 @@ public class TileMapMemeber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var position = (TriangleCoordinate)coordinatePosition;
+        var system = coordinateSystem as ICoordinateSystem<TriangleCoordinate>;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var mousePos = MyUtilities.GetMousePos2D();
+            var coords = system.FromRealPosition(mousePos);
+            UpdatePath(position, system, coords);
+        }
         if (lastMove + movementSpeed < Time.time)
         {
             lastMove = Time.time;
-
-            var position = (TriangleCoordinate)coordinatePosition;
-            var system = coordinateSystem as ICoordinateSystem<TriangleCoordinate>;
-
-            var nextOptions = system.Neighbors(position).ToArray();
-            var nextPosition = nextOptions[Random.Range(0, nextOptions.Length)];
+            if(path == null || path.Count <= 0)
+            {
+                return;
+            }
+            var nextPosition = path[0];
+            path.RemoveAt(0);
+            //var nextOptions = system.Neighbors(position).ToArray();
+            //var nextPosition = nextOptions[Random.Range(0, nextOptions.Length)];
 
             SetPosition(nextPosition, system);
-            UpdatePath(nextPosition, system);
+            //UpdatePath(nextPosition, system);
         }
     }
 
-    private Vector2[] path;
+
+
+    private IList<TriangleCoordinate> path;
 
     private void OnDrawGizmos()
     {
@@ -69,19 +80,19 @@ public class TileMapMemeber : MonoBehaviour
             return;
         }
         Gizmos.color = Color.magenta;
-        foreach (var pair in path.RollingWindow(2))
+        var system = coordinateSystem as ICoordinateSystem<TriangleCoordinate>;
+        foreach (var pair in path
+            .Select(coord => system.ToRealPosition(coord))
+            .RollingWindow(2))
         {
             Gizmos.DrawLine(pair[0], pair[1]);
         }
     }
 
-    private void UpdatePath(TriangleCoordinate position, ICoordinateSystem<TriangleCoordinate> coordinateSystem)
+    private void UpdatePath(TriangleCoordinate position, ICoordinateSystem<TriangleCoordinate> coordinateSystem, TriangleCoordinate destination)
     {
-        var pather = new Pathfinder<TriangleCoordinate>(position, coordinateSystem);
-        var destination = coordinateSystem.DefaultCoordinate();
-        path = pather.ShortestPathTo(destination)
-            .Concat(new[] { position })
-            .Select(coord => coordinateSystem.ToRealPosition(coord))
-            .ToArray();
+        var pather = new Pathfinder<TriangleCoordinate>(destination, coordinateSystem);
+        path = pather.ShortestPathTo(position)
+            .ToList();
     }
 }

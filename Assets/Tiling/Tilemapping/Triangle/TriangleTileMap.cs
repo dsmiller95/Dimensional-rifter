@@ -51,7 +51,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var point = Utilities.GetMousePos2D();
+                var point = MyUtilities.GetMousePos2D();
                 var coords = coordSystem.coordinateSystem.FromRealPosition(point);
 
                 tileMapContainer.SetTile(coords, editTile);
