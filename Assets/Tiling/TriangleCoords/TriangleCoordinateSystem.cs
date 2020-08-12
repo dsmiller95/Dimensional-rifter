@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -24,12 +23,12 @@ namespace Assets.Tiling.TriangleCoords
             if (R)
             {
                 yield return new TriangleCoordinate(u + 1, v, false);
-                yield return new TriangleCoordinate(u, v, true);
+                yield return new TriangleCoordinate(u, v, false);
                 yield return new TriangleCoordinate(u, v + 1, false);
             }
             else
             {
-                yield return new TriangleCoordinate(u, v, false);
+                yield return new TriangleCoordinate(u, v, true);
                 yield return new TriangleCoordinate(u, v - 1, true);
                 yield return new TriangleCoordinate(u - 1, v, true);
             }
@@ -41,7 +40,7 @@ namespace Assets.Tiling.TriangleCoords
 
         public override int GetHashCode()
         {
-            var coords = (u << 16)^(v);
+            var coords = (u << 16) ^ (v);
             if (R)
             {
                 return coords ^ (1 << 31);
@@ -51,7 +50,7 @@ namespace Assets.Tiling.TriangleCoords
 
         public override bool Equals(object obj)
         {
-            if(obj is TriangleCoordinate coord)
+            if (obj is TriangleCoordinate coord)
             {
                 return coord.R == R && coord.u == u && coord.v == v;
             }
@@ -81,6 +80,7 @@ namespace Assets.Tiling.TriangleCoords
 
         public static readonly Vector2 rBasis = new Vector2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
 
+        public CoordinateSystemType CoordType => CoordinateSystemType.TRIANGLE;
 
         public TriangleCoordinate FromRealPosition(Vector2 realWorldPos)
         {
@@ -114,6 +114,8 @@ namespace Assets.Tiling.TriangleCoords
                 new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
                 new Vector3(  0f, 1/Mathf.Sqrt(3)),
                 new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
+
+
         /// <summary>
         /// Get a list of vertexes representing the triangle around the given triangular coordinate, with a side length of <paramref name="triangleScale"/>
         /// </summary>
@@ -130,7 +132,7 @@ namespace Assets.Tiling.TriangleCoords
                 verts = verts.Select(x => (Vector2)(rotation * x));
             }
             verts = verts.Select(x => x * triangleScale);
-            if(coordinateSystem != null)
+            if (coordinateSystem != null)
             {
                 var location = coordinateSystem.ToRealPosition(coord);
                 verts = verts.Select(x => x + location);
@@ -141,6 +143,11 @@ namespace Assets.Tiling.TriangleCoords
         public TriangleCoordinate DefaultCoordinate()
         {
             return new TriangleCoordinate(0, 0, false);
+        }
+
+        public float HeuristicDistance(TriangleCoordinate origin, TriangleCoordinate destination)
+        {
+            return (ToRealPosition(origin) - ToRealPosition(destination)).sqrMagnitude;
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
+    <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\Utilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
@@ -73,20 +74,22 @@
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
     <Compile Include="Assets\LinqExtensions.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
+    <Compile Include="Assets\WorldObjects\Pathfinder.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemTransform.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
-    <Compile Include="Assets\Tiling\ICoordinateSystem.cs" />
+    <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
-    <Compile Include="Assets\CameraMovementController.cs" />
-    <Compile Include="Assets\WorldObjects\TileMapMemeber.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapMeshBuilder.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
+    <Compile Include="Assets\WorldObjects\TileMapMemeber.cs" />
+    <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
+    <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -277,6 +280,9 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Priority Queue">
+      <HintPath>Assets\Plugins\Priority Queue.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>

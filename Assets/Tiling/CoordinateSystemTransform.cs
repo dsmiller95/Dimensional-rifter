@@ -9,6 +9,8 @@ public class CoordinateSystemTransform<T> : ICoordinateSystem<T> where T : ICoor
 
     private Transform transform;
 
+    public CoordinateSystemType CoordType => basis.CoordType;
+
     public CoordinateSystemTransform(ICoordinateSystem<T> basis, Transform transform)
     {
         this.basis = basis;
@@ -24,6 +26,11 @@ public class CoordinateSystemTransform<T> : ICoordinateSystem<T> where T : ICoor
     {
         var transformedPos = transform.InverseTransformPoint(realWorldPos);
         return basis.FromRealPosition(transformedPos);
+    }
+
+    public float HeuristicDistance(T origin, T destination)
+    {
+        return basis.HeuristicDistance(origin, destination);
     }
 
     public IEnumerable<T> Neighbors(T coordinate)

@@ -256,6 +256,17 @@ MonoBehaviour:
   panSpeedPercent: 0.1
   minCameraSize: 3
   maxCameraSize: 15
+--- !u!114 &1245050001 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 654275229677371193, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+  m_PrefabInstance: {fileID: 654275228402763201}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9df91685ede274fb1c8385ac837311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1333229945
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +370,107 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2319312742710603904, guid: aa6e7734267178b428a86d865698c09c, type: 3}
   m_PrefabInstance: {fileID: 2319312743392832656}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1875615554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1875615557}
+  - component: {fileID: 1875615556}
+  - component: {fileID: 1875615555}
+  m_Layer: 0
+  m_Name: lil guy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1875615555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875615554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coordinateSystemForInspector: {fileID: 1245050001}
+  position:
+    u: 0
+    v: 0
+    R: 0
+  movementSpeed: 0.3
+--- !u!212 &1875615556
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875615554}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.16, y: 0.16}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1875615557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875615554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1924364328
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,6 +572,18 @@ PrefabInstance:
     - target: {fileID: 654275229677371185, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
       propertyPath: m_Name
       value: TriangleTilemapper
+      objectReference: {fileID: 0}
+    - target: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+      propertyPath: coordRange.root.u
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+      propertyPath: coordRange.root.v
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+      propertyPath: coordRange.triangleSideLength
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}

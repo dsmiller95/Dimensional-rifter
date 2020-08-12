@@ -14,6 +14,7 @@ public class CoordinateSystemScale<T> : ICoordinateSystem<T> where T : ICoordina
 
     private Vector2 scale;
 
+    public CoordinateSystemType CoordType => basis.CoordType;
     public CoordinateSystemScale(ICoordinateSystem<T> basis, Vector2 scale)
     {
         this.basis = basis;
@@ -29,6 +30,11 @@ public class CoordinateSystemScale<T> : ICoordinateSystem<T> where T : ICoordina
     {
         var transformedPos = realWorldPos.InverseScale(scale);
         return basis.FromRealPosition(transformedPos);
+    }
+
+    public float HeuristicDistance(T origin, T destination)
+    {
+        return basis.HeuristicDistance(origin, destination);
     }
 
     public IEnumerable<T> Neighbors(T coordinate)

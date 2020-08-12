@@ -52,6 +52,7 @@ namespace Assets.Tiling.SquareCoords
     /// </summary>
     public class SquareCoordinateSystem : ICoordinateSystem<SquareCoordinate>
     {
+        public CoordinateSystemType CoordType => CoordinateSystemType.SQUARE;
         public SquareCoordinate FromRealPosition(Vector2 realWorldPos)
         {
             var row = Mathf.RoundToInt(realWorldPos.y);
@@ -103,6 +104,11 @@ namespace Assets.Tiling.SquareCoords
         public SquareCoordinate DefaultCoordinate()
         {
             return new SquareCoordinate(0, 0);
+        }
+
+        public float HeuristicDistance(SquareCoordinate origin, SquareCoordinate destination)
+        {
+            return (ToRealPosition(origin) - ToRealPosition(destination)).sqrMagnitude;
         }
     }
 }
