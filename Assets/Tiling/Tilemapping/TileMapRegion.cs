@@ -1,8 +1,10 @@
-﻿using Extensions;
+﻿using Assets.WorldObjects;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Assets.WorldObjects.CoordinateSytemContainer;
 
 namespace Assets.Tiling.Tilemapping
 {
@@ -10,6 +12,8 @@ namespace Assets.Tiling.Tilemapping
     {
         public string defaultTile;
         public float sideLength = 1;
+
+        public CoordinateSystemMembersAllCoordinates universalContentTracker;
 
         public abstract PolygonCollider2D SetupBoundingCollider();
 
@@ -27,6 +31,9 @@ namespace Assets.Tiling.Tilemapping
         /// </summary>
         /// <param name="collidersToAvoid"></param>
         public abstract void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
+        public abstract ICoordinateSystem UntypedCoordianteSystemWorldSpace { get; }
+
+
     }
 
     /// <summary>
@@ -46,6 +53,8 @@ namespace Assets.Tiling.Tilemapping
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;
 
+        public CoordinateSystemMembers<T> contentTracker => universalContentTracker as CoordinateSystemMembers<T>;
+
         protected virtual void Awake()
         {
             var polygons = GetComponents<PolygonCollider2D>();
@@ -59,10 +68,12 @@ namespace Assets.Tiling.Tilemapping
 
         public virtual void Start()
         {
+            contentTracker.coordinateSystem = this.WorldSpaceCoordinateSystem;
         }
 
         public abstract ICoordinateRange<T> CoordinateRange { get; }
         public abstract ICoordinateSystem<T> UnscaledCoordinateSystem { get; }
+        public override ICoordinateSystem UntypedCoordianteSystemWorldSpace => WorldSpaceCoordinateSystem;
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
         public override void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {

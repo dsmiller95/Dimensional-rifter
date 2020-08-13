@@ -12,6 +12,7 @@ namespace Assets.Tiling
 
     public interface ICoordinateSystem
     {
+        bool IsCompatible(ICoordinate coordinate);
         CoordinateSystemType CoordType { get; }
     }
 

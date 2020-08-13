@@ -62,12 +62,14 @@
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
+    <Compile Include="Assets\WorldObjects\CoordinateSystemMembers.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileSet.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
+    <Compile Include="Assets\WorldObjects\Hungry.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
@@ -85,11 +87,15 @@
     <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Food.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMemeber.cs" />
+    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
+    <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -181,5 +181,9 @@ namespace Simulation.Tiling.HexCoords
         {
             return (ToRealPosition(origin) - ToRealPosition(destination)).sqrMagnitude;
         }
+        public bool IsCompatible(ICoordinate coordinate)
+        {
+            return coordinate is AxialCoordinate;
+        }
     }
 }

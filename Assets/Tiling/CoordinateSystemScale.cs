@@ -47,4 +47,8 @@ public class CoordinateSystemScale<T> : ICoordinateSystem<T> where T : ICoordina
         var localPoint = basis.ToRealPosition(coordinate);
         return Vector2.Scale(localPoint, scale);
     }
+    public bool IsCompatible(ICoordinate coordinate)
+    {
+        return basis.IsCompatible(coordinate);
+    }
 }

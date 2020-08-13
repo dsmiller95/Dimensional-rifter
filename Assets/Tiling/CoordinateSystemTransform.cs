@@ -43,4 +43,8 @@ public class CoordinateSystemTransform<T> : ICoordinateSystem<T> where T : ICoor
         var localPoint = basis.ToRealPosition(coordinate);
         return transform.TransformPoint(localPoint);
     }
+    public bool IsCompatible(ICoordinate coordinate)
+    {
+        return basis.IsCompatible(coordinate);
+    }
 }

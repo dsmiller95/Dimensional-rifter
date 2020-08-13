@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2319312742710603908}
   - component: {fileID: 2319312742710603909}
   - component: {fileID: 2319312742710603910}
+  - component: {fileID: 328967762}
   m_Layer: 0
   m_Name: SqaureTilemapper
   m_TagString: Untagged
@@ -100,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultTile: water
   sideLength: 1
+  universalContentTracker: {fileID: 328967762}
   tileSet: {fileID: 11400000, guid: a40f50217fb8eb4468512e1868190bb1, type: 2}
   coordSystem: {fileID: 2319312742710603910}
   coordRange:
@@ -201,5 +203,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7deb97f1575214b47b2c03565bef19e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &328967762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2319312742710603934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54871ae098eb0624eb94934b6b960ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

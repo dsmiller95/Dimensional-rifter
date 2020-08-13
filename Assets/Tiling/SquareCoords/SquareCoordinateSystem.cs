@@ -110,5 +110,9 @@ namespace Assets.Tiling.SquareCoords
         {
             return (ToRealPosition(origin) - ToRealPosition(destination)).sqrMagnitude;
         }
+        public bool IsCompatible(ICoordinate coordinate)
+        {
+            return coordinate is SquareCoordinate;
+        }
     }
 }
