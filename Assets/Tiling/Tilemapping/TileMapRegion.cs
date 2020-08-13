@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Assets.WorldObjects.CoordinateSytemContainer;
 
 namespace Assets.Tiling.Tilemapping
 {
@@ -68,26 +67,46 @@ namespace Assets.Tiling.Tilemapping
 
         public virtual void Start()
         {
-            contentTracker.coordinateSystem = this.WorldSpaceCoordinateSystem;
+            contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
         }
 
         public abstract ICoordinateRange<T> CoordinateRange { get; }
         public abstract ICoordinateSystem<T> UnscaledCoordinateSystem { get; }
         public override ICoordinateSystem UntypedCoordianteSystemWorldSpace => WorldSpaceCoordinateSystem;
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
+
+        public ISet<T> disabledCoordinates { get; private set; }
+
         public override void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {
             var colliderList = collidersToAvoid?.ToArray() ?? new PolygonCollider2D[0];
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
+            disabledCoordinates = new HashSet<T>();
             var setupMesh = tileMapContainer.BakeTilemapMesh(
                 CoordinateRange,
                 defaultTile,
                 UnscaledCoordinateSystem,
                 (coord, position) =>
-                    !GetCollidesWith(coord, colliderList, colliderFlagSpace));
+                    {
+                        if (GetCollidesWith(coord, colliderList, colliderFlagSpace))
+                        {
+                            disabledCoordinates.Add(coord);
+                            return false;
+                        }
+                        return true;
+                    });
 
             var meshHolder = GetComponent<MeshFilter>();
             meshHolder.mesh = setupMesh;
+        }
+
+        public bool IsValidCoordinate(ICoordinate coordinate)
+        {
+            if(coordinate is T casted)
+            {
+                return CoordinateRange.ContainsCoordinate(casted) && !disabledCoordinates.Contains(casted);
+            }
+            return false;
         }
 
         public override void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid)

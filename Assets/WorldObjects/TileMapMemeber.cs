@@ -1,16 +1,12 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.Tilemapping.Triangle;
+using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping;
 using Assets.Tiling.TriangleCoords;
-using Assets.WorldObjects;
 using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Assets;
-using System;
-using Assets.Tiling.Tilemapping;
-using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.Square;
 
 /// <summary>
 /// Provides methods to navigate through a tileMap
@@ -51,68 +47,44 @@ public class TileMapMemeber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //var position = (TriangleCoordinate)coordinatePosition;
-        //var system = coordinateSystem as ICoordinateSystem<TriangleCoordinate>;
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    var mousePos = MyUtilities.GetMousePos2D();
-        //    var coords = system.FromRealPosition(mousePos);
-        //    UpdatePath(position, system, coords);
-        //}
-        //if (lastMove + movementSpeed < Time.time)
-        //{
-        //    lastMove = Time.time;
-        //    if(path == null || path.Count <= 0)
-        //    {
-        //        return;
-        //    }
-        //    var nextPosition = path[0];
-        //    path.RemoveAt(0);
-        //    //var nextOptions = system.Neighbors(position).ToArray();
-        //    //var nextPosition = nextOptions[Random.Range(0, nextOptions.Length)];
-
-        //    SetPosition(nextPosition, system);
-        //    //UpdatePath(nextPosition, system);
-        //}
     }
 
     public float movementSpeed = .5f;
     private float lastMove;
 
-    private IList<TriangleCoordinate> path;
     private IList<ICoordinate> currentPath;
     public TileMapMemeber currentTarget;
     public bool SeekClosestOfType(Func<TileMapMemeber, bool> filter)
     {
-        if(currentTarget == null || path?.Count <= 0)
+        if (lastMove + movementSpeed > Time.time)
+        {
+            return false;
+        }
+
+        lastMove = Time.time;
+        if (currentTarget == null || currentPath?.Count <= 0)
         {
             currentTarget = null;
-            var (bestMemeber, bestPath) = this.GetPathToClosestOfType(filter);
+            var (bestMemeber, bestPath) = GetPathToClosestOfType(filter);
 
             if (bestMemeber != null)
             {
                 currentPath = bestPath.ToList();
                 currentTarget = bestMemeber;
-            }else
+            }
+            else
             {
                 return false;
             }
         }
-        if (lastMove + movementSpeed < Time.time)
+
+        var nextPosition = currentPath[0];
+        currentPath.RemoveAt(0);
+        SetPosition(nextPosition, homeRegion.UntypedCoordianteSystemWorldSpace);
+        if (currentPath.Count <= 0)
         {
-            lastMove = Time.time;
-
-            var nextPosition = currentPath[0];
-            currentPath.RemoveAt(0);
-            SetPosition(nextPosition, homeRegion.UntypedCoordianteSystemWorldSpace);
-
-
-            if (currentPath.Count <= 0)
-            {
-                return true;
-            }
+            return true;
         }
-
 
         return false;
     }
@@ -121,10 +93,15 @@ public class TileMapMemeber : MonoBehaviour
         var possibleSelections = homeRegion.universalContentTracker.allMembers
             .Where(filter);
         var paths = possibleSelections.Select(member =>
-        new {
-            path = UniversalToGenericAdaptors.PathBetween(this.coordinatePosition, member.coordinatePosition, homeRegion.UntypedCoordianteSystemWorldSpace).ToArray(),
-            member
-        });
+            new
+            {
+                path = UniversalToGenericAdaptors.PathBetween(
+                    coordinatePosition,
+                    member.coordinatePosition,
+                    homeRegion)?.ToArray(),
+                member
+            })
+            .Where(x => x.path != null);
 
         var minDist = float.MaxValue;
         ICoordinate[] bestPath = new ICoordinate[0];
@@ -140,11 +117,10 @@ public class TileMapMemeber : MonoBehaviour
             }
         }
 
-        if(bestMemeber != null)
+        if (bestMemeber != null)
         {
             currentPath = bestPath.ToList();
             currentTarget = bestMemeber;
-
         }
         return (bestMemeber, bestPath);
     }
@@ -157,24 +133,16 @@ public class TileMapMemeber : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (path == null)
+        if (currentPath == null)
         {
             return;
         }
         Gizmos.color = Color.magenta;
-        var system = coordinateSystem as ICoordinateSystem<TriangleCoordinate>;
-        foreach (var pair in path
-            .Select(coord => system.ToRealPosition(coord))
+        foreach (var pair in currentPath
+            .Select(coord => UniversalToGenericAdaptors.ToRealPosition(coord, homeRegion.UntypedCoordianteSystemWorldSpace))
             .RollingWindow(2))
         {
             Gizmos.DrawLine(pair[0], pair[1]);
         }
-    }
-
-    private void UpdatePath(TriangleCoordinate position, ICoordinateSystem<TriangleCoordinate> coordinateSystem, TriangleCoordinate destination)
-    {
-        var pather = new Pathfinder<TriangleCoordinate>(destination, coordinateSystem);
-        path = pather.ShortestPathTo(position)
-            .ToList();
     }
 }

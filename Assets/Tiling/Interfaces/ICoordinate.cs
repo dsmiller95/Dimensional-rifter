@@ -22,5 +22,7 @@ namespace Assets.Tiling
         /// </summary>
         /// <returns></returns>
         IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<T> coordinateSystem, float individualScale);
+
+        bool ContainsCoordinate(T coordinat);
     }
 }

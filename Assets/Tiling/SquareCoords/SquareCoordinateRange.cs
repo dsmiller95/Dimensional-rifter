@@ -72,5 +72,11 @@ namespace Assets.Tiling.SquareCoords
             nextPos = coordinateSystem.ToRealPosition(nextCoord);
             yield return nextPos + new Vector2(1, -1) * halfScale;
         }
+
+        public bool ContainsCoordinate(SquareCoordinate coordinat)
+        {
+            return (coordinat.column >= coord0.column && coordinat.column < coord1.column) &&
+                (coordinat.row >= coord0.row && coordinat.row < coord1.row);
+        }
     }
 }

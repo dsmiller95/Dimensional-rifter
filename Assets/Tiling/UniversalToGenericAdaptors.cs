@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping;
 using Assets.Tiling.TriangleCoords;
 using Assets.WorldObjects;
 using Simulation.Tiling.HexCoords;
@@ -12,31 +13,37 @@ namespace Assets.Tiling
     public class UniversalToGenericAdaptors
     {
 
-        public static IEnumerable<ICoordinate> PathBetween(ICoordinate source, ICoordinate destination, ICoordinateSystem coordinateSystem)
+        public static IEnumerable<ICoordinate> PathBetween(
+            ICoordinate source,
+            ICoordinate destination,
+            TileMapRegionNoCoordinateType region)
         {
-            if (!coordinateSystem.IsCompatible(source) || !coordinateSystem.IsCompatible(destination))
+            var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
+
+            if (!coordinateSpace.IsCompatible(source) || !coordinateSpace.IsCompatible(destination))
             {
                 throw new ArgumentException("coordinates not compatable");
             }
 
-            switch (coordinateSystem.CoordType)
+            switch (coordinateSpace.CoordType)
             {
                 case CoordinateSystemType.HEX:
-                    return PathBetween<AxialCoordinate>(source, destination, coordinateSystem)
+                    return PathBetween<AxialCoordinate>(source, destination, region)?
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.SQUARE:
-                    return PathBetween<SquareCoordinate>(source, destination, coordinateSystem)
+                    return PathBetween<SquareCoordinate>(source, destination, region)?
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.TRIANGLE:
-                    return PathBetween<TriangleCoordinate>(source, destination, coordinateSystem)
+                    return PathBetween<TriangleCoordinate>(source, destination, region)?
                         .Cast<ICoordinate>();
             }
             throw new ArgumentException("invalid coordinate system type");
         }
 
-        private static IEnumerable<T> PathBetween<T>(ICoordinate source, ICoordinate destination, ICoordinateSystem coordinateSystem) where T : ICoordinate
+        private static IEnumerable<T> PathBetween<T>(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem) where T : ICoordinate
         {
-            var pather = new Pathfinder<T>((T)destination, coordinateSystem as ICoordinateSystem<T>);
+            var coordSystem = (coordinateSystem as TileMapRegion<T>);
+            var pather = new Pathfinder<T>((T)destination, coordSystem);
             return pather.ShortestPathTo((T)source);
         }
 

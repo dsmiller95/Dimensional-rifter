@@ -1,9 +1,11 @@
 ﻿using Assets.Tiling;
+using Assets.Tiling.Tilemapping;
 using Microsoft.Win32.SafeHandles;
 using Priority_Queue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.WorldObjects
 {
@@ -39,11 +41,13 @@ namespace Assets.WorldObjects
 
         private SimplePriorityQueue<T, float> fringe;
         private ICoordinateSystem<T> coordinateSystem;
+        private TileMapRegion<T> region;
 
         private readonly T origin;
-        public Pathfinder(T origin, ICoordinateSystem<T> coordinateSystem)
+        public Pathfinder(T origin, TileMapRegion<T> region)
         {
-            this.coordinateSystem = coordinateSystem;
+            this.region = region;
+            this.coordinateSystem = region.WorldSpaceCoordinateSystem;
             this.origin = origin;
 
             fringe = new SimplePriorityQueue<T, float>();
@@ -58,6 +62,18 @@ namespace Assets.WorldObjects
         /// <returns>the shortest path to <paramref name="destination"/> in reverse order, beginning with <paramref name="destination"/> and ending with the origin</returns>
         public IEnumerable<T> ShortestPathTo(T destination)
         {
+            try
+            {
+                return ShortestPathToGenerator(destination);
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+        }
+
+        private IEnumerable<T> ShortestPathToGenerator(T destination)
+        {
             var currentCoordinate = origin;
             var currentCoordinateData = new CoordinateData(currentCoordinate, default, destination, 0, coordinateSystem);
             visited[currentCoordinate] = currentCoordinateData;
@@ -66,17 +82,28 @@ namespace Assets.WorldObjects
             while (fringe.TryDequeue(out currentCoordinate) && !currentCoordinate.Equals(destination))
             {
                 VisitNode(visited[currentCoordinate], destination);
+                if (currentCoordinate.Equals(destination))
+                {
+                    Debug.Log("haheh");
+                }
             }
 
-            if (currentCoordinate.Equals(destination))
+            if (!currentCoordinate.Equals(destination))
             {
-                CoordinateData data = visited[currentCoordinate];
-                
-                while (!data.coordinate.Equals(origin))
-                {
-                    yield return data.coordinate;
-                    data = visited[data.previous];
-                }
+                return null;
+            }else
+            {
+                return ExtractPathFromVisited(currentCoordinate);
+            }
+        }
+
+        private IEnumerable<T> ExtractPathFromVisited(T currentCoordinate)
+        {
+            CoordinateData data = visited[currentCoordinate];
+            while (!data.coordinate.Equals(origin))
+            {
+                yield return data.coordinate;
+                data = visited[data.previous];
             }
         }
 
@@ -87,7 +114,7 @@ namespace Assets.WorldObjects
 
             var nonClosedNeighbors = coordinateSystem
                 .Neighbors(currentCoordinate)
-                .Where(neighbor => !completed.Contains(neighbor));
+                .Where(neighbor => region.IsValidCoordinate(neighbor) && !completed.Contains(neighbor));
 
             // assumption is made that every connection is cost of 1
             var neighborDistance = node.distanceFromOrigin + 1;

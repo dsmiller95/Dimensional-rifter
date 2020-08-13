@@ -75,5 +75,11 @@ namespace Assets.Tiling.TriangleCoords
             nextPos = coordinateSystem.ToRealPosition(nextCoord);
             yield return nextPos - Vector2.up * TriangleCoordinateSystem.rBasis.y * 2 * individualScale;
         }
+
+        public bool ContainsCoordinate(TriangleCoordinate coordinat)
+        {
+            return (coordinat.u >= coord0.u && coordinat.u < coord1.u) &&
+                (coordinat.v >= coord0.v && coordinat.v < coord1.v);
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace Assets.Tiling.TriangleCoords
             yield return nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinateSystem.rBasis * individualScale);
         }
 
+
         IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
         {
             for (var u = 0; u < triangleSideLength; u++)
@@ -49,6 +50,13 @@ namespace Assets.Tiling.TriangleCoords
                     }
                 }
             }
+        }
+        public bool ContainsCoordinate(TriangleCoordinate coordinat)
+        {
+            var uConst = coordinat.u - root.u;
+            var vConst = coordinat.v - root.v;
+            var constConst = uConst + vConst + (coordinat.R ? 0 : -1);
+            return uConst >= 0 && vConst >= 0 && constConst < triangleSideLength;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
