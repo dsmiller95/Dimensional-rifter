@@ -1,7 +1,4 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping;
-using Assets.Tiling.TriangleCoords;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -13,30 +10,12 @@ using UnityEngine;
 ///     stores information about the current location in the tileMap
 ///     
 /// </summary>
-public class TileMapMemeber : MonoBehaviour
+public class TileMapNavigationMember : TileMapMember
 {
-    public TileMapRegionNoCoordinateType homeRegion;
-
-    public SquareCoordinate position;
-    //public TriangleCoordinateSystemBehavior coordinateSystemForInspector;
-    //public TriangleCoordinate position;
-
-    private ICoordinate coordinatePosition;
-    private object coordinateSystem;
-
-    public void SetPosition(ICoordinate position, ICoordinateSystem coordinateSystem)
-    {
-        coordinatePosition = position;
-        this.coordinateSystem = coordinateSystem;
-
-        transform.position = UniversalToGenericAdaptors.ToRealPosition(position, coordinateSystem);
-    }
-
-
-
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         SetPosition(position, homeRegion.UntypedCoordianteSystemWorldSpace);
         //homeRegion.
         lastMove = Time.time;
@@ -53,8 +32,8 @@ public class TileMapMemeber : MonoBehaviour
     private float lastMove;
 
     private IList<ICoordinate> currentPath;
-    public TileMapMemeber currentTarget;
-    public bool SeekClosestOfType(Func<TileMapMemeber, bool> filter)
+    public TileMapMember currentTarget;
+    public bool SeekClosestOfType(Func<TileMapMember, bool> filter)
     {
         if (lastMove + movementSpeed > Time.time)
         {
@@ -88,7 +67,7 @@ public class TileMapMemeber : MonoBehaviour
 
         return false;
     }
-    public (TileMapMemeber, ICoordinate[]) GetPathToClosestOfType(Func<TileMapMemeber, bool> filter)
+    public (TileMapMember, ICoordinate[]) GetPathToClosestOfType(Func<TileMapMember, bool> filter)
     {
         var possibleSelections = homeRegion.universalContentTracker.allMembers
             .Where(filter);
@@ -97,7 +76,7 @@ public class TileMapMemeber : MonoBehaviour
             {
                 path = UniversalToGenericAdaptors.PathBetween(
                     coordinatePosition,
-                    member.coordinatePosition,
+                    member.CoordinatePosition,
                     homeRegion)?.ToArray(),
                 member
             })
@@ -105,7 +84,7 @@ public class TileMapMemeber : MonoBehaviour
 
         var minDist = float.MaxValue;
         ICoordinate[] bestPath = new ICoordinate[0];
-        TileMapMemeber bestMemeber = null;
+        TileMapMember bestMemeber = null;
 
         foreach (var path in paths)
         {
@@ -129,7 +108,6 @@ public class TileMapMemeber : MonoBehaviour
     {
         homeRegion.universalContentTracker.DeRegisterInTileMap(this);
     }
-
 
     private void OnDrawGizmos()
     {

@@ -1,11 +1,5 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.Tilemapping;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.WorldObjects
@@ -20,31 +14,31 @@ namespace Assets.WorldObjects
         }
     }
 
-    public class CoordinateSystemMembersAllCoordinates: MonoBehaviour
+    public class CoordinateSystemMembersAllCoordinates : MonoBehaviour
     {
-        public IEnumerable<TileMapMemeber> allMembers => members;
+        public IEnumerable<TileMapMember> allMembers => members;
 
-        protected ISet<TileMapMemeber> members;
+        protected ISet<TileMapMember> members;
         public CoordinateSystemMembersAllCoordinates()
         {
-            members = new HashSet<TileMapMemeber>();
+            members = new HashSet<TileMapMember>();
         }
 
-        public void RegisterInTileMap(TileMapMemeber member)
+        public void RegisterInTileMap(TileMapMember member)
         {
-            this.members.Add(member);
+            members.Add(member);
         }
-        public void DeRegisterInTileMap(TileMapMemeber member)
+        public void DeRegisterInTileMap(TileMapMember member)
         {
-            this.members.Remove(member);
+            members.Remove(member);
         }
     }
 
-    public class CoordinateSystemMembers<T>: CoordinateSystemMembersAllCoordinates where T : ICoordinate
+    public class CoordinateSystemMembers<T> : CoordinateSystemMembersAllCoordinates where T : ICoordinate
     {
         public ICoordinateSystem<T> coordinateSystem;
 
-        public CoordinateSystemMembers(): base()
+        public CoordinateSystemMembers() : base()
         {
         }
     }

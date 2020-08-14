@@ -1,9 +1,9 @@
 ﻿using Assets.WorldObjects;
-using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Extensions;
 
 namespace Assets.Tiling.Tilemapping
 {

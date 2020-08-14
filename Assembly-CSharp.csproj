@@ -55,11 +55,14 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
+    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileSet.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
+    <Compile Include="Assets\Behaviors\HungryStates\Foraging.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\WorldObjects\CoordinateSystemMembers.cs" />
@@ -70,11 +73,13 @@
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileSet.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\WorldObjects\Hungry.cs" />
+    <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
+    <Compile Include="Assets\Behaviors\GenericStateHandler.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileSet.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
-    <Compile Include="Assets\LinqExtensions.cs" />
+    <Compile Include="Assets\WorldObjects\Inventories\ResourceInventory.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
@@ -87,17 +92,25 @@
     <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
+    <Compile Include="Assets\Behaviors\StateMachine.cs" />
+    <Compile Include="Assets\Behaviors\BehaviorContainer.cs" />
+    <Compile Include="Assets\Behaviors\Utility states\Waiting.cs" />
     <Compile Include="Assets\WorldObjects\Food.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
+    <Compile Include="Assets\WorldObjects\Resource.cs" />
+    <Compile Include="Assets\WorldObjects\TileMapNavigationMember.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
-    <Compile Include="Assets\WorldObjects\TileMapMemeber.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
-    <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
+    <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\WorldObjects\Storage.cs" />
+    <Compile Include="Assets\Behaviors\HungryStates\Storing.cs" />
+    <Compile Include="Assets\WorldObjects\TimeController.cs" />
+    <Compile Include="Assets\Behaviors\HungryStates\HungryDecider.cs" />
+    <Compile Include="Assets\Behaviors\HungryStates\Eating.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\External\netstandard2.0\TradeModeling.dll" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -289,6 +302,9 @@
     </Reference>
     <Reference Include="Priority Queue">
       <HintPath>Assets\Plugins\Priority Queue.dll</HintPath>
+    </Reference>
+    <Reference Include="TradeModeling">
+      <HintPath>Assets\External\netstandard2.0\TradeModeling.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -748,6 +764,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UniRx.csproj">
+      <Project>{767EF2A8-3077-4021-4D32-A356769E94D2}</Project>
+      <Name>UniRx</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
