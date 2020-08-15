@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Extensions;
+using System.Threading;
+using System.Collections.Concurrent;
 
 namespace Assets.Tiling.Tilemapping
 {
@@ -53,8 +55,12 @@ namespace Assets.Tiling.Tilemapping
 
         public CoordinateSystemMembers<T> contentTracker => universalContentTracker as CoordinateSystemMembers<T>;
 
+        public ConcurrentQueue<Action> mainThreadActions;
+        private Thread mainThread;
+
         protected virtual void Awake()
         {
+            mainThreadActions = new ConcurrentQueue<Action>();
             var polygons = GetComponents<PolygonCollider2D>();
             if (polygons.Length != 2)
             {
@@ -62,15 +68,42 @@ namespace Assets.Tiling.Tilemapping
             }
             BoundingBoxCollider = polygons[0];
             IndividualCellCollider = polygons[1];
-            contentTracker.OnTileSet = (coordinate, type) =>
+            contentTracker.OnTileChanged = (coordinate, type) =>
             {
-                this.tileMapMeshRenderer?.SetMeshForTileToType(coordinate, type);
+                this.OnMainThread(() =>
+                {
+                    this.tileMapMeshRenderer?.SetMeshForTileToType(coordinate, type);
+                });
             };
         }
 
+        private void OnMainThread(Action action)
+        {
+            if (isMainThread())
+            {
+                action();
+            }else
+            {
+                mainThreadActions.Enqueue(action);
+            }
+        }
+
+        private bool isMainThread()
+        {
+            return mainThread != null && mainThread.Equals(Thread.CurrentThread);
+        }
         public virtual void Start()
         {
+            mainThread = Thread.CurrentThread;
             contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
+        }
+
+        public virtual void Update()
+        {
+            while (mainThreadActions.TryDequeue(out var action))
+            {
+                action?.Invoke();
+            }
         }
 
         public abstract ICoordinateRange<T> CoordinateRange { get; }

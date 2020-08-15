@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2319312742710603909}
   - component: {fileID: 2319312742710603910}
   - component: {fileID: 328967762}
+  - component: {fileID: 121364169}
   m_Layer: 0
   m_Name: SqaureTilemapper
   m_TagString: Untagged
@@ -99,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be8882fd943a2d4cad09099faa8c11e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultTile: water
   sideLength: 1
   universalContentTracker: {fileID: 328967762}
   tileSet: {fileID: 11400000, guid: a40f50217fb8eb4468512e1868190bb1, type: 2}
@@ -111,7 +111,9 @@ MonoBehaviour:
     coord1:
       row: 30
       column: 30
-  editTile: ground
+  editTile:
+    baseID: ground
+    shapeID: FULL_BORDERS
 --- !u!60 &2319312742710603907
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -217,3 +219,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54871ae098eb0624eb94934b6b960ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultTile:
+    baseID: water
+    shapeID: NO_BORDERS
+--- !u!114 &121364169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2319312742710603934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1022b6bcf40cf0140a4de305757a98d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rules:
+  - {fileID: 11400000, guid: bd9a744dccb23dd49815fa5e51245635, type: 2}

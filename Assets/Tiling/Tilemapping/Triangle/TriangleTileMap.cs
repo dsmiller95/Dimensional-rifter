@@ -1,5 +1,6 @@
 ﻿using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.Tiling.TriangleCoords;
+using Assets.WorldObjects;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
@@ -18,7 +19,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public override ICoordinateSystem<TriangleCoordinate> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
         public override ICoordinateSystem<TriangleCoordinate> WorldSpaceCoordinateSystem => coordSystem.coordinateSystem;
 
-        public string editTile;
+        public TileTypeInfo editTile;
 
 
         protected override void Awake()
@@ -32,10 +33,10 @@ namespace Assets.Tiling.Tilemapping.Triangle
             tileMapMeshRenderer.SetupTilesOnGivenTexture(
                 mainTex);
 
-            contentTracker.SetTile(new TriangleCoordinate(0, 0, true), "ground");
-            contentTracker.SetTile(new TriangleCoordinate(0, 0, false), "ground");
-            contentTracker.SetTile(new TriangleCoordinate(1, 0, false), "ground");
-            contentTracker.SetTile(new TriangleCoordinate(0, 1, false), "ground");
+            contentTracker.SetTile(new TriangleCoordinate(0, 0, true), new TileTypeInfo("ground", ""));
+            contentTracker.SetTile(new TriangleCoordinate(0, 0, false), new TileTypeInfo("ground", ""));
+            contentTracker.SetTile(new TriangleCoordinate(1, 0, false), new TileTypeInfo("ground", ""));
+            contentTracker.SetTile(new TriangleCoordinate(0, 1, false), new TileTypeInfo("ground", ""));
         }
 
         public override void Start()
@@ -48,8 +49,9 @@ namespace Assets.Tiling.Tilemapping.Triangle
             }
         }
 
-        public void Update()
+        public override void Update()
         {
+            base.Update();
             if (Input.GetMouseButtonDown(0))
             {
                 var point = MyUtilities.GetMousePos2D();

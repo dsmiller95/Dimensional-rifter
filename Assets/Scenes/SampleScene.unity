@@ -1169,6 +1169,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924364329}
     m_Modifications:
+    - target: {fileID: 1542046094, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+      propertyPath: defaultTile.baseID
+      value: water
+      objectReference: {fileID: 0}
     - target: {fileID: 654275229677371184, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -1219,7 +1223,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 654275229677371185, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+      propertyPath: editTile.baseID
+      value: ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
@@ -1230,6 +1238,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1924364329}
     m_Modifications:
+    - target: {fileID: 121364169, guid: aa6e7734267178b428a86d865698c09c, type: 3}
+      propertyPath: rules.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 121364169, guid: aa6e7734267178b428a86d865698c09c, type: 3}
+      propertyPath: rules.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f988ccdcec5d9b43b31ea5636a8750c, type: 2}
+    - target: {fileID: 121364169, guid: aa6e7734267178b428a86d865698c09c, type: 3}
+      propertyPath: rules.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3036a8a5f22f3ac44a2acd049ca70b0c, type: 2}
     - target: {fileID: 2319312742710603904, guid: aa6e7734267178b428a86d865698c09c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1277,14 +1297,6 @@ PrefabInstance:
     - target: {fileID: 2319312742710603934, guid: aa6e7734267178b428a86d865698c09c, type: 3}
       propertyPath: m_Name
       value: SqaureTilemapper
-      objectReference: {fileID: 0}
-    - target: {fileID: 2319312742710603935, guid: aa6e7734267178b428a86d865698c09c, type: 3}
-      propertyPath: defaultTile
-      value: waterNO_BORDERS
-      objectReference: {fileID: 0}
-    - target: {fileID: 2319312742710603935, guid: aa6e7734267178b428a86d865698c09c, type: 3}
-      propertyPath: editTile
-      value: groundFULL_BORDERS
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa6e7734267178b428a86d865698c09c, type: 3}

@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling.TriangleCoords;
+using Assets.WorldObjects;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
         {
             return tileTypes.Select(x => new TileConfig<TriangleCoordinate>
             {
-                ID = x.ID,
+                typeIdentifier = new TileTypeInfo(x.ID, ""),
                 tileCoordinate = x.coords0
             });
         }

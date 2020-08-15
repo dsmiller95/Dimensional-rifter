@@ -1,9 +1,7 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.TileConfiguration
@@ -50,12 +48,13 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
                 yield return new TileConfig<SquareCoordinate>()
                 {
                     tileCoordinate = coordinate + shape.coords0,
-                    ID = baseName + GetPrefix(shape.shape)
+                    typeIdentifier = new TileTypeInfo(baseName, GetPrefix(shape.shape))
                 };
             }
         }
 
-        public static string GetPrefix(SqaureTileShape shapeType) {
+        public static string GetPrefix(SqaureTileShape shapeType)
+        {
             return Enum.GetName(typeof(SqaureTileShape), shapeType);
         }
     }

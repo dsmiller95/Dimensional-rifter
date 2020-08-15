@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 875de29e2f27f5a4593d4dd3d9736276, type: 3}
+  m_Name: SquareGroundShapingRule
+  m_EditorClassIdentifier: 
+  targetBaseType: ground
+  validMatches:
+  - Self: 1
+    Top: 1
+    Right: 1
+    Bottom: 1
+    Left: 1
+    Shape: 1
+  - Self: 1
+    Top: 0
+    Right: 0
+    Bottom: 0
+    Left: 0
+    Shape: 0
+  - Self: 1
+    Top: 0
+    Right: 1
+    Bottom: 0
+    Left: 0
+    Shape: 12
+  - Self: 1
+    Top: 0
+    Right: 0
+    Bottom: 1
+    Left: 0
+    Shape: 13
+  - Self: 1
+    Top: 0
+    Right: 0
+    Bottom: 0
+    Left: 1
+    Shape: 14
+  - Self: 1
+    Top: 1
+    Right: 0
+    Bottom: 0
+    Left: 0
+    Shape: 15
+  - Self: 1
+    Top: 0
+    Right: 1
+    Bottom: 0
+    Left: 1
+    Shape: 2
+  - Self: 1
+    Top: 1
+    Right: 0
+    Bottom: 1
+    Left: 0
+    Shape: 3
+  - Self: 1
+    Top: 1
+    Right: 0
+    Bottom: 1
+    Left: 1
+    Shape: 4
+  - Self: 1
+    Top: 1
+    Right: 1
+    Bottom: 0
+    Left: 1
+    Shape: 5
+  - Self: 1
+    Top: 1
+    Right: 1
+    Bottom: 1
+    Left: 0
+    Shape: 6
+  - Self: 1
+    Top: 0
+    Right: 1
+    Bottom: 1
+    Left: 1
+    Shape: 7
+  - Self: 1
+    Top: 1
+    Right: 0
+    Bottom: 0
+    Left: 1
+    Shape: 8
+  - Self: 1
+    Top: 1
+    Right: 1
+    Bottom: 0
+    Left: 0
+    Shape: 9
+  - Self: 1
+    Top: 0
+    Right: 0
+    Bottom: 1
+    Left: 1
+    Shape: 10
+  - Self: 1
+    Top: 0
+    Right: 1
+    Bottom: 1
+    Left: 0
+    Shape: 11

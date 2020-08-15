@@ -1,5 +1,6 @@
 ﻿using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping.TileConfiguration;
+using Assets.WorldObjects;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
@@ -17,7 +18,7 @@ namespace Assets.Tiling.Tilemapping.Square
         public override ICoordinateSystem<SquareCoordinate> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
         public override ICoordinateSystem<SquareCoordinate> WorldSpaceCoordinateSystem => coordSystem.coordinateSystem;
 
-        public string editTile;
+        public TileTypeInfo editTile;
 
         protected override void Awake()
         {
@@ -30,12 +31,12 @@ namespace Assets.Tiling.Tilemapping.Square
             tileMapMeshRenderer.SetupTilesOnGivenTexture(
                 mainTex);
 
-            contentTracker.SetTile(new SquareCoordinate(0, 0), "groundNO_BORDERS");
-            contentTracker.SetTile(new SquareCoordinate(1, 1), "groundNO_BORDERS");
-            contentTracker.SetTile(new SquareCoordinate(2, 2), "groundNO_BORDERS");
-            contentTracker.SetTile(new SquareCoordinate(0, -1), "groundEDGESX");
-            contentTracker.SetTile(new SquareCoordinate(1, -1), "groundEDGE_T");
-            contentTracker.SetTile(new SquareCoordinate(2, -2), "groundALLEXCEPT_B");
+            contentTracker.SetTile(new SquareCoordinate(0, 0), new TileTypeInfo("ground","NO_BORDERS"));
+            contentTracker.SetTile(new SquareCoordinate(1, 1), new TileTypeInfo("ground","NO_BORDERS"));
+            contentTracker.SetTile(new SquareCoordinate(2, 2), new TileTypeInfo("ground","NO_BORDERS"));
+            contentTracker.SetTile(new SquareCoordinate(0, -1), new TileTypeInfo("ground","EDGESX"));
+            contentTracker.SetTile(new SquareCoordinate(1, -1), new TileTypeInfo("ground","EDGE_T"));
+            contentTracker.SetTile(new SquareCoordinate(2, -2), new TileTypeInfo("ground","ALLEXCEPT_B"));
         }
 
         public override void Start()
@@ -48,8 +49,9 @@ namespace Assets.Tiling.Tilemapping.Square
             }
         }
 
-        public void Update()
+        public override void Update()
         {
+            base.Update();
             if (Input.GetMouseButtonDown(0))
             {
                 var point = MyUtilities.GetMousePos2D();

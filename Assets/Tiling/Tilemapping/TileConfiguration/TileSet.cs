@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.WorldObjects;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.TileConfiguration
@@ -6,7 +7,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
     public struct TileConfig<T> where T : ICoordinate
     {
         public T tileCoordinate;
-        public string ID;
+        public TileTypeInfo typeIdentifier;
     }
 
     public abstract class TileSet<T> : ScriptableObject where T : ICoordinate

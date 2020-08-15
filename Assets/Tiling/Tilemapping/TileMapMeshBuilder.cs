@@ -4,6 +4,7 @@ using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
@@ -50,7 +51,7 @@ namespace Assets.Tiling.Tilemapping
 
             tileTypesDictionary = tileSet.GetTileConfigs().Select(tileType =>
             {
-                var result = new MultiVertTileConfig { ID = tileType.ID };
+                var result = new MultiVertTileConfig { ID = tileType.typeIdentifier.ID };
 
                 var uvsInTextureSpace = tileMapSystem.GetVertexesAround(tileType.tileCoordinate, tileSet.sideLength, textureSpaceCoordinateSystem);
 
@@ -89,11 +90,11 @@ namespace Assets.Tiling.Tilemapping
         {
             return coordinateCopyIndexes.Keys;
         }
-        public void SetMeshForTileToType(T coordinate, string tileID)
+        public void SetMeshForTileToType(T coordinate, TileTypeInfo tileID)
         {
             if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
             {
-                if (tileTypesDictionary.TryGetValue(tileID, out var tileconfig))
+                if (tileTypesDictionary.TryGetValue(tileID.ID, out var tileconfig))
                 {
                     meshEditor.SetUVForVertexesAtDuplicate(index, tileconfig.uvs);
                 }
@@ -136,9 +137,9 @@ namespace Assets.Tiling.Tilemapping
                     continue;
                 }
 
-                string tileType = coordinateMemebers.GetTileType(coord);
+                string tileTypeId = coordinateMemebers.GetTileType(coord).ID;
 
-                var tileConfig = tileTypesDictionary[tileType];
+                var tileConfig = tileTypesDictionary[tileTypeId];
 
                 Vector2[] uvs = tileConfig.uvs;
 

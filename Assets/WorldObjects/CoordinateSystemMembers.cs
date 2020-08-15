@@ -15,10 +15,34 @@ namespace Assets.WorldObjects
         }
     }
 
+    [Serializable]
+    public struct TileTypeInfo
+    {
+        public TileTypeInfo(string baseId, string shape) {
+            this.baseID = baseId;
+            this.shapeID = shape;
+        }
+        public string ID => baseID + shapeID;
+        public string baseID;
+        public string shapeID;
+        public override bool Equals(object obj)
+        {
+            if(obj is TileTypeInfo other)
+            {
+                return other.baseID == baseID && other.shapeID == shapeID;
+            }
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode();
+        }
+    }
+
     public class CoordinateSystemMembersAllCoordinates : MonoBehaviour
     {
         public IEnumerable<TileMapMember> allMembers => members;
-        public string defaultTile;
+        public TileTypeInfo defaultTile;
 
 
         protected ISet<TileMapMember> members;
@@ -40,20 +64,26 @@ namespace Assets.WorldObjects
     public class CoordinateSystemMembers<T> : CoordinateSystemMembersAllCoordinates where T : ICoordinate
     {
         public ICoordinateSystem<T> coordinateSystem;
-        private IDictionary<T, string> tiles;
-        public Action<T, string> OnTileSet;
+        public Action<T, TileTypeInfo> OnTileChanged;
+
+        private IDictionary<T, TileTypeInfo> tiles;
 
         public CoordinateSystemMembers() : base()
         {
-            tiles = new Dictionary<T, string>();
-        }
-        public void SetTile(T coordinate, string tileID)
-        {
-            tiles[coordinate] = tileID;
-            this.OnTileSet?.Invoke(coordinate, tileID);
+            tiles = new Dictionary<T, TileTypeInfo>();
         }
 
-        public string GetTileType(T coordinate)
+        public void SetTile(T coordinate, TileTypeInfo tileID)
+        {
+            if(tiles.TryGetValue(coordinate, out var currentID) && currentID.Equals(tileID))
+            {
+                return;
+            }
+            tiles[coordinate] = tileID;
+            this.OnTileChanged?.Invoke(coordinate, tileID);
+        }
+
+        public TileTypeInfo GetTileType(T coordinate)
         {
             if(tiles.TryGetValue(coordinate, out var value))
             {
