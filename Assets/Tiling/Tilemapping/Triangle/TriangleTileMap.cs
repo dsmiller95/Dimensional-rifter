@@ -13,11 +13,24 @@ namespace Assets.Tiling.Tilemapping.Triangle
         public TileSet<TriangleCoordinate> tileSet;
 
         public TriangleCoordinateSystemBehavior coordSystem;
-        public TriangleTriangleCoordinateRange coordRange;
+        public TriangleTriangleCoordinateRange coordRangeDefaultForInspector;
 
-        public override ICoordinateRange<TriangleCoordinate> CoordinateRange => coordRange;
+        private ICoordinateRange<TriangleCoordinate> _coordRange;
+
+        public override ICoordinateRange<TriangleCoordinate> CoordinateRange
+        {
+            get
+            {
+                if (_coordRange == default)
+                {
+                    _coordRange = coordRangeDefaultForInspector;
+                }
+                return _coordRange;
+            }
+            protected set => _coordRange = value;
+        }
         public override ICoordinateSystem<TriangleCoordinate> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
-        public override ICoordinateSystem<TriangleCoordinate> WorldSpaceCoordinateSystem => coordSystem.coordinateSystem;
+        public override ICoordinateSystem<TriangleCoordinate> WorldSpaceCoordinateSystem => coordSystem.TransformedCoordinateSystem;
 
         public TileTypeInfo editTile;
 
@@ -55,7 +68,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
             if (Input.GetMouseButtonDown(0))
             {
                 var point = MyUtilities.GetMousePos2D();
-                var coords = coordSystem.coordinateSystem.FromRealPosition(point);
+                var coords = coordSystem.TransformedCoordinateSystem.FromRealPosition(point);
 
                 contentTracker.SetTile(coords, editTile);
             }

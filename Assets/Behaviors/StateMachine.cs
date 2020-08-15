@@ -16,6 +16,11 @@
             state = initalState;
         }
 
+        public void ForceSetState(GenericStateHandler<ParamType> newState, ParamType updateParam)
+        {
+            this.SwitchState(newState, updateParam);
+        }
+
         /// <summary>
         /// boolean used to track if the state machine is currently in the middle of an asynchronous state handler
         ///     all state update requests are discarded while this is true
@@ -40,17 +45,9 @@
                 stateLocked = true;
             }
 
-            var updateAction = state;
-            var newState = updateAction.HandleState(updateParam);
+            var newState = state.HandleState(updateParam);
 
-            if (!newState.Equals(state))
-            {
-                updateAction.TransitionOutOfState(updateParam);
-                var nextAction = newState;
-                nextAction.TransitionIntoState(updateParam);
-            }
-
-            state = newState;
+            this.SwitchState(newState, updateParam);
 
             lock (this)
             {
@@ -58,5 +55,18 @@
             }
             return true;
         }
+
+        private void SwitchState(GenericStateHandler<ParamType> newState, ParamType updateParam)
+        {
+            if (!newState.Equals(state))
+            {
+                state.TransitionOutOfState(updateParam);
+                var nextAction = newState;
+                nextAction.TransitionIntoState(updateParam);
+            }
+
+            state = newState;
+        }
     }
+
 }

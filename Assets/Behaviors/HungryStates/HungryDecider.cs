@@ -32,7 +32,15 @@ namespace Assets.Behaviors.HungryStates
 
         private GenericStateHandler<Hungry> HandleWorking(Hungry data)
         {
-            return new Foraging();
+            var currentFood = data.GetComponent<ResourceInventory>().inventory.Get(Resource.FOOD);
+            if (currentFood > 0)
+            {
+                return new Storing();
+            }
+            else
+            {
+                return new Foraging();
+            }
         }
 
         public void TransitionIntoState(Hungry data)

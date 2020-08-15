@@ -16,8 +16,6 @@ public class TileMapNavigationMember : TileMapMember
     protected override void Start()
     {
         base.Start();
-        SetPosition(position, homeRegion.UntypedCoordianteSystemWorldSpace);
-        //homeRegion.
         lastMove = Time.time;
         homeRegion.universalContentTracker.RegisterInTileMap(this);
     }
@@ -55,6 +53,11 @@ public class TileMapNavigationMember : TileMapMember
             {
                 return false;
             }
+        }
+        if(currentPath.Count <= 0)
+        {
+            // we got there without needing to move at all
+            return true;
         }
 
         var nextPosition = currentPath[0];

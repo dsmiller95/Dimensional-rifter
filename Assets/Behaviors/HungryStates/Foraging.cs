@@ -18,7 +18,7 @@ namespace Assets.Behaviors.HungryStates
                 var sourceInv = data.GetComponent<ResourceInventory>();
 
                 Object.Destroy(foundFood.gameObject);
-                sourceInv.inventory.Add(Resource.FOOD, 1f);
+                sourceInv.inventory.Add(Resource.FOOD, 1f).Execute();
 
                 return new Storing();
             }

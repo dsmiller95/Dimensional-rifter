@@ -1,15 +1,21 @@
-﻿using System.Linq;
+﻿using Assets.WorldObjects.SaveObjects;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
 {
-    public struct SubCoordinateSystem
+    [Serializable]
+    public struct TileMapTypePrefabConfig
     {
-        public CoordinateSystemTransformBehavior<ICoordinate> coordinateSystem;
+        public CoordinateSystemType type;
+        public TileMapRegionNoCoordinateType tileMapPrefab;
     }
 
-    public class CombinationTileMapManager : MonoBehaviour
+    public class CombinationTileMapManager : MonoBehaviour, ISaveable<World>
     {
+        public TileMapTypePrefabConfig[] tileMapTypes;
+
         private void Start()
         {
             BakeAllTileMapMeshes();
@@ -45,7 +51,6 @@ namespace Assets.Tiling.Tilemapping
             var currentMousePos = MyUtilities.GetMousePos2D();
             var mouseDelta = currentMousePos - lastMousePos;
             lastMousePos = currentMousePos;
-
 
             if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
             {
@@ -91,6 +96,28 @@ namespace Assets.Tiling.Tilemapping
             foreach (var tileMapToUpdate in belowTileMaps)
             {
                 tileMapToUpdate.UpdateMeshTilesBasedOnColliders(colliders);
+            }
+        }
+
+
+        public World GetSaveObject()
+        {
+            var allRegions = GetComponentsInChildren<TileMapRegionNoCoordinateType>()
+                .Where(x => x.gameObject.activeInHierarchy);
+
+            return new World
+            {
+                regions = allRegions.Select(x => x.GetSaveObject()).ToList()
+            };
+        }
+
+        public void SetupFromSaveObject(World save)
+        {
+            foreach (var region in save.regions)
+            {
+                var prefab = tileMapTypes.Where(x => x.type == region.tileType).First().tileMapPrefab;
+                var newTileMap = Instantiate(prefab, transform).GetComponent<TileMapRegionNoCoordinateType>();
+                newTileMap.SetupFromSaveObject(region);
             }
         }
 

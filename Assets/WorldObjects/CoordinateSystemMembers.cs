@@ -1,33 +1,28 @@
 ﻿using Assets.Tiling;
+using Assets.WorldObjects.Members;
+using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.WorldObjects
 {
 
-    public class CoordinateSytemContainer
-    {
-        public ICoordinateSystem system;
-        public bool isCompatible(ICoordinate coordinate)
-        {
-            return system.IsCompatible(coordinate);
-        }
-    }
-
     [Serializable]
     public struct TileTypeInfo
     {
-        public TileTypeInfo(string baseId, string shape) {
-            this.baseID = baseId;
-            this.shapeID = shape;
+        public TileTypeInfo(string baseId, string shape)
+        {
+            baseID = baseId;
+            shapeID = shape;
         }
         public string ID => baseID + shapeID;
         public string baseID;
         public string shapeID;
         public override bool Equals(object obj)
         {
-            if(obj is TileTypeInfo other)
+            if (obj is TileTypeInfo other)
             {
                 return other.baseID == baseID && other.shapeID == shapeID;
             }
@@ -44,6 +39,7 @@ namespace Assets.WorldObjects
         public IEnumerable<TileMapMember> allMembers => members;
         public TileTypeInfo defaultTile;
 
+        public MemberPrefabRegistry memberPrefabRegistry;
 
         protected ISet<TileMapMember> members;
         public CoordinateSystemMembersAllCoordinates()
@@ -61,12 +57,13 @@ namespace Assets.WorldObjects
         }
     }
 
-    public class CoordinateSystemMembers<T> : CoordinateSystemMembersAllCoordinates where T : ICoordinate
+    public class CoordinateSystemMembers<T> : CoordinateSystemMembersAllCoordinates, ISaveable<TileMembersSaveObject<T>> where T : ICoordinate
     {
         public ICoordinateSystem<T> coordinateSystem;
         public Action<T, TileTypeInfo> OnTileChanged;
 
         private IDictionary<T, TileTypeInfo> tiles;
+
 
         public CoordinateSystemMembers() : base()
         {
@@ -75,22 +72,53 @@ namespace Assets.WorldObjects
 
         public void SetTile(T coordinate, TileTypeInfo tileID)
         {
-            if(tiles.TryGetValue(coordinate, out var currentID) && currentID.Equals(tileID))
+            if (tiles.TryGetValue(coordinate, out var currentID) && currentID.Equals(tileID))
             {
                 return;
             }
             tiles[coordinate] = tileID;
-            this.OnTileChanged?.Invoke(coordinate, tileID);
+            OnTileChanged?.Invoke(coordinate, tileID);
         }
 
         public TileTypeInfo GetTileType(T coordinate)
         {
-            if(tiles.TryGetValue(coordinate, out var value))
+            if (tiles.TryGetValue(coordinate, out var value))
             {
                 return value;
             }
             return defaultTile;
         }
 
+        public TileMembersSaveObject<T> GetSaveObject()
+        {
+            return new TileMembersSaveObject<T>
+            {
+                tiles = tiles.Select(pair => new TileMapDataTile<T>
+                {
+                    coordinate = pair.Key,
+                    tileType = pair.Value
+                }).ToList(),
+                members = allMembers.Select(member => new TileMemberSaveObject<T>
+                {
+                    coordinate = (T)member.CoordinatePosition,
+                    objectData = member.GetSaveObject()
+                }).ToList(),
+                defaultTile = defaultTile
+            };
+        }
+
+        public void SetupFromSaveObject(TileMembersSaveObject<T> save)
+        {
+            defaultTile = save.defaultTile;
+
+            tiles = save.tiles.ToDictionary(tile => tile.coordinate, tile => tile.tileType);
+
+            foreach (var memberData in save.members)
+            {
+                var instantiated = memberPrefabRegistry.GetPrefabForType(memberData.objectData.memberType, transform);
+                instantiated.SetPosition(memberData.coordinate, coordinateSystem);
+                instantiated.SetupFromSaveObject(memberData.objectData);
+            }
+        }
     }
 }

@@ -99,18 +99,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ac47118009d2e4b986cb897c44402d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultTile: water
   sideLength: 1
   universalContentTracker: {fileID: 1542046094}
   tileSet: {fileID: 11400000, guid: 08a112150bb992b4d8b8766a7778b3b2, type: 2}
   coordSystem: {fileID: 654275229677371193}
-  coordRange:
+  coordRangeDefaultForInspector:
     root:
-      u: -5
-      v: -5
+      u: -2
+      v: -2
       R: 0
-    triangleSideLength: 10
-  editTile: ground
+    triangleSideLength: 7
+  editTile:
+    baseID: ground
+    shapeID: 
 --- !u!60 &654275229677371188
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -216,3 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873cad30dc2ba4e41b957017485dad66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultTile:
+    baseID: water
+    shapeID: 
+  memberPrefabRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}

@@ -12,11 +12,24 @@ namespace Assets.Tiling.Tilemapping.Square
         public TileSet<SquareCoordinate> tileSet;
 
         public SquareCoordinateSystemBehavior coordSystem;
-        public SquareCoordinateRange coordRange;
+        public SquareCoordinateRange coordRangeDefaultForInspector;
 
-        public override ICoordinateRange<SquareCoordinate> CoordinateRange => coordRange;
+        private ICoordinateRange<SquareCoordinate> _coordRange;
+
+        public override ICoordinateRange<SquareCoordinate> CoordinateRange
+        {
+            get
+            {
+                if (_coordRange == default)
+                {
+                    _coordRange = coordRangeDefaultForInspector;
+                }
+                return _coordRange;
+            }
+            protected set => _coordRange = value;
+        }
         public override ICoordinateSystem<SquareCoordinate> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
-        public override ICoordinateSystem<SquareCoordinate> WorldSpaceCoordinateSystem => coordSystem.coordinateSystem;
+        public override ICoordinateSystem<SquareCoordinate> WorldSpaceCoordinateSystem => coordSystem.TransformedCoordinateSystem;
 
         public TileTypeInfo editTile;
 
@@ -55,7 +68,7 @@ namespace Assets.Tiling.Tilemapping.Square
             if (Input.GetMouseButtonDown(0))
             {
                 var point = MyUtilities.GetMousePos2D();
-                var coords = coordSystem.coordinateSystem.FromRealPosition(point);
+                var coords = coordSystem.TransformedCoordinateSystem.FromRealPosition(point);
                 contentTracker.SetTile(coords, editTile);
             }
         }

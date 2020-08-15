@@ -6,10 +6,11 @@ using UnityEngine;
 using Extensions;
 using System.Threading;
 using System.Collections.Concurrent;
+using Assets.WorldObjects.SaveObjects;
 
 namespace Assets.Tiling.Tilemapping
 {
-    public abstract class TileMapRegionNoCoordinateType : MonoBehaviour
+    public abstract class TileMapRegionNoCoordinateType : MonoBehaviour, ISaveable<TileRegionSaveObject>
     {
         public float sideLength = 1;
 
@@ -31,9 +32,11 @@ namespace Assets.Tiling.Tilemapping
         /// </summary>
         /// <param name="collidersToAvoid"></param>
         public abstract void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid);
+
         public abstract ICoordinateSystem UntypedCoordianteSystemWorldSpace { get; }
 
-
+        public abstract TileRegionSaveObject GetSaveObject();
+        public abstract void SetupFromSaveObject(TileRegionSaveObject save);
     }
 
     /// <summary>
@@ -75,6 +78,7 @@ namespace Assets.Tiling.Tilemapping
                     this.tileMapMeshRenderer?.SetMeshForTileToType(coordinate, type);
                 });
             };
+            contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
         }
 
         private void OnMainThread(Action action)
@@ -95,7 +99,6 @@ namespace Assets.Tiling.Tilemapping
         public virtual void Start()
         {
             mainThread = Thread.CurrentThread;
-            contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
         }
 
         public virtual void Update()
@@ -106,7 +109,31 @@ namespace Assets.Tiling.Tilemapping
             }
         }
 
-        public abstract ICoordinateRange<T> CoordinateRange { get; }
+        public override TileRegionSaveObject GetSaveObject()
+        {
+            return new TileRegionSaveObjectTyped<T>
+            {
+                tileType = this.WorldSpaceCoordinateSystem.CoordType,
+                sideLength = this.sideLength,
+                range = this.CoordinateRange,
+                members = this.contentTracker.GetSaveObject()
+            };
+        }
+        public override void SetupFromSaveObject(TileRegionSaveObject save)
+        {
+            var typedSaveObject = save as TileRegionSaveObjectTyped<T>;
+            if (this.WorldSpaceCoordinateSystem.CoordType != save.tileType || typedSaveObject == null)
+            {
+                throw new Exception("Coordinate types do not match! likely a malformed or misplaced prefab");
+            }
+
+            this.sideLength = typedSaveObject.sideLength;
+            this.CoordinateRange = typedSaveObject.range;
+            this.contentTracker.SetupFromSaveObject(typedSaveObject.members);
+        }
+
+
+        public abstract ICoordinateRange<T> CoordinateRange { get; protected set; }
         public abstract ICoordinateSystem<T> UnscaledCoordinateSystem { get; }
         public override ICoordinateSystem UntypedCoordianteSystemWorldSpace => WorldSpaceCoordinateSystem;
         public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
