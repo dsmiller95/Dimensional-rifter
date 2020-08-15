@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace Assets.WorldObjects
     public class CoordinateSystemMembersAllCoordinates : MonoBehaviour
     {
         public IEnumerable<TileMapMember> allMembers => members;
+        public string defaultTile;
+
 
         protected ISet<TileMapMember> members;
         public CoordinateSystemMembersAllCoordinates()
@@ -37,9 +40,27 @@ namespace Assets.WorldObjects
     public class CoordinateSystemMembers<T> : CoordinateSystemMembersAllCoordinates where T : ICoordinate
     {
         public ICoordinateSystem<T> coordinateSystem;
+        private IDictionary<T, string> tiles;
+        public Action<T, string> OnTileSet;
 
         public CoordinateSystemMembers() : base()
         {
+            tiles = new Dictionary<T, string>();
         }
+        public void SetTile(T coordinate, string tileID)
+        {
+            tiles[coordinate] = tileID;
+            this.OnTileSet?.Invoke(coordinate, tileID);
+        }
+
+        public string GetTileType(T coordinate)
+        {
+            if(tiles.TryGetValue(coordinate, out var value))
+            {
+                return value;
+            }
+            return defaultTile;
+        }
+
     }
 }

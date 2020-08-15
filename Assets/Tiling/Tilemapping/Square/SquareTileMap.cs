@@ -25,17 +25,17 @@ namespace Assets.Tiling.Tilemapping.Square
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
             tileMapSystem = new SquareNonRotatedTileMapSystem();
-            tileMapContainer = new TileMapMeshBuilder<SquareCoordinate>(tileSet, tileMapSystem);
+            tileMapMeshRenderer = new TileMapMeshBuilder<SquareCoordinate>(tileSet, tileMapSystem, this.contentTracker);
 
-            tileMapContainer.SetupTilesOnGivenTexture(
+            tileMapMeshRenderer.SetupTilesOnGivenTexture(
                 mainTex);
 
-            tileMapContainer.SetTile(new SquareCoordinate(0, 0), "groundNO_BORDERS");
-            tileMapContainer.SetTile(new SquareCoordinate(1, 1), "groundNO_BORDERS");
-            tileMapContainer.SetTile(new SquareCoordinate(2, 2), "groundNO_BORDERS");
-            tileMapContainer.SetTile(new SquareCoordinate(0, -1), "groundEDGESX");
-            tileMapContainer.SetTile(new SquareCoordinate(1, -1), "groundEDGE_T");
-            tileMapContainer.SetTile(new SquareCoordinate(2, -2), "groundALLEXCEPT_B");
+            contentTracker.SetTile(new SquareCoordinate(0, 0), "groundNO_BORDERS");
+            contentTracker.SetTile(new SquareCoordinate(1, 1), "groundNO_BORDERS");
+            contentTracker.SetTile(new SquareCoordinate(2, 2), "groundNO_BORDERS");
+            contentTracker.SetTile(new SquareCoordinate(0, -1), "groundEDGESX");
+            contentTracker.SetTile(new SquareCoordinate(1, -1), "groundEDGE_T");
+            contentTracker.SetTile(new SquareCoordinate(2, -2), "groundALLEXCEPT_B");
         }
 
         public override void Start()
@@ -54,7 +54,7 @@ namespace Assets.Tiling.Tilemapping.Square
             {
                 var point = MyUtilities.GetMousePos2D();
                 var coords = coordSystem.coordinateSystem.FromRealPosition(point);
-                tileMapContainer.SetTile(coords, editTile);
+                contentTracker.SetTile(coords, editTile);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Assets.MapGen;
 using Assets.Tiling.Tilemapping.TileConfiguration;
+using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,13 @@ namespace Assets.Tiling.Tilemapping
     {
         private TileSet<T> tileSet;
         private ITileMapTileShapeStrategy<T> tileMapSystem;
-        private Dictionary<T, string> tiles;
+        private CoordinateSystemMembers<T> coordinateMemebers;
 
-        public TileMapMeshBuilder(TileSet<T> tileSet, ITileMapTileShapeStrategy<T> tileMappingSystem)
+        public TileMapMeshBuilder(TileSet<T> tileSet, ITileMapTileShapeStrategy<T> tileMappingSystem, CoordinateSystemMembers<T> members)
         {
             this.tileSet = tileSet;
             tileMapSystem = tileMappingSystem;
-            tiles = new Dictionary<T, string>();
+            this.coordinateMemebers = members;
         }
 
         private IDictionary<string, MultiVertTileConfig> tileTypesDictionary;
@@ -62,18 +63,6 @@ namespace Assets.Tiling.Tilemapping
             }).ToDictionary(x => x.ID);
         }
 
-        public void SetTile(T coordinate, string tileID)
-        {
-            tiles[coordinate] = tileID;
-            if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
-            {
-                if (tileTypesDictionary.TryGetValue(tileID, out var tileconfig))
-                {
-                    meshEditor.SetUVForVertexesAtDuplicate(index, tileconfig.uvs);
-                }
-            }
-        }
-
         public void SetTileEnabled(T coordinate, bool enabled)
         {
             var isTileDisabled = disabledCoordinates.Contains(coordinate);
@@ -100,6 +89,16 @@ namespace Assets.Tiling.Tilemapping
         {
             return coordinateCopyIndexes.Keys;
         }
+        public void SetMeshForTileToType(T coordinate, string tileID)
+        {
+            if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
+            {
+                if (tileTypesDictionary.TryGetValue(tileID, out var tileconfig))
+                {
+                    meshEditor.SetUVForVertexesAtDuplicate(index, tileconfig.uvs);
+                }
+            }
+        }
 
         private CopiedMeshEditor meshEditor;
         private Dictionary<T, int> coordinateCopyIndexes;
@@ -107,7 +106,6 @@ namespace Assets.Tiling.Tilemapping
 
         public Mesh BakeTilemapMesh(
             ICoordinateRange<T> range,
-            string defaultTile,
             ICoordinateSystem<T> tilePlacementSystem,
             Func<T, Vector2, bool> tileFilter)
         {
@@ -138,11 +136,7 @@ namespace Assets.Tiling.Tilemapping
                     continue;
                 }
 
-                string tileType;
-                if (!tiles.TryGetValue(coord, out tileType))
-                {
-                    tileType = defaultTile;
-                }
+                string tileType = coordinateMemebers.GetTileType(coord);
 
                 var tileConfig = tileTypesDictionary[tileType];
 

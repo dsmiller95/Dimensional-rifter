@@ -9,7 +9,6 @@ namespace Assets.Tiling.Tilemapping
 {
     public abstract class TileMapRegionNoCoordinateType : MonoBehaviour
     {
-        public string defaultTile;
         public float sideLength = 1;
 
         public CoordinateSystemMembersAllCoordinates universalContentTracker;
@@ -46,7 +45,7 @@ namespace Assets.Tiling.Tilemapping
     [RequireComponent(typeof(PolygonCollider2D))]
     public abstract class TileMapRegion<T> : TileMapRegionNoCoordinateType where T : ICoordinate
     {
-        protected TileMapMeshBuilder<T> tileMapContainer;
+        protected TileMapMeshBuilder<T> tileMapMeshRenderer;
         protected ITileMapTileShapeStrategy<T> tileMapSystem;
 
         protected PolygonCollider2D BoundingBoxCollider;
@@ -63,6 +62,10 @@ namespace Assets.Tiling.Tilemapping
             }
             BoundingBoxCollider = polygons[0];
             IndividualCellCollider = polygons[1];
+            contentTracker.OnTileSet = (coordinate, type) =>
+            {
+                this.tileMapMeshRenderer?.SetMeshForTileToType(coordinate, type);
+            };
         }
 
         public virtual void Start()
@@ -82,9 +85,8 @@ namespace Assets.Tiling.Tilemapping
             var colliderList = collidersToAvoid?.ToArray() ?? new PolygonCollider2D[0];
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
             disabledCoordinates = new HashSet<T>();
-            var setupMesh = tileMapContainer.BakeTilemapMesh(
+            var setupMesh = tileMapMeshRenderer.BakeTilemapMesh(
                 CoordinateRange,
-                defaultTile,
                 UnscaledCoordinateSystem,
                 (coord, position) =>
                     {
@@ -116,10 +118,10 @@ namespace Assets.Tiling.Tilemapping
             //TODO: Performance
             // allow for some way to limit the tiles we iterate here based on the bounds of the polygon colliders.
             //  may only be relevant to rectangular coordinates
-            foreach (var loadedCoordinate in tileMapContainer.GetBakedTiles())
+            foreach (var loadedCoordinate in tileMapMeshRenderer.GetBakedTiles())
             {
                 var collides = GetCollidesWith(loadedCoordinate, colliders, colliderFlagSpace);
-                tileMapContainer.SetTileEnabled(loadedCoordinate, !collides);
+                tileMapMeshRenderer.SetTileEnabled(loadedCoordinate, !collides);
             }
         }
 

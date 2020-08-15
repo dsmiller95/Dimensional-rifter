@@ -27,15 +27,15 @@ namespace Assets.Tiling.Tilemapping.Triangle
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
 
             tileMapSystem = new TriangleTileMapSystem();
-            tileMapContainer = new TileMapMeshBuilder<TriangleCoordinate>(tileSet, tileMapSystem);
+            tileMapMeshRenderer = new TileMapMeshBuilder<TriangleCoordinate>(tileSet, tileMapSystem, contentTracker);
 
-            tileMapContainer.SetupTilesOnGivenTexture(
+            tileMapMeshRenderer.SetupTilesOnGivenTexture(
                 mainTex);
 
-            tileMapContainer.SetTile(new TriangleCoordinate(0, 0, true), "ground");
-            tileMapContainer.SetTile(new TriangleCoordinate(0, 0, false), "ground");
-            tileMapContainer.SetTile(new TriangleCoordinate(1, 0, false), "ground");
-            tileMapContainer.SetTile(new TriangleCoordinate(0, 1, false), "ground");
+            contentTracker.SetTile(new TriangleCoordinate(0, 0, true), "ground");
+            contentTracker.SetTile(new TriangleCoordinate(0, 0, false), "ground");
+            contentTracker.SetTile(new TriangleCoordinate(1, 0, false), "ground");
+            contentTracker.SetTile(new TriangleCoordinate(0, 1, false), "ground");
         }
 
         public override void Start()
@@ -55,7 +55,7 @@ namespace Assets.Tiling.Tilemapping.Triangle
                 var point = MyUtilities.GetMousePos2D();
                 var coords = coordSystem.coordinateSystem.FromRealPosition(point);
 
-                tileMapContainer.SetTile(coords, editTile);
+                contentTracker.SetTile(coords, editTile);
             }
         }
     }
