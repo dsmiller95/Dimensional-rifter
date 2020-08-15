@@ -4,26 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping.Square
+namespace Assets.Tiling.Tilemapping.TileConfiguration
 {
     [Serializable]
     public struct SquareTileMapTile
     {
         public SquareCoordinate coords0;
-        public string ID;
+        public string baseID;
     }
 
     [CreateAssetMenu(fileName = "SquareTileSet", menuName = "TileSets/Square", order = 1)]
     public class SquareTileSet : TileSet<SquareCoordinate>
     {
         public SquareTileMapTile[] tileTypes;
+        public SquareTileShape tileShape;
         public override IEnumerable<TileConfig<SquareCoordinate>> GetTileConfigs()
         {
-            return tileTypes.Select(x => new TileConfig<SquareCoordinate>
-            {
-                ID = x.ID,
-                tileCoordinate = x.coords0
-            });
+            return tileTypes
+                .SelectMany(x => tileShape
+                    .GenerateTileConfigsFromBaseSetup(x.baseID, x.coords0)
+                    );
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Square
@@ -29,9 +30,12 @@ namespace Assets.Tiling.Tilemapping.Square
             tileMapContainer.SetupTilesOnGivenTexture(
                 mainTex);
 
-            tileMapContainer.SetTile(new SquareCoordinate(0, 0), "ground");
-            tileMapContainer.SetTile(new SquareCoordinate(1, 1), "ground");
-            tileMapContainer.SetTile(new SquareCoordinate(2, 2), "ground");
+            tileMapContainer.SetTile(new SquareCoordinate(0, 0), "groundNO_BORDERS");
+            tileMapContainer.SetTile(new SquareCoordinate(1, 1), "groundNO_BORDERS");
+            tileMapContainer.SetTile(new SquareCoordinate(2, 2), "groundNO_BORDERS");
+            tileMapContainer.SetTile(new SquareCoordinate(0, -1), "groundEDGESX");
+            tileMapContainer.SetTile(new SquareCoordinate(1, -1), "groundEDGE_T");
+            tileMapContainer.SetTile(new SquareCoordinate(2, -2), "groundALLEXCEPT_B");
         }
 
         public override void Start()

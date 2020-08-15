@@ -1,4 +1,5 @@
 ﻿using Assets.MapGen;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,6 @@ using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
 {
-    public struct TileConfig<T> where T : ICoordinate
-    {
-        public T tileCoordinate;
-        public string ID;
-    }
     public struct MultiVertTileConfig
     {
         public string ID;

@@ -1217,6 +1217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TriangleTilemapper
       objectReference: {fileID: 0}
+    - target: {fileID: 654275229677371185, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
 --- !u!1001 &2319312743392832656
@@ -1273,6 +1277,14 @@ PrefabInstance:
     - target: {fileID: 2319312742710603934, guid: aa6e7734267178b428a86d865698c09c, type: 3}
       propertyPath: m_Name
       value: SqaureTilemapper
+      objectReference: {fileID: 0}
+    - target: {fileID: 2319312742710603935, guid: aa6e7734267178b428a86d865698c09c, type: 3}
+      propertyPath: defaultTile
+      value: waterNO_BORDERS
+      objectReference: {fileID: 0}
+    - target: {fileID: 2319312742710603935, guid: aa6e7734267178b428a86d865698c09c, type: 3}
+      propertyPath: editTile
+      value: groundFULL_BORDERS
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa6e7734267178b428a86d865698c09c, type: 3}

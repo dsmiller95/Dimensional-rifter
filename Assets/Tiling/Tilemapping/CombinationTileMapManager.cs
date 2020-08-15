@@ -18,6 +18,7 @@ namespace Assets.Tiling.Tilemapping
         private void BakeAllTileMapMeshes(params TileMapRegionNoCoordinateType[] exclude)
         {
             var allTileMaps = GetComponentsInChildren<TileMapRegionNoCoordinateType>()
+                .Where(x => x.gameObject.activeInHierarchy)
                 .Where(x => !exclude.Contains(x))
                 .ToArray();
             if (allTileMaps == null || allTileMaps.Length <= 0)

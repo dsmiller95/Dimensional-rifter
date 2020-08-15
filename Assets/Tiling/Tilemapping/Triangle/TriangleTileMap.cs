@@ -1,4 +1,5 @@
-﻿using Assets.Tiling.TriangleCoords;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
+using Assets.Tiling.TriangleCoords;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.Triangle
