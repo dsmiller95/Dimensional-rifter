@@ -12,7 +12,7 @@ namespace Assets.Tiling.Tilemapping
         public TileMapRegionNoCoordinateType tileMapPrefab;
     }
 
-    public class CombinationTileMapManager : MonoBehaviour, ISaveable<World>
+    public class CombinationTileMapManager : MonoBehaviour, ISaveable<WorldSaveObject>
     {
         public TileMapTypePrefabConfig[] tileMapTypes;
 
@@ -100,18 +100,18 @@ namespace Assets.Tiling.Tilemapping
         }
 
 
-        public World GetSaveObject()
+        public WorldSaveObject GetSaveObject()
         {
             var allRegions = GetComponentsInChildren<TileMapRegionNoCoordinateType>()
                 .Where(x => x.gameObject.activeInHierarchy);
 
-            return new World
+            return new WorldSaveObject
             {
                 regions = allRegions.Select(x => x.GetSaveObject()).ToList()
             };
         }
 
-        public void SetupFromSaveObject(World save)
+        public void SetupFromSaveObject(WorldSaveObject save)
         {
             foreach (var region in save.regions)
             {

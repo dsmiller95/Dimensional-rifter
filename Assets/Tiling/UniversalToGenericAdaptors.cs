@@ -70,5 +70,27 @@ namespace Assets.Tiling
         {
             return (coordinateSystem as ICoordinateSystem<T>).ToRealPosition((T)source);
         }
+
+        public static ICoordinateSystem<T> GetBasicCoordinateSystemFromType<T>(CoordinateSystemType type) where T: ICoordinate
+        {
+            ICoordinateSystem coordinateSystemResult = null;
+            switch (type)
+            {
+                case CoordinateSystemType.HEX:
+                    coordinateSystemResult = new HexCoordinateSystem(1);
+                    break;
+                case CoordinateSystemType.SQUARE:
+                    coordinateSystemResult = new SquareCoordinateSystem();
+                    break;
+                case CoordinateSystemType.TRIANGLE:
+                    coordinateSystemResult = new TriangleCoordinateSystem();
+                    break;
+            }
+            if(coordinateSystemResult != null && coordinateSystemResult is ICoordinateSystem<T> castedCoords)
+            {
+                return castedCoords;
+            }
+            throw new Exception("Coordinate system type does not match generic parameter");
+        }
     }
 }

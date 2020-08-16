@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using TradeModeling.Inventories;
 using UniRx;
 using UniRx.Triggers;
@@ -84,6 +85,14 @@ namespace Assets.WorldObjects
         {
             resourceAmountsChanged?.OnCompleted();
             resourceCapacityChanged?.OnCompleted();
+        }
+
+        public static ResourceInventorySaveData GenerateEmptySaveObject()
+        {
+            return new ResourceInventorySaveData
+            {
+                amounts = new SaveableInventoryAmount[0]
+            };
         }
 
         public ResourceInventorySaveData GetSaveObject()

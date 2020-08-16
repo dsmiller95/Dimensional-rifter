@@ -23,6 +23,12 @@ namespace Assets.Tiling
         /// <returns></returns>
         IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<T> coordinateSystem, float individualScale);
 
+        /// <summary>
+        /// Get a list of coordinates which define the most extreme points in this coordinate range
+        /// </summary>
+        /// <returns></returns>
+        //IEnumerable<T> BoundingCoordinates();
+
         bool ContainsCoordinate(T coordinat);
     }
 }

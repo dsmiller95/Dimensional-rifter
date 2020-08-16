@@ -55,7 +55,7 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Behaviors\HungryStates\HungryDecider.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\HungryDecider.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
@@ -64,13 +64,16 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
-    <Compile Include="Assets\Behaviors\HungryStates\Foraging.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Foraging.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\WorldObjects\CoordinateSystemMembers.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\Storage.cs" />
+    <Compile Include="Assets\WorldObjects\WorldGen\WorldGenerator.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
+    <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
+    <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
     <Compile Include="Assets\Behaviors\GenericStateHandler.cs" />
+    <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
@@ -95,9 +99,10 @@
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemTransform.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
-    <Compile Include="Assets\Behaviors\HungryStates\Eating.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Eating.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\World.cs" />
+    <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
+    <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
@@ -106,7 +111,7 @@
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
     <Compile Include="Assets\Behaviors\StateMachine.cs" />
     <Compile Include="Assets\Behaviors\BehaviorContainer.cs" />
-    <Compile Include="Assets\Behaviors\HungryStates\Storing.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Storing.cs" />
     <Compile Include="Assets\Behaviors\Utility states\Waiting.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\Food.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
@@ -123,6 +128,8 @@
     <Compile Include="Assets\WorldObjects\TimeController.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
+    <Compile Include="Assets\SceneLoader.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

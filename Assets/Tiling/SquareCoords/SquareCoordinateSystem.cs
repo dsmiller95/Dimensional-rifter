@@ -20,6 +20,10 @@ namespace Assets.Tiling.SquareCoords
         {
             return new SquareCoordinate(a.row + b.row, a.column + b.column);
         }
+        public static SquareCoordinate operator -(SquareCoordinate a)
+        {
+            return new SquareCoordinate(-a.row, -a.column);
+        }
 
         public static readonly SquareCoordinate UP = new SquareCoordinate(1, 0);
         public static readonly SquareCoordinate DOWN = new SquareCoordinate(-1, 0);

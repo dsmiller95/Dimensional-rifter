@@ -139,7 +139,13 @@ namespace Assets.Tiling.Tilemapping
 
                 string tileTypeId = coordinateMemebers.GetTileType(coord).ID;
 
-                var tileConfig = tileTypesDictionary[tileTypeId];
+                MultiVertTileConfig tileConfig;
+                if(!tileTypesDictionary.TryGetValue(tileTypeId, out tileConfig))
+                {
+                    Debug.LogError("help");
+                }
+
+                //var tileConfig = tileTypesDictionary[tileTypeId];
 
                 Vector2[] uvs = tileConfig.uvs;
 

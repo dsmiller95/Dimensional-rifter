@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Tiling.TileAutomata.Square
 {
-    [CreateAssetMenu(fileName = "GameOfLifeRule", menuName = "AutomataRules/Square/GameOfLife", order = 10)]
+    [CreateAssetMenu(fileName = "GameOfLifeRule", menuName = "MapGeneration/Automata/Square/GameOfLife", order = 100)]
     public class GameOfLifeRule : AutomataRule<SquareCoordinate>
     {
         public string targetBaseType = "ground";

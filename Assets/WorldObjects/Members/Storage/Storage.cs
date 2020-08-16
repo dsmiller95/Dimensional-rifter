@@ -18,6 +18,15 @@ namespace Assets.WorldObjects
             return MemberType.STORAGE;
         }
 
+        public static object GenerateNewSaveObject()
+        {
+            return new StorageSaveObject
+            {
+                inventory = ResourceInventory.GenerateEmptySaveObject()
+            };
+        }
+
+
         public object GetSaveObject()
         {
             return new StorageSaveObject

@@ -1,8 +1,8 @@
-﻿using Assets.WorldObjects;
+﻿using Assets.Behaviors;
 using TradeModeling.Inventories;
 using UnityEngine;
 
-namespace Assets.Behaviors.HungryStates
+namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
     public class Foraging : GenericStateHandler<Hungry>
     {
@@ -12,9 +12,9 @@ namespace Assets.Behaviors.HungryStates
         public GenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
-            if (tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food>() != null))
+            if (tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food.Food>() != null))
             {
-                var foundFood = tileMember.currentTarget.GetComponent<Food>();
+                var foundFood = tileMember.currentTarget.GetComponent<Food.Food>();
                 var sourceInv = data.GetComponent<ResourceInventory>();
 
                 Object.Destroy(foundFood.gameObject);

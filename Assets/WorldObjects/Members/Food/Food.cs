@@ -1,7 +1,6 @@
-﻿using Assets.WorldObjects.Members;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.WorldObjects
+namespace Assets.WorldObjects.Members.Food
 {
     [RequireComponent(typeof(TileMapMember))]
     public class Food : MonoBehaviour, IMemberSaveable
@@ -9,6 +8,11 @@ namespace Assets.WorldObjects
         public MemberType GetMemberType()
         {
             return MemberType.FOOD;
+        }
+
+        public static object GenerateNewSaveObject()
+        {
+            return null;
         }
 
         public object GetSaveObject()

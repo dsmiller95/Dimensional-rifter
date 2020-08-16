@@ -39,7 +39,7 @@ namespace Assets.Tiling.TileAutomata.Square
         }
     }
 
-    [CreateAssetMenu(fileName = "SquareShapeRule", menuName = "AutomataRules/Square/TileShape", order = 1)]
+    [CreateAssetMenu(fileName = "SquareShapeRule", menuName = "MapGeneration/Automata/Square/TileShape", order = 10)]
     public class SquareShapeRule : AutomataRule<SquareCoordinate>
     {
         public string targetBaseType = "ground";

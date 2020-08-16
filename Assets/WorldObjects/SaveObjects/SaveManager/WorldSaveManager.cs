@@ -4,27 +4,30 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
 {
     public class WorldSaveManager : MonoBehaviour
     {
-        public string saveFileName;
-
         public GameObject worldPrefab;
         public GameObject worldObject;
 
+        public void Start()
+        {
+            this.Load();
+        }
+
         public void Save()
         {
-            var saveDataObject = worldObject.GetComponent<ISaveable<World>>();
+            var saveDataObject = worldObject.GetComponent<ISaveable<WorldSaveObject>>();
             var data = saveDataObject.GetSaveObject();
-            SerializationManager.Save(saveFileName, data);
+            SerializationManager.Save(SaveContext.instance.saveFile, data);
         }
 
         public void Load()
         {
-            var loadedData = SerializationManager.Load(saveFileName);
-            if (loadedData != null && loadedData is World worldSaveData)
+            var loadedData = SerializationManager.Load(SaveContext.instance.saveFile);
+            if (loadedData != null && loadedData is WorldSaveObject worldSaveData)
             {
                 Destroy(worldObject);
 
                 worldObject = Instantiate(worldPrefab, transform);
-                var saveDataObject = worldObject.GetComponent<ISaveable<World>>();
+                var saveDataObject = worldObject.GetComponent<ISaveable<WorldSaveObject>>();
                 saveDataObject.SetupFromSaveObject(worldSaveData);
             }
         }

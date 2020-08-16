@@ -1,8 +1,9 @@
-﻿using Assets.Behaviors.UtilityStates;
+﻿using Assets.Behaviors;
+using Assets.Behaviors.UtilityStates;
 using Assets.WorldObjects;
 using TradeModeling.Inventories;
 
-namespace Assets.Behaviors.HungryStates
+namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
     public class Eating : GenericStateHandler<Hungry>
     {

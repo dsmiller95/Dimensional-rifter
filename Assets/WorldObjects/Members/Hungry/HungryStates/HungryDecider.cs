@@ -1,6 +1,6 @@
-﻿using Assets.WorldObjects;
+﻿using Assets.Behaviors;
 
-namespace Assets.Behaviors.HungryStates
+namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
     public class HungryDecider : GenericStateHandler<Hungry>
     {

@@ -1,10 +1,9 @@
 ﻿using Assets.Behaviors;
-using Assets.Behaviors.HungryStates;
-using Assets.WorldObjects.Members;
+using Assets.WorldObjects.Members.Hungry.HungryStates;
 using System;
 using UnityEngine;
 
-namespace Assets.WorldObjects
+namespace Assets.WorldObjects.Members.Hungry
 {
     [Serializable]
     class HungrySaveObject
@@ -25,6 +24,16 @@ namespace Assets.WorldObjects
         public MemberType GetMemberType()
         {
             return MemberType.HUNGRY;
+        }
+
+        public static object GenerateNewSaveObject(float hungeringRate = .1f)
+        {
+            return new HungrySaveObject
+            {
+                currentHunger = 0f,
+                hungeringRate = hungeringRate,
+                inventory = ResourceInventory.GenerateEmptySaveObject()
+            };
         }
 
         public object GetSaveObject()
