@@ -112,7 +112,7 @@ MonoBehaviour:
       row: 20
       column: 20
   editTile:
-    baseID: ground
+    baseID: water
     shapeID: FULL_BORDERS
 --- !u!60 &2319312742710603907
 PolygonCollider2D:
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultTile:
-    baseID: water
+    baseID: ground
     shapeID: NO_BORDERS
   memberPrefabRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
 --- !u!114 &121364169

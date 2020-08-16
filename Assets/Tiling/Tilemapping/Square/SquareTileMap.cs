@@ -43,13 +43,6 @@ namespace Assets.Tiling.Tilemapping.Square
 
             tileMapMeshRenderer.SetupTilesOnGivenTexture(
                 mainTex);
-
-            contentTracker.SetTile(new SquareCoordinate(0, 0), new TileTypeInfo("ground","NO_BORDERS"));
-            contentTracker.SetTile(new SquareCoordinate(1, 1), new TileTypeInfo("ground","NO_BORDERS"));
-            contentTracker.SetTile(new SquareCoordinate(2, 2), new TileTypeInfo("ground","NO_BORDERS"));
-            contentTracker.SetTile(new SquareCoordinate(0, -1), new TileTypeInfo("ground","EDGESX"));
-            contentTracker.SetTile(new SquareCoordinate(1, -1), new TileTypeInfo("ground","EDGE_T"));
-            contentTracker.SetTile(new SquareCoordinate(2, -2), new TileTypeInfo("ground","ALLEXCEPT_B"));
         }
 
         public override void Start()
