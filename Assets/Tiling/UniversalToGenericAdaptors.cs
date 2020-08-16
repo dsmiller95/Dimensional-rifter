@@ -16,7 +16,8 @@ namespace Assets.Tiling
         public static IEnumerable<ICoordinate> PathBetween(
             ICoordinate source,
             ICoordinate destination,
-            TileMapRegionNoCoordinateType region)
+            TileMapRegionNoCoordinateType region,
+            Func<TileProperties, bool> passableTiles)
         {
             var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
 
@@ -28,22 +29,23 @@ namespace Assets.Tiling
             switch (coordinateSpace.CoordType)
             {
                 case CoordinateSystemType.HEX:
-                    return PathBetween<AxialCoordinate>(source, destination, region)?
+                    return PathBetween<AxialCoordinate>(source, destination, region, passableTiles)?
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.SQUARE:
-                    return PathBetween<SquareCoordinate>(source, destination, region)?
+                    return PathBetween<SquareCoordinate>(source, destination, region, passableTiles)?
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.TRIANGLE:
-                    return PathBetween<TriangleCoordinate>(source, destination, region)?
+                    return PathBetween<TriangleCoordinate>(source, destination, region, passableTiles)?
                         .Cast<ICoordinate>();
             }
             throw new ArgumentException("invalid coordinate system type");
         }
 
-        private static IEnumerable<T> PathBetween<T>(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem) where T : ICoordinate
+        private static IEnumerable<T> PathBetween<T>(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem, Func<TileProperties, bool> passableTiles) where T : ICoordinate
         {
             var coordSystem = (coordinateSystem as TileMapRegion<T>);
-            var pather = new Pathfinder<T>((T)destination, coordSystem);
+
+            var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(properties));
             return pather.ShortestPathTo((T)source);
         }
 

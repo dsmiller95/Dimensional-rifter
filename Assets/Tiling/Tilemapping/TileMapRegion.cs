@@ -1,12 +1,12 @@
 ﻿using Assets.WorldObjects;
+using Assets.WorldObjects.SaveObjects;
+using Extensions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Extensions;
 using System.Threading;
-using System.Collections.Concurrent;
-using Assets.WorldObjects.SaveObjects;
+using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
 {
@@ -57,6 +57,8 @@ namespace Assets.Tiling.Tilemapping
         protected PolygonCollider2D IndividualCellCollider;
 
         public CoordinateSystemMembers<T> contentTracker => universalContentTracker as CoordinateSystemMembers<T>;
+        public TileDefinitions tileDefinitions;
+
 
         public ConcurrentQueue<Action> mainThreadActions;
         private Thread mainThread;
@@ -73,9 +75,9 @@ namespace Assets.Tiling.Tilemapping
             IndividualCellCollider = polygons[1];
             contentTracker.OnTileChanged = (coordinate, type) =>
             {
-                this.OnMainThread(() =>
+                OnMainThread(() =>
                 {
-                    this.tileMapMeshRenderer?.SetMeshForTileToType(coordinate, type);
+                    tileMapMeshRenderer?.SetMeshForTileToType(coordinate, type);
                 });
             };
             contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
@@ -86,7 +88,8 @@ namespace Assets.Tiling.Tilemapping
             if (isMainThread())
             {
                 action();
-            }else
+            }
+            else
             {
                 mainThreadActions.Enqueue(action);
             }
@@ -113,23 +116,23 @@ namespace Assets.Tiling.Tilemapping
         {
             return new TileRegionSaveObjectTyped<T>
             {
-                tileType = this.WorldSpaceCoordinateSystem.CoordType,
-                sideLength = this.sideLength,
-                range = this.CoordinateRange,
-                members = this.contentTracker.GetSaveObject()
+                tileType = WorldSpaceCoordinateSystem.CoordType,
+                sideLength = sideLength,
+                range = CoordinateRange,
+                members = contentTracker.GetSaveObject()
             };
         }
         public override void SetupFromSaveObject(TileRegionSaveObject save)
         {
             var typedSaveObject = save as TileRegionSaveObjectTyped<T>;
-            if (this.WorldSpaceCoordinateSystem.CoordType != save.tileType || typedSaveObject == null)
+            if (WorldSpaceCoordinateSystem.CoordType != save.tileType || typedSaveObject == null)
             {
                 throw new Exception("Coordinate types do not match! likely a malformed or misplaced prefab");
             }
 
-            this.sideLength = typedSaveObject.sideLength;
-            this.CoordinateRange = typedSaveObject.range;
-            this.contentTracker.SetupFromSaveObject(typedSaveObject.members);
+            sideLength = typedSaveObject.sideLength;
+            CoordinateRange = typedSaveObject.range;
+            contentTracker.SetupFromSaveObject(typedSaveObject.members);
         }
 
 
@@ -164,11 +167,17 @@ namespace Assets.Tiling.Tilemapping
 
         public bool IsValidCoordinate(ICoordinate coordinate)
         {
-            if(coordinate is T casted)
+            if (coordinate is T casted)
             {
                 return CoordinateRange.ContainsCoordinate(casted) && !disabledCoordinates.Contains(casted);
             }
             return false;
+        }
+
+        public TileProperties TilePropertiesAt(T coordinate)
+        {
+            var tileType = contentTracker.GetTileType(coordinate);
+            return tileDefinitions.GetTileProperties(tileType);
         }
 
         public override void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid)

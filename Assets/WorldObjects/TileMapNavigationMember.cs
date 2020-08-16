@@ -54,7 +54,7 @@ public class TileMapNavigationMember : TileMapMember
                 return false;
             }
         }
-        if(currentPath.Count <= 0)
+        if (currentPath.Count <= 0)
         {
             // we got there without needing to move at all
             return true;
@@ -80,7 +80,8 @@ public class TileMapNavigationMember : TileMapMember
                 path = UniversalToGenericAdaptors.PathBetween(
                     coordinatePosition,
                     member.CoordinatePosition,
-                    homeRegion)?.ToArray(),
+                    homeRegion,
+                    properties => properties.isPassable)?.ToArray(),
                 member
             })
             .Where(x => x.path != null);

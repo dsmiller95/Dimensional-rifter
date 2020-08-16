@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Assets.WorldObjects
 {
@@ -41,13 +42,15 @@ namespace Assets.WorldObjects
 
         private SimplePriorityQueue<T, float> fringe;
         private ICoordinateSystem<T> coordinateSystem;
-        private TileMapRegion<T> region;
+        private TileMapRegion<T> tileRegion;
+        private Func<T, TileProperties, bool> coordinateFilterFunction;
 
         private readonly T origin;
-        public Pathfinder(T origin, TileMapRegion<T> region)
+        public Pathfinder(T origin, TileMapRegion<T> region, Func<T, TileProperties, bool> isCoordinateVisitable)
         {
-            this.region = region;
+            tileRegion = region;
             this.coordinateSystem = region.WorldSpaceCoordinateSystem;
+            coordinateFilterFunction = isCoordinateVisitable;
             this.origin = origin;
 
             fringe = new SimplePriorityQueue<T, float>();
@@ -114,7 +117,10 @@ namespace Assets.WorldObjects
 
             var nonClosedNeighbors = coordinateSystem
                 .Neighbors(currentCoordinate)
-                .Where(neighbor => region.IsValidCoordinate(neighbor) && !completed.Contains(neighbor));
+                .Where(neighbor => !completed.Contains(neighbor)
+                    && tileRegion.IsValidCoordinate(neighbor)
+                    && coordinateFilterFunction(neighbor, tileRegion.TilePropertiesAt(neighbor))
+                );
 
             // assumption is made that every connection is cost of 1
             var neighborDistance = node.distanceFromOrigin + 1;

@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sideLength: 1
   universalContentTracker: {fileID: 328967762}
+  tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   tileSet: {fileID: 11400000, guid: a40f50217fb8eb4468512e1868190bb1, type: 2}
   coordSystem: {fileID: 2319312742710603910}
   coordRangeDefaultForInspector:
