@@ -58,6 +58,7 @@
     <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\HungryDecider.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
+    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileMap.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
+    <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
     <Compile Include="Assets\Behaviors\GenericStateHandler.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
@@ -128,8 +130,9 @@
     <Compile Include="Assets\WorldObjects\TimeController.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
-    <Compile Include="Assets\SceneLoader.cs" />
+    <Compile Include="Assets\WorldObjects\Members\PropertyClickable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
+    <Compile Include="Assets\UI\InterestingInfoDisplayer.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

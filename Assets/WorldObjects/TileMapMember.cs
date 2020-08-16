@@ -1,10 +1,8 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
 using System;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -17,9 +15,6 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
     public TileMapRegionNoCoordinateType homeRegion;
     public MemberType memberType;
 
-    public SquareCoordinate positionSetForInspector;
-    //public TriangleCoordinateSystemBehavior coordinateSystemForInspector;
-    //public TriangleCoordinate position;
 
     protected ICoordinate coordinatePosition;
     public ICoordinate CoordinatePosition => coordinatePosition;
@@ -35,11 +30,10 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
 
     protected virtual void Awake()
     {
-        if(homeRegion == null)
+        if (homeRegion == null)
         {
-            homeRegion = this.GetComponentInParent<TileMapRegionNoCoordinateType>();
+            homeRegion = GetComponentInParent<TileMapRegionNoCoordinateType>();
         }
-        SetPosition(positionSetForInspector, homeRegion.UntypedCoordianteSystemWorldSpace);
     }
 
     // Start is called before the first frame update
@@ -73,7 +67,7 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
     public void SetupFromSaveObject(TileMemberData save)
     {
         var saveable = GetComponent<IMemberSaveable>();
-        if(saveable == null || saveable.GetMemberType() != save.memberType)
+        if (saveable == null || saveable.GetMemberType() != save.memberType)
         {
             throw new Exception("Member types do not match! likely a malformed or misplaced prefab");
         }

@@ -153,9 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7e35b2e87b72a45beed359e22b7b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GeneratedWorldSave: newSave
+  GeneratedWorldSave: defaultSaveName
   mapGenerationConfiguration: {fileID: 11400000, guid: 94be14acfb5ba9840a7e380c69e326b6, type: 2}
-  SceneToLoad: 
   levelGenComplete:
     m_PersistentCalls:
       m_Calls:

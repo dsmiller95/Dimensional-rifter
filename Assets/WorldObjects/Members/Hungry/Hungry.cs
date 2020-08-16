@@ -14,7 +14,7 @@ namespace Assets.WorldObjects.Members.Hungry
     }
 
     [RequireComponent(typeof(TileMapNavigationMember))]
-    public class Hungry : MonoBehaviour, IMemberSaveable
+    public class Hungry : MonoBehaviour, IMemberSaveable, IInterestingInfo
     {
         public float hungeringRate = .1f;
         public float currentHunger = 0;
@@ -66,6 +66,12 @@ namespace Assets.WorldObjects.Members.Hungry
         {
             stateMachine.update(this);
             currentHunger += Time.deltaTime * hungeringRate;
+        }
+
+        public string GetCurrentInfo()
+        {
+            return $"Hunger: {this.currentHunger}" +
+                $"Hungering Rate: {this.hungeringRate}";
         }
     }
 }

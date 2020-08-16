@@ -1,8 +1,10 @@
-﻿using Assets.WorldObjects.SaveObjects;
+﻿using Assets.WorldObjects.Members;
+using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using TradeModeling;
 using TradeModeling.Inventories;
 using UniRx;
 using UniRx.Triggers;
@@ -21,7 +23,7 @@ namespace Assets.WorldObjects
         public Resource type;
         public float amount;
     }
-    public class ResourceInventory : ObservableTriggerBase, ISaveable<ResourceInventorySaveData>
+    public class ResourceInventory : ObservableTriggerBase, ISaveable<ResourceInventorySaveData>, IInterestingInfo
     {
         public IInventory<Resource> inventory;
 
@@ -111,6 +113,16 @@ namespace Assets.WorldObjects
         public void SetupFromSaveObject(ResourceInventorySaveData save)
         {
             this.SetupInventoryFromAmounts(save.amounts);
+        }
+
+        public string GetCurrentInfo()
+        {
+            var info = "";
+            foreach (var resource in inventory.GetCurrentResourceAmounts())
+            {
+                info += $"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}\n";
+            }
+            return info;
         }
     }
 }

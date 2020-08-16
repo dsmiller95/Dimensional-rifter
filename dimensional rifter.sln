@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRx", "UniRx.csproj", "{767EF2A8-3077-4021-4D32-A356769E94D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{E60D05DE-478B-1333-1A8A-2610947F6751}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeModeling", "ExternalProjects\TradeModeling\TradeModeling.csproj", "{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +23,15 @@ Global
 		{E60D05DE-478B-1333-1A8A-2610947F6751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E60D05DE-478B-1333-1A8A-2610947F6751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E60D05DE-478B-1333-1A8A-2610947F6751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85D698BE-D378-486D-AA4D-E9081A5838A7}
 	EndGlobalSection
 EndGlobal
