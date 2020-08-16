@@ -1521,9 +1521,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   homeRegion: {fileID: 0}
   memberType: 0
-  positionSetForInspector:
-    row: -18
-    column: 0
 --- !u!114 &2677529674649399737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1697,9 +1694,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   homeRegion: {fileID: 0}
   memberType: 0
-  positionSetForInspector:
-    row: 0
-    column: -11
 --- !u!4 &2677529675651638935
 Transform:
   m_ObjectHideFlags: 0
@@ -1810,9 +1804,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   homeRegion: {fileID: 0}
   memberType: 0
-  positionSetForInspector:
-    row: 7
-    column: 0
 --- !u!4 &2677529676078551749
 Transform:
   m_ObjectHideFlags: 0
