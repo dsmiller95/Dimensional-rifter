@@ -15,7 +15,7 @@ namespace Assets.Tiling.TileAutomata.Square
         public bool Right;
         public bool Bottom;
         public bool Left;
-        public SqaureTileShape Shape;
+        public SquareTileShapes Shape;
         public override bool Equals(object obj)
         {
             if (obj is SquareTileNeighborFlags flags)
@@ -58,7 +58,7 @@ namespace Assets.Tiling.TileAutomata.Square
             var matched = leftover.Cast<SquareTileNeighborFlags?>().FirstOrDefault();
             if (matched.HasValue)
             {
-                var tileInfo = new TileTypeInfo(targetBaseType, Enum.GetName(typeof(SqaureTileShape), matched.Value.Shape));
+                var tileInfo = new TileTypeInfo(targetBaseType, Enum.GetName(typeof(SquareTileShapes), matched.Value.Shape));
                 members.SetTile(coordinate, tileInfo);
                 return true;
             }

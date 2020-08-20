@@ -35,7 +35,7 @@ namespace Assets.Tiling.TriangleCoords
         }
         public static TriangleCoordinate operator +(TriangleCoordinate a, TriangleCoordinate b)
         {
-            return new TriangleCoordinate(a.u + b.u, a.v + b.v, a.R);
+            return new TriangleCoordinate(a.u + b.u, a.v + b.v, a.R || b.R);
         }
 
         public override int GetHashCode()
@@ -128,7 +128,7 @@ namespace Assets.Tiling.TriangleCoords
             IEnumerable<Vector2> verts = triangleVerts;
             if (coord.R)
             {
-                var rotation = Quaternion.Euler(0, 0, 60);
+                var rotation = Quaternion.Euler(0, 0, -60);
                 verts = verts.Select(x => (Vector2)(rotation * x));
             }
             verts = verts.Select(x => x * triangleScale);

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f2a07f9d35f28488993165b5c07c6d, type: 3}
+  m_Name: TriangeShapeRuleWater
+  m_EditorClassIdentifier: 
+  targetBaseType: water
+  validMatches:
+  - Self: 1
+    First: 1
+    Second: 0
+    Third: 0
+    Shape: 3
+  - Self: 1
+    First: 0
+    Second: 1
+    Third: 0
+    Shape: 4
+  - Self: 1
+    First: 0
+    Second: 0
+    Third: 1
+    Shape: 2
+  - Self: 1
+    First: 1
+    Second: 1
+    Third: 0
+    Shape: 6
+  - Self: 1
+    First: 0
+    Second: 1
+    Third: 1
+    Shape: 7
+  - Self: 1
+    First: 1
+    Second: 0
+    Third: 1
+    Shape: 5
+  - Self: 1
+    First: 0
+    Second: 0
+    Third: 0
+    Shape: 0
+  - Self: 1
+    First: 1
+    Second: 1
+    Third: 1
+    Shape: 1

@@ -17,13 +17,13 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
     public class TriangleTileSet : TileSet<TriangleCoordinate>
     {
         public TriangleTileMapTile[] tileTypes;
+        public TriangleTileShape tileShape;
         public override IEnumerable<TileConfig<TriangleCoordinate>> GetTileConfigs()
         {
-            return tileTypes.Select(x => new TileConfig<TriangleCoordinate>
-            {
-                typeIdentifier = new TileTypeInfo(x.ID, ""),
-                tileCoordinate = x.coords0
-            });
+            return tileTypes
+                .SelectMany(x => tileShape
+                    .GenerateTileConfigsFromBaseSetup(x.ID, x.coords0)
+                    );
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Assets.Tiling;
+using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
+using Assets.Tiling.TriangleCoords;
 using Microsoft.Win32.SafeHandles;
 using Priority_Queue;
+using Simulation.Tiling.HexCoords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -139,6 +142,47 @@ namespace Assets.WorldObjects
                     nodeData.distanceFromOrigin = Math.Min(nodeData.distanceFromOrigin, neighborDistance);
                 }
             }
+        }
+
+
+        public static IEnumerable<T> PathBetween(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem, Func<TileProperties, bool> passableTiles)
+        {
+            var coordSystem = (coordinateSystem as TileMapRegion<T>);
+
+            var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(properties));
+            return pather.ShortestPathTo((T)source);
+        }
+
+    }
+
+    public static class PathfinderUtils
+    {
+        public static IEnumerable<ICoordinate> PathBetween(
+            ICoordinate source,
+            ICoordinate destination,
+            TileMapRegionNoCoordinateType region,
+            Func<TileProperties, bool> passableTiles)
+        {
+            var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
+
+            if (!coordinateSpace.IsCompatible(source) || !coordinateSpace.IsCompatible(destination))
+            {
+                throw new ArgumentException("coordinates not compatable");
+            }
+
+            switch (coordinateSpace.CoordType)
+            {
+                case CoordinateSystemType.HEX:
+                    return Pathfinder<AxialCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                        .Cast<ICoordinate>();
+                case CoordinateSystemType.SQUARE:
+                    return Pathfinder<SquareCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                        .Cast<ICoordinate>();
+                case CoordinateSystemType.TRIANGLE:
+                    return Pathfinder<TriangleCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                        .Cast<ICoordinate>();
+            }
+            throw new ArgumentException("invalid coordinate system type");
         }
     }
 }

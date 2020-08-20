@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 654275229677371190}
   - component: {fileID: 654275229677371193}
   - component: {fileID: 1542046094}
+  - component: {fileID: 2107193631953813288}
   m_Layer: 0
   m_Name: TriangleTilemapper
   m_TagString: Untagged
@@ -103,6 +104,9 @@ MonoBehaviour:
   universalContentTracker: {fileID: 1542046094}
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   tileSet: {fileID: 11400000, guid: 08a112150bb992b4d8b8766a7778b3b2, type: 2}
+  editTile:
+    baseID: ground
+    shapeID: FULL_BORDERS
   coordSystem: {fileID: 654275229677371193}
   coordRangeDefaultForInspector:
     root:
@@ -110,9 +114,6 @@ MonoBehaviour:
       v: -2
       R: 0
     triangleSideLength: 7
-  editTile:
-    baseID: ground
-    shapeID: 
 --- !u!60 &654275229677371188
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -220,5 +221,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultTile:
     baseID: water
-    shapeID: 
+    shapeID: FULL_BORDERS
   memberPrefabRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
+--- !u!114 &2107193631953813288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654275229677371185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe9edda3b7ed1545aea9e3ed5fba622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rules:
+  - {fileID: 11400000, guid: 53756ddd22b2c664fac651fa83737cf7, type: 2}
+  - {fileID: 11400000, guid: d75dcae2cbda53d4db71f234aa1fcc0e, type: 2}
+  updateDelay: 1

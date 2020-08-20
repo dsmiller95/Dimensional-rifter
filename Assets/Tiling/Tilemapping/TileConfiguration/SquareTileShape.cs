@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.TileConfiguration
 {
-    public enum SqaureTileShape
+    public enum SquareTileShapes
     {
         FULL_BORDERS,
         NO_BORDERS,
@@ -34,7 +34,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
     public struct SquareTileShapeOffset
     {
         public SquareCoordinate coords0;
-        public SqaureTileShape shape;
+        public SquareTileShapes shape;
     }
 
     [CreateAssetMenu(fileName = "SquareTileShape", menuName = "TileSets/SquareShape", order = 2)]
@@ -53,9 +53,9 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
             }
         }
 
-        public static string GetPrefix(SqaureTileShape shapeType)
+        public static string GetPrefix(SquareTileShapes shapeType)
         {
-            return Enum.GetName(typeof(SqaureTileShape), shapeType);
+            return Enum.GetName(typeof(SquareTileShapes), shapeType);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
+using Assets.WorldObjects;
 using Assets.WorldObjects.SaveObjects;
 using Extensions;
 using System;
@@ -58,6 +59,8 @@ namespace Assets.Tiling.Tilemapping
 
         public CoordinateSystemMembers<T> contentTracker => universalContentTracker as CoordinateSystemMembers<T>;
         public TileDefinitions tileDefinitions;
+        public TileSet<T> tileSet;
+        public TileTypeInfo editTile;
 
 
         public ConcurrentQueue<Action> mainThreadActions;
@@ -81,6 +84,11 @@ namespace Assets.Tiling.Tilemapping
                 });
             };
             contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
+
+            tileMapMeshRenderer = new TileMapMeshBuilder<T>(tileSet, tileMapSystem, this.contentTracker);
+            var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
+            tileMapMeshRenderer.SetupTilesOnGivenTexture(
+                mainTex);
         }
 
         private void OnMainThread(Action action)
@@ -102,6 +110,11 @@ namespace Assets.Tiling.Tilemapping
         public virtual void Start()
         {
             mainThread = Thread.CurrentThread;
+            var manager = GetComponentInParent<CombinationTileMapManager>();
+            if (manager == null || !manager.isActiveAndEnabled)
+            {
+                BakeTopologyAvoidingColliders();
+            }
         }
 
         public virtual void Update()
@@ -109,6 +122,14 @@ namespace Assets.Tiling.Tilemapping
             while (mainThreadActions.TryDequeue(out var action))
             {
                 action?.Invoke();
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                var point = MyUtilities.GetMousePos2D();
+                var coords = WorldSpaceCoordinateSystem.FromRealPosition(point);
+
+                contentTracker.SetTile(coords, editTile);
             }
         }
 

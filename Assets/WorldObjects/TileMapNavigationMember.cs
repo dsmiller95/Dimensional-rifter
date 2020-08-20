@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling;
+using Assets.WorldObjects;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ public class TileMapNavigationMember : TileMapMember
         var paths = possibleSelections.Select(member =>
             new
             {
-                path = UniversalToGenericAdaptors.PathBetween(
+                path = PathfinderUtils.PathBetween(
                     coordinatePosition,
                     member.CoordinatePosition,
                     homeRegion,

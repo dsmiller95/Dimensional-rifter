@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f70e11814daf044795133ad42854c40, type: 3}
   m_Name: TriangleTileSet
   m_EditorClassIdentifier: 
-  sideLength: 542
-  tilePadding: 28
+  sideLength: 407
+  tilePadding: 20.5
   tileTypes:
   - coords0:
       u: 0
       v: 0
-      R: 1
+      R: 0
     ID: ground
   - coords0:
-      u: 1
-      v: 1
+      u: -1
+      v: 2
       R: 0
     ID: water
+  tileShape: {fileID: 11400000, guid: 02a18ed18fe3d2a4ebbfe13052283541, type: 2}
