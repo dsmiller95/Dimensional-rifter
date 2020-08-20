@@ -58,7 +58,6 @@ namespace Assets.Tiling.Tilemapping
         protected PolygonCollider2D IndividualCellCollider;
 
         public CoordinateSystemMembers<T> contentTracker => universalContentTracker as CoordinateSystemMembers<T>;
-        public TileDefinitions tileDefinitions;
         public TileSet<T> tileSet;
         public TileTypeInfo editTile;
 
@@ -193,12 +192,6 @@ namespace Assets.Tiling.Tilemapping
                 return CoordinateRange.ContainsCoordinate(casted) && !disabledCoordinates.Contains(casted);
             }
             return false;
-        }
-
-        public TileProperties TilePropertiesAt(T coordinate)
-        {
-            var tileType = contentTracker.GetTileType(coordinate);
-            return tileDefinitions.GetTileProperties(tileType);
         }
 
         public override void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid)

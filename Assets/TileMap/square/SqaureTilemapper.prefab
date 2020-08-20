@@ -103,7 +103,6 @@ MonoBehaviour:
   sideLength: 1
   universalContentTracker: {fileID: 328967762}
   tileMapSystem: {fileID: 11400000, guid: 0c7edfdf6b4d4f94ca712d1e332520e4, type: 2}
-  tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   tileSet: {fileID: 11400000, guid: a40f50217fb8eb4468512e1868190bb1, type: 2}
   editTile:
     baseID: water
@@ -225,6 +224,7 @@ MonoBehaviour:
     baseID: ground
     shapeID: NO_BORDERS
   memberPrefabRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
+  tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
 --- !u!114 &121364169
 MonoBehaviour:
   m_ObjectHideFlags: 0

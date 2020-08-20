@@ -122,7 +122,7 @@ namespace Assets.WorldObjects
                 .Neighbors(currentCoordinate)
                 .Where(neighbor => !completed.Contains(neighbor)
                     && tileRegion.IsValidCoordinate(neighbor)
-                    && coordinateFilterFunction(neighbor, tileRegion.TilePropertiesAt(neighbor))
+                    && coordinateFilterFunction(neighbor, tileRegion.contentTracker.TilePropertiesAt(neighbor))
                 );
 
             // assumption is made that every connection is cost of 1
@@ -139,7 +139,11 @@ namespace Assets.WorldObjects
                 }
                 else
                 {
-                    nodeData.distanceFromOrigin = Math.Min(nodeData.distanceFromOrigin, neighborDistance);
+                    if(nodeData.distanceFromOrigin > neighborDistance)
+                    {
+                        nodeData.previous = currentCoordinate;
+                        nodeData.distanceFromOrigin = neighborDistance;
+                    }
                 }
             }
         }

@@ -61,6 +61,7 @@ namespace Assets.WorldObjects
     {
         public ICoordinateSystem<T> coordinateSystem;
         public Action<T, TileTypeInfo> OnTileChanged;
+        public TileDefinitions tileDefinitions;
 
         private IDictionary<T, TileTypeInfo> tiles;
 
@@ -78,6 +79,12 @@ namespace Assets.WorldObjects
             }
             tiles[coordinate] = tileID;
             OnTileChanged?.Invoke(coordinate, tileID);
+        }
+
+        public TileProperties TilePropertiesAt(T coordinate)
+        {
+            var tileType = GetTileType(coordinate);
+            return tileDefinitions.GetTileProperties(tileType);
         }
 
         public TileTypeInfo GetTileType(T coordinate)
