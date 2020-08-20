@@ -28,7 +28,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
         public TriangleTileShapes shape;
     }
 
-    [CreateAssetMenu(fileName = "TriangleTileShape", menuName = "TileSets/TriangleShape", order = 2)]
+    [CreateAssetMenu(fileName = "TriangleTileShape", menuName = "TileMap/TileSets/TriangleShape", order = 2)]
     public class TriangleTileShape : ScriptableObject
     {
         public TriangleTileShapeOffset[] tileShapes;

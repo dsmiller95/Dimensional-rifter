@@ -33,7 +33,6 @@ namespace Assets.Tiling.Tilemapping.Triangle
 
         protected override void Awake()
         {
-            tileMapSystem = new TriangleTileMapSystem();
             base.Awake();
         }
 

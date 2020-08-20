@@ -102,8 +102,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sideLength: 1
   universalContentTracker: {fileID: 328967762}
+  tileMapSystem: {fileID: 11400000, guid: 0c7edfdf6b4d4f94ca712d1e332520e4, type: 2}
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   tileSet: {fileID: 11400000, guid: a40f50217fb8eb4468512e1868190bb1, type: 2}
+  editTile:
+    baseID: water
+    shapeID: FULL_BORDERS
   coordSystem: {fileID: 2319312742710603910}
   coordRangeDefaultForInspector:
     coord0:
@@ -112,9 +116,6 @@ MonoBehaviour:
     coord1:
       row: 20
       column: 20
-  editTile:
-    baseID: water
-    shapeID: FULL_BORDERS
 --- !u!60 &2319312742710603907
 PolygonCollider2D:
   m_ObjectHideFlags: 0

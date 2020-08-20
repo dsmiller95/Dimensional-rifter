@@ -25,10 +25,10 @@ namespace Assets.Tiling.Tilemapping
     public class TileMapMeshBuilder<T> where T : ICoordinate
     {
         private TileSet<T> tileSet;
-        private ITileMapTileShapeStrategy<T> tileMapSystem;
+        private TileMapTileShapeStrategy<T> tileMapSystem;
         private CoordinateSystemMembers<T> coordinateMemebers;
 
-        public TileMapMeshBuilder(TileSet<T> tileSet, ITileMapTileShapeStrategy<T> tileMappingSystem, CoordinateSystemMembers<T> members)
+        public TileMapMeshBuilder(TileSet<T> tileSet, TileMapTileShapeStrategy<T> tileMappingSystem, CoordinateSystemMembers<T> members)
         {
             this.tileSet = tileSet;
             tileMapSystem = tileMappingSystem;

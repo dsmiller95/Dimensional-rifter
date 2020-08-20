@@ -52,7 +52,7 @@ namespace Assets.Tiling.Tilemapping
     public abstract class TileMapRegion<T> : TileMapRegionNoCoordinateType where T : ICoordinate
     {
         protected TileMapMeshBuilder<T> tileMapMeshRenderer;
-        protected ITileMapTileShapeStrategy<T> tileMapSystem;
+        public TileMapTileShapeStrategy<T> tileMapSystem;
 
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;

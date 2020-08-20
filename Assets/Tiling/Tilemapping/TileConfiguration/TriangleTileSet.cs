@@ -13,7 +13,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
         public string ID;
     }
 
-    [CreateAssetMenu(fileName = "TriangleTileSet", menuName = "TileSets/Triangle", order = 3)]
+    [CreateAssetMenu(fileName = "TriangleTileSet", menuName = "TileMap/TileSets/Triangle", order = 3)]
     public class TriangleTileSet : TileSet<TriangleCoordinate>
     {
         public TriangleTileMapTile[] tileTypes;

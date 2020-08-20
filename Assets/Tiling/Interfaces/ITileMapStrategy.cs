@@ -9,14 +9,14 @@ namespace Assets.Tiling
     ///     topology information that is returned
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ITileMapTileShapeStrategy<T> where T : ICoordinate
+    public abstract class TileMapTileShapeStrategy<T>: ScriptableObject where T : ICoordinate
     {
-        Bounds GetRawBounds(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem);
+        public abstract Bounds GetRawBounds(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem);
 
-        IEnumerable<Vector2> GetVertexesAround(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem = null);
+        public abstract IEnumerable<Vector2> GetVertexesAround(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem = null);
 
-        int[] GetTileTriangles();
+        public abstract int[] GetTileTriangles();
 
-        ICoordinateSystem<T> GetBasicCoordinateSystem();
+        public abstract ICoordinateSystem<T> GetBasicCoordinateSystem();
     }
 }

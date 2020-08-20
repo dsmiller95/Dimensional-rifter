@@ -32,7 +32,6 @@ namespace Assets.Tiling.Tilemapping.Square
 
         protected override void Awake()
         {
-            tileMapSystem = new SquareNonRotatedTileMapSystem();
             base.Awake();
         }
 

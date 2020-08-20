@@ -37,7 +37,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
         public SquareTileShapes shape;
     }
 
-    [CreateAssetMenu(fileName = "SquareTileShape", menuName = "TileSets/SquareShape", order = 2)]
+    [CreateAssetMenu(fileName = "SquareTileShape", menuName = "TileMap/TileSets/SquareShape", order = 2)]
     public class SquareTileShape : ScriptableObject
     {
         public SquareTileShapeOffset[] tileShapes;

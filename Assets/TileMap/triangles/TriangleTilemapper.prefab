@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sideLength: 1
   universalContentTracker: {fileID: 1542046094}
+  tileMapSystem: {fileID: 11400000, guid: 1266924bab997f34a8c361492d095e90, type: 2}
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   tileSet: {fileID: 11400000, guid: 08a112150bb992b4d8b8766a7778b3b2, type: 2}
   editTile:

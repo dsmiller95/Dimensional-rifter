@@ -13,7 +13,7 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
         public string baseID;
     }
 
-    [CreateAssetMenu(fileName = "SquareTileSet", menuName = "TileSets/Square", order = 1)]
+    [CreateAssetMenu(fileName = "SquareTileSet", menuName = "TileMap/TileSets/Square", order = 1)]
     public class SquareTileSet : TileSet<SquareCoordinate>
     {
         public SquareTileMapTile[] tileTypes;

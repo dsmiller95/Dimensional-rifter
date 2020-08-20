@@ -8,14 +8,15 @@ namespace Assets.Tiling.SquareCoords
     /// Represents a coordinate system of squares of side length 1. This system makes the assumption that it is not rotated to save time on frequently
     ///     used calls
     /// </summary>
-    public class SquareNonRotatedTileMapSystem : ITileMapTileShapeStrategy<SquareCoordinate>
+    [CreateAssetMenu(fileName = "SquareTilingSystem", menuName = "TileMap/SquareTilingSystem", order = 1)]
+    public class SquareNonRotatedTileMapSystem : TileMapTileShapeStrategy<SquareCoordinate>
     {
-        public ICoordinateSystem<SquareCoordinate> GetBasicCoordinateSystem()
+        public override ICoordinateSystem<SquareCoordinate> GetBasicCoordinateSystem()
         {
             return new SquareCoordinateSystem();
         }
 
-        public int[] GetTileTriangles()
+        public override int[] GetTileTriangles()
         {
             return new int[]
             {
@@ -24,13 +25,13 @@ namespace Assets.Tiling.SquareCoords
             };
         }
 
-        public Bounds GetRawBounds(SquareCoordinate coord, float sideLength, ICoordinateSystem<SquareCoordinate> translateCoordinateSystem)
+        public override Bounds GetRawBounds(SquareCoordinate coord, float sideLength, ICoordinateSystem<SquareCoordinate> translateCoordinateSystem)
         {
             var position = translateCoordinateSystem.ToRealPosition(coord);
             return new Bounds(position, Vector3.one * sideLength);
         }
 
-        public IEnumerable<Vector2> GetVertexesAround(SquareCoordinate coord, float sideLength, ICoordinateSystem<SquareCoordinate> translateCoordinateSystem)
+        public override IEnumerable<Vector2> GetVertexesAround(SquareCoordinate coord, float sideLength, ICoordinateSystem<SquareCoordinate> translateCoordinateSystem)
         {
             return SquareCoordinateSystem.GetSquareVertsAround(coord, sideLength, translateCoordinateSystem);
         }
