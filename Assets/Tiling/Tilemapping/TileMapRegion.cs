@@ -39,10 +39,34 @@ namespace Assets.Tiling.Tilemapping
 
         public abstract TileRegionSaveObject GetSaveObject();
         public abstract void SetupFromSaveObject(TileRegionSaveObject save);
+
+        protected PolygonCollider2D BoundingBoxCollider;
+        protected PolygonCollider2D IndividualCellCollider;
+
+        protected virtual void Awake()
+        {
+            var polygons = GetComponents<PolygonCollider2D>();
+            if (polygons.Length != 2)
+            {
+                throw new Exception("not enough polygon colliders to use");
+            }
+            BoundingBoxCollider = polygons[0];
+            IndividualCellCollider = polygons[1];
+        }
+
+        /// <summary>
+        /// sets up the shape of both the bounding box collider
+        /// </summary>
+        /// <returns>the bounding box collider</returns>
+        public PolygonCollider2D SetupIndividualCollider(IEnumerable<Vector2> vertexes)
+        {
+            IndividualCellCollider.SetPath(0, vertexes.ToArray());
+            return IndividualCellCollider;
+        }
     }
 
     /// <summary>
-    /// Abstract behavior responsible for owning and coordinating the layout of tiles
+    /// behavior responsible for owning and coordinating the layout of tiles
     ///     implementations must instantiate their own TileMapSystem and tileMapContainer in Awake(). They must also 
     ///     provide getters for the coordinate system used to layout the tileMap, these can be set in the inspector.
     /// Must also provide a coordinate range getter which will be used to determine which tiles the <see cref="TileMapMeshBuilder{T}"/>
@@ -57,27 +81,18 @@ namespace Assets.Tiling.Tilemapping
         protected TileMapMeshBuilder<T> tileMapMeshRenderer;
         public TileMapTileShapeStrategy<T> tileMapSystem;
 
-        protected PolygonCollider2D BoundingBoxCollider;
-        protected PolygonCollider2D IndividualCellCollider;
-
         public CoordinateSystemMembers<T> contentTracker => universalContentTracker as CoordinateSystemMembers<T>;
         public TileSet<T> tileSet;
         public TileTypeInfo editTile;
 
-
         public ConcurrentQueue<Action> mainThreadActions;
+        
         private Thread mainThread;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             mainThreadActions = new ConcurrentQueue<Action>();
-            var polygons = GetComponents<PolygonCollider2D>();
-            if (polygons.Length != 2)
-            {
-                throw new Exception("not enough polygon colliders to use");
-            }
-            BoundingBoxCollider = polygons[0];
-            IndividualCellCollider = polygons[1];
             contentTracker.OnTileChanged = (coordinate, type) =>
             {
                 OnMainThread(() =>
@@ -180,7 +195,7 @@ namespace Assets.Tiling.Tilemapping
 
         public override ICoordinateSystem UntypedCoordianteSystemWorldSpace => WorldSpaceCoordinateSystem;
 
-        public ISet<T> disabledCoordinates { get; private set; }
+        private ISet<T> disabledCoordinates { get; set; }
 
         public override void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
         {
@@ -285,16 +300,6 @@ namespace Assets.Tiling.Tilemapping
         {
             BoundingBoxCollider.SetPath(0, CoordinateRange.BoundingPolygon(UnscaledCoordinateSystem, sideLength).ToArray());
             return BoundingBoxCollider;
-        }
-
-        /// <summary>
-        /// sets up the shape of both the bounding box collider
-        /// </summary>
-        /// <returns>the bounding box collider</returns>
-        public PolygonCollider2D SetupIndividualCollider(IEnumerable<Vector2> vertexes)
-        {
-            IndividualCellCollider.SetPath(0, vertexes.ToArray());
-            return IndividualCellCollider;
         }
 
         private Bounds GetTileBounds(T coord)

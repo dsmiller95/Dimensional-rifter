@@ -65,7 +65,6 @@ namespace Assets.WorldObjects
 
         private IDictionary<T, TileTypeInfo> tiles;
 
-
         public CoordinateSystemMembers() : base()
         {
             tiles = new Dictionary<T, TileTypeInfo>();
