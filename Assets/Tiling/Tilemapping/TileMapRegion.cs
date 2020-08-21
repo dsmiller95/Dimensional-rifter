@@ -1,4 +1,5 @@
-﻿using Assets.Tiling.Tilemapping.TileConfiguration;
+﻿using Assets.Tiling.ScriptableObjects;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects;
 using Assets.WorldObjects.SaveObjects;
 using Extensions;
@@ -49,7 +50,9 @@ namespace Assets.Tiling.Tilemapping
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [RequireComponent(typeof(PolygonCollider2D))]
-    public abstract class TileMapRegion<T> : TileMapRegionNoCoordinateType where T : ICoordinate
+    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter))]
+    public class TileMapRegion<T> : TileMapRegionNoCoordinateType where T : ICoordinate
     {
         protected TileMapMeshBuilder<T> tileMapMeshRenderer;
         public TileMapTileShapeStrategy<T> tileMapSystem;
@@ -84,7 +87,7 @@ namespace Assets.Tiling.Tilemapping
             };
             contentTracker.coordinateSystem = WorldSpaceCoordinateSystem;
 
-            tileMapMeshRenderer = new TileMapMeshBuilder<T>(tileSet, tileMapSystem, this.contentTracker);
+            tileMapMeshRenderer = new TileMapMeshBuilder<T>(tileSet, tileMapSystem, contentTracker);
             var mainTex = GetComponent<MeshRenderer>().material.mainTexture;
             tileMapMeshRenderer.SetupTilesOnGivenTexture(
                 mainTex);
@@ -156,10 +159,26 @@ namespace Assets.Tiling.Tilemapping
         }
 
 
-        public abstract ICoordinateRange<T> CoordinateRange { get; protected set; }
-        public abstract ICoordinateSystem<T> UnscaledCoordinateSystem { get; }
+        public CoordinateRangeObject<T> coordRangeDefaultForInspector;
+        private ICoordinateRange<T> _coordRange;
+        public ICoordinateRange<T> CoordinateRange
+        {
+            get
+            {
+                if (_coordRange == default)
+                {
+                    _coordRange = coordRangeDefaultForInspector.CoordinateRange;
+                }
+                return _coordRange;
+            }
+            protected set => _coordRange = value;
+        }
+        
+        public CoordinateSystemTransformBehavior<T> coordSystem;
+        public ICoordinateSystem<T> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
+        public ICoordinateSystem<T> WorldSpaceCoordinateSystem => coordSystem.TransformedCoordinateSystem;
+
         public override ICoordinateSystem UntypedCoordianteSystemWorldSpace => WorldSpaceCoordinateSystem;
-        public abstract ICoordinateSystem<T> WorldSpaceCoordinateSystem { get; }
 
         public ISet<T> disabledCoordinates { get; private set; }
 

@@ -108,13 +108,7 @@ MonoBehaviour:
     baseID: water
     shapeID: FULL_BORDERS
   coordSystem: {fileID: 2319312742710603910}
-  coordRangeDefaultForInspector:
-    coord0:
-      row: -20
-      column: -20
-    coord1:
-      row: 20
-      column: 20
+  coordRangeDefaultForInspector: {fileID: 11400000, guid: 2957b67ca5922ad4fb704df468d60821, type: 2}
 --- !u!60 &2319312742710603907
 PolygonCollider2D:
   m_ObjectHideFlags: 0

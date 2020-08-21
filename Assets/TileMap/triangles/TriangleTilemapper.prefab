@@ -108,12 +108,7 @@ MonoBehaviour:
     baseID: ground
     shapeID: FULL_BORDERS
   coordSystem: {fileID: 654275229677371193}
-  coordRangeDefaultForInspector:
-    root:
-      u: -2
-      v: -2
-      R: 0
-    triangleSideLength: 7
+  coordRangeDefaultForInspector: {fileID: 11400000, guid: 4e89e3800cbeed3499ab7c74ce50aaa1, type: 2}
 --- !u!60 &654275229677371188
 PolygonCollider2D:
   m_ObjectHideFlags: 0
