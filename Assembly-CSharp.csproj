@@ -111,7 +111,7 @@
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleAutomataSystem.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
-    <Compile Include="Assets\WorldObjects\Members\PropertyClickable.cs" />
+    <Compile Include="Assets\Scripts\Clickable.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
     <Compile Include="Assets\Behaviors\StateMachine.cs" />
-    <Compile Include="Assets\UI\InterestingInfoDisplayer.cs" />
+    <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\Behaviors\BehaviorContainer.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Storing.cs" />
     <Compile Include="Assets\Behaviors\Utility states\Waiting.cs" />
@@ -140,6 +140,9 @@
     <Compile Include="Assets\WorldObjects\TimeController.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
+    <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
+    <Compile Include="Assets\Scripts\SelfObjectAssigner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2319312742710603935}
   - component: {fileID: 2319312742710603907}
   - component: {fileID: 2319312742710603908}
-  - component: {fileID: 2319312742710603909}
   - component: {fileID: 2319312742710603910}
   - component: {fileID: 328967762}
   - component: {fileID: 121364169}
@@ -107,8 +106,8 @@ MonoBehaviour:
   editTile:
     baseID: water
     shapeID: FULL_BORDERS
-  coordSystem: {fileID: 2319312742710603910}
   coordRangeDefaultForInspector: {fileID: 11400000, guid: 2957b67ca5922ad4fb704df468d60821, type: 2}
+  coordSystem: {fileID: 2319312742710603910}
 --- !u!60 &2319312742710603907
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -169,27 +168,6 @@ PolygonCollider2D:
       - {x: -0.5877852, y: -0.80901706}
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.9510565, y: 0.30901712}
---- !u!50 &2319312742710603909
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2319312742710603934}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
 --- !u!114 &2319312742710603910
 MonoBehaviour:
   m_ObjectHideFlags: 0

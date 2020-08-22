@@ -1,23 +1,23 @@
-﻿using Assets.WorldObjects.Members;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Core;
+using Assets.WorldObjects.Members;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class InterestingInfoDisplayer : MonoBehaviour
 {
-    public static InterestingInfoDisplayer instance;
+    public GameObjectVariable objectToDisplay;
 
     public TextMeshProUGUI text;
 
-    private void Awake()
-    {
-        instance = this;
-    }
 
     public void DisplayInfoForObject(GameObject obj)
     {
+        if(!obj || obj == null)
+        {
+            text.text = "Nothing selected";
+            return;
+        }
         var interestingBits = obj.GetComponentsInChildren<IInterestingInfo>();
 
         var info = interestingBits.Select(x => x.GetCurrentInfo()).Aggregate((a, b) => a + "\n-------\n" + b);
@@ -27,12 +27,12 @@ public class InterestingInfoDisplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        DisplayInfoForObject(objectToDisplay.CurrentValue);
     }
 }

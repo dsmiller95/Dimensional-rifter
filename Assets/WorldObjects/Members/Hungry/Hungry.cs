@@ -70,8 +70,8 @@ namespace Assets.WorldObjects.Members.Hungry
 
         public string GetCurrentInfo()
         {
-            return $"Hunger: {this.currentHunger}" +
-                $"Hungering Rate: {this.hungeringRate}";
+            return $"Hunger: {this.currentHunger:F1}\n" +
+                $"Hungering Rate: {this.hungeringRate:F1}";
         }
     }
 }
