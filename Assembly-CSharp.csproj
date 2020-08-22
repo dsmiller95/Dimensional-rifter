@@ -142,7 +142,7 @@
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
-    <Compile Include="Assets\Scripts\SelfObjectAssigner.cs" />
+    <Compile Include="Assets\Scripts\ObjectAssigner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -141,13 +141,13 @@ namespace Assets.Tiling.Tilemapping
                 action?.Invoke();
             }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                var point = MyUtilities.GetMousePos2D();
-                var coords = WorldSpaceCoordinateSystem.FromRealPosition(point);
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    var point = MyUtilities.GetMousePos2D();
+            //    var coords = WorldSpaceCoordinateSystem.FromRealPosition(point);
 
-                contentTracker.SetTile(coords, editTile);
-            }
+            //    contentTracker.SetTile(coords, editTile);
+            //}
         }
 
         public override TileRegionSaveObject GetSaveObject()

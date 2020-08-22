@@ -3,13 +3,15 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class SelfObjectAssigner : MonoBehaviour
+    public class ObjectAssigner : MonoBehaviour
     {
         public GameObjectVariable variableToSet;
+        public GameObject objectToAssign;
+
 
         public void SetSelfToVariable()
         {
-            variableToSet.SetValue(gameObject);
+            variableToSet.SetValue(objectToAssign);
         }
     }
 }
