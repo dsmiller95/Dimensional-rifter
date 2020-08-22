@@ -6,6 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum NavigationAttemptResult
+{
+    ARRIVED,
+    NO_TARGETS,
+    APPROACHING
+}
+
 /// <summary>
 /// Provides methods to navigate through a tileMap
 ///     stores information about the current location in the tileMap
@@ -32,11 +39,11 @@ public class TileMapNavigationMember : TileMapMember
 
     private IList<ICoordinate> currentPath;
     public TileMapMember currentTarget;
-    public bool SeekClosestOfType(Func<TileMapMember, bool> filter)
+    public NavigationAttemptResult SeekClosestOfType(Func<TileMapMember, bool> filter)
     {
         if (lastMove + movementSpeed > Time.time)
         {
-            return false;
+            return NavigationAttemptResult.APPROACHING;
         }
 
         lastMove = Time.time;
@@ -52,13 +59,13 @@ public class TileMapNavigationMember : TileMapMember
             }
             else
             {
-                return false;
+                return NavigationAttemptResult.NO_TARGETS;
             }
         }
         if (currentPath.Count <= 0)
         {
             // we got there without needing to move at all
-            return true;
+            return NavigationAttemptResult.ARRIVED;
         }
 
         var nextPosition = currentPath[0];
@@ -66,10 +73,10 @@ public class TileMapNavigationMember : TileMapMember
         SetPosition(nextPosition, homeRegion.UntypedCoordianteSystemWorldSpace);
         if (currentPath.Count <= 0)
         {
-            return true;
+            return NavigationAttemptResult.ARRIVED;
         }
 
-        return false;
+        return NavigationAttemptResult.APPROACHING;
     }
     public (TileMapMember, ICoordinate[]) GetPathToClosestOfType(Func<TileMapMember, bool> filter)
     {

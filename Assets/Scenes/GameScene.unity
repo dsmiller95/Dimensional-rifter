@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d233cfb1004ba4d87a17c677de2b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 10
+  dayLength: 100
   timezones:
   - zone: 0
     startTime: 0
@@ -1088,6 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252454cdee7f0f046a8454bfa1da4399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultObject: {fileID: 103199402}
   objectToDisplay: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
   text: {fileID: 775085069}
 --- !u!1 &1413959078

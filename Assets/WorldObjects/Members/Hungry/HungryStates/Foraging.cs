@@ -12,7 +12,7 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
         public GenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
-            if (tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food.Food>() != null))
+            if (tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food.Food>() != null) == NavigationAttemptResult.ARRIVED)
             {
                 var foundFood = tileMember.currentTarget.GetComponent<Food.Food>();
                 var sourceInv = data.GetComponent<ResourceInventory>();

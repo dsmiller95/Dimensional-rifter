@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.WorldObjects.Members;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,7 +17,7 @@ public struct TimezoneConfig
     public float startTime;
 }
 
-public class TimeController : MonoBehaviour
+public class TimeController : MonoBehaviour, IInterestingInfo
 {
 
     public static TimeController instance;
@@ -62,5 +63,11 @@ public class TimeController : MonoBehaviour
             }
         }
         throw new Exception("incorrectly formatted time zone indexes");
+    }
+
+    public string GetCurrentInfo()
+    {
+        var timezoneDescription = Enum.GetName(typeof(Timezone), this.GetTimezone());
+        return $"Time: {this.currentTime * dayLength:F1}\tPhase: {timezoneDescription}";
     }
 }

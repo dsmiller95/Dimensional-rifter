@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class InterestingInfoDisplayer : MonoBehaviour
 {
+    public GameObject defaultObject;
     public GameObjectVariable objectToDisplay;
 
     public TextMeshProUGUI text;
@@ -33,6 +34,13 @@ public class InterestingInfoDisplayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DisplayInfoForObject(objectToDisplay.CurrentValue);
+        if(objectToDisplay.CurrentValue == null)
+        {
+            DisplayInfoForObject(defaultObject);
+        }
+        else
+        {
+            DisplayInfoForObject(objectToDisplay.CurrentValue);
+        }
     }
 }
