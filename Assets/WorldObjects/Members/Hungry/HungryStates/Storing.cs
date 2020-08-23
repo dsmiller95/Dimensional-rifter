@@ -4,14 +4,15 @@ using TradeModeling.Inventories;
 
 namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
-    public class Storing : GenericStateHandler<Hungry>
+    public class Storing : IGenericStateHandler<Hungry>
     {
-        public GenericStateHandler<Hungry> HandleState(Hungry data)
+        public IGenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
-            if (tileMember.SeekClosestOfType(member => member.memberType.recieveStorage == true) == NavigationAttemptResult.ARRIVED)
+            var seekResult = tileMember.SeekClosestOfType(member => member.memberType.recieveStorage == true);
+            if (seekResult.status == NavigationStatus.ARRIVED)
             {
-                var storageInv = tileMember.currentTarget.GetComponent<ResourceInventory>();
+                var storageInv = seekResult.reached.GetComponent<ResourceInventory>();
                 var sourceInv = data.GetComponent<ResourceInventory>();
 
                 sourceInv.inventory.DrainAllInto(storageInv.inventory, new Resource[] { Resource.FOOD });

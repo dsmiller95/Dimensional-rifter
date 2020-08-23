@@ -2,11 +2,11 @@
 
 namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
-    public class HungryDecider : GenericStateHandler<Hungry>
+    public class HungryDecider : IGenericStateHandler<Hungry>
     {
         public float hungerThreshold = 10f;
 
-        public GenericStateHandler<Hungry> HandleState(Hungry data)
+        public IGenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var timeZone = TimeController.instance.GetTimezone();
             switch (timeZone)
@@ -21,7 +21,7 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
             }
         }
 
-        private GenericStateHandler<Hungry> HandleRecreation(Hungry data)
+        private IGenericStateHandler<Hungry> HandleRecreation(Hungry data)
         {
             if (data.currentHunger >= hungerThreshold)
             {
@@ -30,7 +30,7 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
             return HandleWorking(data);
         }
 
-        private GenericStateHandler<Hungry> HandleWorking(Hungry data)
+        private IGenericStateHandler<Hungry> HandleWorking(Hungry data)
         {
             var currentFood = data.GetComponent<ResourceInventory>().inventory.Get(Resource.FOOD);
             if (currentFood > 0)

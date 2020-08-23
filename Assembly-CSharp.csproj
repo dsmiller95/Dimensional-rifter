@@ -92,7 +92,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
-    <Compile Include="Assets\Behaviors\GenericStateHandler.cs" />
+    <Compile Include="Assets\Behaviors\IGenericStateHandler.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
@@ -151,6 +151,8 @@
     <Compile Include="Assets\WorldObjects\Members\Buildable.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
+    <Compile Include="Assets\Behaviors\Tasks\SeekAndStoreTaskType.cs" />
+    <Compile Include="Assets\Behaviors\Tasks\TaskType.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

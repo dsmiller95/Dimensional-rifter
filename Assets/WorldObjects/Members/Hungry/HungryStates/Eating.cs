@@ -5,12 +5,12 @@ using TradeModeling.Inventories;
 
 namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
-    public class Eating : GenericStateHandler<Hungry>
+    public class Eating : IGenericStateHandler<Hungry>
     {
         public Eating()
         {
         }
-        public GenericStateHandler<Hungry> HandleState(Hungry data)
+        public IGenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
             var seekResult = tileMember.SeekClosestOfType(member =>
@@ -22,9 +22,9 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
                 var storage = member.gameObject.GetComponent<ResourceInventory>();
                 return storage.inventory.Get(Resource.FOOD) > 0;
             });
-            if (seekResult == NavigationAttemptResult.ARRIVED)
+            if (seekResult.status == NavigationStatus.ARRIVED)
             {
-                var storageInv = tileMember.currentTarget.GetComponent<ResourceInventory>();
+                var storageInv = seekResult.reached.GetComponent<ResourceInventory>();
 
                 var consume = storageInv.inventory.Consume(Resource.FOOD, data.currentHunger);
                 data.currentHunger -= consume.info;
@@ -34,7 +34,7 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
                 waiter.Finalize(.5f, new HungryDecider());
                 return waiter;
             }
-            if(seekResult == NavigationAttemptResult.NO_TARGETS)
+            if(seekResult.status == NavigationStatus.INVALID_TARGET)
             {
                 return new HungryDecider();
             }

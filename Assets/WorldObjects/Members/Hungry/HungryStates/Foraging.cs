@@ -4,17 +4,18 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Hungry.HungryStates
 {
-    public class Foraging : GenericStateHandler<Hungry>
+    public class Foraging : IGenericStateHandler<Hungry>
     {
         public Foraging()
         {
         }
-        public GenericStateHandler<Hungry> HandleState(Hungry data)
+        public IGenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
-            if (tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food.Food>() != null) == NavigationAttemptResult.ARRIVED)
+            var seekResult = tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food.Food>() != null);
+            if (seekResult.status == NavigationStatus.ARRIVED)
             {
-                var foundFood = tileMember.currentTarget.GetComponent<Food.Food>();
+                var foundFood = seekResult.reached.GetComponent<Food.Food>();
                 var sourceInv = data.GetComponent<ResourceInventory>();
 
                 Object.Destroy(foundFood.gameObject);

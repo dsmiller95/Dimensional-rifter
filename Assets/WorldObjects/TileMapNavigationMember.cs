@@ -3,14 +3,27 @@ using Assets.WorldObjects;
 using Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-public enum NavigationAttemptResult
+public enum NavigationStatus
 {
     ARRIVED,
-    NO_TARGETS,
+    INVALID_TARGET,
     APPROACHING
+}
+
+public struct NavigationPath
+{
+    public IList<ICoordinate> coordinatePath;
+    public TileMapMember targetMember;
+}
+
+public struct NavigationAttemptResult
+{
+    public NavigationStatus status;
+    public TileMapMember reached;
 }
 
 /// <summary>
@@ -36,48 +49,72 @@ public class TileMapNavigationMember : TileMapMember
     public float movementSpeed = .5f;
     private float lastMove;
 
-    private IList<ICoordinate> currentPath;
-    public TileMapMember currentTarget;
+    private NavigationPath currentPath;
     public NavigationAttemptResult SeekClosestOfType(Func<TileMapMember, bool> filter)
+    {
+        var navigationResult = AttemptAdvanceAlongCurrentPath();
+        if(navigationResult.status == NavigationStatus.INVALID_TARGET && BeginTrackingPathToClosestOfType(filter))
+        {
+            return new NavigationAttemptResult
+            {
+                status = NavigationStatus.APPROACHING
+            };
+        }
+        return navigationResult;
+    }
+
+    /// <summary>
+    /// Attempt to advance the member along the currently set path. Will return INVALID_TARGET if there is no set target, or if 
+    ///     the current path is no longer valid. this could happen if the target has been destroyed, or if something impassible has been
+    ///     placed along the current path
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public NavigationAttemptResult AttemptAdvanceAlongCurrentPath()
     {
         if (lastMove + movementSpeed > Time.time)
         {
-            return NavigationAttemptResult.APPROACHING;
+            return new NavigationAttemptResult
+            {
+                status = NavigationStatus.APPROACHING
+            };
         }
-
         lastMove = Time.time;
-        if (currentTarget == null || currentPath?.Count <= 0)
-        {
-            currentTarget = null;
-            var (bestMemeber, bestPath) = GetPathToClosestOfType(filter);
 
-            if (bestMemeber != null)
-            {
-                currentPath = bestPath.ToList();
-                currentTarget = bestMemeber;
-            }
-            else
-            {
-                return NavigationAttemptResult.NO_TARGETS;
-            }
-        }
-        if (currentPath.Count <= 0)
+        if(currentPath.targetMember == null)
         {
-            // we got there without needing to move at all
-            return NavigationAttemptResult.ARRIVED;
+            return new NavigationAttemptResult
+            {
+                status = NavigationStatus.INVALID_TARGET
+            };
+        }
+        if(currentPath.coordinatePath.Count <= 0)
+        {
+            var result = new NavigationAttemptResult
+            {
+                status = NavigationStatus.ARRIVED,
+                reached = currentPath.targetMember
+            };
+            currentPath = default;
+            return result;
         }
 
-        var nextPosition = currentPath[0];
-        currentPath.RemoveAt(0);
+        var nextPosition = currentPath.coordinatePath[0];
+        currentPath.coordinatePath.RemoveAt(0);
         SetPosition(nextPosition, currentRegion);
-        if (currentPath.Count <= 0)
-        {
-            return NavigationAttemptResult.ARRIVED;
-        }
 
-        return NavigationAttemptResult.APPROACHING;
+        return new NavigationAttemptResult
+        {
+            status = NavigationStatus.APPROACHING
+        };
     }
-    public (TileMapMember, ICoordinate[]) GetPathToClosestOfType(Func<TileMapMember, bool> filter)
+
+    /// <summary>
+    /// Attempt to being pathing to the closest object. will store the path internally if one exists
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns>true if a path exists to any member matching <paramref name="filter"/>, false otherwise</returns>
+    public bool BeginTrackingPathToClosestOfType(Func<TileMapMember, bool> filter)
     {
         var possibleSelections = currentRegion.universalContentTracker.allMembers
             .Where(filter);
@@ -88,25 +125,35 @@ public class TileMapNavigationMember : TileMapMember
                     coordinatePosition,
                     member.CoordinatePosition,
                     currentRegion,
-                    (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToArray(),
+                    (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToList(),
                 member
             })
             .Where(x => x.path != null);
 
         var minDist = float.MaxValue;
-        ICoordinate[] bestPath = new ICoordinate[0];
+        IList<ICoordinate> bestPath = new ICoordinate[0];
         TileMapMember bestMemeber = null;
 
         foreach (var path in paths)
         {
-            if (path.path.Length < minDist)
+            if (path.path.Count < minDist)
             {
                 bestPath = path.path;
-                minDist = bestPath.Length;
+                minDist = bestPath.Count;
                 bestMemeber = path.member;
             }
         }
-        return (bestMemeber, bestPath);
+
+        if(bestMemeber == null)
+        {
+            return false;
+        }
+        currentPath = new NavigationPath
+        {
+            coordinatePath = bestPath,
+            targetMember = bestMemeber
+        };
+        return true;
     }
 
     private void OnDestroy()
@@ -116,12 +163,12 @@ public class TileMapNavigationMember : TileMapMember
 
     private void OnDrawGizmos()
     {
-        if (currentPath == null)
+        if (currentPath.coordinatePath == null)
         {
             return;
         }
         Gizmos.color = Color.magenta;
-        foreach (var pair in currentPath
+        foreach (var pair in currentPath.coordinatePath
             .Select(coord => UniversalToGenericAdaptors.ToRealPosition(coord, currentRegion.UntypedCoordianteSystemWorldSpace))
             .RollingWindow(2))
         {

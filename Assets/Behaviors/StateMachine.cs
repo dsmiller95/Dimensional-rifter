@@ -9,14 +9,14 @@
     public class StateMachine<ParamType>
     {
 
-        private GenericStateHandler<ParamType> state;
+        private IGenericStateHandler<ParamType> state;
 
-        public StateMachine(GenericStateHandler<ParamType> initalState)
+        public StateMachine(IGenericStateHandler<ParamType> initalState)
         {
             state = initalState;
         }
 
-        public void ForceSetState(GenericStateHandler<ParamType> newState, ParamType updateParam)
+        public void ForceSetState(IGenericStateHandler<ParamType> newState, ParamType updateParam)
         {
             this.SwitchState(newState, updateParam);
         }
@@ -56,7 +56,7 @@
             return true;
         }
 
-        private void SwitchState(GenericStateHandler<ParamType> newState, ParamType updateParam)
+        private void SwitchState(IGenericStateHandler<ParamType> newState, ParamType updateParam)
         {
             if (!newState.Equals(state))
             {

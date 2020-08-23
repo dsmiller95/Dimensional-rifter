@@ -3,7 +3,6 @@ using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
-using System;
 using UnityEngine;
 
 /// <summary>

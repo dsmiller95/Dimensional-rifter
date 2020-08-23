@@ -1,8 +1,8 @@
 ﻿namespace Assets.Behaviors
 {
-    public interface GenericStateHandler<ParamType>
+    public interface IGenericStateHandler<ParamType>
     {
-        GenericStateHandler<ParamType> HandleState(ParamType data);
+        IGenericStateHandler<ParamType> HandleState(ParamType data);
         void TransitionIntoState(ParamType data);
         void TransitionOutOfState(ParamType data);
     }

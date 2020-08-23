@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Assets.Behaviors.UtilityStates
 {
-    public class Waiting<T> : GenericStateHandler<T>
+    public class Waiting<T> : IGenericStateHandler<T>
     {
 
         IList<(float, Action)> WaitSections;
 
         private float finalDelay;
-        private GenericStateHandler<T> returnToState;
+        private IGenericStateHandler<T> returnToState;
 
         public Waiting()
         {
@@ -22,7 +22,7 @@ namespace Assets.Behaviors.UtilityStates
             WaitSections.Add((delay, action));
         }
 
-        public void Finalize(float delay, GenericStateHandler<T> returnToState)
+        public void Finalize(float delay, IGenericStateHandler<T> returnToState)
         {
             finalDelay = delay;
             this.returnToState = returnToState;
@@ -32,7 +32,7 @@ namespace Assets.Behaviors.UtilityStates
         private Action nextAction;
         private float nextTriggerTime;
 
-        public GenericStateHandler<T> HandleState(T data)
+        public IGenericStateHandler<T> HandleState(T data)
         {
             if (nextTriggerTime < Time.time)
             {
