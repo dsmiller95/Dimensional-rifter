@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 30329175704740578}
   - component: {fileID: 30329175704740577}
+  - component: {fileID: 9041530265192463002}
   m_Layer: 0
   m_Name: WorldObject
   m_TagString: Untagged
@@ -50,3 +51,16 @@ MonoBehaviour:
     tileMapPrefab: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
   tileMapToMove: {fileID: 0}
   tileMapPrefab: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+--- !u!114 &9041530265192463002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30329175704740579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1ddaac41c382745a13087ddd0622a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToTrack: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}

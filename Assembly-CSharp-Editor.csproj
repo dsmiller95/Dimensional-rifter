@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E60D05DE-478B-1333-1A8A-2610947F6751}</ProjectGuid>
+    <ProjectGuid>{C1628A9F-4472-89EC-EF6C-7D7404F2D9C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_2020_1_1;UNITY_2020_1;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_2020_1_1;UNITY_2020_1;UNITY_2020;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;NET_STANDARD_2_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -47,7 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2020.1.1f1</UnityVersion>
   </PropertyGroup>
@@ -55,124 +55,9 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\HungryDecider.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
-    <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
-    <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileMap.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Foraging.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
-    <Compile Include="Assets\CameraMovementController.cs" />
-    <Compile Include="Assets\WorldObjects\CoordinateSystemMembers.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Storage\Storage.cs" />
-    <Compile Include="Assets\WorldObjects\WorldGen\WorldGenerator.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Wall\Blocking.cs" />
-    <Compile Include="Assets\MyUtilities.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
-    <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
-    <Compile Include="Assets\Scripts\ObjectAssigner.cs" />
-    <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
-    <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
-    <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
-    <Compile Include="Assets\Scripts\Core\BooleanVariable.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
-    <Compile Include="Assets\SceneLoader.cs" />
-    <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
-    <Compile Include="Assets\Behaviors\GenericStateHandler.cs" />
-    <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
-    <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\MemberPrefabRegistry.cs" />
-    <Compile Include="Assets\WorldObjects\Inventories\ResourceInventory.cs" />
-    <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
-    <Compile Include="Assets\Scripts\TaskContainer.cs" />
-    <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\SquareCoordinateRangeObject.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
-    <Compile Include="Assets\WorldObjects\Pathfinder.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
-    <Compile Include="Assets\Tiling\CoordinateSystemTransform.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Eating.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\TriangleCoordinateRangeObject.cs" />
-    <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleAutomataSystem.cs" />
-    <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
-    <Compile Include="Assets\Scripts\Clickable.cs" />
-    <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
-    <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
-    <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
-    <Compile Include="Assets\Behaviors\StateMachine.cs" />
-    <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
-    <Compile Include="Assets\Behaviors\BehaviorContainer.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Storing.cs" />
-    <Compile Include="Assets\Behaviors\Utility states\Waiting.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\Food.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\Square\SquareShapeRule.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\TileRegionSaveObject.cs" />
-    <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
-    <Compile Include="Assets\WorldObjects\Resource.cs" />
-    <Compile Include="Assets\WorldObjects\TileMapNavigationMember.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
-    <Compile Include="Assets\Tiling\TileAutomata\AutomataRule.cs" />
-    <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
-    <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileShape.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapMeshBuilder.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
-    <Compile Include="Assets\WorldObjects\TimeController.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
-    <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
-    <Compile Include="Assets\Scripts\InstantiateAndAssignTo.cs" />
-    <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
+    <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-     <None Include="Assets\External\netstandard2.0\TradeModeling.dll" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -362,11 +247,26 @@
     <Reference Include="UnityEditor">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="TradeModeling">
       <HintPath>Assets\External\netstandard2.0\TradeModeling.dll</HintPath>
     </Reference>
     <Reference Include="Priority Queue">
       <HintPath>Assets\Plugins\Priority Queue.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>Library\PackageCache\com.unity.render-pipelines.core@8.2.0\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.0\net35\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
@@ -713,6 +613,12 @@
     <Reference Include="System.Xml.XPath.XDocument">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
     </Reference>
@@ -826,6 +732,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{E60D05DE-478B-1333-1A8A-2610947F6751}</Project>
+      <Name>Assembly-CSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="UniRx.csproj">
       <Project>{767EF2A8-3077-4021-4D32-A356769E94D2}</Project>
       <Name>UniRx</Name>

@@ -25,7 +25,6 @@ public class TileMapNavigationMember : TileMapMember
     {
         base.Start();
         lastMove = Time.time;
-        homeRegion.universalContentTracker.RegisterInTileMap(this);
     }
 
 
@@ -70,7 +69,7 @@ public class TileMapNavigationMember : TileMapMember
 
         var nextPosition = currentPath[0];
         currentPath.RemoveAt(0);
-        SetPosition(nextPosition, homeRegion.UntypedCoordianteSystemWorldSpace);
+        SetPosition(nextPosition, currentRegion);
         if (currentPath.Count <= 0)
         {
             return NavigationAttemptResult.ARRIVED;
@@ -80,7 +79,7 @@ public class TileMapNavigationMember : TileMapMember
     }
     public (TileMapMember, ICoordinate[]) GetPathToClosestOfType(Func<TileMapMember, bool> filter)
     {
-        var possibleSelections = homeRegion.universalContentTracker.allMembers
+        var possibleSelections = currentRegion.universalContentTracker.allMembers
             .Where(filter);
         var paths = possibleSelections.Select(member =>
             new
@@ -88,8 +87,8 @@ public class TileMapNavigationMember : TileMapMember
                 path = PathfinderUtils.PathBetween(
                     coordinatePosition,
                     member.CoordinatePosition,
-                    homeRegion,
-                    properties => properties.isPassable)?.ToArray(),
+                    currentRegion,
+                    (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToArray(),
                 member
             })
             .Where(x => x.path != null);
@@ -107,18 +106,12 @@ public class TileMapNavigationMember : TileMapMember
                 bestMemeber = path.member;
             }
         }
-
-        if (bestMemeber != null)
-        {
-            currentPath = bestPath.ToList();
-            currentTarget = bestMemeber;
-        }
         return (bestMemeber, bestPath);
     }
 
     private void OnDestroy()
     {
-        homeRegion.universalContentTracker.DeRegisterInTileMap(this);
+        currentRegion.universalContentTracker.DeRegisterInTileMap(this);
     }
 
     private void OnDrawGizmos()
@@ -129,7 +122,7 @@ public class TileMapNavigationMember : TileMapMember
         }
         Gizmos.color = Color.magenta;
         foreach (var pair in currentPath
-            .Select(coord => UniversalToGenericAdaptors.ToRealPosition(coord, homeRegion.UntypedCoordianteSystemWorldSpace))
+            .Select(coord => UniversalToGenericAdaptors.ToRealPosition(coord, currentRegion.UntypedCoordianteSystemWorldSpace))
             .RollingWindow(2))
         {
             Gizmos.DrawLine(pair[0], pair[1]);

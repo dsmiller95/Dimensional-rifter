@@ -12,34 +12,36 @@ using UnityEngine;
 /// </summary>
 public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
 {
-    public TileMapRegionNoCoordinateType homeRegion;
+    public TileMapRegionNoCoordinateType currentRegion;
     public MemberType memberType;
 
 
     protected ICoordinate coordinatePosition;
     public ICoordinate CoordinatePosition => coordinatePosition;
-    protected object coordinateSystem;
+    protected ICoordinateSystem coordinateSystem => currentRegion.UntypedCoordianteSystemWorldSpace;
 
-    public void SetPosition(ICoordinate position, ICoordinateSystem coordinateSystem)
+    public void SetPosition(ICoordinate position, TileMapRegionNoCoordinateType region)
     {
-        coordinatePosition = position;
-        this.coordinateSystem = coordinateSystem;
+        currentRegion?.universalContentTracker.DeRegisterInTileMap(this);
 
-        transform.position = UniversalToGenericAdaptors.ToRealPosition(position, coordinateSystem);
+        coordinatePosition = position;
+        this.currentRegion = region;
+        transform.position = UniversalToGenericAdaptors.ToRealPosition(coordinatePosition, coordinateSystem);
+
+        currentRegion.universalContentTracker.RegisterInTileMap(this);
     }
 
     protected virtual void Awake()
     {
-        if (homeRegion == null)
+        if (currentRegion == null)
         {
-            homeRegion = GetComponentInParent<TileMapRegionNoCoordinateType>();
+            currentRegion = GetComponentInParent<TileMapRegionNoCoordinateType>();
         }
     }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        homeRegion.universalContentTracker.RegisterInTileMap(this);
     }
 
 
@@ -51,7 +53,7 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
 
     private void OnDestroy()
     {
-        homeRegion.universalContentTracker.DeRegisterInTileMap(this);
+        currentRegion?.universalContentTracker.DeRegisterInTileMap(this);
     }
 
     public TileMemberData GetSaveObject()

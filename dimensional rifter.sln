@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRx", "UniRx.csproj", "{7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{E60D05DE-478B-1333-1A8A-2610947F6751}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{C1628A9F-4472-89EC-EF6C-7D7404F2D9C1}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeModeling", "ExternalProjects\TradeModeling\TradeModeling.csproj", "{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}"
 EndProject
 Global
@@ -21,6 +23,10 @@ Global
 		{E60D05DE-478B-1333-1A8A-2610947F6751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E60D05DE-478B-1333-1A8A-2610947F6751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E60D05DE-478B-1333-1A8A-2610947F6751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1628A9F-4472-89EC-EF6C-7D7404F2D9C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1628A9F-4472-89EC-EF6C-7D7404F2D9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1628A9F-4472-89EC-EF6C-7D7404F2D9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1628A9F-4472-89EC-EF6C-7D7404F2D9C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18AFBF27-C764-42D7-BF76-BF4E1BBF0F09}.Release|Any CPU.ActiveCfg = Release|Any CPU

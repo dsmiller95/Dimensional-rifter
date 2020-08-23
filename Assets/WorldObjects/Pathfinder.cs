@@ -149,11 +149,11 @@ namespace Assets.WorldObjects
         }
 
 
-        public static IEnumerable<T> PathBetween(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem, Func<TileProperties, bool> passableTiles)
+        public static IEnumerable<T> PathBetween(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem, Func<ICoordinate, TileProperties, bool> passableTiles)
         {
             var coordSystem = (coordinateSystem as TileMapRegion<T>);
 
-            var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(properties));
+            var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(coord, properties));
             return pather.ShortestPathTo((T)source);
         }
 
@@ -165,7 +165,7 @@ namespace Assets.WorldObjects
             ICoordinate source,
             ICoordinate destination,
             TileMapRegionNoCoordinateType region,
-            Func<TileProperties, bool> passableTiles)
+            Func<ICoordinate, TileProperties, bool> passableTiles)
         {
             var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
 

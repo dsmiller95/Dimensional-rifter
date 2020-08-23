@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.WorldObjects.Members
+﻿namespace Assets.WorldObjects.Members
 {
     public enum MemberType
     {
         HUNGRY,
         FOOD,
-        STORAGE
+        STORAGE,
+        WALL
     }
 }

@@ -12,6 +12,13 @@ namespace Assets.Tiling.Tilemapping
         public TileMapRegionNoCoordinateType tileMapPrefab;
     }
 
+    [Serializable]
+    public struct CompleteTileMapPosition
+    {
+        public ICoordinate coordinateInMap;
+        public TileMapRegionNoCoordinateType tileMap;
+    }
+
     public class CombinationTileMapManager : MonoBehaviour, ISaveable<WorldSaveObject>
     {
         public TileMapTypePrefabConfig[] tileMapTypes;
@@ -70,6 +77,16 @@ namespace Assets.Tiling.Tilemapping
                 UpdateTileMapsBelow(tileMapToMove);
             }
         }
+
+        public CompleteTileMapPosition? GetPositionInTileMaps(Vector2 worldPosition)
+        {
+            return GetComponentsInChildren<TileMapRegionNoCoordinateType>()
+                .Where(x => x.gameObject.activeInHierarchy)
+                .Select(x => x.GetCoordinatesFromWorldSpaceIfValid(worldPosition))
+                .Where(x => x.HasValue)
+                .FirstOrDefault();
+        }
+
 
         private bool isPlacingTileMap;
 

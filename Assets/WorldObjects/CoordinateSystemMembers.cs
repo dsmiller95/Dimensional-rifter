@@ -1,5 +1,7 @@
 ﻿using Assets.Tiling;
+using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects.Members;
+using Assets.WorldObjects.Members.Wall;
 using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Collections.Generic;
@@ -34,27 +36,21 @@ namespace Assets.WorldObjects
         }
     }
 
-    public class CoordinateSystemMembersAllCoordinates : MonoBehaviour
+    public abstract class CoordinateSystemMembersAllCoordinates : MonoBehaviour
     {
-        public IEnumerable<TileMapMember> allMembers => members;
+        public abstract IEnumerable<TileMapMember> allMembers { get; }
         public TileTypeInfo defaultTile;
 
         public MemberPrefabRegistry memberPrefabRegistry;
 
-        protected ISet<TileMapMember> members;
         public CoordinateSystemMembersAllCoordinates()
         {
-            members = new HashSet<TileMapMember>();
         }
 
-        public void RegisterInTileMap(TileMapMember member)
-        {
-            members.Add(member);
-        }
-        public void DeRegisterInTileMap(TileMapMember member)
-        {
-            members.Remove(member);
-        }
+        public abstract void RegisterInTileMap(TileMapMember member);
+        public abstract void DeRegisterInTileMap(TileMapMember member);
+
+        public abstract bool IsPassableTypeUnsafe(ICoordinate coord);
     }
 
     public class CoordinateSystemMembers<T> : CoordinateSystemMembersAllCoordinates, ISaveable<TileMembersSaveObject<T>> where T : ICoordinate
@@ -64,11 +60,55 @@ namespace Assets.WorldObjects
         public TileDefinitions tileDefinitions;
 
         private IDictionary<T, TileTypeInfo> tiles;
+        private IDictionary<T, IList<TileMapMember>> tileMembers;
+        public override IEnumerable<TileMapMember> allMembers => tileMembers.SelectMany(pair => pair.Value);
 
         public CoordinateSystemMembers() : base()
         {
             tiles = new Dictionary<T, TileTypeInfo>();
+            tileMembers = new Dictionary<T, IList<TileMapMember>>();
         }
+        public override void RegisterInTileMap(TileMapMember member)
+        {
+            if (member.CoordinatePosition is T coordinate)
+            {
+                if (tileMembers.TryGetValue(coordinate, out var list))
+                {
+                    list.Add(member);
+                }
+                else
+                {
+                    var newList = new List<TileMapMember>
+                    {
+                        member
+                    };
+                    tileMembers[coordinate] = newList;
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot register tile member: coordinate position is of incompatable type");
+            }
+        }
+        public override void DeRegisterInTileMap(TileMapMember member)
+        {
+            if (member.CoordinatePosition == null)
+            {
+                return;
+            }
+            if (member.CoordinatePosition is T coordinate)
+            {
+                if (tileMembers.TryGetValue(coordinate, out var list))
+                {
+                    list.Remove(member);
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot register tile member: coordinate position is of incompatable type");
+            }
+        }
+
 
         public void SetTile(T coordinate, TileTypeInfo tileID)
         {
@@ -86,6 +126,7 @@ namespace Assets.WorldObjects
             return tileDefinitions.GetTileProperties(tileType);
         }
 
+
         public TileTypeInfo GetTileType(T coordinate)
         {
             if (tiles.TryGetValue(coordinate, out var value))
@@ -93,6 +134,31 @@ namespace Assets.WorldObjects
                 return value;
             }
             return defaultTile;
+        }
+        public IEnumerable<TileMapMember> GetMembersOnTile(T coordinate)
+        {
+            if (tileMembers.TryGetValue(coordinate, out var value))
+            {
+                return value;
+            }
+            return new TileMapMember[0];
+        }
+        public override bool IsPassableTypeUnsafe(ICoordinate coord)
+        {
+            return IsPassable((T)coord);
+        }
+        public bool IsPassable(T coordinate)
+        {
+            var props = TilePropertiesAt(coordinate);
+            if (!props.isPassable)
+            {
+                return false;
+            }
+            if (GetMembersOnTile(coordinate).Any(tile => tile.GetComponent<ITileBlocking>()?.IsCurrentlyBlocking ?? false))
+            {
+                return false;
+            }
+            return true;
         }
 
         public TileMembersSaveObject<T> GetSaveObject()
@@ -115,6 +181,7 @@ namespace Assets.WorldObjects
 
         public void SetupFromSaveObject(TileMembersSaveObject<T> save)
         {
+            var myRegion = GetComponent<TileMapRegion<T>>();
             defaultTile = save.defaultTile;
 
             tiles = save.tiles.ToDictionary(tile => tile.coordinate, tile => tile.tileType);
@@ -122,7 +189,7 @@ namespace Assets.WorldObjects
             foreach (var memberData in save.members)
             {
                 var instantiated = memberPrefabRegistry.GetPrefabForType(memberData.objectData.memberType, transform);
-                instantiated.SetPosition(memberData.coordinate, coordinateSystem);
+                instantiated.SetPosition(memberData.coordinate, myRegion);
                 instantiated.SetupFromSaveObject(memberData.objectData);
             }
         }

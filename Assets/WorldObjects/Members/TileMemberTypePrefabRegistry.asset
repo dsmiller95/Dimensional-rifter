@@ -19,3 +19,5 @@ MonoBehaviour:
     memberPrefab: {fileID: 6082261357034508971, guid: dea4e82fa6b1759498aab775ce1c8ce9, type: 3}
   - type: 2
     memberPrefab: {fileID: 506530251402321470, guid: 9a6850cfde8521d42b6bd6f2e0153c80, type: 3}
+  - type: 3
+    memberPrefab: {fileID: 506530251402321470, guid: 65d8ea125a350a54abbae288076a3896, type: 3}

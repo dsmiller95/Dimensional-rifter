@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Core
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "GameObjectVariable", menuName = "Variables/GameObjectVariable", order = 1)]
     public class GameObjectVariable : GenericVariable<GameObject>
     {
     }

@@ -20,6 +20,8 @@ namespace Assets.Tiling.Tilemapping
 
         public abstract PolygonCollider2D SetupBoundingCollider();
 
+        public abstract CompleteTileMapPosition? GetCoordinatesFromWorldSpaceIfValid(Vector2 worldSpace);
+
         /// <summary>
         /// Bake the topology for this tile map, not baking any tiles which collide with any colliders in <paramref name="collidersToAvoid"/>
         /// </summary>
@@ -217,6 +219,19 @@ namespace Assets.Tiling.Tilemapping
 
             var meshHolder = GetComponent<MeshFilter>();
             meshHolder.mesh = setupMesh;
+        }
+
+        public override CompleteTileMapPosition? GetCoordinatesFromWorldSpaceIfValid(Vector2 worldSpace)
+        {
+            var coordinate = this.coordSystem.TransformedCoordinateSystem.FromRealPosition(worldSpace);
+            if (IsValidCoordinate(coordinate)){
+                return new CompleteTileMapPosition
+                {
+                    coordinateInMap = coordinate,
+                    tileMap = this
+                };
+            }
+            return null;
         }
 
         public bool IsValidCoordinate(ICoordinate coordinate)
