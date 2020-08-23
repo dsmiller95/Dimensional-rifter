@@ -13,12 +13,7 @@ namespace Assets.WorldObjects
     [RequireComponent(typeof(TileMapMember))]
     public class Storage : MonoBehaviour, IMemberSaveable
     {
-        public MemberType GetMemberType()
-        {
-            return MemberType.STORAGE;
-        }
-
-        public static object GenerateNewSaveObject()
+        private static StorageSaveObject GenerateNewSaveObject()
         {
             return new StorageSaveObject
             {
@@ -38,6 +33,10 @@ namespace Assets.WorldObjects
         public void SetupFromSaveObject(object save)
         {
             var saveObject = save as StorageSaveObject;
+            if (saveObject == null)
+            {
+                saveObject = Storage.GenerateNewSaveObject();
+            }
             GetComponent<ResourceInventory>().SetupFromSaveObject(saveObject.inventory);
         }
     }

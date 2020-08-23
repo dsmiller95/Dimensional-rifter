@@ -23,6 +23,13 @@ MonoBehaviour:
   defaultTile:
     baseID: ground
     shapeID: NO_BORDERS
+  memberGenerationOptions:
+  - type: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
+    amount: 40
+  - type: {fileID: 11400000, guid: ebfc1c257899c614381964766369ae59, type: 2}
+    amount: 2
+  - type: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
+    amount: 1
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   baseMapSize: {x: 40, y: 40}
   seed: 1000

@@ -9,10 +9,9 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
         public GenericStateHandler<Hungry> HandleState(Hungry data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
-            if (tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Storage>() != null) == NavigationAttemptResult.ARRIVED)
+            if (tileMember.SeekClosestOfType(member => member.memberType.recieveStorage == true) == NavigationAttemptResult.ARRIVED)
             {
-                var storage = tileMember.currentTarget.GetComponent<Storage>();
-                var storageInv = storage.GetComponent<ResourceInventory>();
+                var storageInv = tileMember.currentTarget.GetComponent<ResourceInventory>();
                 var sourceInv = data.GetComponent<ResourceInventory>();
 
                 sourceInv.inventory.DrainAllInto(storageInv.inventory, new Resource[] { Resource.FOOD });

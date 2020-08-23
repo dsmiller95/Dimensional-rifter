@@ -21,12 +21,7 @@ namespace Assets.WorldObjects.Members.Hungry
 
         StateMachine<Hungry> stateMachine;
 
-        public MemberType GetMemberType()
-        {
-            return MemberType.HUNGRY;
-        }
-
-        public static object GenerateNewSaveObject(float hungeringRate = .1f)
+        private static HungrySaveObject GenerateNewSaveObject(float hungeringRate = .1f)
         {
             return new HungrySaveObject
             {
@@ -50,6 +45,10 @@ namespace Assets.WorldObjects.Members.Hungry
         {
             Debug.Log("Setting up hungry");
             var saveObject = save as HungrySaveObject;
+            if (saveObject == null)
+            {
+                saveObject = Hungry.GenerateNewSaveObject();
+            }
             hungeringRate = saveObject.hungeringRate;
             currentHunger = saveObject.currentHunger;
             stateMachine.ForceSetState(new HungryDecider(), this);
@@ -70,8 +69,8 @@ namespace Assets.WorldObjects.Members.Hungry
 
         public string GetCurrentInfo()
         {
-            return $"Hunger: {this.currentHunger:F1}\n" +
-                $"Hungering Rate: {this.hungeringRate:F1}";
+            return $"Hunger: {currentHunger:F1}\n" +
+                $"Hungering Rate: {hungeringRate:F1}";
         }
     }
 }

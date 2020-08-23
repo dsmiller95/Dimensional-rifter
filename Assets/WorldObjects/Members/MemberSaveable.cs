@@ -9,6 +9,5 @@ namespace Assets.WorldObjects.Members
 {
     public interface IMemberSaveable: ISaveable<object>
     {
-        MemberType GetMemberType();
     }
 }

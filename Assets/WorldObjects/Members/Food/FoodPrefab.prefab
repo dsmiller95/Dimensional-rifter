@@ -97,7 +97,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  memberType: 1
+  membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
+  memberType: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
 --- !u!114 &6082261357034508970
 MonoBehaviour:

@@ -41,7 +41,7 @@ namespace Assets.WorldObjects
         public abstract IEnumerable<TileMapMember> allMembers { get; }
         public TileTypeInfo defaultTile;
 
-        public MemberPrefabRegistry memberPrefabRegistry;
+        public MembersRegistry memberPrefabRegistry;
 
         public CoordinateSystemMembersAllCoordinates()
         {
@@ -171,7 +171,7 @@ namespace Assets.WorldObjects
                     tileType = pair.Value
                 }).ToList(),
                 members = allMembers
-                    .Where(member => member.memberType != MemberType.UN_SAVEABLE)
+                    .Where(member => member.memberType != null)
                     .Select(member => new TileMemberSaveObject<T>
                 {
                     coordinate = (T)member.CoordinatePosition,
@@ -190,7 +190,9 @@ namespace Assets.WorldObjects
 
             foreach (var memberData in save.members)
             {
-                var instantiated = memberPrefabRegistry.GetPrefabForType(memberData.objectData.memberType, transform);
+                var newType = memberPrefabRegistry.GetMemberFromUniqueInfo(memberData.objectData.memberType);
+
+                var instantiated = Instantiate(newType.memberPrefab, transform).GetComponent<TileMapMember>();
                 instantiated?.SetPosition(memberData.coordinate, myRegion);
                 instantiated?.SetupFromSaveObject(memberData.objectData);
             }

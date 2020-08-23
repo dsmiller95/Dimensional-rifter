@@ -15,17 +15,16 @@ namespace Assets.WorldObjects.Members.Hungry.HungryStates
             var tileMember = data.GetComponent<TileMapNavigationMember>();
             var seekResult = tileMember.SeekClosestOfType(member =>
             {
-                var storage = member.gameObject.GetComponent<Storage>();
-                if (storage == null)
+                if (!member.memberType.recieveStorage)
                 {
                     return false;
                 }
-                return storage.GetComponent<ResourceInventory>().inventory.Get(Resource.FOOD) > 0;
+                var storage = member.gameObject.GetComponent<ResourceInventory>();
+                return storage.inventory.Get(Resource.FOOD) > 0;
             });
             if (seekResult == NavigationAttemptResult.ARRIVED)
             {
-                var storage = tileMember.currentTarget.GetComponent<Storage>();
-                var storageInv = storage.GetComponent<ResourceInventory>();
+                var storageInv = tileMember.currentTarget.GetComponent<ResourceInventory>();
 
                 var consume = storageInv.inventory.Consume(Resource.FOOD, data.currentHunger);
                 data.currentHunger -= consume.info;

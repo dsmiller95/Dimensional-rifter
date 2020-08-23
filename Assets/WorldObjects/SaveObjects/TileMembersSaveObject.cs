@@ -8,7 +8,7 @@ namespace Assets.WorldObjects.SaveObjects
     [Serializable]
     public struct TileMemberData
     {
-        public MemberType memberType;
+        public MemberTypeUniqueData memberType;
         public object memberData;
     }
 

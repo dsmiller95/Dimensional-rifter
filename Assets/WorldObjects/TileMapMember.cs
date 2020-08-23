@@ -14,6 +14,17 @@ using UnityEngine;
 public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo
 {
     public TileMapRegionNoCoordinateType currentRegion;
+
+    [Tooltip("Used to load the memberType on save load")]
+    public MembersRegistry membersScriptRegistry;
+
+    /// <summary>
+    /// This member type is used to determine what this object saves as
+    ///     The source of truth for this member time originally comes from the saveObject -- this controls which prefab is instantiated
+    ///     If this value is set in a prefab it only determines what it saves as if the prefab is instantiated during game-time
+    ///     It will be overwritten on-load
+    /// </summary>
+    [Tooltip("Member Type is overwritten on save load. This value set in a prefab only effects the very first save after being created during a running game. If set to null, the object will not save")]
     public MemberType memberType;
 
     public TileMemberOrderingLayer orderingLayer;
@@ -64,7 +75,7 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterest
         var saveAble = GetComponent<IMemberSaveable>();
         return new TileMemberData
         {
-            memberType = memberType,
+            memberType = memberType.uniqueData,
             memberData = saveAble?.GetSaveObject() ?? null
         };
     }
@@ -72,20 +83,16 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterest
     public void SetupFromSaveObject(TileMemberData save)
     {
         var saveable = GetComponent<IMemberSaveable>();
-        memberType = save.memberType;
+        memberType = membersScriptRegistry.GetMemberFromUniqueInfo(save.memberType);
 
-        if (saveable != null )
+        if (saveable != null)
         {
-            if(saveable.GetMemberType() != save.memberType)
-            {
-                throw new Exception("Member types do not match! likely a malformed or misplaced prefab");
-            }
             saveable.SetupFromSaveObject(save.memberData);
         }
     }
 
     public string GetCurrentInfo()
     {
-        return $"Type: {Enum.GetName(typeof(MemberType), memberType)}\n";
+        return $"Type: {memberType.name}\n";
     }
 }

@@ -68,42 +68,18 @@ namespace Assets.WorldObjects.WorldGen
                     var tileProps = mapGenConfig.tileDefinitions.GetTileProperties(tile);
                     return tileProps.isPassable;
                 });
-            var foodGenerator = coordinateGenerator
-                .Select(coordinate => new TileMemberSaveObject<T>
-                {
-                    coordinate = coordinate,
-                    objectData = new TileMemberData
-                    {
-                        memberType = Members.MemberType.FOOD,
-                        memberData = Food.GenerateNewSaveObject()
-                    }
-                });
-
-            var hungryGen = coordinateGenerator
-                .Select(coordinate => new TileMemberSaveObject<T>
-                {
-                    coordinate = coordinate,
-                    objectData = new TileMemberData
-                    {
-                        memberType = Members.MemberType.HUNGRY,
-                        memberData = Hungry.GenerateNewSaveObject()
-                    }
-                });
-
-            var storageGen = coordinateGenerator
-                .Select(coordinate => new TileMemberSaveObject<T>
-                {
-                    coordinate = coordinate,
-                    objectData = new TileMemberData
-                    {
-                        memberType = Members.MemberType.STORAGE,
-                        memberData = Storage.GenerateNewSaveObject()
-                    }
-                });
-
-            return foodGenerator.Take(40)
-                .Concat(hungryGen.Take(1))
-                .Concat(storageGen.Take(1));
+            return mapGenConfig.memberGenerationOptions.SelectMany(config => coordinateGenerator
+                        .Select(coordinate => new TileMemberSaveObject<T>
+                        {
+                            coordinate = coordinate,
+                            objectData = new TileMemberData
+                            {
+                                memberType = config.type.uniqueData,
+                                memberData = config.type.InstantiateNewSaveObject()
+                            }
+                        })
+                        .Take(config.amount)
+                    );
         }
 
         private IEnumerable<T> GetInfiniteHaltonGeneratedCoordinatesInsideRange(ICoordinateRange<T> range)
