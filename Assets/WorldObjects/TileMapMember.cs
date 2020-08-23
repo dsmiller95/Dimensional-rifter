@@ -1,5 +1,6 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.Tilemapping;
+using Assets.WorldObjects;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
 using System;
@@ -10,11 +11,12 @@ using UnityEngine;
 ///     stores information about the current location in the tileMap
 ///     
 /// </summary>
-public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
+public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo
 {
     public TileMapRegionNoCoordinateType currentRegion;
     public MemberType memberType;
 
+    public TileMemberOrderingLayer orderingLayer;
 
     protected ICoordinate coordinatePosition;
     public ICoordinate CoordinatePosition => coordinatePosition;
@@ -25,8 +27,9 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
         currentRegion?.universalContentTracker.DeRegisterInTileMap(this);
 
         coordinatePosition = position;
-        this.currentRegion = region;
-        transform.position = UniversalToGenericAdaptors.ToRealPosition(coordinatePosition, coordinateSystem);
+        currentRegion = region;
+        var newPosition = UniversalToGenericAdaptors.ToRealPosition(coordinatePosition, coordinateSystem);
+        transform.position = orderingLayer.ApplyPositionInOrderingLayer(newPosition);
 
         currentRegion.universalContentTracker.RegisterInTileMap(this);
     }
@@ -61,18 +64,28 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>
         var saveAble = GetComponent<IMemberSaveable>();
         return new TileMemberData
         {
-            memberType = saveAble.GetMemberType(),
-            memberData = saveAble.GetSaveObject()
+            memberType = memberType,
+            memberData = saveAble?.GetSaveObject() ?? null
         };
     }
 
     public void SetupFromSaveObject(TileMemberData save)
     {
         var saveable = GetComponent<IMemberSaveable>();
-        if (saveable == null || saveable.GetMemberType() != save.memberType)
+        memberType = save.memberType;
+
+        if (saveable != null )
         {
-            throw new Exception("Member types do not match! likely a malformed or misplaced prefab");
+            if(saveable.GetMemberType() != save.memberType)
+            {
+                throw new Exception("Member types do not match! likely a malformed or misplaced prefab");
+            }
+            saveable.SetupFromSaveObject(save.memberData);
         }
-        saveable.SetupFromSaveObject(save.memberData);
+    }
+
+    public string GetCurrentInfo()
+    {
+        return $"Type: {Enum.GetName(typeof(MemberType), memberType)}\n";
     }
 }

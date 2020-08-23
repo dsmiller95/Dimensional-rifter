@@ -149,6 +149,8 @@
     <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
     <Compile Include="Assets\Scripts\InstantiateAndAssignTo.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildable.cs" />
+    <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

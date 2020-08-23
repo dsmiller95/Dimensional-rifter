@@ -9,7 +9,7 @@ namespace Assets.Scripts
         public GameObject objectToAssign;
 
 
-        public void SetSelfToVariable()
+        public void SetToVariable()
         {
             variableToSet.SetValue(objectToAssign);
         }

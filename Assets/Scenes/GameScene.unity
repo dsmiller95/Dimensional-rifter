@@ -692,7 +692,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1097,7 +1097,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToAssignTo: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
   parentObject: {fileID: 1087618048}
-  prefabToInstantiate: {fileID: 506530251402321468, guid: 65d8ea125a350a54abbae288076a3896, type: 3}
+  prefabToInstantiate: {fileID: 506530251402321468, guid: 29465b1bce103a242b07078334768294, type: 3}
+  onlyIfNull: 1
 --- !u!1 &1087618048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,7 +1354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333229945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 34.59861}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1000, y: 1000, z: 1000}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1918,6 +1919,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
   memberType: 0
+  zOffsetPerY: 0.1
+  zOffset: -100
 --- !u!114 &2677529674649399737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2091,6 +2094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
   memberType: 0
+  zOffsetPerY: 0.1
+  zOffset: -100
 --- !u!4 &2677529675651638935
 Transform:
   m_ObjectHideFlags: 0
@@ -2201,6 +2206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
   memberType: 0
+  zOffsetPerY: 0.1
+  zOffset: -100
 --- !u!4 &2677529676078551749
 Transform:
   m_ObjectHideFlags: 0

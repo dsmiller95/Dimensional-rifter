@@ -37,6 +37,10 @@ namespace Assets.WorldObjects.Members
                 this.OneTimeSetupPrefabDictionary();
             }
             var prefab = prefabDictionary[type];
+            if(!prefab || prefab == null)
+            {
+                return null;
+            }
             return Instantiate(prefab, parent).GetComponent<TileMapMember>();
         }
     }

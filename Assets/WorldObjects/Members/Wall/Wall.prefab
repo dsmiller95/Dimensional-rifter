@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 506530251402321467}
   - component: {fileID: 506530251402321464}
-  - component: {fileID: 506530251402321465}
   - component: {fileID: 506530251402321470}
   - component: {fileID: 3320887735696179336}
   - component: {fileID: 753903031417975742}
@@ -88,19 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &506530251402321465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingInventoryAmounts: []
 --- !u!114 &506530251402321470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
   memberType: 3
+  orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
 --- !u!61 &3320887735696179336
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,8 +144,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4366038420737455548}
-        m_TargetAssemblyTypeName: Assets.Scripts.SelfObjectAssigner, Assembly-CSharp
-        m_MethodName: SetSelfToVariable
+        m_TargetAssemblyTypeName: Assets.Scripts.ObjectAssigner, Assembly-CSharp
+        m_MethodName: SetToVariable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -19,9 +19,15 @@ public class InterestingInfoDisplayer : MonoBehaviour
             text.text = "Nothing selected";
             return;
         }
-        var interestingBits = obj.GetComponentsInChildren<IInterestingInfo>();
+        var interestingBits = obj.GetComponentsInChildren<IInterestingInfo>()
+            .Select(x => x.GetCurrentInfo());
+        if (!interestingBits.Any())
+        {
+            text.text = "No info";
+            return;
+        }
 
-        var info = interestingBits.Select(x => x.GetCurrentInfo()).Aggregate((a, b) => a + "\n-------\n" + b);
+        var info = interestingBits.Aggregate((a, b) => a + "-------\n" + b);
         text.text = info;
     }
 

@@ -170,7 +170,9 @@ namespace Assets.WorldObjects
                     coordinate = pair.Key,
                     tileType = pair.Value
                 }).ToList(),
-                members = allMembers.Select(member => new TileMemberSaveObject<T>
+                members = allMembers
+                    .Where(member => member.memberType != MemberType.UN_SAVEABLE)
+                    .Select(member => new TileMemberSaveObject<T>
                 {
                     coordinate = (T)member.CoordinatePosition,
                     objectData = member.GetSaveObject()
@@ -189,8 +191,8 @@ namespace Assets.WorldObjects
             foreach (var memberData in save.members)
             {
                 var instantiated = memberPrefabRegistry.GetPrefabForType(memberData.objectData.memberType, transform);
-                instantiated.SetPosition(memberData.coordinate, myRegion);
-                instantiated.SetupFromSaveObject(memberData.objectData);
+                instantiated?.SetPosition(memberData.coordinate, myRegion);
+                instantiated?.SetupFromSaveObject(memberData.objectData);
             }
         }
     }

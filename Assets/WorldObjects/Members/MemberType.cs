@@ -5,6 +5,7 @@
         HUNGRY,
         FOOD,
         STORAGE,
-        WALL
+        WALL,
+        UN_SAVEABLE
     }
 }

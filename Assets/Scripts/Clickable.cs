@@ -10,7 +10,8 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            Debug.Log("me click");
+            Debug.Log($"Clicked: {gameObject.name}");
+
             whenClicked.Invoke();
         }
     }
