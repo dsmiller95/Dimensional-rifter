@@ -1,23 +1,25 @@
 ﻿using Assets.Behaviors.Scripts.FunctionalStates;
+using Assets.WorldObjects.Members.Building;
 using Assets.WorldObjects.Members.Food;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.Tasks
 {
-    [CreateAssetMenu(fileName = "SeekAndStore", menuName = "Tasks/SeekAndStore", order = 10)]
-    public class SeekAndStoreTaskType : TaskType
+    [CreateAssetMenu(fileName = "SeekAndBuild", menuName = "Tasks/SeekAndBuild", order = 10)]
+    public class SeekAndBuildTaskType : TaskType
     {
         public override IGenericStateHandler<TileMapMember> TryGetEntryState(TileMapMember sourceMember, IGenericStateHandler<TileMapMember> returnToState)
         {
             if (sourceMember is TileMapNavigationMember navigation)
             {
-                if (!navigation.AreAnyOfTypeReachable(GatheringFilter) || !navigation.AreAnyOfTypeReachable(StoringFilter))
+                if (!navigation.AreAnyOfTypeReachable(GatheringFilter) || !navigation.AreAnyOfTypeReachable(BuildingDeliveryFilter))
                 {
                     return null;
                 }
                 var resultState = new Gathering();
                 resultState
-                    .ContinueWith(new Storing(StoringFilter))
+                    .ContinueWith(new Storing(BuildingDeliveryFilter))
+                    .ContinueWith(new Building())
                     .ContinueWith(returnToState);
                 return resultState;
             }
@@ -28,9 +30,9 @@ namespace Assets.Behaviors.Scripts.Tasks
         {
             return member.GetComponent<Food>() != null;
         }
-        private bool StoringFilter(TileMapMember member)
+        private bool BuildingDeliveryFilter(TileMapMember member)
         {
-            return member.memberType.recieveStorage == true;
+            return member.GetComponent<Buildable>() != null;
         }
     }
 }
