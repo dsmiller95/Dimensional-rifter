@@ -55,7 +55,6 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\HungryDecider.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
@@ -66,7 +65,6 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Foraging.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\WorldObjects\CoordinateSystemMembers.cs" />
@@ -79,7 +77,9 @@
     <Compile Include="Assets\Scripts\ObjectAssigner.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\Tasks\TaskType.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
+    <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
@@ -88,13 +88,17 @@
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
     <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanVariable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
+    <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
-    <Compile Include="Assets\Behaviors\IGenericStateHandler.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildable.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\IGenericStateHandler.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
+    <Compile Include="Assets\Scripts\InstantiateAndAssignTo.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ResourceInventory.cs" />
@@ -107,7 +111,6 @@
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemTransform.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Eating.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleCoordinateRangeObject.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
@@ -119,13 +122,13 @@
     <Compile Include="Assets\Tiling\Interfaces\ICoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
+    <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
-    <Compile Include="Assets\Behaviors\StateMachine.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\StateMachine.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
-    <Compile Include="Assets\Behaviors\BehaviorContainer.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\HungryStates\Storing.cs" />
-    <Compile Include="Assets\Behaviors\Utility states\Waiting.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\TimeBasedTaskSelector.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\Utility states\Delay.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\Food.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareShapeRule.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\WorldObjects\Resource.cs" />
     <Compile Include="Assets\WorldObjects\TileMapNavigationMember.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndStoreTaskType.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
@@ -142,17 +146,17 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileShape.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
-    <Compile Include="Assets\WorldObjects\TimeController.cs" />
+    <Compile Include="Assets\WorldObjects\GameTimeOwner.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
-    <Compile Include="Assets\Scripts\InstantiateAndAssignTo.cs" />
-    <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildable.cs" />
-    <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
-    <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
-    <Compile Include="Assets\Behaviors\Tasks\SeekAndStoreTaskType.cs" />
-    <Compile Include="Assets\Behaviors\Tasks\TaskType.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Gathering.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\Utility states\ContinueableState.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Storing.cs" />
+    <Compile Include="Assets\WorldObjects\GameTime.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\Tasks\RestingTaskType.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndEatTaskType.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Eating.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Retrieving.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

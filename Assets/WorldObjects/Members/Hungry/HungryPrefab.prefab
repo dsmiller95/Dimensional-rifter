@@ -105,7 +105,6 @@ MonoBehaviour:
   memberType: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
   movementSpeed: 0.5
-  currentTarget: {fileID: 0}
 --- !u!114 &5492534208347999757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,8 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4691bb5557492e4d8aa3051a13c011a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeProvider: {fileID: 11400000, guid: 897fa92db42ffec47adc228ba3bb808e, type: 2}
   hungeringRate: 1
   currentHunger: 0
+  taskSelector: {fileID: 11400000, guid: 18a2b7413ed5eff4c9cdad7d89d2427b, type: 2}
 --- !u!61 &-5377919881584068312
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,16 +147,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.12}
+  m_Offset: {x: 0, y: 0.04}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.33333334}
     oldSize: {x: 0.16, y: 0.24}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_AutoTiling: 1
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.24}
   m_EdgeRadius: 0

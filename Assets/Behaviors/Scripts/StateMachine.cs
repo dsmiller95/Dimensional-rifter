@@ -1,4 +1,4 @@
-﻿namespace Assets.Behaviors
+﻿namespace Assets.Behaviors.Scripts
 {
     /// <summary>
     /// A state machine which supports asynchronous operations
@@ -10,6 +10,8 @@
     {
 
         private IGenericStateHandler<ParamType> state;
+
+        public IGenericStateHandler<ParamType> CurrentState => state;
 
         public StateMachine(IGenericStateHandler<ParamType> initalState)
         {

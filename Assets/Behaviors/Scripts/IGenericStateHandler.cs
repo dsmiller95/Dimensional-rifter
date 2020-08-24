@@ -1,6 +1,6 @@
-﻿namespace Assets.Behaviors
+﻿namespace Assets.Behaviors.Scripts
 {
-    public interface IGenericStateHandler<ParamType>
+    public interface IGenericStateHandler<in ParamType>
     {
         IGenericStateHandler<ParamType> HandleState(ParamType data);
         void TransitionIntoState(ParamType data);

@@ -31,7 +31,7 @@ namespace Assets.WorldObjects.Members
         public MemberTypeUniqueData uniqueData;
 
         [Tooltip("When true this member will be included in the list of possible recepticals for a storage task")]
-        public bool recieveStorage;
+        public bool recieveStorage = false;
 
         public GameObject memberPrefab;
 

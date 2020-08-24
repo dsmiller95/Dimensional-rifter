@@ -116,31 +116,19 @@ public class TileMapNavigationMember : TileMapMember
     /// <returns>true if a path exists to any member matching <paramref name="filter"/>, false otherwise</returns>
     public bool BeginTrackingPathToClosestOfType(Func<TileMapMember, bool> filter)
     {
-        var possibleSelections = currentRegion.universalContentTracker.allMembers
-            .Where(filter);
-        var paths = possibleSelections.Select(member =>
-            new
-            {
-                path = PathfinderUtils.PathBetween(
-                    coordinatePosition,
-                    member.CoordinatePosition,
-                    currentRegion,
-                    (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToList(),
-                member
-            })
-            .Where(x => x.path != null);
+        var paths = AllPossiblePaths(filter);
 
         var minDist = float.MaxValue;
         IList<ICoordinate> bestPath = new ICoordinate[0];
         TileMapMember bestMemeber = null;
 
-        foreach (var path in paths)
+        foreach (var (path, target) in paths)
         {
-            if (path.path.Count < minDist)
+            if (path.Count < minDist)
             {
-                bestPath = path.path;
+                bestPath = path;
                 minDist = bestPath.Count;
-                bestMemeber = path.member;
+                bestMemeber = target;
             }
         }
 
@@ -156,6 +144,25 @@ public class TileMapNavigationMember : TileMapMember
         return true;
     }
 
+    private IEnumerable<(List<ICoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter)
+    {
+        var possibleSelections = currentRegion.universalContentTracker.allMembers
+            .Where(filter);
+        return possibleSelections.Select(member =>
+            (PathfinderUtils.PathBetween(
+                    coordinatePosition,
+                    member.CoordinatePosition,
+                    currentRegion,
+                    (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToList(),
+                member)
+            )
+            .Where(x => x.Item1 != null);
+    }
+
+    public bool AreAnyOfTypeReachable(Func<TileMapMember, bool> filter)
+    {
+        return AllPossiblePaths(filter).Any();
+    }
     private void OnDestroy()
     {
         currentRegion.universalContentTracker.DeRegisterInTileMap(this);

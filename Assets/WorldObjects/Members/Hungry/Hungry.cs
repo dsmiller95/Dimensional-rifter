@@ -1,5 +1,4 @@
-﻿using Assets.Behaviors;
-using Assets.WorldObjects.Members.Hungry.HungryStates;
+﻿using Assets.Behaviors.Scripts;
 using System;
 using UnityEngine;
 
@@ -19,7 +18,10 @@ namespace Assets.WorldObjects.Members.Hungry
         public float hungeringRate = .1f;
         public float currentHunger = 0;
 
-        StateMachine<Hungry> stateMachine;
+        public TimeBasedTaskSelector taskSelector;
+
+        private TileMapMember myMember;
+        StateMachine<TileMapMember> stateMachine;
 
         private static HungrySaveObject GenerateNewSaveObject(float hungeringRate = .1f)
         {
@@ -51,26 +53,28 @@ namespace Assets.WorldObjects.Members.Hungry
             }
             hungeringRate = saveObject.hungeringRate;
             currentHunger = saveObject.currentHunger;
-            stateMachine.ForceSetState(new HungryDecider(), this);
+            //stateMachine.ForceSetState(new HungryDecider(), this);
 
             GetComponent<ResourceInventory>().SetupFromSaveObject(saveObject.inventory);
         }
 
         private void Awake()
         {
-            stateMachine = new StateMachine<Hungry>(new Foraging());
+            myMember = GetComponent<TileMapMember>();
+            stateMachine = new StateMachine<TileMapMember>(taskSelector);
         }
 
         private void Update()
         {
-            stateMachine.update(this);
+            stateMachine.update(myMember);
             currentHunger += Time.deltaTime * hungeringRate;
         }
 
         public string GetCurrentInfo()
         {
             return $"Hunger: {currentHunger:F1}\n" +
-                $"Hungering Rate: {hungeringRate:F1}";
+                $"Hungering Rate: {hungeringRate:F1}\n" +
+                $"Task: {stateMachine.CurrentState}";
         }
     }
 }

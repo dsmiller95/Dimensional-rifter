@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Behaviors.Tasks
+namespace Assets.Behaviors.Scripts.Tasks
 {
     public abstract class TaskType : ScriptableObject
     {

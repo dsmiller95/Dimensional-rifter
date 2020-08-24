@@ -152,15 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d233cfb1004ba4d87a17c677de2b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 100
-  timezones:
-  - zone: 0
-    startTime: 0
-  - zone: 1
-    startTime: 0.7
-  - zone: 2
-    startTime: 0.9
-  currentTime: 0
+  timeProvider: {fileID: 11400000, guid: 897fa92db42ffec47adc228ba3bb808e, type: 2}
 --- !u!4 &103199404
 Transform:
   m_ObjectHideFlags: 0
@@ -1918,9 +1910,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  memberType: 0
-  zOffsetPerY: 0.1
-  zOffset: -100
+  membersScriptRegistry: {fileID: 0}
+  memberType: {fileID: 0}
+  orderingLayer: {fileID: 0}
 --- !u!114 &2677529674649399737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2093,9 +2085,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  memberType: 0
-  zOffsetPerY: 0.1
-  zOffset: -100
+  membersScriptRegistry: {fileID: 0}
+  memberType: {fileID: 0}
+  orderingLayer: {fileID: 0}
 --- !u!4 &2677529675651638935
 Transform:
   m_ObjectHideFlags: 0
@@ -2205,9 +2197,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  memberType: 0
-  zOffsetPerY: 0.1
-  zOffset: -100
+  membersScriptRegistry: {fileID: 0}
+  memberType: {fileID: 0}
+  orderingLayer: {fileID: 0}
 --- !u!4 &2677529676078551749
 Transform:
   m_ObjectHideFlags: 0
