@@ -157,6 +157,7 @@
     <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndEatTaskType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Retrieving.cs" />
+    <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -5377919881584068312}
   - component: {fileID: 1786904990482667342}
   - component: {fileID: 3349586338666112470}
+  - component: {fileID: 5547019771955835876}
   m_Layer: 0
   m_Name: HungryPrefab
   m_TagString: Untagged
@@ -130,10 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4691bb5557492e4d8aa3051a13c011a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeProvider: {fileID: 11400000, guid: 897fa92db42ffec47adc228ba3bb808e, type: 2}
   hungeringRate: 1
   currentHunger: 0
-  taskSelector: {fileID: 11400000, guid: 18a2b7413ed5eff4c9cdad7d89d2427b, type: 2}
 --- !u!61 &-5377919881584068312
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,3 +200,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
   objectToAssign: {fileID: 5372322527512826100}
+--- !u!114 &5547019771955835876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8dc692cac1232d48a38bb2c8fab50a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskSelector: {fileID: 11400000, guid: 18a2b7413ed5eff4c9cdad7d89d2427b, type: 2}
