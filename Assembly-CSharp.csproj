@@ -74,7 +74,7 @@
     <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
-    <Compile Include="Assets\Scripts\ObjectAssigner.cs" />
+    <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\Tasks\TaskType.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Building\SelfTileMemberReplacer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\IGenericStateHandler.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
@@ -158,6 +158,10 @@
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Retrieving.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Building\Buildable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
+    <Compile Include="Assets\Scripts\VariableOperators\BooleanToggle.cs" />
+    <Compile Include="Assets\Scripts\VariableOperators\VariableInstancer.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

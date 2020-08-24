@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 753903031417975742}
   - component: {fileID: 4366038420737455548}
   - component: {fileID: 3983353939130839650}
+  - component: {fileID: 4822000996556524234}
+  - component: {fileID: 2089076009123118786}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -186,3 +188,31 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+--- !u!114 &4822000996556524234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingInventoryAmounts: []
+--- !u!114 &2089076009123118786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7c7eb9938b1a448a9656f0b927dea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whenBuilt:
+    m_PersistentCalls:
+      m_Calls: []

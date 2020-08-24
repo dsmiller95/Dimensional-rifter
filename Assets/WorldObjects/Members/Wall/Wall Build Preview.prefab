@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4366038420737455548}
   - component: {fileID: 7057310579076420748}
   m_Layer: 0
-  m_Name: Buildable Wall
+  m_Name: Wall Build Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  memberType: 4
+  membersScriptRegistry: {fileID: 0}
+  memberType: {fileID: 0}
   orderingLayer: {fileID: 11400000, guid: 10050d4cf5c632d4c8599b41a2df0100, type: 2}
 --- !u!61 &3320887735696179336
 BoxCollider2D:

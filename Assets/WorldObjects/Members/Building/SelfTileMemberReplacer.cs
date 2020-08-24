@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Assets.WorldObjects.Members
+namespace Assets.WorldObjects.Members.Building
 {
     [RequireComponent(typeof(TileMapMember))]
-    public class Buildable : MonoBehaviour
+    public class SelfTileMemberReplacer : MonoBehaviour
     {
-        //TODO: convert this to take a scriptable object identity of the member?
         public TileMapMember memberPrefab;
 
         public void InstantiateMemberAtCurrentLocation()
