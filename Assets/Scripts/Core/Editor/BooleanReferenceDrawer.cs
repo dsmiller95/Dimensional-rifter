@@ -1,66 +1,153 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Core.Editor
 {
     [CustomPropertyDrawer(typeof(BooleanReference))]
-    public class BooleanReferenceDrawer: PropertyDrawer
+    public class BooleanReferenceDrawer : PropertyDrawer
     {
-        /// <summary>
-        /// Options to display in the popup to select constant or variable.
-        /// </summary>
-        private readonly string[] popupOptions =
-            { "Use Constant", "Use Variable" };
 
-        /// <summary> Cached style to use to draw the popup button. </summary>
-        private GUIStyle popupStyle;
+        //const int dataPathHeight = 14;
+        const int dataPathHeight = 18;
+        const int dropdownWidth = 100;
+
+        // Here you must define the height of your property drawer. Called by Unity.
+        public override float GetPropertyHeight(SerializedProperty prop,
+                                                 GUIContent label)
+        {
+            BooleanReferenceDataSource dataSource = DataSource(prop);
+            if (dataSource == BooleanReferenceDataSource.INSTANCER)
+                return base.GetPropertyHeight(prop, label) + dataPathHeight;
+            else
+                return base.GetPropertyHeight(prop, label);
+        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (popupStyle == null)
+            BooleanReferenceDataSource dataSource = DataSource(property);
+            if (dataSource != BooleanReferenceDataSource.INSTANCER)
             {
-                popupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions"));
-                popupStyle.imagePosition = ImagePosition.ImageOnly;
+                var topRowPosition = new Rect(position);
+
+                label = EditorGUI.BeginProperty(topRowPosition, label, property);
+
+                DrawObjectSelection(topRowPosition, property, label);
+            }
+            else
+            {
+                var topRowPosition = new Rect(position);
+                topRowPosition.yMax -= dataPathHeight;
+
+                label = EditorGUI.BeginProperty(topRowPosition, label, property);
+
+                DrawObjectSelection(topRowPosition, property, label);
+
+                var bottomRowPosition = new Rect(position);
+                bottomRowPosition.yMin = bottomRowPosition.yMax - dataPathHeight;
+                DrawPathSelection(bottomRowPosition, property);
+            }
+            EditorGUI.EndProperty();
+        }
+
+        private void DrawPathSelection(Rect position, SerializedProperty property)
+        {
+
+            SerializedProperty instancer = property.FindPropertyRelative("Instancer");
+            var instancerObj = instancer.objectReferenceValue as VariableInstantiator;
+            if (instancerObj == null)
+            {
+                EditorGUI.HelpBox(position, "Set the instantiator", MessageType.Error);
+                return;
             }
 
-            label = EditorGUI.BeginProperty(position, label, property);
+            SerializedProperty namePath = property.FindPropertyRelative("NamePath");
+
+            EditorGUI.BeginChangeCheck();
+            var selectionOptions = instancerObj.variableInstancingConfig.Select(x => x.name).ToList();
+            var currentPathIndex = selectionOptions.IndexOf(namePath.stringValue);
+
+            int newPathIndex = EditorGUI.Popup(position, currentPathIndex, selectionOptions.ToArray());
+            // var newpath = EditorGUI.TextField(position, namePath.stringValue);
+
+            if (newPathIndex < 0)// && !instancerObj.variableInstancingConfig.Any(x => x.name == newpath))
+            {
+                namePath.stringValue = "";
+            }
+            else
+            {
+                namePath.stringValue = selectionOptions[newPathIndex];
+            }
+            EditorGUI.EndChangeCheck();
+        }
+
+        /// <summary>
+        ///  draw the first row
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="property"></param>
+        /// <param name="label"></param>
+        private void DrawObjectSelection(Rect position, SerializedProperty property, GUIContent label)
+        {
             position = EditorGUI.PrefixLabel(position, label);
 
             EditorGUI.BeginChangeCheck();
 
             // Get properties
-            SerializedProperty useConstant = property.FindPropertyRelative("UseConstant");
+            SerializedProperty dataSource = property.FindPropertyRelative("DataSource");
             SerializedProperty constantValue = property.FindPropertyRelative("ConstantValue");
             SerializedProperty variable = property.FindPropertyRelative("Variable");
+            SerializedProperty instancer = property.FindPropertyRelative("Instancer");
 
             // Calculate rect for configuration button
             Rect buttonRect = new Rect(position);
-            buttonRect.yMin += popupStyle.margin.top;
-            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;
+            buttonRect.width = dropdownWidth;
             position.xMin = buttonRect.xMax;
 
             // Store old indent level and set it to 0, the PrefixLabel takes care of it
             int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
+            BooleanReferenceDataSource dataSourceEnum = (BooleanReferenceDataSource)dataSource.enumValueIndex;
+            dataSourceEnum = (BooleanReferenceDataSource)EditorGUI.EnumPopup(buttonRect, dataSourceEnum);
 
-            useConstant.boolValue = result == 0;
+            //int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);
 
-            EditorGUI.PropertyField(position,
-                useConstant.boolValue ? constantValue : variable,
-                GUIContent.none);
+            dataSource.enumValueIndex = (int)dataSourceEnum;
+
+            switch (dataSourceEnum)
+            {
+                case BooleanReferenceDataSource.CONSTANT:
+                    EditorGUI.PropertyField(position,
+                        constantValue,
+                        GUIContent.none);
+                    break;
+                case BooleanReferenceDataSource.SINGLETON_VARIABLE:
+                    EditorGUI.PropertyField(position,
+                        variable,
+                        GUIContent.none);
+                    break;
+                case BooleanReferenceDataSource.INSTANCER:
+                    EditorGUI.PropertyField(position,
+                        instancer,
+                        GUIContent.none);
+                    break;
+                default:
+                    break;
+            }
 
             if (EditorGUI.EndChangeCheck())
                 property.serializedObject.ApplyModifiedProperties();
 
             EditorGUI.indentLevel = indent;
-            EditorGUI.EndProperty();
+        }
+
+
+
+        private BooleanReferenceDataSource DataSource(SerializedProperty prop)
+        {
+            SerializedProperty dataSource = prop.FindPropertyRelative("DataSource");
+            return (BooleanReferenceDataSource)dataSource.enumValueIndex;
         }
     }
 }

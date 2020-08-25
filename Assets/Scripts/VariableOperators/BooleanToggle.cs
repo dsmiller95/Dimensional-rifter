@@ -5,7 +5,7 @@ namespace Assets.Scripts.VariableOperators
 {
     public class BooleanToggle : MonoBehaviour
     {
-        public BooleanVariable variableToToggle;
+        public BooleanReference variableToToggle;
 
         public void Toggle()
         {

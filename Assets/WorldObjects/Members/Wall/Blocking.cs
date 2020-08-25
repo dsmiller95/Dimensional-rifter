@@ -42,17 +42,5 @@ namespace Assets.WorldObjects.Members.Wall
         private void SetBlocking(bool isBlocking)
         {
         }
-
-        // TODO: remove the need for this. this component really only needs to read from the boolean variable
-        public void SetIsBlockingInVariable(bool isBlocking)
-        {
-            if (currentlyBlocking.UseConstant)
-            {
-                currentlyBlocking.ConstantValue = isBlocking;
-            }else
-            {
-                currentlyBlocking.Variable.SetValue(isBlocking);
-            }
-        }
     }
 }
