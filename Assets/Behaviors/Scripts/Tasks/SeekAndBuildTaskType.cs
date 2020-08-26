@@ -32,7 +32,8 @@ namespace Assets.Behaviors.Scripts.Tasks
         }
         private bool BuildingDeliveryFilter(TileMapMember member)
         {
-            return member.GetComponent<Buildable>() != null;
+            var buildable = member.GetComponent<Buildable>();
+            return buildable != null && buildable.CanBeBuilt();
         }
     }
 }

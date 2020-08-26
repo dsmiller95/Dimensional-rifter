@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Assets.WorldObjects.Members;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -14,7 +13,19 @@ namespace Assets.Scripts.Core
         public bool defaultValue;
     }
 
-    public class VariableInstantiator: MonoBehaviour
+    [Serializable]  
+    class BoolValueSaveObject
+    {
+        public string dataID;
+        public bool savedValue;
+    }
+    [Serializable]
+    class VariableInstantiatorSaveObject
+    {
+        public BoolValueSaveObject[] boolValues;
+    }
+
+    public class VariableInstantiator : MonoBehaviour, IMemberSaveable
     {
         public BooleanInstanceConfig[] variableInstancingConfig;
 
@@ -22,9 +33,9 @@ namespace Assets.Scripts.Core
 
         private void Awake()
         {
-            if(instancedVariables == null)
+            if (instancedVariables == null)
             {
-                this.instantiateVariables();
+                instantiateVariables();
             }
         }
 
@@ -42,13 +53,50 @@ namespace Assets.Scripts.Core
         {
             if (instancedVariables == null)
             {
-                this.instantiateVariables();
+                instantiateVariables();
             }
-            if(instancedVariables.TryGetValue(name, out var variable))
+            if (instancedVariables.TryGetValue(name, out var variable))
             {
                 return variable;
             }
             return null;
+        }
+
+        public string IdentifierInsideMember()
+        {
+            return "Instantiator";
+        }
+
+        public object GetSaveObject()
+        {
+            return new VariableInstantiatorSaveObject
+            {
+                boolValues = instancedVariables.Select(value => new BoolValueSaveObject
+                {
+                    dataID = value.Key,
+                    savedValue = value.Value.CurrentValue
+                }).ToArray()
+            };
+        }
+
+        public void SetupFromSaveObject(object save)
+        {
+            if (instancedVariables == null)
+            {
+                instantiateVariables();
+            }
+
+            var saveData = save as VariableInstantiatorSaveObject;
+            if(saveData != null)
+            {
+                foreach (var value in saveData.boolValues)
+                {
+                    if(instancedVariables.TryGetValue(value.dataID, out var booleanVariable))
+                    {
+                        booleanVariable.SetValue(value.savedValue);
+                    }
+                }
+            }
         }
     }
 }

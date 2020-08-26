@@ -136,7 +136,7 @@
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\BooleanToggle.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine.cs" />
-    <Compile Include="Assets\Scripts\SetSpriteColor.cs" />
+    <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Retrieving.cs" />

@@ -1,4 +1,5 @@
-﻿using TradeModeling.Inventories;
+﻿using Assets.Scripts.Core;
+using TradeModeling.Inventories;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,7 @@ namespace Assets.WorldObjects.Members.Building
     public class Buildable : MonoBehaviour
     {
         public UnityEvent whenBuilt;
+        public BooleanReference isBuilt;
 
         private ResourceInventory inventory;
 
@@ -31,9 +33,27 @@ namespace Assets.WorldObjects.Members.Building
             }
         }
 
+        private bool IsSelfSetup()
+        {
+            return !isBuilt.CurrentValue && ResourceRequirement.HasValue;
+        }
+
+        /// <summary>
+        /// If the buildable can transition into the built state
+        /// </summary>
+        /// <returns>True if the buildable is set up and is not already built</returns>
+        public bool CanBeBuilt()
+        {
+            return IsSelfSetup();
+        }
+
+        /// <summary>
+        /// If the buildable is ready to transition into the build state
+        /// </summary>
+        /// <returns>True if the buildable CanBeBuilt, and also has the resources required to be built</returns>
         public bool CanBuild()
         {
-            if (!ResourceRequirement.HasValue)
+            if (!IsSelfSetup())
             {
                 return false;
             }
@@ -44,7 +64,7 @@ namespace Assets.WorldObjects.Members.Building
         }
         public bool BuildIfPossible()
         {
-            if (!ResourceRequirement.HasValue)
+            if (!IsSelfSetup())
             {
                 return false;
             }
@@ -54,7 +74,7 @@ namespace Assets.WorldObjects.Members.Building
             if (consumeOption.info == ResourceRequirement.Value.amount)
             {
                 whenBuilt.Invoke();
-                Destroy(this);
+                isBuilt.SetValue(true);
                 return true;
             }
             return false;

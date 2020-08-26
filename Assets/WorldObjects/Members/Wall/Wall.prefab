@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 4822000996556524234}
   - component: {fileID: 2089076009123118786}
   - component: {fileID: 7829678868410144590}
-  - component: {fileID: 7718711747785019225}
   - component: {fileID: 1775895047749063725}
   m_Layer: 0
   m_Name: Wall
@@ -82,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.3124845, g: 0.4509804, b: 0.30980393, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -192,7 +191,7 @@ MonoBehaviour:
     ConstantValue: 1
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
-    NamePath: building/blocking
+    NamePath: building/built
 --- !u!114 &4822000996556524234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,32 +219,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whenBuilt:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7718711747785019225}
-        m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.BooleanToggle,
-          Assembly-CSharp
-        m_MethodName: Toggle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 7829678868410144590}
-        m_TargetAssemblyTypeName: Assets.Scripts.SetSpriteColor, Assembly-CSharp
-        m_MethodName: SetColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
+  isBuilt:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 1775895047749063725}
+    NamePath: building/built
 --- !u!114 &7829678868410144590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,25 +238,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c91068d992ae9f4eaefa3ebe3d8f64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorToSet: {r: 0.4509804, g: 0.35686275, b: 0.30980393, a: 1}
---- !u!114 &7718711747785019225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a16e31dc38a7ec3498dd3487f4d98e2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  variableToToggle:
+  colorIfTrue: {r: 0.4460884, g: 0.5, b: 0.40801886, a: 1}
+  colorIfFalse: {r: 0.78538465, g: 0, b: 1, a: 0.7176471}
+  colorSwitch:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
-    NamePath: building/blocking
+    NamePath: building/built
 --- !u!114 &1775895047749063725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +260,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableInstancingConfig:
   - name: building/built
-    defaultValue: 0
-  - name: building/blocking
     defaultValue: 0
