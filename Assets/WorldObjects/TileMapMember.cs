@@ -3,6 +3,7 @@ using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -71,22 +72,35 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterest
 
     public TileMemberData GetSaveObject()
     {
+        var saveAbles = GetComponents<IMemberSaveable>();
+        var saveableData = saveAbles.Select(member => new InMemberObjectData
+        {
+            data = member.GetSaveObject(),
+            identifierInMember = member.IdentifierInsideMember()
+        });
         var saveAble = GetComponent<IMemberSaveable>();
         return new TileMemberData
         {
             memberType = memberType.uniqueData,
-            memberData = saveAble?.GetSaveObject() ?? null
+            objectDatas = saveableData.ToArray()
         };
     }
 
     public void SetupFromSaveObject(TileMemberData save)
     {
-        var saveable = GetComponent<IMemberSaveable>();
         memberType = membersScriptRegistry.GetMemberFromUniqueInfo(save.memberType);
 
-        if (saveable != null)
+        var saveables = GetComponents<IMemberSaveable>();
+        var saveObjects = save.objectDatas.ToDictionary(x => x.identifierInMember, x => x.data);
+        foreach (var saveable in saveables)
         {
-            saveable.SetupFromSaveObject(save.memberData);
+            if(saveObjects.TryGetValue(saveable.IdentifierInsideMember(), out var objectData))
+            {
+                saveable.SetupFromSaveObject(objectData);
+            }else
+            {
+                saveable.SetupFromSaveObject(null);
+            }
         }
     }
 

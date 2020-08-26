@@ -10,6 +10,11 @@ namespace Assets.WorldObjects.Members.Food
             return null;
         }
 
+        public string IdentifierInsideMember()
+        {
+            return "Food";
+        }
+
         public void SetupFromSaveObject(object save)
         {
         }

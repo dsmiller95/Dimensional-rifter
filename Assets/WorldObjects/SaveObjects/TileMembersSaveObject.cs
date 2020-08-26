@@ -6,10 +6,17 @@ using System.Collections.Generic;
 namespace Assets.WorldObjects.SaveObjects
 {
     [Serializable]
+    public struct InMemberObjectData
+    {
+        public string identifierInMember;
+        public object data;
+    }
+
+    [Serializable]
     public struct TileMemberData
     {
         public MemberTypeUniqueData memberType;
-        public object memberData;
+        public InMemberObjectData[] objectDatas;
     }
 
     [Serializable]

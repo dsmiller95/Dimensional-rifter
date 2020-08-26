@@ -75,7 +75,7 @@ namespace Assets.WorldObjects.WorldGen
                             objectData = new TileMemberData
                             {
                                 memberType = config.type.uniqueData,
-                                memberData = config.type.InstantiateNewSaveObject()
+                                objectDatas = config.type.InstantiateNewSaveObject()
                             }
                         })
                         .Take(config.amount)

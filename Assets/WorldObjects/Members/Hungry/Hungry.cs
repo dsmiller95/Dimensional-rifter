@@ -9,7 +9,6 @@ namespace Assets.WorldObjects.Members.Hungry
     {
         public float hungeringRate;
         public float currentHunger;
-        public ResourceInventorySaveData inventory;
     }
 
     [RequireComponent(typeof(TileMapNavigationMember))]
@@ -24,8 +23,7 @@ namespace Assets.WorldObjects.Members.Hungry
             return new HungrySaveObject
             {
                 currentHunger = 0f,
-                hungeringRate = hungeringRate,
-                inventory = ResourceInventory.GenerateEmptySaveObject()
+                hungeringRate = hungeringRate
             };
         }
 
@@ -34,8 +32,7 @@ namespace Assets.WorldObjects.Members.Hungry
             return new HungrySaveObject
             {
                 currentHunger = currentHunger,
-                hungeringRate = hungeringRate,
-                inventory = GetComponent<ResourceInventory>().GetSaveObject()
+                hungeringRate = hungeringRate
             };
         }
 
@@ -49,8 +46,6 @@ namespace Assets.WorldObjects.Members.Hungry
             }
             hungeringRate = saveObject.hungeringRate;
             currentHunger = saveObject.currentHunger;
-
-            GetComponent<ResourceInventory>().SetupFromSaveObject(saveObject.inventory);
         }
 
 
@@ -63,6 +58,11 @@ namespace Assets.WorldObjects.Members.Hungry
         {
             return $"Hunger: {currentHunger:F1}\n" +
                 $"Hungering Rate: {hungeringRate:F1}\n";
+        }
+
+        public string IdentifierInsideMember()
+        {
+            return "Hungry";
         }
     }
 }

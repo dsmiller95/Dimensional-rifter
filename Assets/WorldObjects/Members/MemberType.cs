@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.WorldObjects.SaveObjects;
+using System;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members
@@ -35,9 +36,9 @@ namespace Assets.WorldObjects.Members
 
         public GameObject memberPrefab;
 
-        public object InstantiateNewSaveObject()
+        public InMemberObjectData[] InstantiateNewSaveObject()
         {
-            return null;
+            return new InMemberObjectData[0];
         }
 
         public override bool Equals(object obj)

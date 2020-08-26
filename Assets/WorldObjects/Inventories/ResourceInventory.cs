@@ -1,10 +1,7 @@
 ﻿using Assets.WorldObjects.Members;
-using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using TradeModeling;
 using TradeModeling.Inventories;
 using UniRx;
 using UniRx.Triggers;
@@ -23,7 +20,7 @@ namespace Assets.WorldObjects
         public Resource type;
         public float amount;
     }
-    public class ResourceInventory : ObservableTriggerBase, ISaveable<ResourceInventorySaveData>, IInterestingInfo
+    public class ResourceInventory : ObservableTriggerBase, IMemberSaveable, IInterestingInfo
     {
         public IInventory<Resource> inventory;
 
@@ -44,7 +41,7 @@ namespace Assets.WorldObjects
 
             inventory = new BasicInventory<Resource>(
                 initialInventory);
-            this.SetupInventoryFromAmounts(startingInventoryAmounts);
+            SetupInventoryFromAmounts(startingInventoryAmounts);
 
             inventoryNotifier = new InventoryNotifier<Resource>(inventory, 200);
 
@@ -97,22 +94,32 @@ namespace Assets.WorldObjects
             };
         }
 
-        public ResourceInventorySaveData GetSaveObject()
+        public object GetSaveObject()
         {
-            var saveAmounts = this.inventory.GetCurrentResourceAmounts().Select(x => new SaveableInventoryAmount
+            var saveAmounts = inventory.GetCurrentResourceAmounts().Select(x => new SaveableInventoryAmount
             {
                 type = x.Key,
                 amount = x.Value
             }).ToArray();
             return new ResourceInventorySaveData
             {
-                amounts = saveAmounts 
+                amounts = saveAmounts
             };
         }
 
-        public void SetupFromSaveObject(ResourceInventorySaveData save)
+        public void SetupFromSaveObject(object save)
         {
-            this.SetupInventoryFromAmounts(save.amounts);
+            var saveData = save as ResourceInventorySaveData;
+            if (saveData == null)
+            {
+                saveData = ResourceInventory.GenerateEmptySaveObject();
+            }
+
+            SetupInventoryFromAmounts(saveData.amounts);
+        }
+        public string IdentifierInsideMember()
+        {
+            return "Inventory";
         }
 
         public string GetCurrentInfo()

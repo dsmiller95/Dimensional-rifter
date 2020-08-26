@@ -12,15 +12,19 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
         public override IGenericStateHandler<TileMapMember> HandleState(TileMapMember data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
+            var myInv = data.GetComponent<ResourceInventory>();
+
             var seekResult = tileMember.SeekClosestOfType(member => member.gameObject.GetComponent<Food>() != null);
             if (seekResult.status == NavigationStatus.ARRIVED)
             {
                 var foundFood = seekResult.reached.GetComponent<Food>();
-                var sourceInv = data.GetComponent<ResourceInventory>();
 
                 Object.Destroy(foundFood.gameObject);
-                sourceInv.inventory.Add(Resource.FOOD, 1f).Execute();
+                myInv.inventory.Add(Resource.FOOD, 1f).Execute();
 
+            }
+            if (myInv.inventory.Get(Resource.FOOD) > 0)
+            {
                 return next;
             }
             return this;
