@@ -12,50 +12,77 @@ namespace Assets.Scripts.Core
         public string name;
         public bool defaultValue;
     }
+    [Serializable]
+    public struct FloatInstanceConfig
+    {
+        public string name;
+        public float defaultValue;
+    }
 
     [Serializable]  
-    class BoolValueSaveObject
+    class ValueSaveObject<T>
     {
         public string dataID;
-        public bool savedValue;
+        public T savedValue;
     }
     [Serializable]
     class VariableInstantiatorSaveObject
     {
-        public BoolValueSaveObject[] boolValues;
+        public ValueSaveObject<bool>[] boolValues;
+        public ValueSaveObject<float>[] floatValues;
     }
 
     public class VariableInstantiator : MonoBehaviour, IMemberSaveable
     {
-        public BooleanInstanceConfig[] variableInstancingConfig;
+        public BooleanInstanceConfig[] booleanInstancingConfig;
+        public FloatInstanceConfig[] floatInstancingConfig;
 
-        public IDictionary<string, BooleanVariable> instancedVariables;
+        protected IDictionary<string, BooleanVariable> instancedBooleans;
+        protected IDictionary<string, FloatVariable> instancedFloats;
 
         private void Awake()
         {
-            if (instancedVariables == null)
+            if (instancedBooleans == null || instancedFloats == null)
             {
-                instantiateVariables();
+                InstantiateVariables();
             }
         }
 
-        private void instantiateVariables()
+        private void InstantiateVariables()
         {
-            instancedVariables = variableInstancingConfig.ToDictionary(x => x.name, x =>
+            instancedBooleans = booleanInstancingConfig.ToDictionary(x => x.name, x =>
             {
                 var instanced = ScriptableObject.CreateInstance<BooleanVariable>();
                 instanced.SetValue(x.defaultValue);
                 return instanced;
             });
+            instancedFloats = floatInstancingConfig.ToDictionary(x => x.name, x =>
+            {
+                var instanced = ScriptableObject.CreateInstance<FloatVariable>();
+                instanced.SetValue(x.defaultValue);
+                return instanced;
+            });
         }
 
-        public BooleanVariable GetValue(string name)
+        public BooleanVariable GetBooleanValue(string name)
         {
-            if (instancedVariables == null)
+            if (instancedBooleans == null)
             {
-                instantiateVariables();
+                InstantiateVariables();
             }
-            if (instancedVariables.TryGetValue(name, out var variable))
+            if (instancedBooleans.TryGetValue(name, out var variable))
+            {
+                return variable;
+            }
+            return null;
+        }
+        public FloatVariable GetFloatValue(string name)
+        {
+            if (instancedFloats == null)
+            {
+                InstantiateVariables();
+            }
+            if (instancedFloats.TryGetValue(name, out var variable))
             {
                 return variable;
             }
@@ -71,7 +98,12 @@ namespace Assets.Scripts.Core
         {
             return new VariableInstantiatorSaveObject
             {
-                boolValues = instancedVariables.Select(value => new BoolValueSaveObject
+                boolValues = instancedBooleans.Select(value => new ValueSaveObject<bool>
+                {
+                    dataID = value.Key,
+                    savedValue = value.Value.CurrentValue
+                }).ToArray(),
+                floatValues = instancedFloats.Select(value => new ValueSaveObject<float>
                 {
                     dataID = value.Key,
                     savedValue = value.Value.CurrentValue
@@ -81,9 +113,9 @@ namespace Assets.Scripts.Core
 
         public void SetupFromSaveObject(object save)
         {
-            if (instancedVariables == null)
+            if (instancedBooleans == null)
             {
-                instantiateVariables();
+                InstantiateVariables();
             }
 
             var saveData = save as VariableInstantiatorSaveObject;
@@ -91,9 +123,16 @@ namespace Assets.Scripts.Core
             {
                 foreach (var value in saveData.boolValues)
                 {
-                    if(instancedVariables.TryGetValue(value.dataID, out var booleanVariable))
+                    if (instancedBooleans.TryGetValue(value.dataID, out var booleanVariable))
                     {
                         booleanVariable.SetValue(value.savedValue);
+                    }
+                }
+                foreach (var value in saveData.floatValues)
+                {
+                    if (instancedFloats.TryGetValue(value.dataID, out var floatVariable))
+                    {
+                        floatVariable.SetValue(value.savedValue);
                     }
                 }
             }

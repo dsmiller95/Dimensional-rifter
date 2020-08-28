@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
-  m_Name: FoodMember
+  m_Script: {fileID: 11500000, guid: f2f94bdf08ff35449abf35db83c578c6, type: 3}
+  m_Name: SquareCrystalizer
   m_EditorClassIdentifier: 
   uniqueData:
-    uniqueId: 0
+    uniqueId: 7
   recieveStorage: 0
   gatherableResource: 1
-  memberPrefab: {fileID: 6082261357034508969, guid: dea4e82fa6b1759498aab775ce1c8ce9, type: 3}
+  memberPrefab: {fileID: 0}
+  resourceCost:
+    amount: 1
+    type: 1

@@ -4,12 +4,12 @@ using UnityEditor;
 
 namespace Assets.Scripts.Core.Editor
 {
-    [CustomPropertyDrawer(typeof(BooleanReference))]
-    public class BooleanReferenceDrawer : GenericReferenceDrawer
+    [CustomPropertyDrawer(typeof(FloatReference))]
+    public class FloatReferenceDrawer : GenericReferenceDrawer
     {
         protected override List<string> GetValidNamePaths(VariableInstantiator instantiator)
         {
-            return instantiator.booleanInstancingConfig.Select(x => x.name).ToList();
+            return instantiator.floatInstancingConfig.Select(x => x.name).ToList();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Assets.Behaviors.Scripts.Tasks
         }
         private bool StoringFilter(TileMapMember member)
         {
-            return member.memberType.recieveStorage == true;
+            return member.memberType?.recieveStorage == true;
         }
     }
 }

@@ -191,7 +191,7 @@ MonoBehaviour:
     ConstantValue: 1
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
-    NamePath: building/built
+    NamePath: built
 --- !u!114 &4822000996556524234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
-    NamePath: building/built
+    NamePath: built
 --- !u!114 &7829678868410144590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
-    NamePath: building/built
+    NamePath: built
 --- !u!114 &1775895047749063725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variableInstancingConfig:
-  - name: building/built
+  booleanInstancingConfig:
+  - name: built
     defaultValue: 0
+  floatInstancingConfig: []

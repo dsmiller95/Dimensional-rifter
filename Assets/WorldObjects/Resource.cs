@@ -2,6 +2,7 @@
 {
     public enum Resource
     {
-        FOOD
+        FOOD,
+        SQUARE_CRYSTAL
     }
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
-  m_Name: FoodMember
+  m_Name: BerryMember
   m_EditorClassIdentifier: 
   uniqueData:
-    uniqueId: 0
+    uniqueId: 5
   recieveStorage: 0
   gatherableResource: 1
-  memberPrefab: {fileID: 6082261357034508969, guid: dea4e82fa6b1759498aab775ce1c8ce9, type: 3}
+  memberPrefab: {fileID: 6082261357034508969, guid: d1ff4f65846937747be9bdc57cc66862, type: 3}

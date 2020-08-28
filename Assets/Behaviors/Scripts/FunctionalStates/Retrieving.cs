@@ -40,7 +40,7 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
 
         public bool ResourceSourceFilter(TileMapMember member)
         {
-            if (!member.memberType.recieveStorage)
+            if (!(member.memberType?.recieveStorage ?? false))
             {
                 return false;
             }
