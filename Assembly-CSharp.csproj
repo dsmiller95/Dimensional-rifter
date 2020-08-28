@@ -164,6 +164,8 @@
     <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndBuildTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\GatherableProducer.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\IGatherable.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

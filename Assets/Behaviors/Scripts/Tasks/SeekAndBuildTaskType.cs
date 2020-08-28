@@ -28,7 +28,7 @@ namespace Assets.Behaviors.Scripts.Tasks
 
         private bool GatheringFilter(TileMapMember member)
         {
-            return member.GetComponent<Food>() != null;
+            return member.GetComponent<IGatherable>()?.CanGather() ?? false;
         }
         private bool BuildingDeliveryFilter(TileMapMember member)
         {

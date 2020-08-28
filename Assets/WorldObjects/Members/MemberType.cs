@@ -34,6 +34,9 @@ namespace Assets.WorldObjects.Members
         [Tooltip("When true this member will be included in the list of possible recepticals for a storage task")]
         public bool recieveStorage = false;
 
+        [Tooltip("When true this member will be included in the list of possible things to gather for a gathering task")]
+        public bool gatherableResource = false;
+
         public GameObject memberPrefab;
 
         public InMemberObjectData[] InstantiateNewSaveObject()

@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 6082261357034508973}
   - component: {fileID: 6082261357034508972}
   - component: {fileID: 6082261357034508971}
-  - component: {fileID: 6082261357034508970}
   - component: {fileID: 5206362183918371340}
+  - component: {fileID: 6626677555424883122}
+  - component: {fileID: 7249950768649342519}
   m_Layer: 0
-  m_Name: FoodPrefab
+  m_Name: BerryBush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,18 +102,6 @@ MonoBehaviour:
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
---- !u!114 &6082261357034508970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8ae98e62765264e885518f93f839f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5206362183918371340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,3 +117,36 @@ MonoBehaviour:
   startingInventoryAmounts:
   - type: 0
     amount: 1
+--- !u!114 &6626677555424883122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b30be4aad463a44b98ba9b92e68e062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsGatherable:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: berriesGrown
+--- !u!114 &7249950768649342519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableInstancingConfig:
+  - name: berriesGrown
+    defaultValue: 0

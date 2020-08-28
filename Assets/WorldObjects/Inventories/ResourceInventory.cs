@@ -31,7 +31,6 @@ namespace Assets.WorldObjects
         void Awake()
         {
             var initialInventory = new Dictionary<Resource, float>();
-            SetupInventoryFromAmounts(startingInventoryAmounts);
             var resourceTypes = Enum.GetValues(typeof(Resource)).Cast<Resource>();
             foreach (var resource in resourceTypes)
             {

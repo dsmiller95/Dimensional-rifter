@@ -3,20 +3,16 @@
 namespace Assets.WorldObjects.Members.Food
 {
     [RequireComponent(typeof(TileMapMember))]
-    public class Food : MonoBehaviour, IMemberSaveable
+    public class Food : MonoBehaviour, IGatherable
     {
-        public object GetSaveObject()
+        public bool CanGather()
         {
-            return null;
+            return true;
         }
 
-        public string IdentifierInsideMember()
+        public void OnGathered()
         {
-            return "Food";
-        }
-
-        public void SetupFromSaveObject(object save)
-        {
+            Destroy(gameObject);
         }
     }
 }
