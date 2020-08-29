@@ -11,7 +11,7 @@ namespace Assets.WorldObjects.Members
         public float amount;
         public Resource type;
     }
-    [CreateAssetMenu(fileName = "BuildingType", menuName = "Saving/BuildingType", order = 1)]
+    [CreateAssetMenu(fileName = "BuildingType", menuName = "Members/MemberType/BuildingType", order = 3)]
     public class BuildingMemberType : MemberType
     {
         public ResourceRequirement resourceCost;
@@ -31,15 +31,15 @@ namespace Assets.WorldObjects.Members
                         identifierInMember = VariableInstantiator.ConstantIdentifier(),
                         data = new VariableInstantiatorSaveObject
                         {
-                            boolValues = new ValueSaveObject<bool>[]
+                            boolValues = new ValueSaveObject<object>[]
                             {
-                                new ValueSaveObject<bool>
+                                new ValueSaveObject<object>
                                 {
                                     dataID = NamePathOfIsBuilt,
                                     savedValue = true
                                 }
                             },
-                            floatValues = new ValueSaveObject<float>[0]
+                            floatValues = new ValueSaveObject<object>[0]
                         }
                     }
                 };

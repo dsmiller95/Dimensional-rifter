@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Core;
 using TradeModeling.Inventories;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Assets.WorldObjects.Members.Building
 {
@@ -9,7 +8,6 @@ namespace Assets.WorldObjects.Members.Building
     [RequireComponent(typeof(TileMapMember))]
     public class Buildable : MonoBehaviour
     {
-        public UnityEvent whenBuilt;
         public BooleanReference isBuilt;
 
         private ResourceInventory inventory;
@@ -77,7 +75,6 @@ namespace Assets.WorldObjects.Members.Building
             var consumeOption = currentInventory.Consume(ResourceRequirement.Value.type, ResourceRequirement.Value.amount);
             if (consumeOption.info == ResourceRequirement.Value.amount)
             {
-                whenBuilt.Invoke();
                 isBuilt.SetValue(true);
                 return true;
             }

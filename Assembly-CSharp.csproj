@@ -146,6 +146,7 @@
     <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\ConstantTypeStorable.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Retrieving.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareTileMap.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
+    <Compile Include="Assets\WorldObjects\Inventories\SubInventoryIdentifier.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataRule.cs" />
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
@@ -173,6 +175,9 @@
     <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndBuildTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Scripts\Core\GenericState.cs" />
+    <Compile Include="Assets\Scripts\Core\BooleanState.cs" />
+    <Compile Include="Assets\Scripts\Core\FloatState.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

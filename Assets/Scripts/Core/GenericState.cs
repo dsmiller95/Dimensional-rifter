@@ -1,0 +1,22 @@
+﻿using Assets.WorldObjects.SaveObjects;
+using UnityEngine;
+
+namespace Assets.Scripts.Core
+{
+    public abstract class GenericState<T> : ScriptableObject
+    {
+#if UNITY_EDITOR
+        [Multiline]
+        public string DeveloperDescription = "";
+#endif
+
+        public string IdentifierInInstantiator;
+        public T defaultState;
+
+        public abstract GenericVariable<T> GenerateNewVariable();
+
+        public abstract object GetSaveObjectFromVariable(GenericVariable<T> variable);
+
+        public abstract void SetSaveObjectIntoVariable(GenericVariable<T> variable, object savedValue);
+    }
+}

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6082261357034508973}
   - component: {fileID: 6082261357034508972}
   - component: {fileID: 6082261357034508971}
+  - component: {fileID: 7249950768649342519}
   - component: {fileID: 5206362183918371340}
   - component: {fileID: 6626677555424883122}
-  - component: {fileID: 7249950768649342519}
   - component: {fileID: 7277563106235923023}
   - component: {fileID: 9186143157983705410}
   m_Layer: 0
@@ -104,6 +104,21 @@ MonoBehaviour:
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
+--- !u!114 &7249950768649342519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booleanStateConfig:
+  - {fileID: 11400000, guid: ab684329f647f1547b45fed74d6f686b, type: 2}
+  floatStateConfig: []
 --- !u!114 &5206362183918371340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +134,7 @@ MonoBehaviour:
   startingInventoryAmounts:
   - type: 0
     amount: 1
+  subInventories: []
 --- !u!114 &6626677555424883122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,23 +152,9 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: grown
---- !u!114 &7249950768649342519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  booleanInstancingConfig:
-  - name: grown
-    defaultValue: 1
-  floatInstancingConfig: []
+    NamePath: GrownAndReady
+  resourceToSpawn: 0
+  resourceAmount: 1
 --- !u!114 &7277563106235923023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +174,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: grown
+    NamePath: GrownAndReady
 --- !u!114 &9186143157983705410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,5 +192,5 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: grown
+    NamePath: GrownAndReady
   timeToSwitchBack: 100

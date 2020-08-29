@@ -6,19 +6,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
-    [Serializable]
-    public struct BooleanInstanceConfig
-    {
-        public string name;
-        public bool defaultValue;
-    }
-    [Serializable]
-    public struct FloatInstanceConfig
-    {
-        public string name;
-        public float defaultValue;
-    }
-
     [Serializable]  
     class ValueSaveObject<T>
     {
@@ -28,17 +15,17 @@ namespace Assets.Scripts.Core
     [Serializable]
     class VariableInstantiatorSaveObject
     {
-        public ValueSaveObject<bool>[] boolValues;
-        public ValueSaveObject<float>[] floatValues;
+        public ValueSaveObject<object>[] boolValues;
+        public ValueSaveObject<object>[] floatValues;
     }
 
     public class VariableInstantiator : MonoBehaviour, IMemberSaveable
     {
-        public BooleanInstanceConfig[] booleanInstancingConfig;
-        public FloatInstanceConfig[] floatInstancingConfig;
+        public BooleanState[] booleanStateConfig;
+        public FloatState[] floatStateConfig;
 
-        protected IDictionary<string, BooleanVariable> instancedBooleans;
-        protected IDictionary<string, FloatVariable> instancedFloats;
+        protected IDictionary<string, GenericVariable<bool>> instancedBooleans;
+        protected IDictionary<string, GenericVariable<float>> instancedFloats;
 
         private void Awake()
         {
@@ -50,21 +37,11 @@ namespace Assets.Scripts.Core
 
         private void InstantiateVariables()
         {
-            instancedBooleans = booleanInstancingConfig.ToDictionary(x => x.name, x =>
-            {
-                var instanced = ScriptableObject.CreateInstance<BooleanVariable>();
-                instanced.SetValue(x.defaultValue);
-                return instanced;
-            });
-            instancedFloats = floatInstancingConfig.ToDictionary(x => x.name, x =>
-            {
-                var instanced = ScriptableObject.CreateInstance<FloatVariable>();
-                instanced.SetValue(x.defaultValue);
-                return instanced;
-            });
+            instancedBooleans = booleanStateConfig.ToDictionary(x => x.IdentifierInInstantiator, x => x.GenerateNewVariable());
+            instancedFloats = floatStateConfig.ToDictionary(x => x.IdentifierInInstantiator, x => x.GenerateNewVariable());
         }
 
-        public BooleanVariable GetBooleanValue(string name)
+        public GenericVariable<bool> GetBooleanValue(string name)
         {
             if (instancedBooleans == null)
             {
@@ -76,7 +53,7 @@ namespace Assets.Scripts.Core
             }
             return null;
         }
-        public FloatVariable GetFloatValue(string name)
+        public GenericVariable<float> GetFloatValue(string name)
         {
             if (instancedFloats == null)
             {
@@ -102,17 +79,22 @@ namespace Assets.Scripts.Core
         {
             return new VariableInstantiatorSaveObject
             {
-                boolValues = instancedBooleans.Select(value => new ValueSaveObject<bool>
-                {
-                    dataID = value.Key,
-                    savedValue = value.Value.CurrentValue
-                }).ToArray(),
-                floatValues = instancedFloats.Select(value => new ValueSaveObject<float>
-                {
-                    dataID = value.Key,
-                    savedValue = value.Value.CurrentValue
-                }).ToArray()
+                boolValues = SaveValues(booleanStateConfig, instancedBooleans),
+                floatValues = SaveValues(floatStateConfig, instancedFloats),
             };
+        }
+
+        private ValueSaveObject<object>[] SaveValues<T>(GenericState<T>[] stateConfig, IDictionary<string, GenericVariable<T>> variables)
+        {
+            return stateConfig.Select(config =>
+            {
+                var variable = variables[config.IdentifierInInstantiator];
+                return new ValueSaveObject<object>
+                {
+                    dataID = config.IdentifierInInstantiator,
+                    savedValue = config.GetSaveObjectFromVariable(variable)
+                };
+            }).ToArray();
         }
 
         public void SetupFromSaveObject(object save)
@@ -125,19 +107,18 @@ namespace Assets.Scripts.Core
             var saveData = save as VariableInstantiatorSaveObject;
             if(saveData != null)
             {
-                foreach (var value in saveData.boolValues)
+                LoadValues(booleanStateConfig, instancedBooleans, saveData.boolValues);
+                LoadValues(floatStateConfig, instancedFloats, saveData.floatValues);
+            }
+        }
+        private void LoadValues<T>(GenericState<T>[] stateConfig, IDictionary<string, GenericVariable<T>> variables, ValueSaveObject<object>[] savedValues)
+        {
+            var stateConfigDictionary = stateConfig.ToDictionary(x => x.IdentifierInInstantiator);
+            foreach (var value in savedValues)
+            {
+                if (variables.TryGetValue(value.dataID, out var variable) && stateConfigDictionary.TryGetValue(value.dataID, out var state))
                 {
-                    if (instancedBooleans.TryGetValue(value.dataID, out var booleanVariable))
-                    {
-                        booleanVariable.SetValue(value.savedValue);
-                    }
-                }
-                foreach (var value in saveData.floatValues)
-                {
-                    if (instancedFloats.TryGetValue(value.dataID, out var floatVariable))
-                    {
-                        floatVariable.SetValue(value.savedValue);
-                    }
+                    state.SetSaveObjectIntoVariable(variable, value.savedValue);
                 }
             }
         }

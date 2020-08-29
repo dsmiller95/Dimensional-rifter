@@ -1,10 +1,12 @@
-﻿using Assets.WorldObjects.Members;
+﻿using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TradeModeling.Inventories;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine;
 
 namespace Assets.WorldObjects
 {
@@ -20,15 +22,12 @@ namespace Assets.WorldObjects
         public Resource type;
         public float amount;
     }
-    public class ResourceInventory : ObservableTriggerBase, IMemberSaveable, IInterestingInfo
+    public class ResourceInventory : MonoBehaviour, IMemberSaveable, IInterestingInfo
     {
         public IInventory<Resource> inventory;
-
         public SaveableInventoryAmount[] startingInventoryAmounts;
 
-        private InventoryNotifier<Resource> inventoryNotifier;
-
-        void Awake()
+        private void Awake()
         {
             var initialInventory = new Dictionary<Resource, float>();
             var resourceTypes = Enum.GetValues(typeof(Resource)).Cast<Resource>();
@@ -41,15 +40,6 @@ namespace Assets.WorldObjects
             inventory = new BasicInventory<Resource>(
                 initialInventory);
             SetupInventoryFromAmounts(startingInventoryAmounts);
-
-            inventoryNotifier = new InventoryNotifier<Resource>(inventory, 200);
-
-            //make sure that the observables get initialized by now, at the latest
-            ResourceAmountsChangedAsObservable();
-            ResourceCapacityChangedAsObservable();
-
-            inventoryNotifier.resourceCapacityChanges += OnResourceCapacityChanged;
-            inventoryNotifier.resourceAmountChanged += OnResourceAmountsChanged;
         }
 
         private void SetupInventoryFromAmounts(IEnumerable<SaveableInventoryAmount> amounts)
@@ -58,31 +48,6 @@ namespace Assets.WorldObjects
             {
                 inventory.SetAmount(startingAmount.type, startingAmount.amount).Execute();
             }
-        }
-
-        private ReplaySubject<ResourceChanged<Resource>> resourceAmountsChanged;
-        private ReplaySubject<ResourceChanged<Resource>> resourceCapacityChanged;
-        public IObservable<ResourceChanged<Resource>> ResourceAmountsChangedAsObservable()
-        {
-            return resourceAmountsChanged ?? (resourceAmountsChanged = new ReplaySubject<ResourceChanged<Resource>>());
-        }
-        private void OnResourceAmountsChanged(object sender, ResourceChanged<Resource> change)
-        {
-            resourceAmountsChanged.OnNext(change);
-        }
-        public IObservable<ResourceChanged<Resource>> ResourceCapacityChangedAsObservable()
-        {
-            return resourceCapacityChanged ?? (resourceCapacityChanged = new ReplaySubject<ResourceChanged<Resource>>());
-        }
-        private void OnResourceCapacityChanged(object sender, ResourceChanged<Resource> change)
-        {
-            resourceCapacityChanged.OnNext(change);
-        }
-
-        protected override void RaiseOnCompletedOnDestroy()
-        {
-            resourceAmountsChanged?.OnCompleted();
-            resourceCapacityChanged?.OnCompleted();
         }
 
         public static ResourceInventorySaveData GenerateEmptySaveObject()

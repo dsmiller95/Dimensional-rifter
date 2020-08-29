@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 5206362183918371340}
   - component: {fileID: 7249950768649342519}
   - component: {fileID: 4790017440937557276}
+  - component: {fileID: 1270750162551648716}
   - component: {fileID: 4340622512134463504}
   - component: {fileID: 6626677555424883122}
   - component: {fileID: 4647310940021103158}
-  - component: {fileID: 1270750162551648716}
   m_Layer: 0
   m_Name: SquareCrystalizer
   m_TagString: Untagged
@@ -121,6 +121,7 @@ MonoBehaviour:
   startingInventoryAmounts:
   - type: 1
     amount: 0
+  subInventories: []
 --- !u!114 &7249950768649342519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,14 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booleanInstancingConfig:
-  - name: grown
-    defaultValue: 0
-  - name: built
-    defaultValue: 0
-  floatInstancingConfig:
-  - name: crystal_growth_amount
-    defaultValue: 0
+  booleanStateConfig:
+  - {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
+  - {fileID: 11400000, guid: ab684329f647f1547b45fed74d6f686b, type: 2}
+  floatStateConfig:
+  - {fileID: 11400000, guid: f6b4d7e2becc8544bb401654b8b7bf6b, type: 2}
 --- !u!114 &4790017440937557276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,15 +151,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7c7eb9938b1a448a9656f0b927dea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whenBuilt:
-    m_PersistentCalls:
-      m_Calls: []
   isBuilt:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: built
+    NamePath: Built
+--- !u!114 &1270750162551648716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c91068d992ae9f4eaefa3ebe3d8f64e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorIfTrue: {r: 1, g: 1, b: 1, a: 1}
+  colorIfFalse: {r: 0.79607844, g: 0.11861568, b: 0.69445896, a: 0.8156863}
+  colorSwitch:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: Built
 --- !u!114 &4340622512134463504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,19 +194,19 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: crystal_growth_amount
+    NamePath: GrowthProgress
   CanGrow:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: built
+    NamePath: Built
   IsGrown:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: grown
+    NamePath: GrownAndReady
   increasePerSecond: 0.1
   completeAmount: 10
 --- !u!114 &6626677555424883122
@@ -211,7 +226,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: grown
+    NamePath: GrownAndReady
   resourceToSpawn: 1
   resourceAmount: 1
 --- !u!114 &4647310940021103158
@@ -237,25 +252,5 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: crystal_growth_amount
+    NamePath: GrowthProgress
   amountPerSprite: 2.4
---- !u!114 &1270750162551648716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c91068d992ae9f4eaefa3ebe3d8f64e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorIfTrue: {r: 1, g: 1, b: 1, a: 1}
-  colorIfFalse: {r: 0.79607844, g: 0.11861568, b: 0.69445896, a: 0.8156863}
-  colorSwitch:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 7249950768649342519}
-    NamePath: built

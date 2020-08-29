@@ -12,7 +12,7 @@ namespace Assets.WorldObjects.Members
         public TileMapMember memberPrefab;
     }
 
-    [CreateAssetMenu(fileName = "TileMemberTypePrefabRegistry", menuName = "Saving/MembersPrefabRegistry", order = 1)]
+    [CreateAssetMenu(fileName = "TileMemberTypePrefabRegistry", menuName = "Members/MemberType/MembersPrefabRegistry", order = 1)]
     public class MembersRegistry : ScriptableObject
     {
         public MemberType[] allTypes;

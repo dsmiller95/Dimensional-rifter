@@ -15,7 +15,9 @@ MonoBehaviour:
   uniqueData:
     uniqueId: 3
   recieveStorage: 0
+  gatherableResource: 0
   memberPrefab: {fileID: 506530251402321468, guid: 65d8ea125a350a54abbae288076a3896, type: 3}
   resourceCost:
     amount: 1
     type: 0
+  NamePathOfIsBuilt: Built

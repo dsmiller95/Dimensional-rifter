@@ -9,7 +9,7 @@ namespace Assets.Scripts.Core.Editor
     {
         protected override List<string> GetValidNamePaths(VariableInstantiator instantiator)
         {
-            return instantiator.floatInstancingConfig.Select(x => x.name).ToList();
+            return instantiator.floatStateConfig.Select(x => x.IdentifierInInstantiator).ToList();
         }
     }
 }

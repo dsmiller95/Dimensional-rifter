@@ -25,7 +25,7 @@ namespace Assets.WorldObjects.Members
     }
 
     [Serializable]
-    [CreateAssetMenu(fileName = "MemberType", menuName = "Saving/MemberType", order = 1)]
+    [CreateAssetMenu(fileName = "MemberType", menuName = "Members/MemberType/Type", order = 2)]
     public class MemberType : ScriptableObject
     {
         [SerializeField]

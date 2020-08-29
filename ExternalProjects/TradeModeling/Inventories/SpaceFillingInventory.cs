@@ -6,7 +6,7 @@ using TradeModeling.Economics;
 namespace TradeModeling.Inventories
 {
     /// <summary>
-    /// An inventory with infinite capacity
+    /// An inventory with limited capacity that can only store certain items
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class SpaceFillingInventory<T> : BasicInventory<T>, ISpaceFillingInventory<T>
