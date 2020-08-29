@@ -89,9 +89,13 @@ namespace Assets.Scripts.Core
             return null;
         }
 
-        public string IdentifierInsideMember()
+        public static string ConstantIdentifier()
         {
             return "Instantiator";
+        }
+        public string IdentifierInsideMember()
+        {
+            return ConstantIdentifier();
         }
 
         public object GetSaveObject()

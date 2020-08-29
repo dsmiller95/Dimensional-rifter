@@ -12,10 +12,12 @@ GameObject:
   - component: {fileID: 6082261357034508972}
   - component: {fileID: 6082261357034508971}
   - component: {fileID: 5206362183918371340}
-  - component: {fileID: 6626677555424883122}
   - component: {fileID: 7249950768649342519}
-  - component: {fileID: 7277563106235923023}
-  - component: {fileID: 9186143157983705410}
+  - component: {fileID: 4790017440937557276}
+  - component: {fileID: 4340622512134463504}
+  - component: {fileID: 6626677555424883122}
+  - component: {fileID: 4647310940021103158}
+  - component: {fileID: 1270750162551648716}
   m_Layer: 0
   m_Name: SquareCrystalizer
   m_TagString: Untagged
@@ -119,6 +121,79 @@ MonoBehaviour:
   startingInventoryAmounts:
   - type: 1
     amount: 0
+--- !u!114 &7249950768649342519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booleanInstancingConfig:
+  - name: grown
+    defaultValue: 0
+  - name: built
+    defaultValue: 0
+  floatInstancingConfig:
+  - name: crystal_growth_amount
+    defaultValue: 0
+--- !u!114 &4790017440937557276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7c7eb9938b1a448a9656f0b927dea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whenBuilt:
+    m_PersistentCalls:
+      m_Calls: []
+  isBuilt:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: built
+--- !u!114 &4340622512134463504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cd07fa7b639844ba6375739a5225d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToIncrease:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: crystal_growth_amount
+  CanGrow:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: built
+  IsGrown:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: grown
+  increasePerSecond: 0.1
+  completeAmount: 10
 --- !u!114 &6626677555424883122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,8 +211,10 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: 
---- !u!114 &7249950768649342519
+    NamePath: grown
+  resourceToSpawn: 1
+  resourceAmount: 1
+--- !u!114 &4647310940021103158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,32 +223,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
+  m_Script: {fileID: 11500000, guid: 9abb35a8e1bbe854d8b210ea5e262a76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booleanInstancingConfig: []
-  floatInstancingConfig: []
---- !u!114 &7277563106235923023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ecaf7788db62e8469aa4420aa34952d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteIfTrue: {fileID: 2408991836313283690, guid: c49c8c49ef421e64f9fb6847c586078f, type: 3}
-  spriteIfFalse: {fileID: 619551235208903269, guid: c49c8c49ef421e64f9fb6847c586078f, type: 3}
-  spriteSwitch:
+  spriteSequence:
+  - {fileID: -3757666744587370351, guid: e3795e2cf7ee4a444b7006b91b942df4, type: 3}
+  - {fileID: -2094044951357645320, guid: e3795e2cf7ee4a444b7006b91b942df4, type: 3}
+  - {fileID: -1295915826272267571, guid: e3795e2cf7ee4a444b7006b91b942df4, type: 3}
+  - {fileID: 3407078235114182739, guid: e3795e2cf7ee4a444b7006b91b942df4, type: 3}
+  - {fileID: 132321180192083793, guid: e3795e2cf7ee4a444b7006b91b942df4, type: 3}
+  animateValue:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: 
---- !u!114 &9186143157983705410
+    NamePath: crystal_growth_amount
+  amountPerSprite: 2.4
+--- !u!114 &1270750162551648716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,13 +248,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df7fed734d2d88489c749a613ffde02, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c91068d992ae9f4eaefa3ebe3d8f64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boolToSwitch:
+  colorIfTrue: {r: 1, g: 1, b: 1, a: 1}
+  colorIfFalse: {r: 0.79607844, g: 0.11861568, b: 0.69445896, a: 0.8156863}
+  colorSwitch:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
-    NamePath: 
-  timeToSwitchBack: 10
+    NamePath: built

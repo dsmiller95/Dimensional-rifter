@@ -5,5 +5,6 @@
     {
         bool CanGather();
         void OnGathered();
+        Resource GatherableType { get; }
     }
 }

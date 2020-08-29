@@ -163,6 +163,22 @@ public class TileMapNavigationMember : TileMapMember
     {
         return AllPossiblePaths(filter).Any();
     }
+    private (List<ICoordinate>, TileMapMember) GetPathIfExists(TileMapMember member)
+    {
+        var path = PathfinderUtils.PathBetween(
+                    coordinatePosition,
+                    member.CoordinatePosition,
+                    currentRegion,
+                    (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToList();
+        return (path,
+                member);
+    }
+    public bool IsReachable(TileMapMember member)
+    {
+        var foundPath = GetPathIfExists(member);
+        return foundPath.Item1 != null;
+    }
+
     private void OnDestroy()
     {
         currentRegion.universalContentTracker.DeRegisterInTileMap(this);

@@ -171,6 +171,8 @@
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
+    <Compile Include="Assets\Scripts\AnimateSprite.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

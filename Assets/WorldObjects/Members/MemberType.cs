@@ -39,7 +39,7 @@ namespace Assets.WorldObjects.Members
 
         public GameObject memberPrefab;
 
-        public InMemberObjectData[] InstantiateNewSaveObject()
+        public virtual InMemberObjectData[] InstantiateNewSaveObject()
         {
             return new InMemberObjectData[0];
         }

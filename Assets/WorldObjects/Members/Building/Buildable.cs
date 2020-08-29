@@ -24,6 +24,10 @@ namespace Assets.WorldObjects.Members.Building
         {
             get
             {
+                if (_resourceRequirementCached.HasValue)
+                {
+                    return _resourceRequirementCached;
+                }
                 var tileMember = GetComponent<TileMapMember>();
                 if (tileMember.memberType is BuildingMemberType buildable)
                 {

@@ -2,13 +2,24 @@
 using Assets.WorldObjects;
 using Assets.WorldObjects.Members.Food;
 using System;
+using System.Linq;
 using TradeModeling.Inventories;
-using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.FunctionalStates
 {
     public class Gathering : ContinueableState<TileMapMember>
     {
+        private Resource? targetElement;
+
+        public Gathering()
+        {
+
+        }
+
+        public Gathering(Resource target)
+        {
+            targetElement = target;
+        }
 
         public override IGenericStateHandler<TileMapMember> HandleState(TileMapMember data)
         {
@@ -24,8 +35,12 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
                     .inventory.DrainAllInto(myInv.inventory, Enum.GetValues(typeof(Resource)) as Resource[]);
 
                 foundFood.OnGathered();
+                return next;
             }
-            if (myInv.inventory.Get(Resource.FOOD) > 0)
+            // TODO:
+            //  This is to "recover" from a save state where I have something in my inventory
+            //  this really should be done at decision-time, not on every loop
+            if (myInv.inventory.GetCurrentResourceAmounts().Any(x => x.Value > 0))
             {
                 return next;
             }
@@ -33,7 +48,12 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
         }
         private bool GatheringFilter(TileMapMember member)
         {
-            return member.GetComponent<IGatherable>()?.CanGather() ?? false;
+            var gatherable = member.GetComponent<IGatherable>();
+            if (gatherable == null || !gatherable.CanGather())
+            {
+                return false;
+            }
+            return !targetElement.HasValue || targetElement.Value == gatherable.GatherableType;
         }
 
         public override void TransitionIntoState(TileMapMember data)

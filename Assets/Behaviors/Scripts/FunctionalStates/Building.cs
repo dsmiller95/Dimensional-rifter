@@ -32,7 +32,6 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             return buildable != null && buildable.CanBuild();
         }
 
-
         public override void TransitionIntoState(TileMapMember data)
         {
             base.TransitionIntoState(data);

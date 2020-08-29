@@ -5,6 +5,7 @@ namespace Assets.WorldObjects.Members.Food
     [RequireComponent(typeof(TileMapMember))]
     public class Food : MonoBehaviour, IGatherable
     {
+        public Resource resourceType = Resource.FOOD;
         public bool CanGather()
         {
             return true;
@@ -14,5 +15,6 @@ namespace Assets.WorldObjects.Members.Food
         {
             Destroy(gameObject);
         }
+        public Resource GatherableType => resourceType;
     }
 }
