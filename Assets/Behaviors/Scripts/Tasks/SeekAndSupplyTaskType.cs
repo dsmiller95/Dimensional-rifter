@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Scripts.FunctionalStates;
 using Assets.WorldObjects;
+using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Building;
 using Assets.WorldObjects.Members.Food;
 using System.Collections.Generic;
@@ -8,17 +9,19 @@ using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.Tasks
 {
-    [CreateAssetMenu(fileName = "SeekAndBuild", menuName = "Tasks/SeekAndBuild", order = 10)]
-    public class SeekAndBuildTaskType : TaskType
+    [CreateAssetMenu(fileName = "SeekAndSupply", menuName = "Tasks/SeekAndSupply", order = 10)]
+    public class SeekAndSupplyTaskType : TaskType
     {
+        public SupplyType myTaskSupplyType;
+
         public override IGenericStateHandler<TileMapMember> TryGetEntryState(TileMapMember sourceMember, IGenericStateHandler<TileMapMember> returnToState)
         {
             if (sourceMember is TileMapNavigationMember navigation)
             {
                 var content = navigation.currentRegion.universalContentTracker.allMembers;
-                var pair = GetPossibleBuildingPair(
+                var pair = GetPossibleSupplyPair(
                     content.Where(GatheringFilter).Where(x => navigation.IsReachable(x)),
-                    content.Where(BuildingDeliveryFilter).Where(x => navigation.IsReachable(x))
+                    content.Where(SupplyDeliveryFilter).Where(x => navigation.IsReachable(x))
                     );
                 if (!pair.HasValue)
                 {
@@ -28,17 +31,16 @@ namespace Assets.Behaviors.Scripts.Tasks
                 var gatheredResource = gatherable.GatherableType;
                 var resultState = new Gathering(gatheredResource);
                 resultState
-                    .ContinueWith(new Storing(member => BuildingDeliveryFilterByResourceAvailable(member, gatheredResource)))
-                    .ContinueWith(new Building())
+                    .ContinueWith(new Supplying(member => SupplyDeliveryFilterByResourceAvailable(member, gatheredResource)))
                     .ContinueWith(returnToState);
                 return resultState;
             }
             throw new System.Exception("Gathering requres a navigation member");
         }
 
-        private (Buildable, TileMapMember)? GetPossibleBuildingPair(
+        private (Supplyable, TileMapMember)? GetPossibleSupplyPair(
             IEnumerable<TileMapMember> reachableGatherables,
-            IEnumerable<TileMapMember> reachableBuildables)
+            IEnumerable<TileMapMember> reachableSuppliables)
         {
             var availableResources = new Dictionary<Resource, IList<TileMapMember>>();
 
@@ -46,23 +48,26 @@ namespace Assets.Behaviors.Scripts.Tasks
                 .Select(x => new { resource = x.GetComponent<IGatherable>().GatherableType, member = x });
 
             var gathererIterator = gatherableMembers.GetEnumerator();
-            var buildableMembers = reachableBuildables
-                .Select(x => x.GetComponent<Buildable>());
+            var supplyableMembers = reachableSuppliables
+                .SelectMany(x => x.GetComponents<Supplyable>());
             
 
-            foreach (var buildable in buildableMembers)
+            foreach (var supplyable in supplyableMembers)
             {
-                var requirements = buildable.ResourceRequirement.Value;
-                if (availableResources.TryGetValue(requirements.type, out var memberList))
+                var requirements = supplyable.ValidSupplyTypes();
+                foreach (var resource in requirements)
                 {
-                    return (buildable, memberList.First());
+                    if (availableResources.TryGetValue(resource, out var memberList))
+                    {
+                        return (supplyable, memberList.First());
+                    }
                 }
                 while (gathererIterator.MoveNext())
                 {
                     var currentResource = gathererIterator.Current;
-                    if(currentResource.resource == requirements.type)
+                    if(requirements.Contains(currentResource.resource))
                     {
-                        return (buildable, currentResource.member);
+                        return (supplyable, currentResource.member);
                     }
 
                     IList<TileMapMember> gatherablesOfType;
@@ -81,19 +86,26 @@ namespace Assets.Behaviors.Scripts.Tasks
         {
             return member.GetComponent<IGatherable>()?.CanGather() ?? false;
         }
-        private bool BuildingDeliveryFilterByResourceAvailable(TileMapMember member, Resource gatheredResource)
+        private bool SupplyDeliveryFilterByResourceAvailable(TileMapMember member, Resource gatheredResource)
         {
-            var buildable = member.GetComponent<Buildable>();
-            return BuildingDeliveryFilter(buildable) && buildable.ResourceRequirement.Value.type == gatheredResource;
+            var supplyables = member.GetComponents<Supplyable>();
+            return supplyables.Any(supplyable =>
+            {
+                if (!SupplyDeliveryFilter(supplyable))
+                {
+                    return false;
+                }
+                return supplyable.IsResourceSupplyable(gatheredResource);
+            });
         }
-        private bool BuildingDeliveryFilter(TileMapMember member)
+        private bool SupplyDeliveryFilter(TileMapMember member)
         {
-            var buildable = member.GetComponent<Buildable>();
-            return BuildingDeliveryFilter(buildable);
+            var supplyables = member.GetComponents<Supplyable>();
+            return supplyables.Any(x => SupplyDeliveryFilter(x));
         }
-        private bool BuildingDeliveryFilter(Buildable buildable)
+        private bool SupplyDeliveryFilter(Supplyable supplyable)
         {
-            return buildable != null && buildable.CanBeBuilt();
+            return supplyable?.SupplyType == myTaskSupplyType && supplyable.CanRecieveSupply();
         }
     }
 }

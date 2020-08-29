@@ -1,12 +1,15 @@
-﻿using Assets.WorldObjects.Members;
+﻿using Assets.Scripts.ObjectVariables;
+using Assets.WorldObjects;
+using Assets.WorldObjects.Members;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
-    [Serializable]  
+    [Serializable]
     class ValueSaveObject<T>
     {
         public string dataID;
@@ -17,19 +20,27 @@ namespace Assets.Scripts.Core
     {
         public ValueSaveObject<object>[] boolValues;
         public ValueSaveObject<object>[] floatValues;
+        public ValueSaveObject<object>[] inventoryValues;
     }
 
     public class VariableInstantiator : MonoBehaviour, IMemberSaveable
     {
         public BooleanState[] booleanStateConfig;
         public FloatState[] floatStateConfig;
+        public InventoryState[] inventoryStateConfig;
 
         protected IDictionary<string, GenericVariable<bool>> instancedBooleans;
         protected IDictionary<string, GenericVariable<float>> instancedFloats;
+        protected IDictionary<string, GenericVariable<IInventory<Resource>>> instancedInventories;
 
         private void Awake()
         {
-            if (instancedBooleans == null || instancedFloats == null)
+            EnsureInstanced();
+        }
+
+        private void EnsureInstanced()
+        {
+            if (instancedBooleans == null || instancedFloats == null || instancedInventories == null)
             {
                 InstantiateVariables();
             }
@@ -39,27 +50,28 @@ namespace Assets.Scripts.Core
         {
             instancedBooleans = booleanStateConfig.ToDictionary(x => x.IdentifierInInstantiator, x => x.GenerateNewVariable());
             instancedFloats = floatStateConfig.ToDictionary(x => x.IdentifierInInstantiator, x => x.GenerateNewVariable());
+            instancedInventories = inventoryStateConfig.ToDictionary(x => x.IdentifierInInstantiator, x => x.GenerateNewVariable());
         }
 
         public GenericVariable<bool> GetBooleanValue(string name)
         {
-            if (instancedBooleans == null)
-            {
-                InstantiateVariables();
-            }
-            if (instancedBooleans.TryGetValue(name, out var variable))
-            {
-                return variable;
-            }
-            return null;
+            EnsureInstanced();
+            return GetValue(name, instancedBooleans);
         }
         public GenericVariable<float> GetFloatValue(string name)
         {
-            if (instancedFloats == null)
-            {
-                InstantiateVariables();
-            }
-            if (instancedFloats.TryGetValue(name, out var variable))
+            EnsureInstanced();
+            return GetValue(name, instancedFloats);
+        }
+        public GenericVariable<IInventory<Resource>> GetInventoryValue(string name)
+        {
+            EnsureInstanced();
+            return GetValue(name, instancedInventories);
+        }
+
+        private GenericVariable<T> GetValue<T>(string path, IDictionary<string, GenericVariable<T>> instancedValues)
+        {
+            if (instancedValues.TryGetValue(path, out var variable))
             {
                 return variable;
             }
@@ -81,6 +93,7 @@ namespace Assets.Scripts.Core
             {
                 boolValues = SaveValues(booleanStateConfig, instancedBooleans),
                 floatValues = SaveValues(floatStateConfig, instancedFloats),
+                inventoryValues = SaveValues(inventoryStateConfig, instancedInventories),
             };
         }
 
@@ -99,16 +112,14 @@ namespace Assets.Scripts.Core
 
         public void SetupFromSaveObject(object save)
         {
-            if (instancedBooleans == null)
-            {
-                InstantiateVariables();
-            }
+            EnsureInstanced();
 
             var saveData = save as VariableInstantiatorSaveObject;
-            if(saveData != null)
+            if (saveData != null)
             {
                 LoadValues(booleanStateConfig, instancedBooleans, saveData.boolValues);
                 LoadValues(floatStateConfig, instancedFloats, saveData.floatValues);
+                LoadValues(inventoryStateConfig, instancedInventories, saveData.inventoryValues);
             }
         }
         private void LoadValues<T>(GenericState<T>[] stateConfig, IDictionary<string, GenericVariable<T>> variables, ValueSaveObject<object>[] savedValues)

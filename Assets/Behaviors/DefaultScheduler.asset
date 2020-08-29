@@ -16,6 +16,7 @@ MonoBehaviour:
   tasksByTimeZone:
   - validTimezones: 00000000
     prioritizedTasks:
+    - {fileID: 11400000, guid: c7f045aebf6bdc74c9c8566fecd1ea56, type: 2}
     - {fileID: 11400000, guid: 89580949b32946d408421814cf1cb659, type: 2}
     - {fileID: 11400000, guid: 8b0b8b7d595372443a7814340384cf91, type: 2}
   - validTimezones: 0100000002000000

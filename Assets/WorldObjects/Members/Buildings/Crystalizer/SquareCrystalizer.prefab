@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6082261357034508971}
   - component: {fileID: 5206362183918371340}
   - component: {fileID: 7249950768649342519}
+  - component: {fileID: 2768249586079563783}
   - component: {fileID: 4790017440937557276}
   - component: {fileID: 1270750162551648716}
   - component: {fileID: 4340622512134463504}
@@ -118,10 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingInventoryAmounts:
-  - type: 1
-    amount: 0
-  subInventories: []
+  startingInventoryAmounts: []
 --- !u!114 &7249950768649342519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,8 +135,41 @@ MonoBehaviour:
   booleanStateConfig:
   - {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
   - {fileID: 11400000, guid: ab684329f647f1547b45fed74d6f686b, type: 2}
+  - {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}
   floatStateConfig:
   - {fileID: 11400000, guid: f6b4d7e2becc8544bb401654b8b7bf6b, type: 2}
+  inventoryStateConfig:
+  - {fileID: 11400000, guid: 3ac7c3d24f7cf6243b7f06419d26defb, type: 2}
+--- !u!114 &2768249586079563783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd4629fda1edcf44b9acb99929eba9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSupplyable:
+    DataSource: 0
+    ConstantValue: 1
+    Variable: {fileID: 0}
+    Instancer: {fileID: 0}
+    NamePath: 
+  inventoryToSupplyInto:
+    DataSource: 2
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: BuildInventory
+  SupplyType: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
+  SupplyFull:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: IsBuildFull
 --- !u!114 &4790017440937557276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +188,12 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: Built
+  isBuildSupplyFull:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: IsBuildFull
 --- !u!114 &1270750162551648716
 MonoBehaviour:
   m_ObjectHideFlags: 0

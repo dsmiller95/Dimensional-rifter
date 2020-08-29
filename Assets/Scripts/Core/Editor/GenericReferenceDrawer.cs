@@ -117,9 +117,16 @@ namespace Assets.Scripts.Core.Editor
             {
                 case ReferenceDataSource.CONSTANT:
                     SerializedProperty constantValue = property.FindPropertyRelative("ConstantValue");
-                    EditorGUI.PropertyField(position,
-                        constantValue,
-                        GUIContent.none);
+                    if(constantValue == null)
+                    {
+                        EditorGUI.HelpBox(position, "Cannot set constant value", MessageType.Error);
+                    }
+                    else
+                    {
+                        EditorGUI.PropertyField(position,
+                            constantValue,
+                            GUIContent.none);
+                    }
                     break;
                 case ReferenceDataSource.SINGLETON_VARIABLE:
                     SerializedProperty variable = property.FindPropertyRelative("Variable");

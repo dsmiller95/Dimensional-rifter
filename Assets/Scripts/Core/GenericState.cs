@@ -11,7 +11,6 @@ namespace Assets.Scripts.Core
 #endif
 
         public string IdentifierInInstantiator;
-        public T defaultState;
 
         public abstract GenericVariable<T> GenerateNewVariable();
 

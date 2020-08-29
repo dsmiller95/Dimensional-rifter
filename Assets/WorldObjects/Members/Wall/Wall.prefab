@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 1775895047749063725}
   - component: {fileID: 753903031417975742}
   - component: {fileID: 4366038420737455548}
-  - component: {fileID: 3983353939130839650}
-  - component: {fileID: 4822000996556524234}
+  - component: {fileID: 4646888107847878781}
   - component: {fileID: 2089076009123118786}
+  - component: {fileID: 3983353939130839650}
   - component: {fileID: 7829678868410144590}
   m_Layer: 0
   m_Name: Wall
@@ -147,7 +147,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   booleanStateConfig:
   - {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
+  - {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}
   floatStateConfig: []
+  inventoryStateConfig:
+  - {fileID: 11400000, guid: 64a81b7081fbb1849935beb945d64363, type: 2}
 --- !u!114 &753903031417975742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
   objectToAssign: {fileID: 506530251402321468}
---- !u!114 &3983353939130839650
+--- !u!114 &4646888107847878781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,29 +201,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 506530251402321468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a48dfb2d94165545956cd7f638d5c8c, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd4629fda1edcf44b9acb99929eba9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyBlocking:
-    DataSource: 2
+  IsSupplyable:
+    DataSource: 0
     ConstantValue: 1
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
     NamePath: Built
---- !u!114 &4822000996556524234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingInventoryAmounts: []
-  subInventories: []
+  inventoryToSupplyInto:
+    DataSource: 2
+    Variable: {fileID: 0}
+    Instancer: {fileID: 1775895047749063725}
+    NamePath: BuildInventory
+  SupplyType: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
+  SupplyFull:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 1775895047749063725}
+    NamePath: Built
 --- !u!114 &2089076009123118786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +237,30 @@ MonoBehaviour:
   isBuilt:
     DataSource: 2
     ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 1775895047749063725}
+    NamePath: Built
+  isBuildSupplyFull:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 1775895047749063725}
+    NamePath: IsBuildFull
+--- !u!114 &3983353939130839650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a48dfb2d94165545956cd7f638d5c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyBlocking:
+    DataSource: 2
+    ConstantValue: 1
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
     NamePath: Built

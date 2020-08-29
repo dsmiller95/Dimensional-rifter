@@ -58,6 +58,7 @@
     <Compile Include="Assets\Scripts\Core\Editor\FloatReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\GenericReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
+    <Compile Include="Assets\Scripts\ObjectVariables\Editor\InventoryReferenceDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

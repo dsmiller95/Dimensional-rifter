@@ -23,7 +23,7 @@ namespace TradeModeling.Inventories
         {
             _inventoryCapacity = capacity;
             this.spaceFillingItems = new HashSet<T>(spaceFillingItems);
-            if(validItems != null)
+            if (validItems != null)
             {
                 this.validItems = new HashSet<T>(validItems);
                 if (inventory.Select(x => x.Key).Except(this.validItems).Any())
@@ -73,7 +73,8 @@ namespace TradeModeling.Inventories
             if (validItems != null && !validItems.Contains(type))
             {
                 amount = 0;
-            }else if (spaceFillingItems.Contains(type))
+            }
+            else if (spaceFillingItems.Contains(type))
             {
                 amount = Math.Min(amount, Get(type) + remainingCapacity);
             }
@@ -95,6 +96,15 @@ namespace TradeModeling.Inventories
         public override IInventory<T> CloneSimulated()
         {
             return new SpaceFillingInventory<T>(this);
+        }
+        public override ISet<T> GetResourcesWithSpace()
+        {
+            var validItemBuilder = new HashSet<T>(validItems);
+            if (remainingCapacity <= 1e-5)
+            {
+                validItemBuilder.ExceptWith(spaceFillingItems);
+            }
+            return validItemBuilder;
         }
     }
 }

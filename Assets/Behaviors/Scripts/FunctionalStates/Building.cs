@@ -26,7 +26,7 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             return this;
         }
 
-        private bool BuildingFilter(TileMapMember member)
+        public bool BuildingFilter(TileMapMember member)
         {
             var buildable = member.GetComponent<Buildable>();
             return buildable != null && buildable.CanBuild();

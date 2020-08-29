@@ -20,4 +20,8 @@ MonoBehaviour:
   resourceCost:
     amount: 1
     type: 1
-  NamePathOfIsBuilt: Built
+  boolDefaults:
+  - defaultValue: 1
+    stateToSet: {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}
+  - defaultValue: 1
+    stateToSet: {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}

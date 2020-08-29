@@ -34,7 +34,7 @@ namespace TradeModeling.Inventories
         public float Get(T type)
         {
             float value;
-            if(inventory.TryGetValue(type, out value))
+            if (inventory.TryGetValue(type, out value))
             {
                 return value;
             }
@@ -75,6 +75,11 @@ namespace TradeModeling.Inventories
         public string ToString(Func<T, string> serializer)
         {
             return MyUtilities.SerializeDictionary(GetCurrentResourceAmounts(), serializer, num => num.ToString());
+        }
+
+        public virtual ISet<T> GetResourcesWithSpace()
+        {
+            return new HashSet<T>(GetAllResourceTypes());
         }
     }
 }

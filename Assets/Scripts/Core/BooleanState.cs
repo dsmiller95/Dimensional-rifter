@@ -5,6 +5,7 @@ namespace Assets.Scripts.Core
     [CreateAssetMenu(fileName = "BooleanState", menuName = "State/BooleanState", order = 2)]
     public class BooleanState : GenericState<bool>
     {
+        public bool defaultState;
         public override GenericVariable<bool> GenerateNewVariable()
         {
             var instanced = CreateInstance<BooleanVariable>();

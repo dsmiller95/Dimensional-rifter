@@ -5,6 +5,7 @@ namespace Assets.Scripts.Core
     [CreateAssetMenu(fileName = "FloatState", menuName = "State/FloatState", order = 2)]
     public class FloatState : GenericState<float>
     {
+        public float defaultState;
         public override GenericVariable<float> GenerateNewVariable()
         {
             var instanced = CreateInstance<FloatVariable>();

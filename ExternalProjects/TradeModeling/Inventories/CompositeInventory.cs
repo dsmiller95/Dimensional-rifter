@@ -219,5 +219,14 @@ namespace TradeModeling.Inventories
         {
             return totalFullSpace / GetInventoryCapacity();
         }
+
+        public ISet<T> GetResourcesWithSpace()
+        {
+            return inventorySources.Select(x => x.GetResourcesWithSpace()).Aggregate((agg, next) =>
+            {
+                agg.UnionWith(next);
+                return agg;
+            });
+        }
     }
 }

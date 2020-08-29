@@ -21,6 +21,8 @@ namespace TradeModeling.Inventories
 
         IEnumerable<T> GetAllResourceTypes();
 
+        ISet<T> GetResourcesWithSpace();
+
         /// <summary>
         /// Sets the amount of a given type in this inventory
         /// </summary>
