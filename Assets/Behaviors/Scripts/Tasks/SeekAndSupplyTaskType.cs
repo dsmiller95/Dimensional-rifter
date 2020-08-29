@@ -1,8 +1,6 @@
 ﻿using Assets.Behaviors.Scripts.FunctionalStates;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
-using Assets.WorldObjects.Members.Building;
-using Assets.WorldObjects.Members.Food;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +10,21 @@ namespace Assets.Behaviors.Scripts.Tasks
     [CreateAssetMenu(fileName = "SeekAndSupply", menuName = "Tasks/SeekAndSupply", order = 10)]
     public class SeekAndSupplyTaskType : TaskType
     {
-        public SupplyType myTaskSupplyType;
+        public ItemSourceType[] validItemSources;
+        private ISet<ItemSourceType> _validItems;
+        private ISet<ItemSourceType> ValidItemSourceTypes
+        {
+            get
+            {
+                if(_validItems == null)
+                {
+                    _validItems = new HashSet<ItemSourceType>(validItemSources);
+                }
+                return _validItems;
+            }
+        }
+
+        public SuppliableType validSupplyTarget;
 
         public override IGenericStateHandler<TileMapMember> TryGetEntryState(TileMapMember sourceMember, IGenericStateHandler<TileMapMember> returnToState)
         {
@@ -27,9 +39,8 @@ namespace Assets.Behaviors.Scripts.Tasks
                 {
                     return null;
                 }
-                var gatherable = pair.Value.Item2.GetComponent<IGatherable>();
-                var gatheredResource = gatherable.GatherableType;
-                var resultState = new Gathering(gatheredResource);
+                var gatheredResource = pair.Value.Item3;
+                var resultState = new Gathering(gatheredResource, ValidItemSourceTypes);
                 resultState
                     .ContinueWith(new Supplying(member => SupplyDeliveryFilterByResourceAvailable(member, gatheredResource)))
                     .ContinueWith(returnToState);
@@ -38,19 +49,18 @@ namespace Assets.Behaviors.Scripts.Tasks
             throw new System.Exception("Gathering requres a navigation member");
         }
 
-        private (Supplyable, TileMapMember)? GetPossibleSupplyPair(
+        private (Suppliable, TileMapMember, Resource)? GetPossibleSupplyPair(
             IEnumerable<TileMapMember> reachableGatherables,
             IEnumerable<TileMapMember> reachableSuppliables)
         {
             var availableResources = new Dictionary<Resource, IList<TileMapMember>>();
 
             var gatherableMembers = reachableGatherables
-                .Select(x => new { resource = x.GetComponent<IGatherable>().GatherableType, member = x });
+                .Select(x => new { resources = new HashSet<Resource>(x.GetComponent<ItemSource>().AvailableTypes()), member = x });
 
             var gathererIterator = gatherableMembers.GetEnumerator();
             var supplyableMembers = reachableSuppliables
-                .SelectMany(x => x.GetComponents<Supplyable>());
-            
+                .SelectMany(x => x.GetComponents<Suppliable>());
 
             foreach (var supplyable in supplyableMembers)
             {
@@ -59,24 +69,28 @@ namespace Assets.Behaviors.Scripts.Tasks
                 {
                     if (availableResources.TryGetValue(resource, out var memberList))
                     {
-                        return (supplyable, memberList.First());
+                        return (supplyable, memberList.First(), resource);
                     }
                 }
                 while (gathererIterator.MoveNext())
                 {
                     var currentResource = gathererIterator.Current;
-                    if(requirements.Contains(currentResource.resource))
+                    if (requirements.Overlaps(currentResource.resources))
                     {
-                        return (supplyable, currentResource.member);
+                        var overlap = requirements.Intersect(currentResource.resources);
+                        return (supplyable, currentResource.member, overlap.First());
                     }
 
                     IList<TileMapMember> gatherablesOfType;
-                    if(!availableResources.TryGetValue(currentResource.resource, out gatherablesOfType))
+                    foreach (var resourceType in currentResource.resources)
                     {
-                        gatherablesOfType = new List<TileMapMember>();
-                        availableResources[currentResource.resource] = gatherablesOfType;
+                        if (!availableResources.TryGetValue(resourceType, out gatherablesOfType))
+                        {
+                            gatherablesOfType = new List<TileMapMember>();
+                            availableResources[resourceType] = gatherablesOfType;
+                        }
+                        gatherablesOfType.Add(currentResource.member);
                     }
-                    gatherablesOfType.Add(currentResource.member);
                 }
             }
             return null;
@@ -84,11 +98,12 @@ namespace Assets.Behaviors.Scripts.Tasks
 
         private bool GatheringFilter(TileMapMember member)
         {
-            return member.GetComponent<IGatherable>()?.CanGather() ?? false;
+            var suppliers = member.GetComponents<ItemSource>().Where(x => ValidItemSourceTypes.Contains(x.SourceType));
+            return suppliers.Any();
         }
         private bool SupplyDeliveryFilterByResourceAvailable(TileMapMember member, Resource gatheredResource)
         {
-            var supplyables = member.GetComponents<Supplyable>();
+            var supplyables = member.GetComponents<Suppliable>();
             return supplyables.Any(supplyable =>
             {
                 if (!SupplyDeliveryFilter(supplyable))
@@ -100,12 +115,12 @@ namespace Assets.Behaviors.Scripts.Tasks
         }
         private bool SupplyDeliveryFilter(TileMapMember member)
         {
-            var supplyables = member.GetComponents<Supplyable>();
+            var supplyables = member.GetComponents<Suppliable>();
             return supplyables.Any(x => SupplyDeliveryFilter(x));
         }
-        private bool SupplyDeliveryFilter(Supplyable supplyable)
+        private bool SupplyDeliveryFilter(Suppliable supplyable)
         {
-            return supplyable?.SupplyType == myTaskSupplyType && supplyable.CanRecieveSupply();
+            return supplyable?.SupplyType == validSupplyTarget && supplyable.CanRecieveSupply();
         }
     }
 }

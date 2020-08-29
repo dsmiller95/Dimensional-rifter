@@ -20,7 +20,7 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             var seekResult = tileMember.SeekClosestOfType(supplyTarget);
             if (seekResult.status == NavigationStatus.ARRIVED)
             {
-                var suppliables = seekResult.reached.GetComponents<Supplyable>().Where(x => x.CanRecieveSupply());
+                var suppliables = seekResult.reached.GetComponents<Suppliable>().Where(x => x.CanRecieveSupply());
                 var sourceInv = data.GetComponent<ResourceInventory>();
 
                 foreach (var supply in suppliables)

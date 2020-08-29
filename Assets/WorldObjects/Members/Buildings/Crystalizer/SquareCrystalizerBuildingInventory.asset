@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d835faa698b33c4591cfc979f7e9955, type: 3}
+  m_Script: {fileID: 11500000, guid: 2884d949c67211f40b078feaa70c38a7, type: 3}
   m_Name: SquareCrystalizerBuildingInventory
   m_EditorClassIdentifier: 
   DeveloperDescription: 'Inventory to build a square crystalizer with.

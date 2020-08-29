@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6082261357034508973}
   - component: {fileID: 6082261357034508972}
   - component: {fileID: 6082261357034508971}
-  - component: {fileID: 5206362183918371340}
   - component: {fileID: 7249950768649342519}
   - component: {fileID: 2768249586079563783}
+  - component: {fileID: 2357878548683354798}
   - component: {fileID: 4790017440937557276}
   - component: {fileID: 1270750162551648716}
   - component: {fileID: 4340622512134463504}
@@ -107,19 +107,6 @@ MonoBehaviour:
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: 215c239955b61a24f947271f223f94c4, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
---- !u!114 &5206362183918371340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingInventoryAmounts: []
 --- !u!114 &7249950768649342519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +127,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f6b4d7e2becc8544bb401654b8b7bf6b, type: 2}
   inventoryStateConfig:
   - {fileID: 11400000, guid: 3ac7c3d24f7cf6243b7f06419d26defb, type: 2}
+  - {fileID: 11400000, guid: 8245d7eaa6910a147b4a502683c75fcc, type: 2}
 --- !u!114 &2768249586079563783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,15 +137,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd4629fda1edcf44b9acb99929eba9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 52998f36f9ff2d6489e416167ce5c8e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSupplyable:
     DataSource: 0
     ConstantValue: 1
     Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: Built
   inventoryToSupplyInto:
     DataSource: 2
     Variable: {fileID: 0}
@@ -170,6 +158,24 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: IsBuildFull
+--- !u!114 &2357878548683354798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06af26fa7a24e8b4ea9988c0726ca6a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryToProvideFrom:
+    DataSource: 2
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: GrowthInventory
+  SourceType: {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
 --- !u!114 &4790017440937557276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +270,11 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: GrownAndReady
+  InventoryToProduceInto:
+    DataSource: 2
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: GrowthInventory
   resourceToSpawn: 1
   resourceAmount: 1
 --- !u!114 &4647310940021103158

@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ffeef1fbf7fad043a519dd999f6df3b, type: 3}
-  m_Name: BuildingSupplyType
+  m_Name: StorageSuppliable
   m_EditorClassIdentifier: 
-  DeveloperDescription: Supply for building
+  DeveloperDescription: An with some sort of storage which can be supplied to

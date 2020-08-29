@@ -18,7 +18,8 @@ MonoBehaviour:
     prioritizedTasks:
     - {fileID: 11400000, guid: c7f045aebf6bdc74c9c8566fecd1ea56, type: 2}
     - {fileID: 11400000, guid: 89580949b32946d408421814cf1cb659, type: 2}
-    - {fileID: 11400000, guid: 8b0b8b7d595372443a7814340384cf91, type: 2}
+    - {fileID: 11400000, guid: 9fe53ed0d4ef2cb4c96359845e54d13d, type: 2}
+    - {fileID: 11400000, guid: b877c12d24a60b84aa186e237c6a9758, type: 2}
   - validTimezones: 0100000002000000
     prioritizedTasks:
     - {fileID: 11400000, guid: 111be16bb4380124495b496d36c9fa15, type: 2}

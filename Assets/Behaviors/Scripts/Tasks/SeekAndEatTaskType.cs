@@ -1,7 +1,9 @@
 ﻿using Assets.Behaviors.Scripts.FunctionalStates;
 using Assets.Behaviors.Scripts.UtilityStates;
 using Assets.WorldObjects;
+using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.Tasks
@@ -14,6 +16,19 @@ namespace Assets.Behaviors.Scripts.Tasks
         [Tooltip("How much time is spent eating after retrieving the food")]
         public float eatingTime = 1f;
 
+        public ItemSourceType[] validItemSources;
+        private ISet<ItemSourceType> _validItems;
+        private ISet<ItemSourceType> ValidItemSourceTypes
+        {
+            get
+            {
+                if (_validItems == null)
+                {
+                    _validItems = new HashSet<ItemSourceType>(validItemSources);
+                }
+                return _validItems;
+            }
+        }
         public override IGenericStateHandler<TileMapMember> TryGetEntryState(TileMapMember sourceMember, IGenericStateHandler<TileMapMember> returnToState)
         {
             if (sourceMember is TileMapNavigationMember navigation)
@@ -23,22 +38,18 @@ namespace Assets.Behaviors.Scripts.Tasks
                 {
                     return null;
                 }
-                var foodSeekingState = new Retrieving(new RetrievalAmount
-                {
-                    amount = hungery.currentHunger,
-                    type = Resource.FOOD
-                });
-                if (!navigation.AreAnyOfTypeReachable(foodSeekingState.ResourceSourceFilter))
+                var foodGatherState = new Gathering(Resource.FOOD, ValidItemSourceTypes);
+                if (!navigation.AreAnyOfTypeReachable(foodGatherState.GatheringFilter))
                 {
                     return null;
                 }
 
-                foodSeekingState
+                foodGatherState
                     .ContinueWith(new Eating())
                     .ContinueWith(new Delay<TileMapMember>(eatingTime))
                     .ContinueWith(returnToState);
 
-                return foodSeekingState;
+                return foodGatherState;
             }
             //TODO : interact with the tilemapnavigationmember to get a possible path. and use that to construct the new state object
             // or if no path is possible then exit early

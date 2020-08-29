@@ -1,14 +1,15 @@
 ﻿using Assets.Scripts.Core;
+using Assets.Scripts.ObjectVariables;
 using TradeModeling.Inventories;
 using UniRx;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food
 {
-    [RequireComponent(typeof(ResourceInventory))]
     public class GatherableProducer : MonoBehaviour, IGatherable
     {
         public BooleanReference IsGatherable;
+        public InventoryReference InventoryToProduceInto;
 
         public Resource resourceToSpawn = Resource.FOOD;
         public float resourceAmount = 1f;
@@ -27,7 +28,7 @@ namespace Assets.WorldObjects.Members.Food
 
         private void BecomeGatherable()
         {
-            var inventory = GetComponent<ResourceInventory>().inventory;
+            var inventory = InventoryToProduceInto.CurrentValue;
             inventory.Add(resourceToSpawn, resourceAmount).Execute();
         }
 

@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 506530251402321467}
   - component: {fileID: 506530251402321464}
-  - component: {fileID: 506530251402321465}
   - component: {fileID: 506530251402321470}
   - component: {fileID: 3320887735696179336}
   - component: {fileID: 753903031417975742}
   - component: {fileID: 4366038420737455548}
+  - component: {fileID: 8705325802301842311}
+  - component: {fileID: 7595939773234849522}
+  - component: {fileID: 6768749659577978936}
   m_Layer: 0
   m_Name: Storage box
   m_TagString: Untagged
@@ -87,19 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &506530251402321465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingInventoryAmounts: []
 --- !u!114 &506530251402321470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,3 +172,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
   objectToAssign: {fileID: 506530251402321468}
+--- !u!114 &8705325802301842311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booleanStateConfig: []
+  floatStateConfig: []
+  inventoryStateConfig:
+  - {fileID: 11400000, guid: 986f4ee07bc97264998764ebeef199f6, type: 2}
+--- !u!114 &7595939773234849522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06af26fa7a24e8b4ea9988c0726ca6a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryToProvideFrom:
+    DataSource: 2
+    Variable: {fileID: 0}
+    Instancer: {fileID: 8705325802301842311}
+    NamePath: Storage
+  SourceType: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+--- !u!114 &6768749659577978936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52998f36f9ff2d6489e416167ce5c8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSupplyable:
+    DataSource: 0
+    ConstantValue: 1
+    Variable: {fileID: 0}
+    Instancer: {fileID: 0}
+    NamePath: 
+  inventoryToSupplyInto:
+    DataSource: 2
+    Variable: {fileID: 0}
+    Instancer: {fileID: 8705325802301842311}
+    NamePath: Storage
+  SupplyType: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
+  SupplyFull:
+    DataSource: 0
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 0}
+    NamePath: 

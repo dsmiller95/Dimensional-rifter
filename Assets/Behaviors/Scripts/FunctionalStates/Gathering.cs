@@ -1,22 +1,23 @@
 ﻿using Assets.Behaviors.Scripts.Utility_states;
 using Assets.WorldObjects;
+using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Food;
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using TradeModeling.Inventories;
 
 namespace Assets.Behaviors.Scripts.FunctionalStates
 {
     public class Gathering : ContinueableState<TileMapMember>
     {
         private Resource? targetElement;
+        private ISet<ItemSourceType> validItemSources;
 
-        public Gathering()
+        public Gathering(ISet<ItemSourceType> validItemSources)
         {
-
+            this.validItemSources = validItemSources;
         }
 
-        public Gathering(Resource target)
+        public Gathering(Resource target, ISet<ItemSourceType> validItemSources) : this(validItemSources)
         {
             targetElement = target;
         }
@@ -29,12 +30,23 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             var seekResult = tileMember.SeekClosestOfType(GatheringFilter);
             if (seekResult.status == NavigationStatus.ARRIVED)
             {
-                var foundFood = seekResult.reached.GetComponent<IGatherable>();
 
-                var drainResult = seekResult.reached.GetComponent<ResourceInventory>()
-                    .inventory.DrainAllInto(myInv.inventory, Enum.GetValues(typeof(Resource)) as Resource[]);
+                var suppliers = seekResult.reached.GetComponents<ItemSource>();
+                var myInventory = myInv.inventory;
+                foreach (var supplier in suppliers)
+                {
+                    if (targetElement.HasValue)
+                    {
+                        supplier.GatherInto(myInventory, targetElement.Value);
+                    }
+                    else
+                    {
+                        supplier.GatherInto(myInventory);
+                    }
+                }
 
-                foundFood.OnGathered();
+                // todo: no more gathering!
+                seekResult.reached.GetComponent<IGatherable>()?.OnGathered();
                 return next;
             }
             // TODO:
@@ -46,14 +58,15 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             }
             return this;
         }
-        private bool GatheringFilter(TileMapMember member)
+        public bool GatheringFilter(TileMapMember member)
         {
-            var gatherable = member.GetComponent<IGatherable>();
-            if (gatherable == null || !gatherable.CanGather())
+            if (!targetElement.HasValue)
             {
-                return false;
+                return true;
             }
-            return !targetElement.HasValue || targetElement.Value == gatherable.GatherableType;
+            var suppliers = member.GetComponents<ItemSource>()
+                .Where(x => validItemSources.Contains(x.SourceType) && x.HasResource(targetElement.Value));
+            return suppliers.Any();
         }
 
         public override void TransitionIntoState(TileMapMember data)

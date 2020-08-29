@@ -9,6 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceec390ffe4698c46ba454d665b05d3c, type: 3}
-  m_Name: StoryAny
+  m_Script: {fileID: 11500000, guid: f9fb12db8770cc748b102dbcfac10c6e, type: 3}
+  m_Name: StorageItemSource
   m_EditorClassIdentifier: 
+  DeveloperDescription: 'A source of items coming from some sort of building which
+    stores
+
+    items from some other place'

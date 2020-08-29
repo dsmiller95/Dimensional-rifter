@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23b912df399fd9a47a6ff340f376f7f7, type: 3}
-  m_Name: BuildingSupply
+  m_Name: StorageSupply
   m_EditorClassIdentifier: 
   validItemSources:
   - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
-  - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
-  validSupplyTarget: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
+  validSupplyTarget: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}

@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.ObjectVariables;
+using Assets.WorldObjects.Members;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TradeModeling.Inventories;
@@ -7,11 +9,11 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Inventories
 {
-    public class Supplyable : MonoBehaviour
+    public class Suppliable : MonoBehaviour, IInterestingInfo
     {
         public BooleanReference IsSupplyable;
         public InventoryReference inventoryToSupplyInto;
-        public SupplyType SupplyType;
+        public SuppliableType SupplyType;
 
         public BooleanReference SupplyFull;
 
@@ -49,6 +51,17 @@ namespace Assets.WorldObjects.Inventories
                     SupplyFull.SetValue(true);
                 }
             }
+        }
+
+        public string GetCurrentInfo()
+        {
+            var info = "Suppliable:\n";
+            var myInv = inventoryToSupplyInto.CurrentValue;
+            foreach (var resource in myInv.GetCurrentResourceAmounts())
+            {
+                info += $"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}\n";
+            }
+            return info;
         }
     }
 }

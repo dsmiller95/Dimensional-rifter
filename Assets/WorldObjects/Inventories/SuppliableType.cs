@@ -2,8 +2,8 @@
 
 namespace Assets.WorldObjects.Inventories
 {
-    [CreateAssetMenu(fileName = "SubInventory", menuName = "Members/Inventory/SupplyType", order = 1)]
-    public class SupplyType : ScriptableObject
+    [CreateAssetMenu(fileName = "SupplyableType", menuName = "Members/Inventory/SupplyableType", order = 1)]
+    public class SuppliableType : ScriptableObject
     {
 #if UNITY_EDITOR
         [Multiline]
