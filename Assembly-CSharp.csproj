@@ -60,6 +60,7 @@
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Gathering.cs" />
+    <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Storing.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
+    <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
@@ -99,7 +101,7 @@
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Building\SelfTileMemberReplacer.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\SelfTileMemberReplacer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\IGenericStateHandler.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
@@ -109,13 +111,14 @@
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ResourceInventory.cs" />
+    <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
     <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndEatTaskType.cs" />
     <Compile Include="Assets\Scripts\TaskContainer.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\SquareCoordinateRangeObject.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Building\Buildable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\Buildable.cs" />
     <Compile Include="Assets\WorldObjects\Pathfinder.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemTransform.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleAutomataSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
     <Compile Include="Assets\Scripts\Clickable.cs" />
@@ -139,6 +143,7 @@
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\BooleanToggle.cs" />
+    <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
@@ -168,11 +173,6 @@
     <Compile Include="Assets\Behaviors\Scripts\Tasks\SeekAndBuildTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
-    <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
-    <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
-    <Compile Include="Assets\Scripts\AnimateSprite.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
