@@ -29,9 +29,9 @@ namespace Assets.Scripts.Core
         public FloatState[] floatStateConfig;
         public InventoryState[] inventoryStateConfig;
 
-        protected IDictionary<string, GenericVariable<bool>> instancedBooleans;
-        protected IDictionary<string, GenericVariable<float>> instancedFloats;
-        protected IDictionary<string, GenericVariable<IInventory<Resource>>> instancedInventories;
+        public IDictionary<string, GenericVariable<bool>> instancedBooleans;
+        public IDictionary<string, GenericVariable<float>> instancedFloats;
+        public IDictionary<string, GenericVariable<IInventory<Resource>>> instancedInventories;
 
         private void Awake()
         {

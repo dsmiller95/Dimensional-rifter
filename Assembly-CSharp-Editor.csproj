@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\ObjectVariables\Editor\InventoryReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\GenericReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
+    <Compile Include="Assets\Scripts\Core\Editor\VariableInstantiatorInspector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
