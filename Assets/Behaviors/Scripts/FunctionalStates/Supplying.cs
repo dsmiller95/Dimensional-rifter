@@ -1,17 +1,22 @@
 ﻿using Assets.Behaviors.Scripts.Utility_states;
+using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using System;
 using System.Linq;
+using TradeModeling.Inventories;
 
 namespace Assets.Behaviors.Scripts.FunctionalStates
 {
     public class Supplying : ContinueableState<TileMapMember>
     {
         private Func<TileMapMember, bool> supplyTarget;
-        public Supplying(Func<TileMapMember, bool> supplyTargetFilter)
+        private GenericSelector<IInventory<Resource>> inventoryToSupplyFrom;
+
+        public Supplying(GenericSelector<IInventory<Resource>> inventoryToSupplyFrom, Func<TileMapMember, bool> supplyTargetFilter)
         {
             supplyTarget = supplyTargetFilter;
+            this.inventoryToSupplyFrom = inventoryToSupplyFrom;
         }
 
         public override IGenericStateHandler<TileMapMember> HandleState(TileMapMember data)
@@ -21,11 +26,12 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             if (seekResult.status == NavigationStatus.ARRIVED)
             {
                 var suppliables = seekResult.reached.GetComponents<Suppliable>().Where(x => x.CanRecieveSupply());
-                var sourceInv = data.GetComponent<ResourceInventory>();
+                var stateSource = data.GetComponent<VariableInstantiator>();
+                var selfInv = inventoryToSupplyFrom.GetCurrentValue(stateSource);
 
                 foreach (var supply in suppliables)
                 {
-                    supply.SupplyInto(sourceInv.inventory);
+                    supply.SupplyInto(selfInv);
                 }
 
                 return next;

@@ -15,4 +15,5 @@ MonoBehaviour:
   validItemSources:
   - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
   - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
   validSupplyTarget: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}

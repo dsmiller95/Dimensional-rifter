@@ -1,9 +1,11 @@
 ﻿using Assets.Behaviors.Scripts.FunctionalStates;
 using Assets.Behaviors.Scripts.UtilityStates;
+using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry;
 using System.Collections.Generic;
+using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.Tasks
@@ -29,6 +31,8 @@ namespace Assets.Behaviors.Scripts.Tasks
                 return _validItems;
             }
         }
+        public GenericSelector<IInventory<Resource>> selfInventoryToUse;
+
         public override IGenericStateHandler<TileMapMember> TryGetEntryState(TileMapMember sourceMember, IGenericStateHandler<TileMapMember> returnToState)
         {
             if (sourceMember is TileMapNavigationMember navigation)
@@ -38,14 +42,14 @@ namespace Assets.Behaviors.Scripts.Tasks
                 {
                     return null;
                 }
-                var foodGatherState = new Gathering(Resource.FOOD, ValidItemSourceTypes);
+                var foodGatherState = new Gathering(selfInventoryToUse, ValidItemSourceTypes, Resource.FOOD);
                 if (!navigation.AreAnyOfTypeReachable(foodGatherState.GatheringFilter))
                 {
                     return null;
                 }
 
                 foodGatherState
-                    .ContinueWith(new Eating())
+                    .ContinueWith(new Eating(selfInventoryToUse))
                     .ContinueWith(new Delay<TileMapMember>(eatingTime))
                     .ContinueWith(returnToState);
 

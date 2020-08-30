@@ -1,9 +1,11 @@
 ﻿using Assets.Behaviors.Scripts.Utility_states;
+using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Food;
 using System.Collections.Generic;
 using System.Linq;
+using TradeModeling.Inventories;
 
 namespace Assets.Behaviors.Scripts.FunctionalStates
 {
@@ -11,13 +13,15 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
     {
         private Resource? targetElement;
         private ISet<ItemSourceType> validItemSources;
+        private GenericSelector<IInventory<Resource>> inventoryToGatherInto;
 
-        public Gathering(ISet<ItemSourceType> validItemSources)
+        public Gathering(GenericSelector<IInventory<Resource>> inventoryToGatherInto, ISet<ItemSourceType> validItemSources)
         {
             this.validItemSources = validItemSources;
+            this.inventoryToGatherInto = inventoryToGatherInto;
         }
 
-        public Gathering(Resource target, ISet<ItemSourceType> validItemSources) : this(validItemSources)
+        public Gathering(GenericSelector<IInventory<Resource>> inventoryToGatherInto, ISet<ItemSourceType> validItemSources, Resource target) : this(inventoryToGatherInto, validItemSources)
         {
             targetElement = target;
         }
@@ -25,23 +29,23 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
         public override IGenericStateHandler<TileMapMember> HandleState(TileMapMember data)
         {
             var tileMember = data.GetComponent<TileMapNavigationMember>();
-            var myInv = data.GetComponent<ResourceInventory>();
+            var stateSource = data.GetComponent<VariableInstantiator>();
+            var selfInv = this.inventoryToGatherInto.GetCurrentValue(stateSource);
 
             var seekResult = tileMember.SeekClosestOfType(GatheringFilter);
             if (seekResult.status == NavigationStatus.ARRIVED)
             {
 
                 var suppliers = seekResult.reached.GetComponents<ItemSource>();
-                var myInventory = myInv.inventory;
                 foreach (var supplier in suppliers)
                 {
                     if (targetElement.HasValue)
                     {
-                        supplier.GatherInto(myInventory, targetElement.Value);
+                        supplier.GatherInto(selfInv, targetElement.Value);
                     }
                     else
                     {
-                        supplier.GatherInto(myInventory);
+                        supplier.GatherInto(selfInv);
                     }
                 }
 
@@ -52,7 +56,7 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             // TODO:
             //  This is to "recover" from a save state where I have something in my inventory
             //  this really should be done at decision-time, not on every loop
-            if (myInv.inventory.GetCurrentResourceAmounts().Any(x => x.Value > 0))
+            if (selfInv.GetCurrentResourceAmounts().Any(x => x.Value > 0))
             {
                 return next;
             }

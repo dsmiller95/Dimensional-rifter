@@ -1,8 +1,10 @@
 ﻿using Assets.Behaviors.Scripts.FunctionalStates;
+using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using System.Collections.Generic;
 using System.Linq;
+using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.Tasks
@@ -24,6 +26,7 @@ namespace Assets.Behaviors.Scripts.Tasks
             }
         }
 
+        public GenericSelector<IInventory<Resource>> selfInventoryToUse;
         public SuppliableType validSupplyTarget;
 
         public override IGenericStateHandler<TileMapMember> TryGetEntryState(TileMapMember sourceMember, IGenericStateHandler<TileMapMember> returnToState)
@@ -40,9 +43,9 @@ namespace Assets.Behaviors.Scripts.Tasks
                     return null;
                 }
                 var gatheredResource = pair.Value.Item3;
-                var resultState = new Gathering(gatheredResource, ValidItemSourceTypes);
+                var resultState = new Gathering(selfInventoryToUse, ValidItemSourceTypes, gatheredResource);
                 resultState
-                    .ContinueWith(new Supplying(member => SupplyDeliveryFilterByResourceAvailable(member, gatheredResource)))
+                    .ContinueWith(new Supplying(selfInventoryToUse, member => SupplyDeliveryFilterByResourceAvailable(member, gatheredResource)))
                     .ContinueWith(returnToState);
                 return resultState;
             }

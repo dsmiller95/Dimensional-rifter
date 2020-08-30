@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2486412580906688398}
   - component: {fileID: 4312956191732574274}
   - component: {fileID: 2001414270136398790}
-  - component: {fileID: 5492534208347999757}
+  - component: {fileID: 5619728940487949368}
   - component: {fileID: 3768257725704724496}
   - component: {fileID: -5377919881584068312}
   - component: {fileID: 1786904990482667342}
@@ -106,7 +106,7 @@ MonoBehaviour:
   memberType: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
   movementSpeed: 0.2
---- !u!114 &5492534208347999757
+--- !u!114 &5619728940487949368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,10 +115,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5372322527512826100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5dc91a8ff3ee14429b95bcc65c115c6, type: 3}
+  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingInventoryAmounts: []
+  booleanStateConfig: []
+  floatStateConfig: []
+  inventoryStateConfig:
+  - {fileID: 11400000, guid: fd5e295b82e7896499bd32d34ff73f23, type: 2}
 --- !u!114 &3768257725704724496
 MonoBehaviour:
   m_ObjectHideFlags: 0

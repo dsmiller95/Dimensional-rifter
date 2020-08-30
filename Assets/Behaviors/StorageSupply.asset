@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   validItemSources:
   - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
+  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
   validSupplyTarget: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}

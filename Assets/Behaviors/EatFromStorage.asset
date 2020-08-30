@@ -16,3 +16,4 @@ MonoBehaviour:
   eatingTime: 1
   validItemSources:
   - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
