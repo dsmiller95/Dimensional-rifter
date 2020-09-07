@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TradeModeling.Economics;
 
 namespace TradeModeling.Inventories
@@ -93,7 +94,7 @@ namespace TradeModeling.Inventories
         /// <param name="target">the inventory to drain the items into</param>
         /// <param name="res">the type of items to transfer. Could be a flags</param>
         /// <returns>A map from the resource type to the amount transfered</returns>
-        public static Dictionary<T, float> DrainAllInto<T>(this IInventory<T> inventory, IInventory<T> target, T[] itemTypes)
+        public static Dictionary<T, float> DrainAllInto<T>(this IInventory<T> inventory, IInventory<T> target, params T[] itemTypes)
         {
             var result = new Dictionary<T, float>();
             foreach (var itemType in itemTypes)
@@ -134,6 +135,13 @@ namespace TradeModeling.Inventories
         public static string SerializeDictionaryAmounts<T>(this IInventory<T> inventory, Func<T, string> serializer)
         {
             return MyUtilities.SerializeDictionary(inventory.GetCurrentResourceAmounts(), serializer, num => num.ToString());
+        }
+
+        public static ISet<T> GetResourcesWithAny<T>(this IInventory<T> inventory)
+        {
+            return new HashSet<T>(inventory.GetCurrentResourceAmounts()
+                .Where(x => x.Value > 0)
+                .Select(x => x.Key));
         }
     }
 }

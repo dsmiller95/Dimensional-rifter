@@ -5,9 +5,9 @@ namespace Assets.WorldObjects
 {
     public enum Timezone
     {
-        Day,
-        Evening,
-        Night
+        Day = 0,
+        Evening = 1,
+        Night = 2
     }
     [Serializable]
     public struct TimezoneConfig

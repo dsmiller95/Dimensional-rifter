@@ -29,28 +29,49 @@ namespace Assets.WorldObjects.Inventories
             return inv.GetResourcesWithSpace();
         }
 
+        /// <summary>
+        /// If this suppliable can be supplied more of a given resource
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns></returns>
         public bool IsResourceSupplyable(Resource resource)
         {
             var inv = inventoryToSupplyInto.CurrentValue;
             return inv.CanFitMoreOf(resource);
         }
 
-        public void SupplyInto(IInventory<Resource> inventoryToTakeFrom)
+
+        public bool SupplyInto(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
         {
             if (!CanRecieveSupply())
             {
-                return;
+                return false;
             }
 
             var myInventory = inventoryToSupplyInto.CurrentValue;
-            inventoryToTakeFrom.DrainAllInto(myInventory, myInventory.GetAllResourceTypes().ToArray());
+            var anyTransferred = false;
+            if (resourceType.HasValue)
+            {
+                anyTransferred = inventoryToTakeFrom
+                    .DrainAllInto(myInventory, resourceType.Value)
+                    .Any(pair => pair.Value > 1e-5);
+            }
+            else
+            {
+                anyTransferred = inventoryToTakeFrom
+                    .DrainAllInto(myInventory, myInventory.GetAllResourceTypes().ToArray())
+                    .Any(pair => pair.Value > 1e-5);
+            }
+
             if (myInventory is ISpaceFillingInventoryAccess<Resource> spaceFillingInv)
             {
-                if(spaceFillingInv.remainingCapacity <= 1e-5)
+                if (spaceFillingInv.remainingCapacity <= 1e-5)
                 {
                     SupplyFull.SetValue(true);
                 }
             }
+
+            return anyTransferred;
         }
 
         public string GetCurrentInfo()

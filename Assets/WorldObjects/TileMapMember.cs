@@ -33,6 +33,11 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterest
     public ICoordinate CoordinatePosition => coordinatePosition;
     protected ICoordinateSystem coordinateSystem => currentRegion.UntypedCoordianteSystemWorldSpace;
 
+    public void SetPosition(TileMapMember otherMember)
+    {
+        SetPosition(otherMember.coordinatePosition, otherMember.currentRegion);
+    }
+
     public void SetPosition(ICoordinate position, TileMapRegionNoCoordinateType region)
     {
         currentRegion?.universalContentTracker.DeRegisterInTileMap(this);

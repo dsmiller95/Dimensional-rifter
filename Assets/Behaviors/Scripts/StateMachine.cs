@@ -8,14 +8,11 @@
     /// <typeparam name="ParamType">The type of object which all state handlers will pull their data from</typeparam>
     public class StateMachine<ParamType>
     {
-
-        private IGenericStateHandler<ParamType> state;
-
-        public IGenericStateHandler<ParamType> CurrentState => state;
+        public IGenericStateHandler<ParamType> CurrentState { get; private set; }
 
         public StateMachine(IGenericStateHandler<ParamType> initalState)
         {
-            state = initalState;
+            CurrentState = initalState;
         }
 
         public void ForceSetState(IGenericStateHandler<ParamType> newState, ParamType updateParam)
@@ -47,7 +44,7 @@
                 stateLocked = true;
             }
 
-            var newState = state.HandleState(updateParam);
+            var newState = CurrentState.HandleState(updateParam);
 
             this.SwitchState(newState, updateParam);
 
@@ -60,14 +57,14 @@
 
         private void SwitchState(IGenericStateHandler<ParamType> newState, ParamType updateParam)
         {
-            if (!newState.Equals(state))
+            if (!newState.Equals(CurrentState))
             {
-                state.TransitionOutOfState(updateParam);
+                CurrentState.TransitionOutOfState(updateParam);
                 var nextAction = newState;
                 nextAction.TransitionIntoState(updateParam);
             }
 
-            state = newState;
+            CurrentState = newState;
         }
     }
 

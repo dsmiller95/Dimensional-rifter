@@ -10,15 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2486412580906688398}
   - component: {fileID: 4312956191732574274}
-  - component: {fileID: 2001414270136398790}
+  - component: {fileID: -8997315017213381442}
   - component: {fileID: 5619728940487949368}
-  - component: {fileID: 3768257725704724496}
   - component: {fileID: -5377919881584068312}
   - component: {fileID: 1786904990482667342}
   - component: {fileID: 3349586338666112470}
-  - component: {fileID: 8564191902136200649}
   m_Layer: 0
-  m_Name: HungryPrefab
+  m_Name: Corpse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3574410992439024309, guid: e75d1cf039c9bb64a8ab41684adccf33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c11ec80464b702240b54d3be92a3879b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -89,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2001414270136398790
+--- !u!114 &-8997315017213381442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,14 +96,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5372322527512826100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99ca70fc6068344aaff4ad43cc873c6, type: 3}
+  m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
-  memberType: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
-  orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
-  movementSpeed: 0.2
+  membersScriptRegistry: {fileID: 0}
+  memberType: {fileID: 0}
+  orderingLayer: {fileID: 0}
 --- !u!114 &5619728940487949368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,20 +119,6 @@ MonoBehaviour:
   floatStateConfig: []
   inventoryStateConfig:
   - {fileID: 11400000, guid: fd5e295b82e7896499bd32d34ff73f23, type: 2}
---- !u!114 &3768257725704724496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4691bb5557492e4d8aa3051a13c011a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hungeringRate: 1
-  currentHunger: 0
 --- !u!61 &-5377919881584068312
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -149,18 +132,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.25}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.33333334}
-    oldSize: {x: 1, y: 1.5}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &1786904990482667342
 MonoBehaviour:
@@ -203,16 +186,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
   objectToAssign: {fileID: 5372322527512826100}
---- !u!114 &8564191902136200649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cf19fa6c21a15b488652c566b69b503, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rootTreeFactory: {fileID: 11400000, guid: 74ba6ce438f2cc74b92ff484d60bdb6b, type: 2}

@@ -7,9 +7,9 @@ namespace Assets.Behaviors.Scripts.UtilityStates
     {
         private float delay;
 
-        public Delay(float delay)
+        public Delay(float secondDelay)
         {
-            this.delay = delay;
+            delay = secondDelay;
         }
 
         private float nextTriggerTime;
