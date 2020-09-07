@@ -23,10 +23,11 @@ public class TilemapMouseTracker : MonoBehaviour
 
     private void SetTracking(GameObject o)
     {
-        if(!o || o == null)
+        if (!o || o == null)
         {
             trackingMemeber = null;
-        }else
+        }
+        else
         {
             trackingMemeber = o.GetComponent<TileMapMember>();
         }

@@ -85,7 +85,7 @@ namespace Assets.MapGen
             Quaternion localMeshRotation = default,
             IEnumerable<Vector3> vertexOverrides = null)
         {
-            if(vertexOverrides != null)
+            if (vertexOverrides != null)
             {
                 CopyVertexOverrides(vertexOverrides);
             }

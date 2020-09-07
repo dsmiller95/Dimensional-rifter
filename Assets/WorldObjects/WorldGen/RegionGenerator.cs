@@ -1,6 +1,4 @@
 ﻿using Assets.Tiling;
-using Assets.WorldObjects.Members.Food;
-using Assets.WorldObjects.Members.Hungry;
 using Assets.WorldObjects.SaveObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +59,7 @@ namespace Assets.WorldObjects.WorldGen
                 .Where(coordinate =>
                 {
                     TileTypeInfo tile;
-                    if(!tiles.TryGetValue(coordinate, out tile))
+                    if (!tiles.TryGetValue(coordinate, out tile))
                     {
                         tile = mapGenConfig.defaultTile;
                     }

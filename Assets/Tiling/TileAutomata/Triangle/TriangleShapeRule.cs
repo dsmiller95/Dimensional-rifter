@@ -1,5 +1,4 @@
-﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.TileConfiguration;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.Tiling.TriangleCoords;
 using Assets.WorldObjects;
 using System;
@@ -50,9 +49,9 @@ namespace Assets.Tiling.TileAutomata.Square
                 .Where(match => match.Self == GetFlag(coordinate, members));
 
             var neighbors = coordinate.Neighbors().ToArray();
-            
+
             leftover = leftover
-                .Where(match => match.First== GetFlag(neighbors[0], members))
+                .Where(match => match.First == GetFlag(neighbors[0], members))
                 .Where(match => match.Second == GetFlag(neighbors[1], members))
                 .Where(match => match.Third == GetFlag(neighbors[2], members));
 

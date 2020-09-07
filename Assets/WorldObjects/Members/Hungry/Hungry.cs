@@ -1,5 +1,4 @@
-﻿using Assets.Behaviors.Scripts;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Hungry

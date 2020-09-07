@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Core;
-using Assets.WorldObjects.SaveObjects;
+﻿using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Linq;
 using UnityEngine;

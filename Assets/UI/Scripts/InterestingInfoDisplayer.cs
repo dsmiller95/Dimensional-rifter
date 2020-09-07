@@ -14,7 +14,7 @@ public class InterestingInfoDisplayer : MonoBehaviour
 
     public void DisplayInfoForObject(GameObject obj)
     {
-        if(!obj || obj == null)
+        if (!obj || obj == null)
         {
             text.text = "Nothing selected";
             return;
@@ -40,7 +40,7 @@ public class InterestingInfoDisplayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(objectToDisplay.CurrentValue == null)
+        if (objectToDisplay.CurrentValue == null)
         {
             DisplayInfoForObject(defaultObject);
         }

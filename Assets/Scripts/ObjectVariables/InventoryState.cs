@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Core;
-using Assets.Scripts.ObjectVariables;
 using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;

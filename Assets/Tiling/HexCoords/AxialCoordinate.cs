@@ -4,7 +4,7 @@ using System;
 namespace Simulation.Tiling.HexCoords
 {
     [Serializable]
-    public struct AxialCoordinate: ICoordinate
+    public struct AxialCoordinate : ICoordinate
     {
         public int q;
         public int r;

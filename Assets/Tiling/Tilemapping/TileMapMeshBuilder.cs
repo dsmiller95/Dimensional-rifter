@@ -4,7 +4,6 @@ using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
@@ -32,7 +31,7 @@ namespace Assets.Tiling.Tilemapping
         {
             this.tileSet = tileSet;
             tileMapSystem = tileMappingSystem;
-            this.coordinateMemebers = members;
+            coordinateMemebers = members;
         }
 
         private IDictionary<string, MultiVertTileConfig> tileTypesDictionary;
@@ -140,7 +139,7 @@ namespace Assets.Tiling.Tilemapping
                 string tileTypeId = coordinateMemebers.GetTileType(coord).ID;
 
                 MultiVertTileConfig tileConfig;
-                if(!tileTypesDictionary.TryGetValue(tileTypeId, out tileConfig))
+                if (!tileTypesDictionary.TryGetValue(tileTypeId, out tileConfig))
                 {
                     Debug.LogError("help");
                 }

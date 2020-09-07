@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Core;
-using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
+using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food
 {

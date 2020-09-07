@@ -72,7 +72,7 @@ public class TileMapNavigationMember : TileMapMember
     {
         var result = AttemptAdvanceAlongPath(currentPath);
 
-        if(result == NavigationStatus.ARRIVED)
+        if (result == NavigationStatus.ARRIVED)
         {
             var wrappedResult = new NavigationAttemptResult
             {

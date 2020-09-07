@@ -7,10 +7,11 @@ namespace Assets.Tiling.Tilemapping
     {
         private ICoordinateSystem<T> _transCoordSystem;
 
-        public ICoordinateSystem<T> TransformedCoordinateSystem {
+        public ICoordinateSystem<T> TransformedCoordinateSystem
+        {
             get
             {
-                if(_transCoordSystem == null)
+                if (_transCoordSystem == null)
                 {
                     _transCoordSystem = new CoordinateSystemTransform<T>(BaseCoordinateSystem, transform);
                 }

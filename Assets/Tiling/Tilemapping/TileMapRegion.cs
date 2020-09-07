@@ -88,7 +88,7 @@ namespace Assets.Tiling.Tilemapping
         public TileTypeInfo editTile;
 
         public ConcurrentQueue<Action> mainThreadActions;
-        
+
         private Thread mainThread;
 
         protected override void Awake()
@@ -190,7 +190,7 @@ namespace Assets.Tiling.Tilemapping
             }
             protected set => _coordRange = value;
         }
-        
+
         public CoordinateSystemTransformBehavior<T> coordSystem;
         public ICoordinateSystem<T> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
         public ICoordinateSystem<T> WorldSpaceCoordinateSystem => coordSystem.TransformedCoordinateSystem;
@@ -223,8 +223,9 @@ namespace Assets.Tiling.Tilemapping
 
         public override CompleteTileMapPosition? GetCoordinatesFromWorldSpaceIfValid(Vector2 worldSpace)
         {
-            var coordinate = this.coordSystem.TransformedCoordinateSystem.FromRealPosition(worldSpace);
-            if (IsValidCoordinate(coordinate)){
+            var coordinate = coordSystem.TransformedCoordinateSystem.FromRealPosition(worldSpace);
+            if (IsValidCoordinate(coordinate))
+            {
                 return new CompleteTileMapPosition
                 {
                     coordinateInMap = coordinate,

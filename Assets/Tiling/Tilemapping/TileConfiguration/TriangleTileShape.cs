@@ -1,5 +1,4 @@
-﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.TriangleCoords;
+﻿using Assets.Tiling.TriangleCoords;
 using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;

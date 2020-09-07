@@ -9,7 +9,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
 
         public void Start()
         {
-            this.Load();
+            Load();
         }
 
         public void Save()

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.WorldObjects.SaveObjects.SaveManager
@@ -16,7 +10,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
         {
             var formatter = SerializationManager.GetBinaryFormatter();
 
-            if(!Directory.Exists(Application.persistentDataPath + "/saves"))
+            if (!Directory.Exists(Application.persistentDataPath + "/saves"))
             {
                 Directory.CreateDirectory(Application.persistentDataPath + "/saves");
             }
@@ -50,7 +44,8 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             try
             {
                 return formatter.Deserialize(file);
-            }catch
+            }
+            catch
             {
                 Debug.LogError($"Failed to load file at {path}");
                 return null;

@@ -1,11 +1,7 @@
 ﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping;
 using Assets.Tiling.TriangleCoords;
-using Assets.WorldObjects;
 using Simulation.Tiling.HexCoords;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling
@@ -37,7 +33,7 @@ namespace Assets.Tiling
             return (coordinateSystem as ICoordinateSystem<T>).ToRealPosition((T)source);
         }
 
-        public static ICoordinateSystem<T> GetBasicCoordinateSystemFromType<T>(CoordinateSystemType type) where T: ICoordinate
+        public static ICoordinateSystem<T> GetBasicCoordinateSystemFromType<T>(CoordinateSystemType type) where T : ICoordinate
         {
             ICoordinateSystem coordinateSystemResult = null;
             switch (type)
@@ -52,7 +48,7 @@ namespace Assets.Tiling
                     coordinateSystemResult = new TriangleCoordinateSystem();
                     break;
             }
-            if(coordinateSystemResult != null && coordinateSystemResult is ICoordinateSystem<T> castedCoords)
+            if (coordinateSystemResult != null && coordinateSystemResult is ICoordinateSystem<T> castedCoords)
             {
                 return castedCoords;
             }

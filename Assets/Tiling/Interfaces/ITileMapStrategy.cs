@@ -9,7 +9,7 @@ namespace Assets.Tiling
     ///     topology information that is returned
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class TileMapTileShapeStrategy<T>: ScriptableObject where T : ICoordinate
+    public abstract class TileMapTileShapeStrategy<T> : ScriptableObject where T : ICoordinate
     {
         public abstract Bounds GetRawBounds(T coord, float sideLength, ICoordinateSystem<T> translateCoordinateSystem);
 

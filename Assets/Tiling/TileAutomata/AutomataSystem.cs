@@ -1,15 +1,11 @@
 ﻿using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Tiling.TileAutomata
 {
-    public class AutomataSystem<T>: MonoBehaviour where T: ICoordinate
+    public class AutomataSystem<T> : MonoBehaviour where T : ICoordinate
     {
         public AutomataRule<T>[] rules;
 
@@ -39,13 +35,13 @@ namespace Assets.Tiling.TileAutomata
 
         private void Update()
         {
-            if(lastUpdate + updateDelay >= Time.time)
+            if (lastUpdate + updateDelay >= Time.time)
             {
                 return;
             }
             lastUpdate = Time.time;
 
-            this.ExecuteAutomataStep(CoordRange, Members);
+            ExecuteAutomataStep(CoordRange, Members);
         }
     }
 }

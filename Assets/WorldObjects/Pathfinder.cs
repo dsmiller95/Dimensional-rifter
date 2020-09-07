@@ -2,14 +2,12 @@
 using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
 using Assets.Tiling.TriangleCoords;
-using Microsoft.Win32.SafeHandles;
 using Priority_Queue;
 using Simulation.Tiling.HexCoords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Assets.WorldObjects
 {
@@ -52,7 +50,7 @@ namespace Assets.WorldObjects
         public Pathfinder(T origin, TileMapRegion<T> region, Func<T, TileProperties, bool> isCoordinateVisitable)
         {
             tileRegion = region;
-            this.coordinateSystem = region.WorldSpaceCoordinateSystem;
+            coordinateSystem = region.WorldSpaceCoordinateSystem;
             coordinateFilterFunction = isCoordinateVisitable;
             this.origin = origin;
 
@@ -72,7 +70,7 @@ namespace Assets.WorldObjects
             {
                 return ShortestPathToGenerator(destination);
             }
-            catch(Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -97,7 +95,8 @@ namespace Assets.WorldObjects
             if (!currentCoordinate.Equals(destination))
             {
                 return null;
-            }else
+            }
+            else
             {
                 return ExtractPathFromVisited(currentCoordinate);
             }
@@ -139,7 +138,7 @@ namespace Assets.WorldObjects
                 }
                 else
                 {
-                    if(nodeData.distanceFromOrigin > neighborDistance)
+                    if (nodeData.distanceFromOrigin > neighborDistance)
                     {
                         nodeData.previous = currentCoordinate;
                         nodeData.distanceFromOrigin = neighborDistance;

@@ -11,7 +11,7 @@ public class InstantiateAndAssignTo : MonoBehaviour
 
     public void InstantiateAndAssign()
     {
-        if(onlyIfNull && objectToAssignTo.CurrentValue != null)
+        if (onlyIfNull && objectToAssignTo.CurrentValue != null)
         {
             return;
         }

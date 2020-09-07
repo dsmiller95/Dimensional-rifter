@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -58,7 +57,7 @@ namespace Assets.Tiling.TriangleCoords
         public IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<TriangleCoordinate> coordinateSystem, float individualScale)
         {
             individualScale *= 2;
-            this.EnsureCoordOrdering();
+            EnsureCoordOrdering();
 
             var nextPos = coordinateSystem.ToRealPosition(coord0);
             yield return nextPos - (TriangleCoordinateSystem.rBasis * individualScale);

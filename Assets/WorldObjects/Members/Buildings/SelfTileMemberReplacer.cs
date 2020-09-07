@@ -19,7 +19,7 @@ namespace Assets.WorldObjects.Members.Building
 
         public void DestroyBuildable()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

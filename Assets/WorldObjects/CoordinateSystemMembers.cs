@@ -173,10 +173,10 @@ namespace Assets.WorldObjects
                 members = allMembers
                     .Where(member => member.memberType != null)
                     .Select(member => new TileMemberSaveObject<T>
-                {
-                    coordinate = (T)member.CoordinatePosition,
-                    objectData = member.GetSaveObject()
-                }).ToList(),
+                    {
+                        coordinate = (T)member.CoordinatePosition,
+                        objectData = member.GetSaveObject()
+                    }).ToList(),
                 defaultTile = defaultTile
             };
         }

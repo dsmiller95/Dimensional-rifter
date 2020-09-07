@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.MapGen
@@ -25,7 +22,7 @@ namespace Assets.MapGen
 
         public void SetUVForVertexesAtDuplicate(int duplicateIndex, Vector2[] uvs)
         {
-            if(uvs.Length != sourceMeshVertexSize)
+            if (uvs.Length != sourceMeshVertexSize)
             {
                 throw new Exception("UV override length must match number of source vertexes exactly");
             }
@@ -57,7 +54,7 @@ namespace Assets.MapGen
         {
             var newColors = targetMesh.colors32;
 
-            foreach(var duplicate in duplicateColors)
+            foreach (var duplicate in duplicateColors)
             {
                 SetColorOnColorArray(newColors, duplicate.Item1, duplicate.Item2);
             }
@@ -76,12 +73,12 @@ namespace Assets.MapGen
         }
         public void DisableGeometryAtDuplicate(int duplicateIndex)
         {
-            this.AddToVectorsAtDuplicate(duplicateIndex, MeshCopier.EjectionVector);
+            AddToVectorsAtDuplicate(duplicateIndex, MeshCopier.EjectionVector);
         }
 
         public void EnableGeometryAtDuplicate(int duplicateIndex)
         {
-            this.AddToVectorsAtDuplicate(duplicateIndex, -MeshCopier.EjectionVector);
+            AddToVectorsAtDuplicate(duplicateIndex, -MeshCopier.EjectionVector);
         }
 
         private void AddToVectorsAtDuplicate(int duplicate, Vector3 offset)

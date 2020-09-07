@@ -99,10 +99,11 @@ public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterest
         var saveObjects = save.objectDatas.ToDictionary(x => x.identifierInMember, x => x.data);
         foreach (var saveable in saveables)
         {
-            if(saveObjects.TryGetValue(saveable.IdentifierInsideMember(), out var objectData))
+            if (saveObjects.TryGetValue(saveable.IdentifierInsideMember(), out var objectData))
             {
                 saveable.SetupFromSaveObject(objectData);
-            }else
+            }
+            else
             {
                 saveable.SetupFromSaveObject(null);
             }

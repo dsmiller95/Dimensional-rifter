@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Core;
-using Assets.Scripts.ObjectVariables;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Building

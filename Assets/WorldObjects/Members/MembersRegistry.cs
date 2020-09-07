@@ -24,12 +24,12 @@ namespace Assets.WorldObjects.Members
             Debug.Log("Prefab registry awake");
             memberTypeDictionary = allTypes.ToDictionary(x => x.uniqueData, x => x);
         }
-        
+
         public MemberType GetMemberFromUniqueInfo(MemberTypeUniqueData type)
         {
             if (memberTypeDictionary == null)
             {
-                this.OneTimeSetupPrefabDictionary();
+                OneTimeSetupPrefabDictionary();
             }
             var memberType = memberTypeDictionary[type];
             if (!memberType || memberType == null)

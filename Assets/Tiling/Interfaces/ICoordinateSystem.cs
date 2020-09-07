@@ -21,7 +21,7 @@ namespace Assets.Tiling
     /// In a tileMap, the coordinates will represent the center of the tiles
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ICoordinateSystem<T>: ICoordinateSystem where T : ICoordinate
+    public interface ICoordinateSystem<T> : ICoordinateSystem where T : ICoordinate
     {
         IEnumerable<T> Neighbors(T coordinate);
         Vector2 ToRealPosition(T coordinate);

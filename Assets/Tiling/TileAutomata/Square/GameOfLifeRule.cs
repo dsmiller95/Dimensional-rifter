@@ -14,7 +14,7 @@ namespace Assets.Tiling.TileAutomata.Square
         public override bool TryMatch(SquareCoordinate coordinate, CoordinateSystemMembers<SquareCoordinate> members)
         {
             var me = members.GetTileType(coordinate);
-            if(me.baseID == targetBaseType)
+            if (me.baseID == targetBaseType)
             {
                 return false;
             }
