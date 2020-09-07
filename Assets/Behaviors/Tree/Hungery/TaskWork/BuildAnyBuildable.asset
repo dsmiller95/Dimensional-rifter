@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2f5b8b0b55e08045956857d5137adb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ceee580df352454badae4fe4d87e31f, type: 3}
   m_Name: BuildAnyBuildable
   m_EditorClassIdentifier: 
   blackboardPathProperty: currentPath

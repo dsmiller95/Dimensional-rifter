@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ffd39d3baf0b9e4eb4d09cf8b820ec1, type: 3}
+  m_Script: {fileID: 11500000, guid: 75c8356f12de0d049874eb53a7e660d4, type: 3}
   m_Name: SupplyStorage
   m_EditorClassIdentifier: 
   validItemSources:

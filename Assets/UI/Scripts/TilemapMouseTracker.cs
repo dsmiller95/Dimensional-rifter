@@ -1,57 +1,60 @@
-﻿using Assets;
-using Assets.Scripts.Core;
+﻿using Assets.Scripts.Core;
 using Assets.Tiling.Tilemapping;
+using Assets.WorldObjects;
 using UniRx;
 using UnityEngine;
 
-[RequireComponent(typeof(CombinationTileMapManager))]
-public class TilemapMouseTracker : MonoBehaviour
+namespace Assets.UI.Scripts
 {
-    public GameObjectVariable objectToTrack;
-
-    private TileMapMember trackingMemeber;
-    private CombinationTileMapManager combinationManager;
-
-    public void Awake()
+    [RequireComponent(typeof(CombinationTileMapManager))]
+    public class TilemapMouseTracker : MonoBehaviour
     {
-        combinationManager = GetComponent<CombinationTileMapManager>();
+        public GameObjectVariable objectToTrack;
 
-        SetTracking(objectToTrack.CurrentValue);
-        objectToTrack.Value.TakeUntilDestroy(this)
-            .Subscribe(newGameObject => SetTracking(newGameObject));
-    }
+        private TileMapMember trackingMemeber;
+        private CombinationTileMapManager combinationManager;
 
-    private void SetTracking(GameObject o)
-    {
-        if (!o || o == null)
+        public void Awake()
         {
-            trackingMemeber = null;
-        }
-        else
-        {
-            trackingMemeber = o.GetComponent<TileMapMember>();
-        }
-    }
+            combinationManager = GetComponent<CombinationTileMapManager>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!trackingMemeber || trackingMemeber == null)
-        {
-            return;
+            SetTracking(objectToTrack.CurrentValue);
+            objectToTrack.Value.TakeUntilDestroy(this)
+                .Subscribe(newGameObject => SetTracking(newGameObject));
         }
-        var mousePos = MyUtilities.GetMousePos2D();
-        var tilemapLocation = combinationManager.GetPositionInTileMaps(mousePos);
-        if (!tilemapLocation.HasValue)
+
+        private void SetTracking(GameObject o)
         {
-            return;
+            if (!o || o == null)
+            {
+                trackingMemeber = null;
+            }
+            else
+            {
+                trackingMemeber = o.GetComponent<TileMapMember>();
+            }
         }
-        trackingMemeber.SetPosition(tilemapLocation.Value.coordinateInMap, tilemapLocation.Value.tileMap);
+
+        // Start is called before the first frame update
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (!trackingMemeber || trackingMemeber == null)
+            {
+                return;
+            }
+            var mousePos = MyUtilities.GetMousePos2D();
+            var tilemapLocation = combinationManager.GetPositionInTileMaps(mousePos);
+            if (!tilemapLocation.HasValue)
+            {
+                return;
+            }
+            trackingMemeber.SetPosition(tilemapLocation.Value.coordinateInMap, tilemapLocation.Value.tileMap);
+        }
     }
 }

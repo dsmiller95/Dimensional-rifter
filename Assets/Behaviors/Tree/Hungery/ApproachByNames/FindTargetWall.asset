@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdf33d596ee7cc043a98fd5b9b2e3cb1, type: 3}
+  m_Script: {fileID: 11500000, guid: b6abd1e5aa662b14782b730ee0946436, type: 3}
   m_Name: FindTargetWall
   m_EditorClassIdentifier: 
   targetGameObjectNamePart: wall
