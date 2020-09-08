@@ -64,14 +64,13 @@
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystemMembers.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindBuildableTarget.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleTileMap.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\NavigateToTargetFactory.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\SupplyToSupplyTypeFactory.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindSuppliableTarget.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
@@ -100,7 +98,6 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindItemSourceTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\IsBelowThreshold.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Eating.cs" />
@@ -133,7 +130,6 @@
     <Compile Include="Assets\Scripts\Core\BooleanState.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\TimedSwitchBack.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindTargetPath.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Scripts\Core\GenericState.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
@@ -144,7 +140,6 @@
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindTarget.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\SquareCoordinateRangeObject.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TimeBasedSelectorFactory.cs" />
@@ -218,6 +213,17 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfFail.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\GetResourceFactory.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\EatFactory.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\IsHungryGuardFactory.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTarget.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTargetPath.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindItemSourceTarget.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindBuildableTarget.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSuppliableTarget.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\FindRandomWalkPathFactory.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

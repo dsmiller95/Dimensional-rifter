@@ -4,6 +4,7 @@ using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.WorldObjects
@@ -50,7 +51,7 @@ namespace Assets.WorldObjects
         public float movementSpeed = .5f;
         private float lastMove;
 
-        private NavigationPath currentPath;
+        private NavigationPath? currentPath;
         public NavigationAttemptResult SeekClosestOfType(Func<TileMapMember, bool> filter)
         {
             var navigationResult = AttemptAdvanceAlongCurrentPath();
@@ -72,21 +73,29 @@ namespace Assets.WorldObjects
         /// <returns></returns>
         public NavigationAttemptResult AttemptAdvanceAlongCurrentPath()
         {
-            var result = AttemptAdvanceAlongPath(currentPath);
+            if (!currentPath.HasValue || currentPath.Value.targetMember == null)
+            {
+                return new NavigationAttemptResult
+                {
+                    status = NavigationStatus.INVALID_TARGET
+                };
+            }
+
+            var result = AttemptAdvanceAlongPath(currentPath.Value);
 
             if (result == NavigationStatus.ARRIVED)
             {
                 var wrappedResult = new NavigationAttemptResult
                 {
-                    reached = currentPath.targetMember,
+                    reached = currentPath.Value.targetMember,
                     status = result
                 };
-                currentPath = default;
+                currentPath = null;
                 return wrappedResult;
             }
             if (result == NavigationStatus.INVALID_TARGET)
             {
-                currentPath = default;
+                currentPath = null;
             }
             return new NavigationAttemptResult
             {
@@ -108,10 +117,6 @@ namespace Assets.WorldObjects
             }
             lastMove = Time.time;
 
-            if (path.targetMember == null)
-            {
-                return NavigationStatus.INVALID_TARGET;
-            }
             if (path.coordinatePath.Count <= 0)
             {
                 return NavigationStatus.ARRIVED;
@@ -136,8 +141,22 @@ namespace Assets.WorldObjects
             {
                 return false;
             }
-            currentPath = newPath.Value;
+            currentPath = newPath;
             return true;
+        }
+
+        public NavigationPath? GetRandomPathOfLength(int steps)
+        {
+            var path = PathfinderUtils.RandomWalkOfLength(
+                        coordinatePosition,
+                        steps,
+                        currentRegion,
+                        (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord));
+
+            return new NavigationPath
+            {
+                coordinatePath = path.ToList()
+            };
         }
 
         /// <summary>
@@ -217,12 +236,12 @@ namespace Assets.WorldObjects
 
         private void OnDrawGizmos()
         {
-            if (currentPath.coordinatePath == null)
+            if (!currentPath.HasValue || currentPath.Value.coordinatePath == null)
             {
                 return;
             }
             Gizmos.color = Color.magenta;
-            foreach (var pair in currentPath.coordinatePath
+            foreach (var pair in currentPath.Value.coordinatePath
                 .Select(coord => UniversalToGenericAdaptors.ToRealPosition(coord, currentRegion.UntypedCoordianteSystemWorldSpace))
                 .RollingWindow(2))
             {

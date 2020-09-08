@@ -10,12 +10,15 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public string blackboardPathProperty;
         public string blackboardTargetProperty;
+        public bool ensureTarget = true;
+
         public override Node CreateNode(GameObject target)
         {
             return new NavigateToTarget(
                 target,
                 blackboardPathProperty,
-                blackboardTargetProperty);
+                blackboardTargetProperty,
+                ensureTarget);
         }
     }
 }

@@ -12,18 +12,22 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     {
         private string pathProperty;
         private string targetProperty;
+        private bool ensureTargetExists;
         public NavigateToTarget(
             GameObject gameObject,
             string pathProperty,
-            string targetProperty) : base(gameObject)
+            string targetProperty,
+            bool ensureTargetExists = true) : base(gameObject)
         {
             this.pathProperty = pathProperty;
             this.targetProperty = targetProperty;
+            this.ensureTargetExists = ensureTargetExists;
         }
         public override NodeStatus Evaluate(Blackboard blackboard)
         {
             NavigationPath currentPath;
-            if (!blackboard.TryGetValueOfType(pathProperty, out currentPath))
+            if (!blackboard.TryGetValueOfType(pathProperty, out currentPath)
+                || (ensureTargetExists && currentPath.targetMember == null))
             {
                 return NodeStatus.FAILURE;
             }
@@ -33,7 +37,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             {
                 case NavigationStatus.ARRIVED:
                     blackboard.ClearValue(pathProperty);
-                    blackboard.SetValue(targetProperty, currentPath.targetMember.gameObject);
+                    blackboard.SetValue(targetProperty, currentPath.targetMember?.gameObject);
                     return NodeStatus.SUCCESS;
                 case NavigationStatus.INVALID_TARGET:
                     return NodeStatus.FAILURE;

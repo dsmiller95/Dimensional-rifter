@@ -8,6 +8,7 @@ namespace Assets.WorldObjects.Members.Hungry
     {
         public float caloriesPerSecond;
         public float currentCalories;
+        public float maximumCalories;
     }
 
     [RequireComponent(typeof(TileMapNavigationMember))]
@@ -15,6 +16,7 @@ namespace Assets.WorldObjects.Members.Hungry
     {
         public float caloriesUsedPerSecond = 10f;
         public float currentCalories = 2000;
+        public float maximumCalories = 5000;
 
 
         private static HungrySaveObject GenerateNewSaveObject(float caloriesUsedPerSecond = 10f)
@@ -22,7 +24,8 @@ namespace Assets.WorldObjects.Members.Hungry
             return new HungrySaveObject
             {
                 currentCalories = 2000f,
-                caloriesPerSecond = caloriesUsedPerSecond
+                caloriesPerSecond = caloriesUsedPerSecond,
+                maximumCalories = 5000f
             };
         }
 
@@ -55,7 +58,7 @@ namespace Assets.WorldObjects.Members.Hungry
 
         public string GetCurrentInfo()
         {
-            return $"Calories: {currentCalories:F1}Cal\n" +
+            return $"Calories: {currentCalories:F0}Cal\n" +
                 $"Metabolism: {caloriesUsedPerSecond:F1}Cal/s\n";
         }
 

@@ -8,7 +8,10 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
     public class FindItemSourceTarget : FindTargetPath
     {
+        private bool resourceFromBlackboard;
         private string resourceTypePropertyInBlackboard;
+        private Resource resourceToGrab;
+
         private ItemSourceType[] validItemSources;
 
         public FindItemSourceTarget(
@@ -17,20 +20,32 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             string resourceTypeProperty,
             string pathTargetProperty) : base(gameObject, pathTargetProperty)
         {
+            resourceFromBlackboard = true;
             resourceTypePropertyInBlackboard = resourceTypeProperty;
+            this.validItemSources = validItemSources;
+        }
+        public FindItemSourceTarget(
+            GameObject gameObject,
+            ItemSourceType[] validItemSources,
+            Resource resource,
+            string pathTargetProperty) : base(gameObject, pathTargetProperty)
+        {
+            resourceFromBlackboard = false;
+            resourceToGrab = resource;
             this.validItemSources = validItemSources;
         }
 
         protected override NavigationPath? TryGetPath(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(resourceTypePropertyInBlackboard, out Resource resourceType))
+            Resource resourceType = resourceToGrab;
+            if(resourceFromBlackboard && !blackboard.TryGetValueOfType(resourceTypePropertyInBlackboard, out resourceType))
             {
-                return componentValue
-                    .GetClosestOfTypeWithPath(
-                        member => ItemSourceFilterByResourceType(member, resourceType)
-                    );
+                return null;
             }
-            return null;
+            return componentValue
+                .GetClosestOfTypeWithPath(
+                    member => ItemSourceFilterByResourceType(member, resourceType)
+                );
         }
 
         private bool ItemSourceFilterByResourceType(

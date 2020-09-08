@@ -48,5 +48,32 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     blackboardResourceProperty)
             );
         }
+        public static Node GatherResourceOfType(
+           GameObject target,
+           ItemSourceType[] validItemSources,
+           GenericSelector<IInventory<Resource>> inventoryToGatherInto,
+           Resource resource,
+           string tempPathProp = "itemSourcePath",
+           string targetReachedProp = "itemSourceObject")
+        {
+            return
+            new Sequence(
+                new FindItemSourceTarget(
+                    target,
+                    validItemSources,
+                    resource,
+                    tempPathProp
+                ),
+                new NavigateToTarget(
+                    target,
+                    tempPathProp,
+                    targetReachedProp),
+                new Grab(
+                    target,
+                    targetReachedProp,
+                    inventoryToGatherInto,
+                    resource)
+            );
+        }
     }
 }

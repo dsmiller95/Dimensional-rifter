@@ -59,6 +59,26 @@ namespace Assets.WorldObjects
             completed = new HashSet<T>();
         }
 
+        public IEnumerable<T> RandomWalkOfLength(int length)
+        {
+            return InfiniteRandomWalkGenerator().Take(length);
+        }
+
+        private IEnumerable<T> InfiniteRandomWalkGenerator()
+        {
+            var currentPathTip = origin;
+            while (true)
+            {
+                var neighbors = coordinateSystem
+                    .Neighbors(currentPathTip)
+                    .Where(neighbor => tileRegion.IsValidCoordinate(neighbor)
+                        && coordinateFilterFunction(neighbor, tileRegion.contentTracker.TilePropertiesAt(neighbor))
+                    ).ToList();
+                currentPathTip = neighbors[UnityEngine.Random.Range(0, neighbors.Count)];
+                yield return currentPathTip;
+            }
+        }
+
         /// <summary>
         ///  
         /// </summary>
@@ -147,13 +167,19 @@ namespace Assets.WorldObjects
             }
         }
 
-
         public static IEnumerable<T> PathBetween(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem, Func<ICoordinate, TileProperties, bool> passableTiles)
         {
             var coordSystem = (coordinateSystem as TileMapRegion<T>);
 
             var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(coord, properties));
             return pather.ShortestPathTo((T)source);
+        }
+        public static IEnumerable<T> RandomWalk(ICoordinate source, int steps, TileMapRegionNoCoordinateType coordinateSystem, Func<ICoordinate, TileProperties, bool> passableTiles)
+        {
+            var coordSystem = (coordinateSystem as TileMapRegion<T>);
+
+            var pather = new Pathfinder<T>((T)source, coordSystem, (coord, properties) => passableTiles(coord, properties));
+            return pather.RandomWalkOfLength(steps);
         }
 
     }
@@ -183,6 +209,33 @@ namespace Assets.WorldObjects
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.TRIANGLE:
                     return Pathfinder<TriangleCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                        .Cast<ICoordinate>();
+            }
+            throw new ArgumentException("invalid coordinate system type");
+        }
+        public static IEnumerable<ICoordinate> RandomWalkOfLength(
+            ICoordinate source,
+            int walkLength,
+            TileMapRegionNoCoordinateType region,
+            Func<ICoordinate, TileProperties, bool> passableTiles)
+        {
+            var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
+
+            if (!coordinateSpace.IsCompatible(source))
+            {
+                throw new ArgumentException("coordinates not compatable");
+            }
+
+            switch (coordinateSpace.CoordType)
+            {
+                case CoordinateSystemType.HEX:
+                    return Pathfinder<AxialCoordinate>.RandomWalk(source, walkLength, region, passableTiles)?
+                        .Cast<ICoordinate>();
+                case CoordinateSystemType.SQUARE:
+                    return Pathfinder<SquareCoordinate>.RandomWalk(source, walkLength, region, passableTiles)?
+                        .Cast<ICoordinate>();
+                case CoordinateSystemType.TRIANGLE:
+                    return Pathfinder<TriangleCoordinate>.RandomWalk(source, walkLength, region, passableTiles)?
                         .Cast<ICoordinate>();
             }
             throw new ArgumentException("invalid coordinate system type");
