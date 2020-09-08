@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa62cbb5f70a9e046bf1056006bbe107, type: 3}
-  m_Name: TryToDie
+  m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
+  m_Name: CorpseMember
   m_EditorClassIdentifier: 
-  calorieBlackboardPath: currentCalories
-  calorieDieThreshold: 0
-  deadMemberPrefab: {fileID: -8997315017213381442, guid: 1c33492d8167927489529ec10e96f958, type: 3}
+  uniqueData:
+    uniqueId: 10
+  recieveStorage: 0
+  gatherableResource: 0
+  memberPrefab: {fileID: 5372322527512826100, guid: 1c33492d8167927489529ec10e96f958, type: 3}

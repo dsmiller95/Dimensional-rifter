@@ -1,4 +1,5 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.WorldObjects;
 using BehaviorTree.Factories;
 using BehaviorTree.Nodes;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public string calorieBlackboardPath = "currentCalories";
         public float calorieDieThreshold = 0f;
+        public TileMapMember deadMemberPrefab;
+
         protected override Node OnCreateNode(GameObject target)
         {
             return
@@ -24,7 +27,10 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                         calorieDieThreshold
                     )
                 )),
-                new Die(target)
+                new Die(
+                    target,
+                    deadMemberPrefab
+                )
             );
         }
     }

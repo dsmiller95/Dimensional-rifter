@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.Members.Hungry;
+﻿using Assets.WorldObjects;
+using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
@@ -7,19 +8,23 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// <summary>
     /// Die
     /// </summary>
-    public class Die : ComponentMemberLeaf<Hungry>
+    public class Die : Leaf
     {
-
+        private TileMapMember memberToReplaceWith;
+        private GameObject gameObject;
         public Die(
-            GameObject gameObject
-            ) : base(gameObject)
+            GameObject gameObject,
+            TileMapMember memberToReplaceWith
+            )
         {
+            this.memberToReplaceWith = memberToReplaceWith;
+            this.gameObject = gameObject;
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            Object.Destroy(componentValue.gameObject);
-            return NodeStatus.FAILURE;
+            SelfTileMemberReplacer.ReplaceMember(gameObject, memberToReplaceWith);
+            return NodeStatus.SUCCESS;
         }
 
         public override void Reset(Blackboard blackboard)

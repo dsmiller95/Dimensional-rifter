@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: -8997315017213381442}
   - component: {fileID: 5619728940487949368}
   - component: {fileID: -5377919881584068312}
-  - component: {fileID: 1786904990482667342}
-  - component: {fileID: 3349586338666112470}
+  - component: {fileID: 1941005429978862369}
   m_Layer: 0
   m_Name: Corpse
   m_TagString: Untagged
@@ -100,9 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
-  membersScriptRegistry: {fileID: 0}
-  memberType: {fileID: 0}
-  orderingLayer: {fileID: 0}
+  membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
+  memberType: {fileID: 11400000, guid: efc469d80fc3b5944b9ae31b6c5315ae, type: 2}
+  orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
 --- !u!114 &5619728940487949368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   booleanStateConfig: []
   floatStateConfig: []
-  inventoryStateConfig:
-  - {fileID: 11400000, guid: fd5e295b82e7896499bd32d34ff73f23, type: 2}
+  inventoryStateConfig: []
 --- !u!61 &-5377919881584068312
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,7 +143,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1786904990482667342
+--- !u!114 &1941005429978862369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,35 +152,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5372322527512826100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ac748b1c0a50d46b9dcb5ad77fafa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whenClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3349586338666112470}
-        m_TargetAssemblyTypeName: Assets.Scripts.ObjectAssigner, Assembly-CSharp
-        m_MethodName: SetToVariable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3349586338666112470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c959edb31631d6c41842d5f9e0b2cbd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 44f6f02d3d1f51742a9bebee14233301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
-  objectToAssign: {fileID: 5372322527512826100}

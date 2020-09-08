@@ -7,19 +7,20 @@ namespace Assets.WorldObjects.Members.Building
     {
         public TileMapMember memberPrefab;
 
-        public void InstantiateMemberAtCurrentLocation()
+        public static void ReplaceMember(GameObject self, TileMapMember newPrefab)
         {
-            var myMember = GetComponent<TileMapMember>();
+            var myMember = self.GetComponent<TileMapMember>();
 
             var currentRegion = myMember.currentRegion;
 
-            var newMember = Instantiate(memberPrefab, currentRegion.transform).GetComponent<TileMapMember>();
+            var newMember = Instantiate(newPrefab, currentRegion.transform).GetComponent<TileMapMember>();
             newMember.SetPosition(myMember.CoordinatePosition, currentRegion);
+            Destroy(self);
         }
 
-        public void DestroyBuildable()
+        public void InstantiateMemberAtCurrentLocation()
         {
-            Destroy(gameObject);
+            ReplaceMember(gameObject, memberPrefab);
         }
     }
 }
