@@ -6,23 +6,23 @@ namespace Assets.WorldObjects.Members.Hungry
     [Serializable]
     class HungrySaveObject
     {
-        public float hungeringRate;
-        public float currentHunger;
+        public float caloriesPerSecond;
+        public float currentCalories;
     }
 
     [RequireComponent(typeof(TileMapNavigationMember))]
     public class Hungry : MonoBehaviour, IMemberSaveable, IInterestingInfo
     {
-        public float hungeringRate = .1f;
-        public float currentHunger = 0;
+        public float caloriesUsedPerSecond = 10f;
+        public float currentCalories = 2000;
 
 
-        private static HungrySaveObject GenerateNewSaveObject(float hungeringRate = .1f)
+        private static HungrySaveObject GenerateNewSaveObject(float caloriesUsedPerSecond = 10f)
         {
             return new HungrySaveObject
             {
-                currentHunger = 0f,
-                hungeringRate = hungeringRate
+                currentCalories = 2000f,
+                caloriesPerSecond = caloriesUsedPerSecond
             };
         }
 
@@ -30,8 +30,8 @@ namespace Assets.WorldObjects.Members.Hungry
         {
             return new HungrySaveObject
             {
-                currentHunger = currentHunger,
-                hungeringRate = hungeringRate
+                currentCalories = currentCalories,
+                caloriesPerSecond = caloriesUsedPerSecond
             };
         }
 
@@ -43,20 +43,20 @@ namespace Assets.WorldObjects.Members.Hungry
             {
                 saveObject = Hungry.GenerateNewSaveObject();
             }
-            hungeringRate = saveObject.hungeringRate;
-            currentHunger = saveObject.currentHunger;
+            caloriesUsedPerSecond = saveObject.caloriesPerSecond;
+            currentCalories = saveObject.currentCalories;
         }
 
 
         private void Update()
         {
-            currentHunger += Time.deltaTime * hungeringRate;
+            currentCalories -= Time.deltaTime * caloriesUsedPerSecond;
         }
 
         public string GetCurrentInfo()
         {
-            return $"Hunger: {currentHunger:F1}\n" +
-                $"Hungering Rate: {hungeringRate:F1}\n";
+            return $"Calories: {currentCalories:F1}Cal\n" +
+                $"Metabolism: {caloriesUsedPerSecond:F1}Cal/s\n";
         }
 
         public string IdentifierInsideMember()

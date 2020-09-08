@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fd258e26970f08409ed4f28c754ebeb, type: 3}
-  m_Name: RootHungryTree
+  m_Script: {fileID: 11500000, guid: 5473b303be51fa2438d4ec1608f3d38d, type: 3}
+  m_Name: TopLevel
   m_EditorClassIdentifier: 
-  child: {fileID: 11400000, guid: 4b990c63477dc1643818a2bb65891d49, type: 2}
+  children:
+  - {fileID: 11400000, guid: e4b6c57f3e3cee6428baeb91c93eadaa, type: 2}
+  - {fileID: 11400000, guid: 89ad315e6982beb47b52b924299c34db, type: 2}

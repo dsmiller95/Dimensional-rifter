@@ -55,11 +55,11 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetCalories.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Gathering.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\BuildAnyBuildableLeafFactory.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
@@ -71,7 +71,6 @@
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Building.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\NavigateToTargetFactory.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\SupplyToSupplyTypeFactory.cs" />
@@ -102,16 +101,19 @@
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindItemSourceTarget.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\IsBelowThreshold.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TryToDieLeafFactory.cs" />
     <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanVariable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FindTargetByNameLeafFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\Suppliable.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
@@ -140,7 +142,6 @@
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\SeekAndEatTaskType.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FindTarget.cs" />
@@ -188,7 +189,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentLeaf.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\BuildTaskType.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\Food.cs" />
@@ -213,12 +213,11 @@
     <Compile Include="Assets\Tiling\Tilemapping\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\GameTimeOwner.cs" />
     <Compile Include="Assets\WorldObjects\GameTime.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Supplying.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryReference.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\SeekAndSupplyTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfFail.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -20,8 +20,8 @@ namespace Assets.Behaviors.Scripts.FunctionalStates
             var stateSource = data.GetComponent<VariableInstantiator>();
             var selfInv = inventoryToEatFrom.GetCurrentValue(stateSource);
 
-            var consumption = selfInv.Consume(Resource.FOOD, hungry.currentHunger);
-            hungry.currentHunger -= consumption.info;
+            var consumption = selfInv.Consume(Resource.FOOD, hungry.currentCalories);
+            hungry.currentCalories -= consumption.info;
             consumption.Execute();
 
             return next;
