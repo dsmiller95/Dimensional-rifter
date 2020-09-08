@@ -5,16 +5,14 @@ namespace BehaviorTree.Nodes
 {
     public class Selector : CompositeNode
     {
-        private Node[] children;
-        public Selector(params Node[] children)
+        public Selector(params Node[] children) : base(children)
         {
-            this.children = children;
         }
         public Selector(IEnumerable<Node> children) : this(children.ToArray())
         {
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             foreach (var node in children)
             {

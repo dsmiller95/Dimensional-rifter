@@ -15,7 +15,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public NodeFactory eveningNode;
         public NodeFactory nightNode;
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new Sequence(
                     new GetTimeZoneClassificaitonLeaf(gameTimeProvider, "time"),

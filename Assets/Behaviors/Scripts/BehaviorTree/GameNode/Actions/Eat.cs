@@ -29,7 +29,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             this.caloriesPerFood = caloriesPerFood;
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             var inv = inventoryToEatFrom.GetCurrentValue(variableInstantiator);
             var maximumEatAmount = (componentValue.maximumCalories - componentValue.currentCalories) / caloriesPerFood;

@@ -9,6 +9,16 @@ namespace BehaviorTree.Factories
     /// </summary>
     public abstract class NodeFactory : ScriptableObject
     {
-        public abstract Node CreateNode(GameObject target);
+        public Node CreateNode(GameObject target)
+        {
+            var newNode = OnCreateNode(target);
+#if UNITY_EDITOR
+            newNode.Label = name;
+#endif
+            newNode.UniqueID = GetInstanceID();
+            return newNode;
+        }
+
+        protected abstract Node OnCreateNode(GameObject target);
     }
 }

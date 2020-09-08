@@ -16,7 +16,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public ItemSourceType[] validItemSources;
         public GenericSelector<IInventory<Resource>> selfInventoryToUse;
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return GatherOfTypeFactory.GatherResourceOfType(
                 target,

@@ -15,7 +15,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             this.thresholdValue = thresholdValue;
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             if (blackboard.TryGetValueOfType(blackboardProperty, out float comparisonValue) && comparisonValue < thresholdValue)
             {

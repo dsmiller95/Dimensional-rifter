@@ -54,7 +54,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             resourceToGrab = resourceType;
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             if (blackboard.TryGetValueOfType(targetObjectInBlackboard, out GameObject targetObject))
             {

@@ -12,7 +12,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public string blackboardTargetProperty;
         public bool ensureTarget = true;
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new NavigateToTarget(
                 target,

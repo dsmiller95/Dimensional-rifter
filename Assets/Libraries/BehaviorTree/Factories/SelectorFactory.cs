@@ -9,7 +9,7 @@ namespace BehaviorTree.Factories
     {
         public NodeFactory[] children;
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new Selector(
                 children.Select(child => child.CreateNode(target))

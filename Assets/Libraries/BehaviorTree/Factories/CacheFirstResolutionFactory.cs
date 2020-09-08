@@ -8,7 +8,7 @@ namespace BehaviorTree.Factories
     {
         public NodeFactory child;
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new CacheFirstResolution(child.CreateNode(target));
         }

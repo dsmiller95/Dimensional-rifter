@@ -9,9 +9,9 @@
         {
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            var result = child.Evaluate(blackboard);
+            var result = Child.Evaluate(blackboard);
             if (result == NodeStatus.FAILURE)
             {
                 Reset(blackboard);

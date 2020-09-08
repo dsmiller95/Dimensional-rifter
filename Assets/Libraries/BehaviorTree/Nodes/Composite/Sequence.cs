@@ -8,7 +8,7 @@ namespace BehaviorTree.Nodes
         private Node[] children;
         private int childIndex = 0;
 
-        public Sequence(params Node[] children)
+        public Sequence(params Node[] children): base(children)
         {
             this.children = children;
         }
@@ -16,7 +16,7 @@ namespace BehaviorTree.Nodes
         {
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             var status = children[childIndex].Evaluate(blackboard);
 

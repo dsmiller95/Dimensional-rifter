@@ -16,7 +16,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             caloriesTargetProperty = caloriesProperty;
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             blackboard.SetValue(caloriesTargetProperty, componentValue.currentCalories);
             return NodeStatus.SUCCESS;

@@ -2,15 +2,15 @@
 {
     public abstract class Decorator : Node
     {
-        protected Node child;
+        public Node Child { get; private set; }
         public Decorator(Node child)
         {
-            this.child = child;
+            this.Child = child;
         }
 
         public override void Reset(Blackboard blackboard)
         {
-            child.Reset(blackboard);
+            Child.Reset(blackboard);
         }
     }
 }

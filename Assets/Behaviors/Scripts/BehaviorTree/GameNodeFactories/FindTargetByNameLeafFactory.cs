@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public string targetGameObjectNamePart;
         public string blackboardPathProperty;
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new FindTarget(
                 target,

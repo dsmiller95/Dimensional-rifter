@@ -8,13 +8,13 @@
 
         private NodeStatus cachedStatus;
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             if (cachedStatus != NodeStatus.RUNNING)
             {
                 return cachedStatus;
             }
-            return child.Evaluate(blackboard);
+            return Child.Evaluate(blackboard);
         }
 
         public override void Reset(Blackboard blackboard)

@@ -11,10 +11,8 @@ namespace BehaviorTree.Nodes
     public class SelectOne : CompositeNode
     {
         private string indexProperty;
-        private Node[] children;
-        public SelectOne(string indexProperty, params Node[] children)
+        public SelectOne(string indexProperty, params Node[] children): base(children)
         {
-            this.children = children;
             this.indexProperty = indexProperty;
         }
 
@@ -22,7 +20,7 @@ namespace BehaviorTree.Nodes
         {
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             if (blackboard.TryGetValueOfType(indexProperty, out int index))
             {

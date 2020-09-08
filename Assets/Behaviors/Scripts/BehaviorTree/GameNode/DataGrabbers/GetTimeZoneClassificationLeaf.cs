@@ -20,7 +20,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             this.targetIntInBlackboard = targetIntInBlackboard;
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             var currentTimeZone = timeProvider.GetTimezone();
             blackboard.SetValue(targetIntInBlackboard, (int)currentTimeZone);

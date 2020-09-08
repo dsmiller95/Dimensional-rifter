@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public string calorieBlackboardPath = "currentCalories";
         public float calorieDieThreshold = 0f;
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return
             new Sequence(

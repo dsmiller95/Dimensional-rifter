@@ -8,16 +8,16 @@ namespace BehaviorTree
     {
         public RootFactory rootTreeFactory;
 
-        private Root rootTreeNode;
+        public Root instantiatedRootTreeNode;
 
         private void Awake()
         {
-            rootTreeNode = rootTreeFactory.CreateNode(gameObject) as Root;
+            instantiatedRootTreeNode = rootTreeFactory.CreateNode(gameObject) as Root;
         }
 
         private void Update()
         {
-            rootTreeNode.Tick();
+            instantiatedRootTreeNode.Tick();
         }
     }
 }

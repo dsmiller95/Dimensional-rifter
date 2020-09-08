@@ -11,7 +11,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public string blackboardPathProperty = "currentPath";
         public string buildableProperty = "currentNavigationTarget";
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new Sequence(
                     new FindBuildableTarget(

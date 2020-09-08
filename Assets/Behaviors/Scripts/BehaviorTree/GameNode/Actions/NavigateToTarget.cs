@@ -23,7 +23,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             this.targetProperty = targetProperty;
             this.ensureTargetExists = ensureTargetExists;
         }
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             NavigationPath currentPath;
             if (!blackboard.TryGetValueOfType(pathProperty, out currentPath)

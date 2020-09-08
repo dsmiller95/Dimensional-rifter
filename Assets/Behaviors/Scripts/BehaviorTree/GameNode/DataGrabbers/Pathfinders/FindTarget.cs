@@ -39,7 +39,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         }
 
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             NavigationPath currentPath;
             if (blackboard.TryGetValueOfType(pathTargetPropertyInBlackboard, out currentPath))

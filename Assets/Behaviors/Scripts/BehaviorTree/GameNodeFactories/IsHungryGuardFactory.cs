@@ -11,7 +11,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public float hungerLevel;
         public string calorieBlackboardPath = "calories";
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new ResetIfFail(new Sequence(
                 new GetCalories(

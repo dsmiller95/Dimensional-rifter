@@ -14,7 +14,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public GenericSelector<IInventory<Resource>> inventoryToEatFrom;
         public float caloriesPerFood;
 
-        public override Node CreateNode(GameObject target)
+        protected override Node OnCreateNode(GameObject target)
         {
             return new Eat(
                 target,

@@ -30,7 +30,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             validSupplyTarget = validItemTarget;
         }
 
-        public override NodeStatus Evaluate(Blackboard blackboard)
+        protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             var content = componentValue.currentRegion.universalContentTracker.allMembers;
             var resourceType = GetPossibleSupplyPair(
