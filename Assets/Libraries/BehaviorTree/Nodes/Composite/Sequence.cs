@@ -5,12 +5,10 @@ namespace BehaviorTree.Nodes
 {
     public class Sequence : CompositeNode
     {
-        private Node[] children;
         private int childIndex = 0;
 
         public Sequence(params Node[] children): base(children)
         {
-            this.children = children;
         }
         public Sequence(IEnumerable<Node> children) : this(children.ToArray())
         {

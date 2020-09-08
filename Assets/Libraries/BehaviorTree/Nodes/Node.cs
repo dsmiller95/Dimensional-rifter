@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using BehaviorTree.Factories;
+using UnityEditor;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes
@@ -21,8 +22,16 @@ namespace BehaviorTree.Nodes
 
         public Node()
         {
+#if UNITY_EDITOR
+            if (NodeFactory.FACTORY_RANDOM != null)
+            {
+                UniqueID = NodeFactory.FACTORY_RANDOM.Next();
+            }
+#else
             UniqueID = GUID.Generate().GetHashCode();
+#endif
         }
+
         public NodeStatus Evaluate(Blackboard blackboard)
         {
             var result = OnEvaluate(blackboard);

@@ -29,6 +29,10 @@ namespace Assets.Libraries.BehaviorTree.Editor
         {
             UpdateBehaviorTreeViewTargetMachine();
         }
+        private void OnFocus()
+        {
+            UpdateBehaviorTreeViewTargetMachine();
+        }
 
         private void UpdateBehaviorTreeViewTargetMachine()
         {
@@ -48,7 +52,7 @@ namespace Assets.Libraries.BehaviorTree.Editor
             {
                 return null;
             }
-            var behaviorMachine = selectedObj.GetComponent<BehaviorTreeMachine>();
+            var behaviorMachine = selectedObj.GetComponentInChildren<BehaviorTreeMachine>();
             return behaviorMachine;
         }
 

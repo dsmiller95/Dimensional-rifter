@@ -10,7 +10,14 @@ namespace BehaviorTree.Factories
 
         protected override Node OnCreateNode(GameObject target)
         {
-            return new Root(child.CreateNode(target));
+#if UNITY_EDITOR
+            FACTORY_RANDOM = new System.Random(GetInstanceID());
+#endif
+            var result = new Root(child.CreateNode(target));
+#if UNITY_EDITOR
+            FACTORY_RANDOM = null;
+#endif
+            return result;
         }
     }
 }

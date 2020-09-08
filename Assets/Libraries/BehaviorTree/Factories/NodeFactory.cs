@@ -1,4 +1,5 @@
 ﻿using BehaviorTree.Nodes;
+using System;
 using UnityEngine;
 
 namespace BehaviorTree.Factories
@@ -9,6 +10,11 @@ namespace BehaviorTree.Factories
     /// </summary>
     public abstract class NodeFactory : ScriptableObject
     {
+
+#if UNITY_EDITOR
+        public static System.Random FACTORY_RANDOM;
+#endif
+
         public Node CreateNode(GameObject target)
         {
             var newNode = OnCreateNode(target);
