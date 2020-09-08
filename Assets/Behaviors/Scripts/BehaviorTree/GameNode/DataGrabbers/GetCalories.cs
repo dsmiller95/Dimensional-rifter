@@ -1,5 +1,4 @@
-﻿using Assets.WorldObjects;
-using Assets.WorldObjects.Members.Hungry;
+﻿using Assets.WorldObjects.Members.Hungry;
 using BehaviorTree.Nodes;
 using UnityEngine;
 

@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core;
 using Assets.WorldObjects;
-using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry;
 using BehaviorTree.Nodes;
 using TradeModeling.Inventories;
@@ -34,7 +33,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             var inv = inventoryToEatFrom.GetCurrentValue(variableInstantiator);
             var maximumEatAmount = (componentValue.maximumCalories - componentValue.currentCalories) / caloriesPerFood;
             var consume = inv.Consume(Resource.FOOD, maximumEatAmount);
-            
+
             componentValue.currentCalories += consume.info * caloriesPerFood;
             consume.Execute();
 

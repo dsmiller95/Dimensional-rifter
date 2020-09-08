@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -117,7 +115,7 @@ namespace Assets.Scripts.Core.Editor
             {
                 case ReferenceDataSource.CONSTANT:
                     SerializedProperty constantValue = property.FindPropertyRelative("ConstantValue");
-                    if(constantValue == null)
+                    if (constantValue == null)
                     {
                         EditorGUI.HelpBox(position, "Cannot set constant value", MessageType.Error);
                     }

@@ -1,18 +1,12 @@
 ﻿using Assets.WorldObjects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Instrumentation;
-using System.Text;
-using System.Threading.Tasks;
 using TradeModeling.Inventories;
 using UnityEditor;
-using UnityEngine;
 
 namespace Assets.Scripts.Core.Editor
 {
     [CustomEditor(typeof(VariableInstantiator))]
-    public class VariableInstantiatorInspector: UnityEditor.Editor
+    public class VariableInstantiatorInspector : UnityEditor.Editor
     {
         SerializedProperty booleanStates;
         SerializedProperty floatStates;
@@ -34,7 +28,7 @@ namespace Assets.Scripts.Core.Editor
             serializedObject.ApplyModifiedProperties();
 
             var instantiator = serializedObject.targetObject as VariableInstantiator;
-            if(instantiator == null)
+            if (instantiator == null)
             {
                 return;
             }
@@ -42,21 +36,21 @@ namespace Assets.Scripts.Core.Editor
             {
                 foreach (var kvp in instantiator.instancedBooleans)
                 {
-                    this.ShowBooleanVariable(kvp.Key, kvp.Value);
+                    ShowBooleanVariable(kvp.Key, kvp.Value);
                 }
             }
             if (instantiator.instancedFloats != null)
             {
                 foreach (var kvp in instantiator.instancedFloats)
                 {
-                    this.ShowFloatVariable(kvp.Key, kvp.Value);
+                    ShowFloatVariable(kvp.Key, kvp.Value);
                 }
             }
             if (instantiator.instancedInventories != null)
             {
                 foreach (var kvp in instantiator.instancedInventories)
                 {
-                    this.ShowInventoryVariable(kvp.Key, kvp.Value);
+                    ShowInventoryVariable(kvp.Key, kvp.Value);
                 }
             }
         }

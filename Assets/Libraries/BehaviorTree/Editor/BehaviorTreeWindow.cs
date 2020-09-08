@@ -37,7 +37,7 @@ namespace Assets.Libraries.BehaviorTree.Editor
         private void UpdateBehaviorTreeViewTargetMachine()
         {
             var nextInspectedMachine = GetSelectedMachineIfAny();
-            if(nextInspectedMachine == null)
+            if (nextInspectedMachine == null)
             {
                 // the machine is sticky, only switches if you select a different object with a machine attached
                 return;

@@ -11,7 +11,7 @@ namespace BehaviorTree.Nodes
     public class SelectOne : CompositeNode
     {
         private string indexProperty;
-        public SelectOne(string indexProperty, params Node[] children): base(children)
+        public SelectOne(string indexProperty, params Node[] children) : base(children)
         {
             this.indexProperty = indexProperty;
         }

@@ -38,7 +38,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         protected override NavigationPath? TryGetPath(Blackboard blackboard)
         {
             Resource resourceType = resourceToGrab;
-            if(resourceFromBlackboard && !blackboard.TryGetValueOfType(resourceTypePropertyInBlackboard, out resourceType))
+            if (resourceFromBlackboard && !blackboard.TryGetValueOfType(resourceTypePropertyInBlackboard, out resourceType))
             {
                 return null;
             }

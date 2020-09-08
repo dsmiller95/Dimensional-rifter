@@ -7,7 +7,7 @@ namespace BehaviorTree.Nodes
     {
         private int childIndex = 0;
 
-        public Sequence(params Node[] children): base(children)
+        public Sequence(params Node[] children) : base(children)
         {
         }
         public Sequence(IEnumerable<Node> children) : this(children.ToArray())

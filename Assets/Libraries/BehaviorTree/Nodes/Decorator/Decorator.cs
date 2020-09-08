@@ -5,7 +5,7 @@
         public Node Child { get; private set; }
         public Decorator(Node child)
         {
-            this.Child = child;
+            Child = child;
         }
 
         public override void Reset(Blackboard blackboard)
