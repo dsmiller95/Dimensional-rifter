@@ -10,11 +10,11 @@
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if (cachedStatus != NodeStatus.RUNNING)
+            if (cachedStatus == NodeStatus.RUNNING)
             {
-                return cachedStatus;
+                cachedStatus = Child.Evaluate(blackboard);
             }
-            return Child.Evaluate(blackboard);
+            return cachedStatus;
         }
 
         public override void Reset(Blackboard blackboard)
