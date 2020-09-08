@@ -37,9 +37,10 @@ namespace Assets.Libraries.BehaviorTree.Editor
             {
                 return Color.clear;
             }
-            var fadeFactor = timeSinceExecuted / fadeoutTimeSpan;
+            var fadeFactor = 1 - (timeSinceExecuted / fadeoutTimeSpan);
 
-            return Color.Lerp(ColorBasedOnStatus(), Color.clear, fadeFactor);
+            var baseColor = ColorBasedOnStatus();
+            return new Color(baseColor.r, baseColor.g, baseColor.b, fadeFactor * fadeFactor);
         }
 
         private static readonly Color failColor = Color.red;

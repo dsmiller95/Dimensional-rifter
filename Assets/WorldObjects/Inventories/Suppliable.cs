@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.ObjectVariables;
-using Assets.WorldObjects.Members;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TradeModeling.Inventories;
@@ -9,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Inventories
 {
-    public class Suppliable : MonoBehaviour, IInterestingInfo
+    public class Suppliable : MonoBehaviour
     {
         public BooleanReference IsSupplyable;
         public InventoryReference inventoryToSupplyInto;
@@ -39,7 +37,6 @@ namespace Assets.WorldObjects.Inventories
             var inv = inventoryToSupplyInto.CurrentValue;
             return inv.CanFitMoreOf(resource);
         }
-
 
         public bool SupplyInto(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
         {
@@ -72,17 +69,6 @@ namespace Assets.WorldObjects.Inventories
             }
 
             return anyTransferred;
-        }
-
-        public string GetCurrentInfo()
-        {
-            var info = "Suppliable:\n";
-            var myInv = inventoryToSupplyInto.CurrentValue;
-            foreach (var resource in myInv.GetCurrentResourceAmounts())
-            {
-                info += $"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}\n";
-            }
-            return info;
         }
     }
 }

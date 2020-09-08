@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 506530251402321464}
   - component: {fileID: 506530251402321470}
   - component: {fileID: 3320887735696179336}
-  - component: {fileID: 753903031417975742}
-  - component: {fileID: 4366038420737455548}
   - component: {fileID: 8705325802301842311}
   - component: {fileID: 7595939773234849522}
   - component: {fileID: 6768749659577978936}
+  - component: {fileID: 1623191977960245352}
   m_Layer: 0
   m_Name: Storage box
   m_TagString: Untagged
@@ -131,47 +130,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!114 &753903031417975742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ac748b1c0a50d46b9dcb5ad77fafa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whenClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4366038420737455548}
-        m_TargetAssemblyTypeName: Assets.Scripts.ObjectAssigner, Assembly-CSharp
-        m_MethodName: SetToVariable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4366038420737455548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c959edb31631d6c41842d5f9e0b2cbd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
-  objectToAssign: {fileID: 506530251402321468}
 --- !u!114 &8705325802301842311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,3 +194,16 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 0}
     NamePath: 
+--- !u!114 &1623191977960245352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f6f02d3d1f51742a9bebee14233301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}

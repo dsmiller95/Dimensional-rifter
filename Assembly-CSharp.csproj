@@ -224,6 +224,7 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryReference.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

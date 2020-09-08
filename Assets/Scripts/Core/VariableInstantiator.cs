@@ -4,6 +4,7 @@ using Assets.WorldObjects.Members;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TradeModeling.Inventories;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Assets.Scripts.Core
         public ValueSaveObject<object>[] inventoryValues;
     }
 
-    public class VariableInstantiator : MonoBehaviour, IMemberSaveable
+    public class VariableInstantiator : MonoBehaviour, IMemberSaveable, IInterestingInfo
     {
         public BooleanState[] booleanStateConfig;
         public FloatState[] floatStateConfig;
@@ -131,6 +132,42 @@ namespace Assets.Scripts.Core
                 {
                     state.SetSaveObjectIntoVariable(variable, value.savedValue);
                 }
+            }
+        }
+
+        public string GetCurrentInfo()
+        {
+            var info = new StringBuilder("Variables: \n");
+            if (instancedBooleans != null)
+            {
+                foreach (var boolean in instancedBooleans)
+                {
+                    info.AppendLine($"{boolean.Key}: {boolean.Value.CurrentValue}");
+                }
+            }
+            if (instancedFloats != null)
+            {
+                foreach (var floatPair in instancedFloats)
+                {
+                    info.AppendLine($"{floatPair.Key}: {floatPair.Value.CurrentValue:F1}");
+                }
+            }
+            if (instancedInventories != null)
+            {
+                foreach (var inventoryPair in instancedInventories)
+                {
+                    info.AppendLine($"{inventoryPair.Key}:");
+                    SerializeInventoryInto(inventoryPair.Value.CurrentValue, info);
+                }
+            }
+            return info.ToString();
+        }
+
+        private void SerializeInventoryInto(IInventory<Resource> inventory, StringBuilder builder)
+        {
+            foreach (var resource in inventory.GetCurrentResourceAmounts().Where(x => x.Value > 1e-5))
+            {
+                builder.AppendLine($"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}");
             }
         }
     }
