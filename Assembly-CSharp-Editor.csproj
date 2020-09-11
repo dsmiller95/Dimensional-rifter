@@ -60,9 +60,9 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeView.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\GenericReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeWindow.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorNodeTreeElement.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\VariableInstantiatorInspector.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorNodeTreeElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

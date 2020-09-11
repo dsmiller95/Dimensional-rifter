@@ -17,7 +17,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         {
             return
             new Sequence(
-                new ResetIfFail(new Sequence(
+                new ResetIfStatus(NodeStatus.FAILURE, new Sequence(
                     new GetCalories(
                         target,
                         calorieBlackboardPath

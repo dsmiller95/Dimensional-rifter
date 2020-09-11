@@ -146,7 +146,7 @@
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfFail.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfStatus.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\SquareCoordinateRangeObject.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TimeBasedSelectorFactory.cs" />
@@ -190,6 +190,7 @@
     <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\EatFactory.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Selector.cs" />
+    <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindBuildableTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
@@ -224,7 +225,10 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryReference.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SleepUntilAwakeEnough.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

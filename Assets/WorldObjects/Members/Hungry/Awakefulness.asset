@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5473b303be51fa2438d4ec1608f3d38d, type: 3}
-  m_Name: NightimeSelector
+  m_Script: {fileID: 11500000, guid: fc0134d8a56105b428167d126087c74b, type: 3}
+  m_Name: Awakefulness
   m_EditorClassIdentifier: 
-  children:
-  - {fileID: 11400000, guid: dd531591898169d4d93a8ac27c896266, type: 2}
-  - {fileID: 11400000, guid: aeb47957f54b4f842b99a15f8eb519c6, type: 2}
+  DeveloperDescription: how much wakefullness is left here. 0-100
+  IdentifierInInstantiator: wakefulness
+  defaultState: 100

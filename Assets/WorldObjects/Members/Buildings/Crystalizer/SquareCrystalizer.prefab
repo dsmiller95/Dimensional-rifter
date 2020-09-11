@@ -252,8 +252,8 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: GrownAndReady
-  increasePerSecond: 0.1
-  completeAmount: 10
+  changePerSecond: 0.1
+  stoppingPoint: 10
 --- !u!114 &6626677555424883122
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ namespace Assets.WorldObjects.Members.Food
         public BooleanReference CanGrow;
         public BooleanReference IsGrown;
 
-        public float increasePerSecond;
-        public float completeAmount;
+        public float changePerSecond;
+        public float stoppingPoint;
 
         private void Awake()
         {
@@ -32,10 +32,10 @@ namespace Assets.WorldObjects.Members.Food
             {
                 return;
             }
-            var newValue = ToIncrease.CurrentValue + increasePerSecond * Time.deltaTime;
-            if (newValue >= completeAmount)
+            var newValue = ToIncrease.CurrentValue + changePerSecond * Time.deltaTime;
+            if (changePerSecond > 0 ? newValue >= stoppingPoint : newValue <= stoppingPoint)
             {
-                newValue = completeAmount;
+                newValue = stoppingPoint;
                 IsGrown.SetValue(true);
             }
 

@@ -3,16 +3,18 @@
     /// <summary>
     /// Reset the child node only if it fails
     /// </summary>
-    public class ResetIfFail : Decorator
+    public class ResetIfStatus : Decorator
     {
-        public ResetIfFail(Node child) : base(child)
+        private NodeStatus resetStatus;
+        public ResetIfStatus(NodeStatus resetStatus, Node child) : base(child)
         {
+            this.resetStatus = resetStatus;
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
             var result = Child.Evaluate(blackboard);
-            if (result == NodeStatus.FAILURE)
+            if (result == resetStatus)
             {
                 Reset(blackboard);
             }

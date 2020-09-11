@@ -59,10 +59,10 @@ namespace Assets.Scripts.Core
             EnsureInstanced();
             return GetValue(name, instancedBooleans);
         }
-        public GenericVariable<float> GetFloatValue(string name)
+        public FloatVariable GetFloatValue(string name)
         {
             EnsureInstanced();
-            return GetValue(name, instancedFloats);
+            return GetValue(name, instancedFloats) as FloatVariable;
         }
         public GenericVariable<IInventory<Resource>> GetInventoryValue(string name)
         {

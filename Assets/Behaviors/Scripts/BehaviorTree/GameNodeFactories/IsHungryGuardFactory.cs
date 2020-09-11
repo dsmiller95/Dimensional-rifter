@@ -13,7 +13,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 
         protected override Node OnCreateNode(GameObject target)
         {
-            return new ResetIfFail(new Sequence(
+            return new ResetIfStatus(NodeStatus.FAILURE, new Sequence(
                 new GetCalories(
                     target,
                     calorieBlackboardPath
