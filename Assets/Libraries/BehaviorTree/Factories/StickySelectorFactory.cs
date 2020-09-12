@@ -11,10 +11,8 @@ namespace BehaviorTree.Factories
 
         protected override Node OnCreateNode(GameObject target)
         {
-            return new Selector(
-                children.Select(child => new CacheFirstResolution(
-                        child.CreateNode(target)
-                    ))
+            return new StickySelector(
+                children.Select(child => child.CreateNode(target))
                 );
         }
     }
