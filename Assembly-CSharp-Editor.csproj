@@ -63,6 +63,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorNodeTreeElement.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\VariableInstantiatorInspector.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphEditorWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

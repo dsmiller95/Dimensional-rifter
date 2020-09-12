@@ -129,7 +129,6 @@
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\ExitSleepingStation.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SelfTileMemberReplacer.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Node.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryDirectSelector.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\EnsureAvailableResourceSupplyPair.cs" />
@@ -241,6 +240,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
     <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

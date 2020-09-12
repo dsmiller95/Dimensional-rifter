@@ -8,7 +8,7 @@ namespace BehaviorTree.Factories
     {
         public NodeFactory child;
 
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
 #if UNITY_EDITOR
             FACTORY_RANDOM = new System.Random(GetInstanceID());

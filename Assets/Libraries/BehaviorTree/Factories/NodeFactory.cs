@@ -14,7 +14,7 @@ namespace BehaviorTree.Factories
         public static System.Random FACTORY_RANDOM;
 #endif
 
-        public Node CreateNode(GameObject target)
+        public BehaviorNode CreateNode(GameObject target)
         {
             var newNode = OnCreateNode(target);
 #if UNITY_EDITOR
@@ -24,6 +24,6 @@ namespace BehaviorTree.Factories
             return newNode;
         }
 
-        protected abstract Node OnCreateNode(GameObject target);
+        protected abstract BehaviorNode OnCreateNode(GameObject target);
     }
 }

@@ -7,9 +7,9 @@ namespace Assets.Libraries.BehaviorTree.Editor
 {
     public class BehaviorNodeTreeElement : TreeViewItem
     {
-        private Node node;
+        private BehaviorNode node;
 
-        public BehaviorNodeTreeElement(Node node)
+        public BehaviorNodeTreeElement(BehaviorNode node)
         {
             if (node == null)
             {
@@ -80,7 +80,7 @@ namespace Assets.Libraries.BehaviorTree.Editor
             }
         }
 
-        private BehaviorNodeTreeElement CreateAndAddAllChildren(Node node)
+        private BehaviorNodeTreeElement CreateAndAddAllChildren(BehaviorNode node)
         {
             var newChild = new BehaviorNodeTreeElement(node);
             AddChild(newChild);

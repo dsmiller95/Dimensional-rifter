@@ -5,10 +5,10 @@ namespace BehaviorTree.Nodes
 {
     public class Parallel : CompositeNode
     {
-        public Parallel(params Node[] children) : base(children)
+        public Parallel(params BehaviorNode[] children) : base(children)
         {
         }
-        public Parallel(IEnumerable<Node> children) : this(children.ToArray())
+        public Parallel(IEnumerable<BehaviorNode> children) : this(children.ToArray())
         {
         }
 

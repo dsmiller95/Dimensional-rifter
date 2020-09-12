@@ -13,7 +13,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public float calorieDieThreshold = 0f;
         public TileMapMember deadMemberPrefab;
 
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return
             new Sequence(

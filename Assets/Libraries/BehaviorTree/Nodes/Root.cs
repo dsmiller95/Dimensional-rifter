@@ -2,12 +2,12 @@
 
 namespace BehaviorTree.Nodes
 {
-    public class Root : Node
+    public class Root : BehaviorNode
     {
         private Blackboard myBlackboard;
-        public Node Child { get; private set; }
+        public BehaviorNode Child { get; private set; }
 
-        public Root(Node child)
+        public Root(BehaviorNode child)
         {
             myBlackboard = new Blackboard();
             Child = child;

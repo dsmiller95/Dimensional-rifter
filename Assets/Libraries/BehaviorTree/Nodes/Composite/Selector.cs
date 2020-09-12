@@ -5,10 +5,10 @@ namespace BehaviorTree.Nodes
 {
     public class Selector : CompositeNode
     {
-        public Selector(params Node[] children) : base(children)
+        public Selector(params BehaviorNode[] children) : base(children)
         {
         }
-        public Selector(IEnumerable<Node> children) : this(children.ToArray())
+        public Selector(IEnumerable<BehaviorNode> children) : this(children.ToArray())
         {
         }
 

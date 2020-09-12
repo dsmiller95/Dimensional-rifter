@@ -16,7 +16,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public SuppliableType validSupplyTarget;
         public GenericSelector<IInventory<Resource>> selfInventoryToUse;
 
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
             // TODO: check if I can supply from my current inventory, if I have anything?
             return

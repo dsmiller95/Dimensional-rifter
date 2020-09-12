@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     public static class SupplyToSupplyTypeFactory
     {
-        public static Node SupplyAnyResourceFromSelfToSuppliable(
+        public static BehaviorNode SupplyAnyResourceFromSelfToSuppliable(
             GameObject target,
             SuppliableType supplyTargetType,
             GenericSelector<IInventory<Resource>> inventoryToSupplyFrom,

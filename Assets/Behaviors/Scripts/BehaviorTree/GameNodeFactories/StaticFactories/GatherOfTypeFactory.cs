@@ -21,7 +21,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         /// <param name="tempPathProp"></param>
         /// <param name="targetReachedProp"></param>
         /// <returns></returns>
-        public static Node GatherResourceOfType(
+        public static BehaviorNode GatherResourceOfType(
             GameObject target,
             ItemSourceType[] validItemSources,
             GenericSelector<IInventory<Resource>> inventoryToGatherInto,
@@ -48,7 +48,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     blackboardResourceProperty)
             );
         }
-        public static Node GatherResourceOfType(
+        public static BehaviorNode GatherResourceOfType(
            GameObject target,
            ItemSourceType[] validItemSources,
            GenericSelector<IInventory<Resource>> inventoryToGatherInto,

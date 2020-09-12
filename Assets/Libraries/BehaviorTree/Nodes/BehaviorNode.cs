@@ -10,7 +10,7 @@ namespace BehaviorTree.Nodes
         RUNNING
     }
 
-    public abstract class Node
+    public abstract class BehaviorNode
     {
 #if UNITY_EDITOR
         public string Label;
@@ -19,7 +19,7 @@ namespace BehaviorTree.Nodes
 #endif
         public int UniqueID;
 
-        public Node()
+        public BehaviorNode()
         {
 #if UNITY_EDITOR
             if (NodeFactory.FACTORY_RANDOM != null)

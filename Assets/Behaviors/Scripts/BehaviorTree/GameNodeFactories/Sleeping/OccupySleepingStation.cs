@@ -13,7 +13,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public string sleepPathBlackboard = "Path";
         public string sleepStationBlackboard = "SleepingBed";
 
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return
             new Sequence(

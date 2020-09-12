@@ -6,7 +6,7 @@
     public class ResetIfStatus : Decorator
     {
         private NodeStatus resetStatus;
-        public ResetIfStatus(NodeStatus resetStatus, Node child) : base(child)
+        public ResetIfStatus(NodeStatus resetStatus, BehaviorNode child) : base(child)
         {
             this.resetStatus = resetStatus;
         }

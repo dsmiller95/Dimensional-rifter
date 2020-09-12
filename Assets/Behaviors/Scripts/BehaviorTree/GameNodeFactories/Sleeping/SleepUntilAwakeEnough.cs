@@ -18,7 +18,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public float waitTimeForIdleTransition = .5f;
         public string idlingAnimationTrigger = "Idling";
 
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return
             new Sequence(

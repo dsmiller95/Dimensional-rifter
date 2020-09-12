@@ -1,6 +1,6 @@
 ﻿namespace BehaviorTree.Nodes
 {
-    public abstract class Leaf : Node
+    public abstract class Leaf : BehaviorNode
     {
     }
 }

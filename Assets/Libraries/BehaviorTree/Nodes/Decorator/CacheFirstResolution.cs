@@ -2,7 +2,7 @@
 {
     public class CacheFirstResolution : Decorator
     {
-        public CacheFirstResolution(Node child) : base(child)
+        public CacheFirstResolution(BehaviorNode child) : base(child)
         {
         }
 

@@ -8,7 +8,7 @@ namespace BehaviorTree.Factories
     {
         public float waitTime;
 
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return new Wait(waitTime);
         }

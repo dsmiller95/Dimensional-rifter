@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public int randomWalkLength;
         public string blackboardPathProperty;
-        protected override Node OnCreateNode(GameObject target)
+        protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return new SetRandomWalkTarget(
                 target,

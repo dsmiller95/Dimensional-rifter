@@ -6,10 +6,10 @@ namespace BehaviorTree.Nodes
     public class StickySelector : CompositeNode
     {
         private int childIndex = 0;
-        public StickySelector(params Node[] children) : base(children)
+        public StickySelector(params BehaviorNode[] children) : base(children)
         {
         }
-        public StickySelector(IEnumerable<Node> children) : this(children.ToArray())
+        public StickySelector(IEnumerable<BehaviorNode> children) : this(children.ToArray())
         {
         }
 

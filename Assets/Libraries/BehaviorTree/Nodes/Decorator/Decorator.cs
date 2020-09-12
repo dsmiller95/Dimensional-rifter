@@ -1,9 +1,9 @@
 ﻿namespace BehaviorTree.Nodes
 {
-    public abstract class Decorator : Node
+    public abstract class Decorator : BehaviorNode
     {
-        public Node Child { get; private set; }
-        public Decorator(Node child)
+        public BehaviorNode Child { get; private set; }
+        public Decorator(BehaviorNode child)
         {
             Child = child;
         }

@@ -11,12 +11,12 @@ namespace BehaviorTree.Nodes
     public class SelectOne : CompositeNode
     {
         private string indexProperty;
-        public SelectOne(string indexProperty, params Node[] children) : base(children)
+        public SelectOne(string indexProperty, params BehaviorNode[] children) : base(children)
         {
             this.indexProperty = indexProperty;
         }
 
-        public SelectOne(string indexProperty, IEnumerable<Node> children) : this(indexProperty, children.ToArray())
+        public SelectOne(string indexProperty, IEnumerable<BehaviorNode> children) : this(indexProperty, children.ToArray())
         {
         }
 
