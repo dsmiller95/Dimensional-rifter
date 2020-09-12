@@ -1,8 +1,5 @@
 ﻿using Assets.Scripts.Core;
-using Assets.WorldObjects;
-using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Nodes;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
@@ -26,7 +23,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             this.restSpeed = restSpeed;
             //this.stopRestingPoint = targetRest;
 
-            this.floatFromInstantiator = componentValue.GetFloatValue(wakefullness.IdentifierInInstantiator);
+            floatFromInstantiator = componentValue.GetFloatValue(wakefullness.IdentifierInInstantiator);
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)

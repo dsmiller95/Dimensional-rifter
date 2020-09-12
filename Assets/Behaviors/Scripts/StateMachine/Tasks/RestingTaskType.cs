@@ -1,6 +1,5 @@
 ﻿using Assets.Behaviors.Scripts.UtilityStates;
 using Assets.WorldObjects;
-using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.Tasks
 {

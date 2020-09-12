@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BehaviorTree.Nodes
 {
@@ -10,7 +8,7 @@ namespace BehaviorTree.Nodes
 
         public AnimationResetTrigger(
             GameObject gameObject,
-            string animationTrigger): base(gameObject)
+            string animationTrigger) : base(gameObject)
         {
             this.animationTrigger = animationTrigger;
         }

@@ -1,9 +1,6 @@
-﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
-using Assets.Scripts.Core;
-using Assets.WorldObjects.Members.Building;
+﻿using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Factories;
 using BehaviorTree.Nodes;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories

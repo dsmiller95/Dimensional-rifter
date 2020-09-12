@@ -14,7 +14,7 @@ namespace BehaviorTree.Nodes
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if(children.Length <= 0)
+            if (children.Length <= 0)
             {
                 return NodeStatus.FAILURE;
             }
