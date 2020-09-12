@@ -22,9 +22,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                         target,
                         calorieBlackboardPath
                     ),
-                    new IsBelowThreshold(
+                    new ComparisonFromBlackboard(
                         calorieBlackboardPath,
-                        calorieDieThreshold
+                        currentCalories => currentCalories < calorieDieThreshold
                     )
                 )),
                 new Die(

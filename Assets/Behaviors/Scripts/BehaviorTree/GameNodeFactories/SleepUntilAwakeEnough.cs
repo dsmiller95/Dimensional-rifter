@@ -2,6 +2,7 @@
 using Assets.Scripts.Core;
 using BehaviorTree.Factories;
 using BehaviorTree.Nodes;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
@@ -15,6 +16,10 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public float awakefullnessMinimumBeforeEntry;
         public float awakefullnessMinimumRequiredForExit;
 
+        public string sleepingAnimationTrigger = "StartSleeping";
+        public float waitTimeForIdleTransition = .5f;
+        public string idlingAnimationTrigger = "Idling";
+
         protected override Node OnCreateNode(GameObject target)
         {
             return
@@ -23,6 +28,10 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     target,
                     wakefullnessState,
                     wakefullness => wakefullness < awakefullnessMinimumBeforeEntry
+                ),
+                new AnimationSetTrigger(
+                    target,
+                    sleepingAnimationTrigger
                 ),
                 new Selector( // selector with a comparison executes while the comparison is false
                     new FloatFromInstantiatorComparison(
@@ -36,7 +45,12 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                         restSpeed,
                         awakefullnessMinimumRequiredForExit
                     )
-                )
+                ),
+                new AnimationSetTrigger(
+                    target,
+                    idlingAnimationTrigger
+                ),
+                new Wait(waitTimeForIdleTransition)
             );
         }
     }

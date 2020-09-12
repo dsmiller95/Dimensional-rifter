@@ -18,9 +18,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     target,
                     calorieBlackboardPath
                 ),
-                new IsBelowThreshold(
+                new ComparisonFromBlackboard(
                     calorieBlackboardPath,
-                    hungerLevel
+                    currentCalories => currentCalories < hungerLevel
                 )
             ));
         }

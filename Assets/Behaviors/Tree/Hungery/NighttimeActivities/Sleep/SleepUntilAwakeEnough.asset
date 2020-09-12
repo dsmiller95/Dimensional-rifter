@@ -16,3 +16,6 @@ MonoBehaviour:
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
   awakefullnessMinimumBeforeEntry: 30
   awakefullnessMinimumRequiredForExit: 100
+  sleepingAnimationTrigger: StartSleeping
+  waitTimeForIdleTransition: 1
+  idlingAnimationTrigger: Idling

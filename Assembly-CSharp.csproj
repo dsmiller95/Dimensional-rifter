@@ -71,6 +71,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystem.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\IsHungryGuardFactory.cs" />
@@ -96,13 +97,13 @@
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\IGatherable.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SleepUntilAwakeEnough.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\IsBelowThreshold.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
     <Compile Include="Assets\Scripts\Clickable.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\RestingTaskType.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentLeaf.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSuppliableTarget.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\Food.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
@@ -225,10 +228,11 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryReference.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SleepUntilAwakeEnough.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationResetTrigger.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\WaitFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Wait.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

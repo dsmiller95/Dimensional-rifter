@@ -1,23 +1,24 @@
 ﻿using BehaviorTree.Nodes;
+using System;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
-    public class IsBelowThreshold : Leaf
+    public class ComparisonFromBlackboard : Leaf
     {
         private string blackboardProperty;
-        private float thresholdValue;
+        Func<float, bool> comparison;
 
-        public IsBelowThreshold(
+        public ComparisonFromBlackboard(
             string blackboardProperty,
-            float thresholdValue)
+            Func<float, bool> comparison)
         {
             this.blackboardProperty = blackboardProperty;
-            this.thresholdValue = thresholdValue;
+            this.comparison = comparison;
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(blackboardProperty, out float comparisonValue) && comparisonValue < thresholdValue)
+            if (blackboard.TryGetValueOfType(blackboardProperty, out float comparisonValue) && comparison(comparisonValue))
             {
                 return NodeStatus.SUCCESS;
             }

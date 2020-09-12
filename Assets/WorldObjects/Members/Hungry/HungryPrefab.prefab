@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 8564191902136200649}
   - component: {fileID: -6440330297767109688}
   - component: {fileID: -6128353374799927090}
-  - component: {fileID: 3226939423450514870}
   - component: {fileID: 5951491818664961422}
+  - component: {fileID: 4021323601481749371}
   m_Layer: 0
   m_Name: HungryPrefab
   m_TagString: Untagged
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3574410992439024309, guid: e75d1cf039c9bb64a8ab41684adccf33, type: 3}
+  m_Sprite: {fileID: -1037244818800778654, guid: a0b2f05c12a41c246a64e4d2a5332a79, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -217,25 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb219b23cdf4b314f94a27bca3cc8012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &3226939423450514870
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f32686784b4665145a5602acf1c437e1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5951491818664961422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,3 +249,22 @@ MonoBehaviour:
     NamePath: 
   changePerSecond: -0.7
   stoppingPoint: 0
+--- !u!95 &4021323601481749371
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f32686784b4665145a5602acf1c437e1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
