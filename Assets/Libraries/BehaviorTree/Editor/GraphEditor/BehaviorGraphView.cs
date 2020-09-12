@@ -13,11 +13,16 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
         public BehaviorGraphView()
         {
+            styleSheets.Add(Resources.Load<StyleSheet>("BehaviorGraph"));
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
+
+            var grid = new GridBackground();
+            Insert(0, grid);
+            grid.StretchToParentSize();
 
             var rootNode = GenerateEntryNode();
             AddElement(rootNode);
