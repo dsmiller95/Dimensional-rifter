@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameTimeProvider: {fileID: 11400000, guid: 897fa92db42ffec47adc228ba3bb808e, type: 2}
   daytimeNode: {fileID: 11400000, guid: 0e9de3c2fd85d814c87768a99ede23a1, type: 2}
-  eveningNode: {fileID: 11400000, guid: 2f716033ba94bed4bbf85d5dbc9b86e9, type: 2}
-  nightNode: {fileID: 11400000, guid: 2f716033ba94bed4bbf85d5dbc9b86e9, type: 2}
+  eveningNode: {fileID: 11400000, guid: 20e280de5aa6da242bf53ff4048044ee, type: 2}
+  nightNode: {fileID: 11400000, guid: 20e280de5aa6da242bf53ff4048044ee, type: 2}

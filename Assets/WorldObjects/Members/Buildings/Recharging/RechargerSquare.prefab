@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4790017440937557276}
   - component: {fileID: 7982143227113421838}
   - component: {fileID: 4982236459134736321}
+  - component: {fileID: 2219312331084413800}
   m_Layer: 0
   m_Name: RechargerSquare
   m_TagString: Untagged
@@ -102,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
-  memberType: {fileID: 11400000, guid: 215c239955b61a24f947271f223f94c4, type: 2}
+  memberType: {fileID: 11400000, guid: 2e2f5da36401ac04c9dc09527cc27c19, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
 --- !u!114 &7249950768649342519
 MonoBehaviour:
@@ -119,6 +120,7 @@ MonoBehaviour:
   booleanStateConfig:
   - {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
   - {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}
+  - {fileID: 11400000, guid: 9e949f3a8bc90b14099277d25b6b5832, type: 2}
   floatStateConfig: []
   inventoryStateConfig:
   - {fileID: 11400000, guid: 55d7032fe5df291488a7d27196a9cb14, type: 2}
@@ -215,3 +217,28 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: Built
+--- !u!114 &2219312331084413800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5874abd1d6069c54f92247166640151a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBuiltAndActive:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: Built
+  isOccupied:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 7249950768649342519}
+    NamePath: Occupied
+  occupier: {fileID: 0}

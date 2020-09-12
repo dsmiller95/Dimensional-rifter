@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetCalories.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\IsHungryGuardFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Square\SquareCoordinateSystemBehavior.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\SupplyToSupplyTypeFactory.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SelectorFactory.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateSystem.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\SleepUntilAwakeEnough.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
@@ -97,7 +100,6 @@
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\IGatherable.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SleepUntilAwakeEnough.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
@@ -119,11 +121,13 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileShape.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\Suppliable.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\ExitSleepingStation.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SelfTileMemberReplacer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Node.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryDirectSelector.cs" />
@@ -140,11 +144,13 @@
     <Compile Include="Assets\Scripts\Core\GenericState.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareNonRotatedTileMapSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\NodeFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationResetTrigger.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfStatus.cs" />
@@ -167,6 +173,7 @@
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleCoordinateRangeObject.cs" />
     <Compile Include="Assets\Tiling\CoordinateSystemScale.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Wait.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Leaf.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleAutomataSystem.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSource.cs" />
@@ -183,6 +190,7 @@
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
     <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareAutomataSystem.cs" />
@@ -216,6 +224,7 @@
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SupplyToAvailablePairLeafFactory.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FloatFromInstantiatorComparisonFactory.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataRule.cs" />
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
@@ -226,13 +235,10 @@
     <Compile Include="Assets\WorldObjects\GameTime.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryReference.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\WaitFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationResetTrigger.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\WaitFactory.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Wait.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

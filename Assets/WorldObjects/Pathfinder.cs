@@ -47,7 +47,10 @@ namespace Assets.WorldObjects
         private Func<T, TileProperties, bool> coordinateFilterFunction;
 
         private readonly T origin;
-        public Pathfinder(T origin, TileMapRegion<T> region, Func<T, TileProperties, bool> isCoordinateVisitable)
+        public Pathfinder(
+            T origin,
+            TileMapRegion<T> region,
+            Func<T, TileProperties, bool> isCoordinateVisitable)
         {
             tileRegion = region;
             coordinateSystem = region.WorldSpaceCoordinateSystem;
@@ -84,11 +87,11 @@ namespace Assets.WorldObjects
         /// </summary>
         /// <param name="destination"></param>
         /// <returns>the shortest path to <paramref name="destination"/> in reverse order, beginning with <paramref name="destination"/> and ending with the origin</returns>
-        public IEnumerable<T> ShortestPathTo(T destination)
+        public IEnumerable<T> ShortestPathTo(T destination, bool overlapWithTarget = false)
         {
             try
             {
-                return ShortestPathToGenerator(destination);
+                return ShortestPathToGenerator(destination, overlapWithTarget);
             }
             catch (Exception)
             {
@@ -96,7 +99,7 @@ namespace Assets.WorldObjects
             }
         }
 
-        private IEnumerable<T> ShortestPathToGenerator(T destination)
+        private IEnumerable<T> ShortestPathToGenerator(T destination, bool overlapWithTarget)
         {
             var currentCoordinate = origin;
             var currentCoordinateData = new CoordinateData(currentCoordinate, default, destination, 0, coordinateSystem);
@@ -118,17 +121,21 @@ namespace Assets.WorldObjects
             }
             else
             {
-                return ExtractPathFromVisited(currentCoordinate);
+                return ExtractPathFromVisited(currentCoordinate, overlapWithTarget);
             }
         }
 
-        private IEnumerable<T> ExtractPathFromVisited(T currentCoordinate)
+        private IEnumerable<T> ExtractPathFromVisited(T currentCoordinate, bool overlapWithTarget)
         {
             CoordinateData data = visited[currentCoordinate];
             while (!data.coordinate.Equals(origin))
             {
                 yield return data.coordinate;
                 data = visited[data.previous];
+            }
+            if (overlapWithTarget)
+            {
+                yield return data.coordinate;
             }
         }
 
@@ -167,12 +174,17 @@ namespace Assets.WorldObjects
             }
         }
 
-        public static IEnumerable<T> PathBetween(ICoordinate source, ICoordinate destination, TileMapRegionNoCoordinateType coordinateSystem, Func<ICoordinate, TileProperties, bool> passableTiles)
+        public static IEnumerable<T> PathBetween(
+            ICoordinate source,
+            ICoordinate destination,
+            TileMapRegionNoCoordinateType coordinateSystem,
+            Func<ICoordinate, TileProperties, bool> passableTiles,
+            bool navigateToAdjacent)
         {
             var coordSystem = (coordinateSystem as TileMapRegion<T>);
 
             var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(coord, properties));
-            return pather.ShortestPathTo((T)source);
+            return pather.ShortestPathTo((T)source, !navigateToAdjacent);
         }
         public static IEnumerable<T> RandomWalk(ICoordinate source, int steps, TileMapRegionNoCoordinateType coordinateSystem, Func<ICoordinate, TileProperties, bool> passableTiles)
         {
@@ -190,7 +202,8 @@ namespace Assets.WorldObjects
             ICoordinate source,
             ICoordinate destination,
             TileMapRegionNoCoordinateType region,
-            Func<ICoordinate, TileProperties, bool> passableTiles)
+            Func<ICoordinate, TileProperties, bool> passableTiles,
+            bool navigateToAdjacent = true)
         {
             var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
 
@@ -202,13 +215,13 @@ namespace Assets.WorldObjects
             switch (coordinateSpace.CoordType)
             {
                 case CoordinateSystemType.HEX:
-                    return Pathfinder<AxialCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                    return Pathfinder<AxialCoordinate>.PathBetween(source, destination, region, passableTiles, navigateToAdjacent)?
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.SQUARE:
-                    return Pathfinder<SquareCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                    return Pathfinder<SquareCoordinate>.PathBetween(source, destination, region, passableTiles, navigateToAdjacent)?
                         .Cast<ICoordinate>();
                 case CoordinateSystemType.TRIANGLE:
-                    return Pathfinder<TriangleCoordinate>.PathBetween(source, destination, region, passableTiles)?
+                    return Pathfinder<TriangleCoordinate>.PathBetween(source, destination, region, passableTiles, navigateToAdjacent)?
                         .Cast<ICoordinate>();
             }
             throw new ArgumentException("invalid coordinate system type");

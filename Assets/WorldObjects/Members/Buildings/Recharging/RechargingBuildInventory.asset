@@ -17,4 +17,4 @@ MonoBehaviour:
   initialItems: []
   validItems: 01000000
   spaceFillingItems: 01000000
-  spaceFillingCapacity: 4
+  spaceFillingCapacity: 2

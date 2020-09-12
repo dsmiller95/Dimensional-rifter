@@ -2,7 +2,6 @@
 using Assets.Scripts.Core;
 using BehaviorTree.Factories;
 using BehaviorTree.Nodes;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
@@ -13,7 +12,6 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public float restSpeed;
         public FloatState wakefullnessState;
 
-        public float awakefullnessMinimumBeforeEntry;
         public float awakefullnessMinimumRequiredForExit;
 
         public string sleepingAnimationTrigger = "StartSleeping";
@@ -24,11 +22,6 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         {
             return
             new Sequence(
-                new FloatFromInstantiatorComparison(
-                    target,
-                    wakefullnessState,
-                    wakefullness => wakefullness < awakefullnessMinimumBeforeEntry
-                ),
                 new AnimationSetTrigger(
                     target,
                     sleepingAnimationTrigger

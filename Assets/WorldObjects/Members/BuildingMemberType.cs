@@ -16,6 +16,7 @@ namespace Assets.WorldObjects.Members
             public bool defaultValue;
             public BooleanState stateToSet;
         }
+        [Header("Defaults used when generated as part of a map")]
         public DefaultBoolValue[] boolDefaults;
 
         public override InMemberObjectData[] InstantiateNewSaveObject()

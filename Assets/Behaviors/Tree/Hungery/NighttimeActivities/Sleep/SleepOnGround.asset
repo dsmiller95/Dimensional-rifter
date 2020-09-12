@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bb982a44cd63a5488adb8980fda0269, type: 3}
-  m_Name: SleepUntilAwakeEnough
+  m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
+  m_Name: SleepOnGround
   m_EditorClassIdentifier: 
-  restSpeed: 4
+  restSpeed: 2
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
-  awakefullnessMinimumBeforeEntry: 30
-  awakefullnessMinimumRequiredForExit: 100
+  awakefullnessMinimumRequiredForExit: 70
   sleepingAnimationTrigger: StartSleeping
   waitTimeForIdleTransition: 1
   idlingAnimationTrigger: Idling

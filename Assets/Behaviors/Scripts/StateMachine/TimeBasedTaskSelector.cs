@@ -13,7 +13,7 @@ namespace Assets.Behaviors.Scripts
         public TaskType[] prioritizedTasks;
     }
 
-    [CreateAssetMenu(fileName = "TimeBasedTaskSelector", menuName = "Tasks/TimeBasedSelector", order = 1)]
+    //[CreateAssetMenu(fileName = "TimeBasedTaskSelector", menuName = "Tasks/TimeBasedSelector", order = 1)]
     public class TimeBasedTaskSelector : ScriptableObject, IGenericStateHandler<TileMapMember>
     {
         public GameTime timeProvider;

@@ -9,15 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2555b3cff150c0442ae827a58dbdaae7, type: 3}
-  m_Name: GameTime
+  m_Script: {fileID: 11500000, guid: 1401b877bac37c84c985c46ec6eceef4, type: 3}
+  m_Name: IsRechargerOccupied
   m_EditorClassIdentifier: 
-  dayLength: 100
-  timezones:
-  - zone: 2
-    startTime: 0.9
-  - zone: 1
-    startTime: 0.7
-  - zone: 0
-    startTime: 0
-  currentTime: 0.17376176
+  DeveloperDescription: Whether or not the recharger is occupied
+  IdentifierInInstantiator: Occupied
+  defaultState: 0

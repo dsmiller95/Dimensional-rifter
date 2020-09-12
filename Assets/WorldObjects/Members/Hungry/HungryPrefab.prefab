@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 8564191902136200649}
   - component: {fileID: -6440330297767109688}
   - component: {fileID: -6128353374799927090}
-  - component: {fileID: 5951491818664961422}
   - component: {fileID: 4021323601481749371}
+  - component: {fileID: 3399309816133380429}
   m_Layer: 0
   m_Name: HungryPrefab
   m_TagString: Untagged
@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  booleanStateConfig: []
+  booleanStateConfig:
+  - {fileID: 11400000, guid: e84297e5fbd79924985a4085fdd35e3a, type: 2}
   floatStateConfig:
   - {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
   inventoryStateConfig:
@@ -217,38 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb219b23cdf4b314f94a27bca3cc8012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5951491818664961422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1cd07fa7b639844ba6375739a5225d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ToIncrease:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 5619728940487949368}
-    NamePath: wakefulness
-  CanGrow:
-    DataSource: 0
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
-  IsGrown:
-    DataSource: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
-  changePerSecond: -0.7
-  stoppingPoint: 0
 --- !u!95 &4021323601481749371
 Animator:
   serializedVersion: 3
@@ -268,3 +237,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3399309816133380429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9fffdfec7f5604a948a8305a88d342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToIncrease:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 5619728940487949368}
+    NamePath: wakefulness
+  CanGrow:
+    DataSource: 0
+    ConstantValue: 1
+    Variable: {fileID: 0}
+    Instancer: {fileID: 5619728940487949368}
+    NamePath: 
+  changePerSecond: -0.7
+  stoppingPoint: 0

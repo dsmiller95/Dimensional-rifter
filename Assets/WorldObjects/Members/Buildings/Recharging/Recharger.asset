@@ -16,7 +16,9 @@ MonoBehaviour:
     uniqueId: 8
   recieveStorage: 0
   gatherableResource: 1
-  memberPrefab: {fileID: 6082261357034508969, guid: 3e7e431e1a140c04d84d2605de5d65a7, type: 3}
+  memberPrefab: {fileID: 6082261357034508969, guid: cbdb964d52b3e1d43a4dd1e2cd506a86, type: 3}
   boolDefaults:
-  - defaultValue: 0
+  - defaultValue: 1
     stateToSet: {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
+  - defaultValue: 1
+    stateToSet: {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}

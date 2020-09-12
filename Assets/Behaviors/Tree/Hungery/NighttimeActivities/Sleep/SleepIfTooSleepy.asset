@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5473b303be51fa2438d4ec1608f3d38d, type: 3}
-  m_Name: NightimeSelector
+  m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
+  m_Name: SleepIfTooSleepy
   m_EditorClassIdentifier: 
   children:
-  - {fileID: 11400000, guid: dd531591898169d4d93a8ac27c896266, type: 2}
-  - {fileID: 11400000, guid: aeb47957f54b4f842b99a15f8eb519c6, type: 2}
+  - {fileID: 11400000, guid: ee0d27ea0f97490409946a5f012548da, type: 2}
+  - {fileID: 11400000, guid: 1d0496abfe7277342b45472b00492253, type: 2}

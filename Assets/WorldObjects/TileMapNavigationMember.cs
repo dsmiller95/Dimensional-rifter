@@ -162,10 +162,11 @@ namespace Assets.WorldObjects
         ///     to the indicated target
         /// </summary>
         /// <param name="filter"></param>
+        /// <param name="navigateToAdjacent">If the path should only go to an adjacent tile, without trying to overlap with the target member</param>
         /// <returns>null if there is no member. otherwise a navigationPath with the target member and the path to it</returns>
-        public NavigationPath? GetClosestOfTypeWithPath(Func<TileMapMember, bool> filter)
+        public NavigationPath? GetClosestOfTypeWithPath(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
-            var paths = AllPossiblePaths(filter);
+            var paths = AllPossiblePaths(filter, navigateToAdjacent);
 
             var minDist = float.MaxValue;
             IList<ICoordinate> bestPath = new ICoordinate[0];
@@ -192,18 +193,20 @@ namespace Assets.WorldObjects
             };
         }
 
-        private IEnumerable<(List<ICoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter)
+        private IEnumerable<(List<ICoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
             var possibleSelections = currentRegion.universalContentTracker.allMembers
                 .Where(filter);
             return possibleSelections.Select(member =>
-                (PathfinderUtils.PathBetween(
-                        coordinatePosition,
-                        member.CoordinatePosition,
-                        currentRegion,
-                        (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToList(),
-                    member)
-                )
+                {
+                    var path = PathfinderUtils.PathBetween(
+                            coordinatePosition,
+                            member.CoordinatePosition,
+                            currentRegion,
+                            (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord),
+                            navigateToAdjacent)?.ToList();
+                    return (path, member);
+                })
                 .Where(x => x.Item1 != null);
         }
 
