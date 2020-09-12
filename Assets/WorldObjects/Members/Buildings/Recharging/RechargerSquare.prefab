@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7982143227113421838}
   - component: {fileID: 4982236459134736321}
   - component: {fileID: 2219312331084413800}
+  - component: {fileID: 2519183179349032166}
   m_Layer: 0
   m_Name: RechargerSquare
   m_TagString: Untagged
@@ -242,3 +243,23 @@ MonoBehaviour:
     Instancer: {fileID: 7249950768649342519}
     NamePath: Occupied
   occupier: {fileID: 0}
+--- !u!114 &2519183179349032166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 497eac96c6e3e3e48af7f334b03bd33b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bindings:
+  - boolReference:
+      DataSource: 2
+      ConstantValue: 0
+      Variable: {fileID: 0}
+      Instancer: {fileID: 7249950768649342519}
+      NamePath: Occupied
+    booleanParameterName: Occupied

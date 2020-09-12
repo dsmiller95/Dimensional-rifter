@@ -240,6 +240,7 @@
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
+    <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
