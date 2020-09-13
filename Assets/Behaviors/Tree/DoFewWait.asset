@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7820180999378057998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78eec7df6e0bc6b439b12f980c68605b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waitTime: 1
 --- !u!114 &-2018592884804512084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,34 +26,47 @@ MonoBehaviour:
   m_Name: DoFewWait
   m_EditorClassIdentifier: 
   _savedNodes:
-  - Guid: 1a07b66e-032e-4b16-bc55-84dbe0d9f2e4
-    Title: Sequence
-    factory: {fileID: 7378602190457700498}
-    position: {x: 171, y: 12}
-    ConnectedChildrenGuids:
-    - df786d96-e0af-4d16-9815-72f2de987f99
-    - 6622eae5-a5fd-426a-a97d-c6c601ae4a94
-  - Guid: df786d96-e0af-4d16-9815-72f2de987f99
-    Title: Wait
-    factory: {fileID: -7820180999378057998}
-    position: {x: 480, y: 69}
-    ConnectedChildrenGuids: []
   - Guid: 7578319a-32be-4f5b-9312-0d23a5aae05e
     Title: Root
     factory: {fileID: 0}
     position: {x: -38, y: -96}
     ConnectedChildrenGuids:
     - 1a07b66e-032e-4b16-bc55-84dbe0d9f2e4
+  - Guid: fd15fc25-62bd-4bc2-8931-7296dd3b6089
+    Title: GlobalReference
+    factory: {fileID: 806829476525951075}
+    position: {x: 560, y: 54}
+    ConnectedChildrenGuids: []
   - Guid: 6622eae5-a5fd-426a-a97d-c6c601ae4a94
     Title: Wait
     factory: {fileID: -2018592884804512084}
     position: {x: 408, y: 206}
     ConnectedChildrenGuids: []
+  - Guid: 1a07b66e-032e-4b16-bc55-84dbe0d9f2e4
+    Title: Sequence
+    factory: {fileID: 7378602190457700498}
+    position: {x: 171, y: 12}
+    ConnectedChildrenGuids:
+    - fd15fc25-62bd-4bc2-8931-7296dd3b6089
+    - 6622eae5-a5fd-426a-a97d-c6c601ae4a94
   entryFactory: {fileID: 7378602190457700498}
   factoriesSavedWithAsset:
   - {fileID: 7378602190457700498}
-  - {fileID: -7820180999378057998}
   - {fileID: -2018592884804512084}
+  - {fileID: 806829476525951075}
+--- !u!114 &806829476525951075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp:BehaviorTree.Factories.FactoryGraph:GlobalReferencePassthroughFactory
+  externalFactoryReference: {fileID: 11400000, guid: e1c4c41dec36bb54488f0613a3948f1a, type: 2}
 --- !u!114 &7378602190457700498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,5 +80,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   children:
-  - {fileID: -7820180999378057998}
+  - {fileID: 806829476525951075}
   - {fileID: -2018592884804512084}

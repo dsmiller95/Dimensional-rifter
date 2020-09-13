@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UniRx;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -204,6 +205,12 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
         public Port GeneratePort(Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
         {
             return InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
+        }
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+            Selection.objects = new UnityEngine.Object[] { backingFactory };
         }
     }
 }
