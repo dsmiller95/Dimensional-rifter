@@ -122,6 +122,15 @@ namespace Assets.Libraries.BehaviorTree.Editor
 
         private void OnDisable()
         {
+            var isDirty = _graphView.IsDirtyState;
+            if (isDirty)
+            {
+                var shouldSave = EditorUtility.DisplayDialog("Save changes?", "There are unsaved changes to the graph. Save changes before exit?", "Save", "Discard");
+                if (shouldSave)
+                {
+                    _graphView.SaveToAsset();
+                }
+            }
             rootVisualElement.Remove(_graphView);
         }
     }

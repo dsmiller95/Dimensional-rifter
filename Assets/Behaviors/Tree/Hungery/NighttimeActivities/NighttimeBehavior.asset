@@ -119,61 +119,6 @@ MonoBehaviour:
     - dc67f8b6-2821-4406-bb7f-65c1471bd80c
     - 1192cbb5-198b-4599-9331-2e1e95ed9fb9
     - 
-  - Guid: 4376f2b0-f207-45d3-b03d-6722ad53d966
-    Title: GetResource
-    factory: {fileID: 7598613058304731202}
-    position: {x: -7, y: -318}
-    ConnectedChildrenGuids: []
-  - Guid: 37baf150-a688-493e-a602-9b8980174dee
-    Title: Eat
-    factory: {fileID: 2181340645788143001}
-    position: {x: 20, y: -195}
-    ConnectedChildrenGuids: []
-  - Guid: e9d86b9a-3a35-487f-b556-c26f2ea2c519
-    Title: IsHungryGuard
-    factory: {fileID: -8880285951083065070}
-    position: {x: -23, y: -423}
-    ConnectedChildrenGuids: []
-  - Guid: dc67f8b6-2821-4406-bb7f-65c1471bd80c
-    Title: Sequence
-    factory: {fileID: 6317420608426703131}
-    position: {x: -329, y: -307}
-    ConnectedChildrenGuids:
-    - e9d86b9a-3a35-487f-b556-c26f2ea2c519
-    - 4376f2b0-f207-45d3-b03d-6722ad53d966
-    - 37baf150-a688-493e-a602-9b8980174dee
-  - Guid: 1192cbb5-198b-4599-9331-2e1e95ed9fb9
-    Title: Sequence
-    factory: {fileID: 7749208696549623210}
-    position: {x: -463, y: 79}
-    ConnectedChildrenGuids:
-    - b25048f3-4a66-442f-8139-857b21129ada
-    - ed5a7396-3638-4683-86e8-0d959e13294a
-  - Guid: b25048f3-4a66-442f-8139-857b21129ada
-    Title: FloatInstatiatorComparison
-    factory: {fileID: -1215833252067380187}
-    position: {x: -163, y: 21}
-    ConnectedChildrenGuids: []
-  - Guid: ed5a7396-3638-4683-86e8-0d959e13294a
-    Title: StickySelector
-    factory: {fileID: -7352810876313097259}
-    position: {x: -174, y: 200}
-    ConnectedChildrenGuids:
-    - 7fc4917b-104f-4348-8736-80ae7b979139
-    - 4af9b73c-9098-440c-af82-85dd794b285b
-  - Guid: 7fc4917b-104f-4348-8736-80ae7b979139
-    Title: Sequence
-    factory: {fileID: 5751672583721706713}
-    position: {x: 124, y: 62}
-    ConnectedChildrenGuids:
-    - 7676891e-fb48-4a61-bc7e-7e02abca1498
-    - 759863e7-57e8-4c7c-83e0-381aef6b5baa
-    - c0f77764-88de-4ed1-9a8f-ee63d013c304
-  - Guid: 759863e7-57e8-4c7c-83e0-381aef6b5baa
-    Title: SleepUntilAwakeEnough
-    factory: {fileID: 3221346926286148552}
-    position: {x: 410, y: 78}
-    ConnectedChildrenGuids: []
   - Guid: 7676891e-fb48-4a61-bc7e-7e02abca1498
     Title: OccupySleepingStation
     factory: {fileID: -2744652390835094031}
@@ -185,10 +130,65 @@ MonoBehaviour:
     position: {x: 441, y: 177}
     ConnectedChildrenGuids: []
   - Guid: 4af9b73c-9098-440c-af82-85dd794b285b
-    Title: SleepUntilAwakeEnough
+    Title: Sleep On Ground
     factory: {fileID: -9202344163753328988}
     position: {x: 101, y: 312}
     ConnectedChildrenGuids: []
+  - Guid: 759863e7-57e8-4c7c-83e0-381aef6b5baa
+    Title: Sleep In Station
+    factory: {fileID: 3221346926286148552}
+    position: {x: 410, y: 78}
+    ConnectedChildrenGuids: []
+  - Guid: 7fc4917b-104f-4348-8736-80ae7b979139
+    Title: Find And sleep in station
+    factory: {fileID: 5751672583721706713}
+    position: {x: 90, y: 71}
+    ConnectedChildrenGuids:
+    - 7676891e-fb48-4a61-bc7e-7e02abca1498
+    - 759863e7-57e8-4c7c-83e0-381aef6b5baa
+    - c0f77764-88de-4ed1-9a8f-ee63d013c304
+  - Guid: ed5a7396-3638-4683-86e8-0d959e13294a
+    Title: Sleep Somewhere
+    factory: {fileID: -7352810876313097259}
+    position: {x: -174, y: 200}
+    ConnectedChildrenGuids:
+    - 7fc4917b-104f-4348-8736-80ae7b979139
+    - 4af9b73c-9098-440c-af82-85dd794b285b
+  - Guid: b25048f3-4a66-442f-8139-857b21129ada
+    Title: Sleepy enough to try to sleep
+    factory: {fileID: -1215833252067380187}
+    position: {x: -163, y: 21}
+    ConnectedChildrenGuids: []
+  - Guid: 1192cbb5-198b-4599-9331-2e1e95ed9fb9
+    Title: Try To Sleep
+    factory: {fileID: 7749208696549623210}
+    position: {x: -463, y: 79}
+    ConnectedChildrenGuids:
+    - b25048f3-4a66-442f-8139-857b21129ada
+    - ed5a7396-3638-4683-86e8-0d959e13294a
+  - Guid: e9d86b9a-3a35-487f-b556-c26f2ea2c519
+    Title: IsHungryGuard
+    factory: {fileID: -8880285951083065070}
+    position: {x: -23, y: -423}
+    ConnectedChildrenGuids: []
+  - Guid: 37baf150-a688-493e-a602-9b8980174dee
+    Title: Eat
+    factory: {fileID: 2181340645788143001}
+    position: {x: 20, y: -195}
+    ConnectedChildrenGuids: []
+  - Guid: 4376f2b0-f207-45d3-b03d-6722ad53d966
+    Title: Get Food
+    factory: {fileID: 7598613058304731202}
+    position: {x: -7, y: -317}
+    ConnectedChildrenGuids: []
+  - Guid: dc67f8b6-2821-4406-bb7f-65c1471bd80c
+    Title: Try to eat
+    factory: {fileID: 6317420608426703131}
+    position: {x: -329, y: -307}
+    ConnectedChildrenGuids:
+    - e9d86b9a-3a35-487f-b556-c26f2ea2c519
+    - 4376f2b0-f207-45d3-b03d-6722ad53d966
+    - 37baf150-a688-493e-a602-9b8980174dee
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
   - {fileID: -2120107842614436554}

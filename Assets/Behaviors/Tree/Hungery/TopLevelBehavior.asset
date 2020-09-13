@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9203936607608813119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760b584be15fbfc4ab87793037f6e471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  externalFactoryReference: {fileID: 11400000, guid: 277121cc58d942f4ba629c6cfa5ff5e0, type: 2}
+--- !u!114 &-6716353589384755995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5473b303be51fa2438d4ec1608f3d38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: 4874855547398272385}
+  - {fileID: 3785855174079633242}
+  - {fileID: -1231797936248276870}
+--- !u!114 &-1231797936248276870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760b584be15fbfc4ab87793037f6e471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  externalFactoryReference: {fileID: 11400000, guid: 4abb8c1a5cfe0d94185a712fcabda2c1, type: 2}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca4d1d56c2154045ae2e7cbcd13d546, type: 3}
+  m_Name: TopLevelBehavior
+  m_EditorClassIdentifier: 
+  _savedNodes:
+  - Guid: b748bd03-678e-4fb9-9f01-c2a27ef6aef6
+    Title: Root
+    factory: {fileID: 0}
+    position: {x: -495, y: -26}
+    ConnectedChildrenGuids:
+    - 736d9647-cc7a-473e-ba4a-ed7b6c607c35
+  - Guid: de24c03d-2df3-48d9-b8b0-4006d8311082
+    Title: TryToDie
+    factory: {fileID: 4874855547398272385}
+    position: {x: 95, y: -155}
+    ConnectedChildrenGuids: []
+  - Guid: 501f6a75-0376-430d-9fde-beac65c866de
+    Title: Get Task
+    factory: {fileID: 2522344380005462163}
+    position: {x: 291, y: -58}
+    ConnectedChildrenGuids: []
+  - Guid: 79a53fc7-1f2c-4fd6-bb51-1907f973d976
+    Title: nighttime activities
+    factory: {fileID: 7953620334272829097}
+    position: {x: 275, y: 72}
+    ConnectedChildrenGuids: []
+  - Guid: 8a32a342-bd7c-4d0b-ad38-84ada6157cd4
+    Title: nighttime activities
+    factory: {fileID: -9203936607608813119}
+    position: {x: 297, y: 158}
+    ConnectedChildrenGuids: []
+  - Guid: 70966ebc-a6b7-4fc7-bda2-cf543ca0708c
+    Title: Idle
+    factory: {fileID: -1231797936248276870}
+    position: {x: 108, y: 239}
+    ConnectedChildrenGuids: []
+  - Guid: 736d9647-cc7a-473e-ba4a-ed7b6c607c35
+    Title: Selector
+    factory: {fileID: -6716353589384755995}
+    position: {x: -365, y: -29}
+    ConnectedChildrenGuids:
+    - de24c03d-2df3-48d9-b8b0-4006d8311082
+    - aa3ab410-a2ee-4cbf-8a6d-e96bc4ae84da
+    - 70966ebc-a6b7-4fc7-bda2-cf543ca0708c
+  - Guid: aa3ab410-a2ee-4cbf-8a6d-e96bc4ae84da
+    Title: TimeBasedSelector
+    factory: {fileID: 3785855174079633242}
+    position: {x: 41, y: 24}
+    ConnectedChildrenGuids:
+    - 501f6a75-0376-430d-9fde-beac65c866de
+    - 79a53fc7-1f2c-4fd6-bb51-1907f973d976
+    - 8a32a342-bd7c-4d0b-ad38-84ada6157cd4
+  entryFactory: {fileID: -6716353589384755995}
+  factoriesSavedWithAsset:
+  - {fileID: 4874855547398272385}
+  - {fileID: -6716353589384755995}
+  - {fileID: 3785855174079633242}
+  - {fileID: 2522344380005462163}
+  - {fileID: 7953620334272829097}
+  - {fileID: -9203936607608813119}
+  - {fileID: -1231797936248276870}
+--- !u!114 &2522344380005462163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760b584be15fbfc4ab87793037f6e471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  externalFactoryReference: {fileID: 11400000, guid: 331078f25a48fb043aa71f0e3226ee1d, type: 2}
+--- !u!114 &3785855174079633242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e9f299ec2a2c3499decb1f56f6814b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTimeProvider: {fileID: 11400000, guid: 897fa92db42ffec47adc228ba3bb808e, type: 2}
+  daytimeNode: {fileID: 2522344380005462163}
+  eveningNode: {fileID: 7953620334272829097}
+  nightNode: {fileID: -9203936607608813119}
+--- !u!114 &4874855547398272385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa62cbb5f70a9e046bf1056006bbe107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  calorieBlackboardPath: currentCalories
+  calorieDieThreshold: 0
+  deadMemberPrefab: {fileID: -8997315017213381442, guid: 1c33492d8167927489529ec10e96f958, type: 3}
+--- !u!114 &7953620334272829097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760b584be15fbfc4ab87793037f6e471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  externalFactoryReference: {fileID: 11400000, guid: 277121cc58d942f4ba629c6cfa5ff5e0, type: 2}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2018592884804512084
+--- !u!114 &-6417018526191007531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78eec7df6e0bc6b439b12f980c68605b, type: 3}
+  m_Script: {fileID: 11500000, guid: d8718be907681f54f8100156b8ee29d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 1
+  randomWalkLength: 3
+  blackboardPathProperty: Path
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23,38 +24,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ca4d1d56c2154045ae2e7cbcd13d546, type: 3}
-  m_Name: DoFewWait
+  m_Name: IdleGraph
   m_EditorClassIdentifier: 
   _savedNodes:
-  - Guid: 7578319a-32be-4f5b-9312-0d23a5aae05e
+  - Guid: 3e9eb27b-985d-4ef4-a00b-922aed7a0abc
     Title: Root
     factory: {fileID: 0}
-    position: {x: -38, y: -96}
+    position: {x: 0, y: 0}
     ConnectedChildrenGuids:
-    - 1a07b66e-032e-4b16-bc55-84dbe0d9f2e4
-  - Guid: fd15fc25-62bd-4bc2-8931-7296dd3b6089
-    Title: GlobalReference
-    factory: {fileID: 806829476525951075}
-    position: {x: 560, y: 54}
+    - 14d9186e-dbd8-4958-977c-ea635bba51f4
+  - Guid: a8410d60-e48e-4ef1-9570-b74b56a0b9a3
+    Title: FindRandomWalkPath
+    factory: {fileID: -6417018526191007531}
+    position: {x: 494, y: -1}
     ConnectedChildrenGuids: []
-  - Guid: 6622eae5-a5fd-426a-a97d-c6c601ae4a94
-    Title: Wait
-    factory: {fileID: -2018592884804512084}
-    position: {x: 408, y: 206}
-    ConnectedChildrenGuids: []
-  - Guid: 1a07b66e-032e-4b16-bc55-84dbe0d9f2e4
+  - Guid: 14d9186e-dbd8-4958-977c-ea635bba51f4
     Title: Sequence
-    factory: {fileID: 7378602190457700498}
-    position: {x: 171, y: 12}
+    factory: {fileID: 5147179290796810256}
+    position: {x: 187, y: 1}
     ConnectedChildrenGuids:
-    - fd15fc25-62bd-4bc2-8931-7296dd3b6089
-    - 6622eae5-a5fd-426a-a97d-c6c601ae4a94
-  entryFactory: {fileID: 7378602190457700498}
+    - a8410d60-e48e-4ef1-9570-b74b56a0b9a3
+    - 9c1e3c6a-f273-4409-8090-f1f1f4f740af
+  - Guid: 9c1e3c6a-f273-4409-8090-f1f1f4f740af
+    Title: NavigateToTarget
+    factory: {fileID: 3705067671818606248}
+    position: {x: 513, y: 176}
+    ConnectedChildrenGuids: []
+  entryFactory: {fileID: 5147179290796810256}
   factoriesSavedWithAsset:
-  - {fileID: 7378602190457700498}
-  - {fileID: -2018592884804512084}
-  - {fileID: 806829476525951075}
---- !u!114 &806829476525951075
+  - {fileID: 5147179290796810256}
+  - {fileID: -6417018526191007531}
+  - {fileID: 3705067671818606248}
+--- !u!114 &3705067671818606248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,11 +64,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 9496b681417f7eb4088d035d9bd7a8e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp:BehaviorTree.Factories.FactoryGraph:GlobalReferencePassthroughFactory
-  externalFactoryReference: {fileID: 11400000, guid: e1c4c41dec36bb54488f0613a3948f1a, type: 2}
---- !u!114 &7378602190457700498
+  m_EditorClassIdentifier: 
+  blackboardPathProperty: Path
+  blackboardTargetProperty: 
+  ensureTarget: 0
+--- !u!114 &5147179290796810256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -80,5 +83,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   children:
-  - {fileID: 806829476525951075}
-  - {fileID: -2018592884804512084}
+  - {fileID: -6417018526191007531}
+  - {fileID: 3705067671818606248}

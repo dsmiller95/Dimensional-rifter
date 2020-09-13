@@ -12,6 +12,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
     public class BehaviorGraphView : GraphView
     {
         public CompositeFactoryGraph factoryGraph;
+        public bool IsDirtyState = false;
 
         public BehaviorGraphView(CompositeFactoryGraph factoryGraph)
         {
@@ -29,7 +30,14 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             grid.StretchToParentSize();
 
             LoadStateFromAsset();
-        }
+
+            this.graphViewChanged = change =>
+            {
+                IsDirtyState = true;
+                return change;
+            };
+        }   
+
 
         private void LoadStateFromAsset()
         {
@@ -38,6 +46,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             {
                 var rootNode = GenerateEntryNode();
                 AddElement(rootNode);
+                IsDirtyState = true;
             }
             else
             {
@@ -82,7 +91,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             {
                 Debug.LogError("Root not not connected");
             }
-
+            IsDirtyState = false;
             EditorUtility.SetDirty(factoryGraph);
         }
 

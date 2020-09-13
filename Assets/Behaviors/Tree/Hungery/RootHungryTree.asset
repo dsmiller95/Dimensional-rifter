@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd258e26970f08409ed4f28c754ebeb, type: 3}
   m_Name: RootHungryTree
   m_EditorClassIdentifier: 
-  child: {fileID: 11400000, guid: 4b990c63477dc1643818a2bb65891d49, type: 2}
+  child: {fileID: 11400000, guid: 8e0dbceb79fcf3041b4b6ca7cba6a50b, type: 2}
