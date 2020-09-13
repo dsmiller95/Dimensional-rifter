@@ -31,12 +31,12 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
             LoadStateFromAsset();
 
-            this.graphViewChanged = change =>
+            graphViewChanged = change =>
             {
                 IsDirtyState = true;
                 return change;
             };
-        }   
+        }
 
 
         private void LoadStateFromAsset()

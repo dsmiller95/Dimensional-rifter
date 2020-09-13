@@ -136,7 +136,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
         private void SetTitle(string title)
         {
             this.title = title;
-            if(backingFactory && backingFactory != null)
+            if (backingFactory && backingFactory != null)
             {
                 backingFactory.name = title;
             }
@@ -163,7 +163,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                 {
                     titleContainer.Remove(titleEditor);
                     titleContainer.Insert(0, titleText);
-                    this.SetTitle(titleEditor.text);
+                    SetTitle(titleEditor.text);
                     Debug.Log("focusLost");
                 });
 
