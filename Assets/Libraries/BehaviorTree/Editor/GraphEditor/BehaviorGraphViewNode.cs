@@ -31,12 +31,12 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             BehaviorGraphViewNode newNode = new BehaviorGraphViewNode();
 
             newNode.GUID = Guid.NewGuid().ToString();
-            newNode.title = attribute.name;
             newNode.childCountClassification = attribute.childCountClassification;
 
             var newFactory = ScriptableObject.CreateInstance(nodeFactoryType) as NodeFactory;
-
             newNode.backingFactory = objectToStoreNewNode.RegisterNewFactoryInsideAsset(newFactory);
+
+            newNode.SetTitle(attribute.name);
 
             newNode.SetupUIElements();
             newNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
@@ -78,7 +78,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                 newNode.backingFactory = savedNodeData.factory;
             }
             newNode.GUID = savedNodeData.Guid;
-            newNode.title = savedNodeData.Title;
+            newNode.SetTitle(savedNodeData.Title);
 
             newNode.SetupUIElements(savedNodeData);
             newNode.SetPosition(new Rect(savedNodeData.position, DefaultNodeSize));
@@ -133,6 +133,15 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             };
         }
 
+        private void SetTitle(string title)
+        {
+            this.title = title;
+            if(backingFactory && backingFactory != null)
+            {
+                backingFactory.name = title;
+            }
+        }
+
         protected virtual void SetupUIElements(FactoryNodeSavedNode saveData = null)
         {
             var titleText = titleContainer.Children().First();
@@ -154,7 +163,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                 {
                     titleContainer.Remove(titleEditor);
                     titleContainer.Insert(0, titleText);
-                    title = titleEditor.text;
+                    this.SetTitle(titleEditor.text);
                     Debug.Log("focusLost");
                 });
 

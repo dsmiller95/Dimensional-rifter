@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
-  m_Name: 
+  m_Name: Sleep On Ground
   m_EditorClassIdentifier: 
   restSpeed: 2
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
@@ -28,7 +28,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 385ac391100b2034ab1a41ac9b3968be, type: 3}
-  m_Name: 
+  m_Name: IsHungryGuard
   m_EditorClassIdentifier: 
   hungerLevel: 1000
   calorieBlackboardPath: calories
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 037c628d46cde1b4d8af0aeb0f6d38cd, type: 3}
-  m_Name: 
+  m_Name: Sleep Somewhere
   m_EditorClassIdentifier: 
   children:
   - {fileID: 5751672583721706713}
@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66329d10c4c51d74b81249d1bc5fdbbb, type: 3}
-  m_Name: 
+  m_Name: OccupySleepingStation
   m_EditorClassIdentifier: 
   sleepPathBlackboard: Path
   sleepStationBlackboard: SleepingBed
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 037c628d46cde1b4d8af0aeb0f6d38cd, type: 3}
-  m_Name: 
+  m_Name: StickySelector
   m_EditorClassIdentifier: 
   children:
   - {fileID: 6317420608426703131}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31173c7f249984140bb35ad50bdbf2b7, type: 3}
-  m_Name: 
+  m_Name: Sleepy enough to try to sleep
   m_EditorClassIdentifier: 
   threshold: 50
   comparison: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16fff10d2fff7144a85c37fabd1b0436, type: 3}
-  m_Name: 
+  m_Name: Eat
   m_EditorClassIdentifier: 
   inventoryToEatFrom: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
   caloriesPerFood: 200
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
-  m_Name: 
+  m_Name: Sleep In Station
   m_EditorClassIdentifier: 
   restSpeed: 4
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
-  m_Name: 
+  m_Name: Find And sleep in station
   m_EditorClassIdentifier: 
   children:
   - {fileID: -2744652390835094031}
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
-  m_Name: 
+  m_Name: Try to eat
   m_EditorClassIdentifier: 
   children:
   - {fileID: -8880285951083065070}
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2a59621cf13eeb4cb0c794f229384c8, type: 3}
-  m_Name: 
+  m_Name: Get Food
   m_EditorClassIdentifier: 
   resourceType: 0
   validItemSources:
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
-  m_Name: 
+  m_Name: Try To Sleep
   m_EditorClassIdentifier: 
   children:
   - {fileID: -1215833252067380187}
@@ -310,6 +310,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16c8660700bee7c4d8869105749146e9, type: 3}
-  m_Name: 
+  m_Name: ExitSleepingStation
   m_EditorClassIdentifier: 
   sleepStationBlackboard: SleepingBed

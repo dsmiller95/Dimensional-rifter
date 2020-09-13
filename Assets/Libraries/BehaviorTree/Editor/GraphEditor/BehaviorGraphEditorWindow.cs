@@ -86,12 +86,7 @@ namespace Assets.Libraries.BehaviorTree.Editor
         private ToolbarMenu SetupCreateNodeMenu()
         {
             var createMenu = new ToolbarMenu();
-            createMenu.text = "Create Node";
-            createMenu.menu.AppendAction("test/testAction", (actionThing) =>
-            {
-                Debug.Log("test action actioned");
-                Debug.Log(actionThing.name);
-            });
+            createMenu.text = "New Node";
 
             var domain = System.AppDomain.CurrentDomain;
             var allAssemblies = domain.GetAssemblies();
@@ -111,7 +106,6 @@ namespace Assets.Libraries.BehaviorTree.Editor
                         createMenu.menu.AppendAction(theAttr.menuName, actionThing =>
                         {
                             _graphView.CreateNode(theAttr, type);
-                            Debug.Log($"Create new node with children: {theAttr.childCountClassification}");
                         });
                     }
                 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8718be907681f54f8100156b8ee29d4, type: 3}
-  m_Name: 
+  m_Name: FindRandomWalkPath
   m_EditorClassIdentifier: 
   randomWalkLength: 3
   blackboardPathProperty: Path
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9496b681417f7eb4088d035d9bd7a8e3, type: 3}
-  m_Name: 
+  m_Name: NavigateToTarget
   m_EditorClassIdentifier: 
   blackboardPathProperty: Path
   blackboardTargetProperty: 
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
-  m_Name: 
+  m_Name: Sequence
   m_EditorClassIdentifier: 
   children:
   - {fileID: -6417018526191007531}
