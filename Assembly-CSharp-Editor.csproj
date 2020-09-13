@@ -66,8 +66,10 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphEditorWindow.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphViewNode.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphView.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\FactoryGraphInspector.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\Resources\BehaviorGraph.uss" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

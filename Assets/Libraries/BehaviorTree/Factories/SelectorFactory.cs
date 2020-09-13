@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BehaviorTree.Factories
 {
     [CreateAssetMenu(fileName = "Selector", menuName = "Behaviors/Control/Selector", order = 10)]
-    public class SelectorFactory : NodeFactory
+    public class SelectorFactory : CompositeFactory
     {
         public NodeFactory[] children;
 

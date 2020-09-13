@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BehaviorTree.Factories
 {
     [CreateAssetMenu(fileName = "StickySelector", menuName = "Behaviors/Control/StickySelector", order = 10)]
-    public class StickySelectorFactory : NodeFactory
+    public class StickySelectorFactory : CompositeFactory
     {
         public NodeFactory[] children;
 

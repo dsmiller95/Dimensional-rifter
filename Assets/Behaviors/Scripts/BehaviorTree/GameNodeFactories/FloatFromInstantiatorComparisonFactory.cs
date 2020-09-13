@@ -14,7 +14,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     }
 
     [CreateAssetMenu(fileName = "FloatInstatiatorComparison", menuName = "Behaviors/Actions/FloatInstatiatorComparison", order = 10)]
-    public class FloatFromInstantiatorComparisonFactory : NodeFactory
+    public class FloatFromInstantiatorComparisonFactory : LeafFactory
     {
         public float threshold;
         [Tooltip("instantiated state (Less than/Greater Than) threshold")]

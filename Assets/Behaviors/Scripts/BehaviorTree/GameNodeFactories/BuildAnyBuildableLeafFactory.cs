@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "BuildAnyBuildable", menuName = "Behaviors/Actions/BuildAnyBuildable", order = 10)]
-    public class BuildAnyBuildableLeafFactory : NodeFactory
+    public class BuildAnyBuildableLeafFactory : LeafFactory
     {
         public string blackboardPathProperty = "currentPath";
         public string buildableProperty = "currentNavigationTarget";

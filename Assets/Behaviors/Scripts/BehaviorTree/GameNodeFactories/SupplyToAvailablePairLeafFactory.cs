@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "SupplyToAvailablePair", menuName = "Behaviors/Actions/SupplyToAvailablePair", order = 10)]
-    public class SupplyToAvailablePairLeafFactory : NodeFactory
+    public class SupplyToAvailablePairLeafFactory : LeafFactory
     {
         public ItemSourceType[] validItemSources;
         public SuppliableType validSupplyTarget;

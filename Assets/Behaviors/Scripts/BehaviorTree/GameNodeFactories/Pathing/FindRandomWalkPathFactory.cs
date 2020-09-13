@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "FindRandomWalkPath", menuName = "Behaviors/Actions/FindRandomWalkPath", order = 10)]
-    public class FindRandomWalkPathFactory : NodeFactory
+    public class FindRandomWalkPathFactory : LeafFactory
     {
         public int randomWalkLength;
         public string blackboardPathProperty;

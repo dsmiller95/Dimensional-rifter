@@ -1,4 +1,5 @@
 ﻿using Assets.Libraries.BehaviorTree.Editor.GraphEditor;
+using BehaviorTree.Factories.FactoryGraph;
 using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -10,6 +11,7 @@ namespace Assets.Libraries.BehaviorTree.Editor
     public class BehaviorGraphEditorWindow : EditorWindow
     {
         private BehaviorGraphView _graphView;
+        public CompositeFactoryGraph factoryGraph;
 
 
         [MenuItem("BehaviorTree/GraphEditor")]
@@ -27,6 +29,7 @@ namespace Assets.Libraries.BehaviorTree.Editor
             this.ConstructGraphView();
             GenerateToolbar();
         }
+
 
         private void ConstructGraphView()
         {

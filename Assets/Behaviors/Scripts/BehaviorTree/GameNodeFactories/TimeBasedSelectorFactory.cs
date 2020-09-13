@@ -15,6 +15,11 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         public NodeFactory eveningNode;
         public NodeFactory nightNode;
 
+        public override int GetValidChildCount()
+        {
+            return 3;
+        }
+
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return new Sequence(

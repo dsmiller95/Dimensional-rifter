@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "Eat", menuName = "Behaviors/Actions/Eat", order = 10)]
-    public class EatFactory : NodeFactory
+    public class EatFactory : LeafFactory
     {
         public GenericSelector<IInventory<Resource>> inventoryToEatFrom;
         public float caloriesPerFood;

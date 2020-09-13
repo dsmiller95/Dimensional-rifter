@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "OccupySleepingStation", menuName = "Behaviors/Actions/OccupySleepingStation", order = 10)]
-    public class OccupySleepingStation : NodeFactory
+    public class OccupySleepingStation : LeafFactory
     {
         [Header("Find, navigate to, and occupy a sleeping station")]
         public string sleepPathBlackboard = "Path";

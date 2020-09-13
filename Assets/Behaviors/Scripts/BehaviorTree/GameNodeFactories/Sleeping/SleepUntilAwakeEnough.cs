@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "SleepUntilAwakeEnough", menuName = "Behaviors/Actions/SleepUntilAwakeEnough", order = 10)]
-    public class SleepUntilAwakeEnough : NodeFactory
+    public class SleepUntilAwakeEnough : LeafFactory
     {
         public float restSpeed;
         public FloatState wakefullnessState;

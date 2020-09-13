@@ -8,6 +8,11 @@ namespace BehaviorTree.Factories
     {
         public NodeFactory child;
 
+        public override int GetValidChildCount()
+        {
+            return 1;
+        }
+
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
 #if UNITY_EDITOR

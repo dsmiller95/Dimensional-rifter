@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "IsHungryGuard", menuName = "Behaviors/Actions/IsHungryGuard", order = 10)]
-    public class IsHungryGuardFactory : NodeFactory
+    public class IsHungryGuardFactory : LeafFactory
     {
         public float hungerLevel;
         public string calorieBlackboardPath = "calories";

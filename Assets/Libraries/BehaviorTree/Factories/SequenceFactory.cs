@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BehaviorTree.Factories
 {
     [CreateAssetMenu(fileName = "Sequence", menuName = "Behaviors/Control/Sequence", order = 10)]
-    public class SequenceFactory : NodeFactory
+    public class SequenceFactory : CompositeFactory
     {
         public NodeFactory[] children;
 

@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
 
     [CreateAssetMenu(fileName = "GetResource", menuName = "Behaviors/Actions/GetResource", order = 10)]
-    public class GetResourceFactory : NodeFactory
+    public class GetResourceFactory : LeafFactory
     {
         public Resource resourceType;
         public ItemSourceType[] validItemSources;

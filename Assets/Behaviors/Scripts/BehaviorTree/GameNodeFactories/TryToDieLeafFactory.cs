@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "TryToDie", menuName = "Behaviors/Actions/TryToDie", order = 10)]
-    public class TryToDieLeafFactory : NodeFactory
+    public class TryToDieLeafFactory : LeafFactory
     {
         public string calorieBlackboardPath = "currentCalories";
         public float calorieDieThreshold = 0f;

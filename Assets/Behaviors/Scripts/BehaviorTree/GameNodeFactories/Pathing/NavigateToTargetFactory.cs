@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "NavigateToTarget", menuName = "Behaviors/Actions/NavigateToTarget", order = 10)]
-    public class NavigateToTargetFactory : NodeFactory
+    public class NavigateToTargetFactory : LeafFactory
     {
         public string blackboardPathProperty;
         public string blackboardTargetProperty;

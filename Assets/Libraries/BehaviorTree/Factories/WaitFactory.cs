@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BehaviorTree.Factories
 {
     //[CreateAssetMenu(fileName = "Selector", menuName = "Behaviors/Control/Selector", order = 10)]
-    public class WaitFactory : NodeFactory
+    public class WaitFactory : LeafFactory
     {
         public float waitTime;
 

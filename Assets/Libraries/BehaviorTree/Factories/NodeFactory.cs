@@ -14,6 +14,14 @@ namespace BehaviorTree.Factories
         public static System.Random FACTORY_RANDOM;
 #endif
 
+        /// <summary>
+        /// 0: no children
+        /// 2: exactly 2 children
+        /// -1: unlimited children
+        /// </summary>
+        /// <returns></returns>
+        public abstract int GetValidChildCount();
+
         public BehaviorNode CreateNode(GameObject target)
         {
             var newNode = OnCreateNode(target);

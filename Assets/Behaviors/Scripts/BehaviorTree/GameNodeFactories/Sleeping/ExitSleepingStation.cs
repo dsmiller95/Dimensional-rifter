@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "ExitSleepingStation", menuName = "Behaviors/Actions/ExitSleepingStation", order = 10)]
-    public class ExitSleepingStation : NodeFactory
+    public class ExitSleepingStation : LeafFactory
     {
         public string sleepStationBlackboard = "SleepingBed";
 
