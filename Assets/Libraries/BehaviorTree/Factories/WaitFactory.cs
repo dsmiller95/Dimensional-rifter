@@ -1,9 +1,10 @@
-﻿using BehaviorTree.Nodes;
+﻿using BehaviorTree.Factories.FactoryGraph;
+using BehaviorTree.Nodes;
 using UnityEngine;
 
 namespace BehaviorTree.Factories
 {
-    //[CreateAssetMenu(fileName = "Selector", menuName = "Behaviors/Control/Selector", order = 10)]
+    [FactoryGraphNode("Leaf/Wait", "Wait", 0)]
     public class WaitFactory : LeafFactory
     {
         public float waitTime;

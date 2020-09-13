@@ -1,4 +1,5 @@
 ﻿using BehaviorTree.Factories.FactoryGraph;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 
 namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
@@ -21,13 +22,16 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
         public override FactoryNodeSavedNode GetSaveData()
         {
+            var children = GetChildrenIfConnected();
             return new FactoryNodeSavedNode
             {
                 Guid = GUID,
                 position = GetPosition().position,
                 Title = title,
-                isEntryNode = true,
-                ConnectedChildrenGuids = GetChildrenIfConnected()
+                factory = null,
+                ConnectedChildrenGuids = children
+                       .Select(x => x?.GUID ?? null)
+                       .ToArray()
             };
         }
     }

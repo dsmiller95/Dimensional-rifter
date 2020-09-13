@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BehaviorTree.Factories.FactoryGraph
 {
+    [Serializable]
     public class FactoryNodeSavedNode
     {
         public string Guid;
         public string Title;
-        public bool isEntryNode;
 
         public NodeFactory factory;
         public Vector2 position;

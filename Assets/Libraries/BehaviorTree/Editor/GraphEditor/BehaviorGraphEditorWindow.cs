@@ -1,6 +1,9 @@
 ﻿using Assets.Libraries.BehaviorTree.Editor.GraphEditor;
+using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -66,13 +69,6 @@ namespace Assets.Libraries.BehaviorTree.Editor
         {
             var toolbar = new Toolbar();
 
-            var nodeCreateButton = new Button(() =>
-            {
-                _graphView.CreateNode("Fresh");
-            });
-            nodeCreateButton.text = "New Node";
-            toolbar.Add(nodeCreateButton);
-
             var saveButton = new Button(() =>
             {
                 _graphView.SaveToAsset();
@@ -80,7 +76,46 @@ namespace Assets.Libraries.BehaviorTree.Editor
             saveButton.text = "Save";
             toolbar.Add(saveButton);
 
+            toolbar.Add(SetupCreateNodeMenu());
+
             rootVisualElement.Add(toolbar);
+        }
+
+        private ToolbarMenu SetupCreateNodeMenu()
+        {
+            var createMenu = new ToolbarMenu();
+            createMenu.text = "Create Node";
+            createMenu.menu.AppendAction("test/testAction", (actionThing) =>
+            {
+                Debug.Log("test action actioned");
+                Debug.Log(actionThing.name);
+            });
+
+            var domain = System.AppDomain.CurrentDomain;
+            var allAssemblies = domain.GetAssemblies();
+
+            foreach (var assembly in allAssemblies)
+            {
+                var types = assembly.GetTypes()
+                    .Where(type =>
+                        type.IsClass && !type.IsAbstract &&
+                        type.IsSubclassOf(typeof(NodeFactory)));
+
+                foreach (var type in types)
+                {
+                    var theAttr = type.GetCustomAttribute<FactoryGraphNodeAttribute>();
+                    if (theAttr != null)
+                    {
+                        createMenu.menu.AppendAction(theAttr.menuName, actionThing =>
+                        {
+                            _graphView.CreateNode(theAttr, type);
+                            Debug.Log($"Create new node with children: {theAttr.childCountClassification}");
+                        });
+                    }
+                }
+            }
+
+            return createMenu;
         }
 
         private void OnDisable()

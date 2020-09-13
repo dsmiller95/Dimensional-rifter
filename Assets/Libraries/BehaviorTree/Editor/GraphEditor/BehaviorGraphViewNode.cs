@@ -1,11 +1,12 @@
-﻿using BehaviorTree.Factories.FactoryGraph;
+﻿using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UniRx;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 
 namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
@@ -14,24 +15,41 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
     {
         public static readonly Vector2 DefaultNodeSize = new Vector2(300, 150);
         public string GUID;
+        public NodeFactory backingFactory;
+        public int childCountClassification;
 
         protected BehaviorGraphViewNode()
         {
         }
 
-        public static BehaviorGraphViewNode CreateNewNode(string title, bool isEntryNode)
+        public static BehaviorGraphViewNode CreateNewNodeFromFactory(
+            CompositeFactoryGraph objectToStoreNewNode,
+            FactoryGraphNodeAttribute attribute,
+            Type nodeFactoryType)
         {
-            BehaviorGraphViewNode newNode;
-            if (isEntryNode)
-            {
-                newNode = new BehaviorGraphViewRootNode();
-            }
-            else
-            {
-                newNode = new BehaviorGraphViewNode();
-            }
+            BehaviorGraphViewNode newNode = new BehaviorGraphViewNode();
+
             newNode.GUID = Guid.NewGuid().ToString();
-            newNode.title = title;
+            newNode.title = attribute.name;
+            newNode.childCountClassification = attribute.childCountClassification;
+
+            var newFactory = ScriptableObject.CreateInstance(nodeFactoryType) as NodeFactory;
+
+            newNode.backingFactory = objectToStoreNewNode.RegisterNewFactoryInsideAsset(newFactory);
+
+            newNode.SetupUIElements();
+            newNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
+            return newNode;
+        }
+
+        public static BehaviorGraphViewNode CreateEntryNode()
+        {
+            var newNode = new BehaviorGraphViewRootNode();
+            newNode.GUID = Guid.NewGuid().ToString();
+            newNode.title = "Root";
+            newNode.childCountClassification = 1;
+            newNode.backingFactory = null;
+
             newNode.SetupUIElements();
             newNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
             return newNode;
@@ -41,13 +59,22 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             FactoryNodeSavedNode savedNodeData)
         {
             BehaviorGraphViewNode newNode;
-            if (savedNodeData.isEntryNode)
+            if (savedNodeData.factory == null)
             {
                 newNode = new BehaviorGraphViewRootNode();
             }
             else
             {
+                var factoryType = savedNodeData.factory.GetType();
+                var attr = factoryType.GetCustomAttribute<FactoryGraphNodeAttribute>();
+                if (attr == null)
+                {
+                    throw new NotImplementedException("Cannot create node without factory attribute");
+                }
+
                 newNode = new BehaviorGraphViewNode();
+                newNode.childCountClassification = attr.childCountClassification;
+                newNode.backingFactory = savedNodeData.factory;
             }
             newNode.GUID = savedNodeData.Guid;
             newNode.title = savedNodeData.Title;
@@ -57,7 +84,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             return newNode;
         }
 
-        public virtual void GenerateConnectionsForNode(
+        public virtual void GenerateConnectionsFromSaveData(
             FactoryNodeSavedNode saveData,
             BehaviorGraphView graphView)
         {
@@ -74,7 +101,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                 )
                 .Select((otherNode, childIndex) =>
                 {
-                    if(otherNode == null)
+                    if (otherNode == null)
                     {
                         return 0;
                     }
@@ -91,19 +118,23 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
         public virtual FactoryNodeSavedNode GetSaveData()
         {
+            var children = GetChildrenIfConnected();
+            backingFactory?.SetChildFactories(children.Select(x => x?.backingFactory));
             return new FactoryNodeSavedNode
             {
                 Guid = GUID,
                 position = GetPosition().position,
                 Title = title,
-                isEntryNode = false,
-                ConnectedChildrenGuids = GetChildrenIfConnected()
+                factory = backingFactory,
+                ConnectedChildrenGuids = children
+                       .Select(x => x?.GUID ?? null)
+                       .ToArray()
             };
         }
 
         protected virtual void SetupUIElements(FactoryNodeSavedNode saveData = null)
         {
-            SetupDefaultUIElements();
+            SetupInputPort();
             if (saveData != null)
             {
                 foreach (var index in saveData.ConnectedChildrenGuids.Select((x, index) => index))
@@ -111,25 +142,42 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                     AddNumberedChildPort(index + 1);
                 }
             }
+            if (childCountClassification > 0)
+            {
+                var protector = 0;
+                while (outputContainer.childCount < childCountClassification)
+                {
+                    AddNumberedChildPort();
+                    protector++;
+                    if (protector > 20)
+                    {
+                        throw new Exception("uh oh");
+                    }
+                }
+            }
+            if (childCountClassification == -1)
+            {
+                SetupNewChildButton();
+            }
             RefreshExpandedState();
             RefreshPorts();
         }
 
-        protected string[] GetChildrenIfConnected()
+        protected IList<BehaviorGraphViewNode> GetChildrenIfConnected()
         {
             return outputContainer.Query<Port>()
                        .ForEach(port => port.connections.FirstOrDefault()?.input.node as BehaviorGraphViewNode)
-                       .Select(x => x?.GUID ?? null)
-                       .ToArray();
+                       .ToList();
         }
 
-        private void SetupDefaultUIElements()
+        protected void SetupInputPort()
         {
             var input = GeneratePort(Direction.Input);
-
             input.portName = "Parent";
             inputContainer.Add(input);
-
+        }
+        private void SetupNewChildButton()
+        {
             var newOutputButton = new Button(() =>
             {
                 AddNumberedChildPort();
@@ -140,7 +188,6 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             newOutputButton.text = "New child";
             titleButtonContainer.Add(newOutputButton);
         }
-
 
         private void AddNumberedChildPort(int number = -1)
         {

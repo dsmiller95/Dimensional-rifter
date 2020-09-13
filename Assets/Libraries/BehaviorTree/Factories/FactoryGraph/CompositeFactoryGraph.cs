@@ -1,6 +1,8 @@
 ﻿using BehaviorTree.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace BehaviorTree.Factories.FactoryGraph
@@ -20,10 +22,11 @@ namespace BehaviorTree.Factories.FactoryGraph
         }
 
         private IDictionary<string, FactoryNodeSavedNode> _savedNodesByGuid;
-        public IDictionary<string, FactoryNodeSavedNode> SavedNodesByGuid {
+        public IDictionary<string, FactoryNodeSavedNode> SavedNodesByGuid
+        {
             get
             {
-                if(_savedNodesByGuid == null)
+                if (_savedNodesByGuid == null)
                 {
                     _savedNodesByGuid = SavedNodes.ToDictionary(x => x.Guid);
                 }
@@ -34,14 +37,51 @@ namespace BehaviorTree.Factories.FactoryGraph
 
         public NodeFactory entryFactory;
 
-        public override int GetValidChildCount()
+        public override void SetChildFactories(IEnumerable<NodeFactory> children)
         {
-            return 0;
+            throw new NotImplementedException("oh this would be hard to do");
         }
 
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
-            return null;
+            return entryFactory?.CreateNode(target);
+        }
+
+        public NodeFactory[] factoriesSavedWithAsset = new NodeFactory[0];
+        public NodeFactory RegisterNewFactoryInsideAsset(NodeFactory instance)
+        {
+            if (instance == this)
+            {
+                return instance;
+            }
+            AssetDatabase.AddObjectToAsset(instance, this);
+            AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(instance));
+            factoriesSavedWithAsset = factoriesSavedWithAsset.Append(instance).ToArray();
+            return instance;
+        }
+
+        public void DestroyUnlinkedNodeFactories()
+        {
+            var factoriesReferencedInSaveData = new HashSet<int>(
+                    SavedNodes
+                    .Select(saved => saved.factory?.GetInstanceID())
+                    .Where(id => id.HasValue)
+                    .Select(id => id.Value)
+                );
+
+            factoriesSavedWithAsset = factoriesSavedWithAsset
+                .Where(factory => factory != this)
+                .Select(factory =>
+                {
+                    if (factoriesReferencedInSaveData.Contains(factory.GetInstanceID()))
+                    {
+                        return factory;
+                    }
+                    DestroyImmediate(factory, true);
+                    return null;
+                })
+                .Where(x => x != null)
+                .ToArray();
         }
     }
 }

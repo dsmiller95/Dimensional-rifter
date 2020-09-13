@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: IdleWalk
   m_EditorClassIdentifier: 
   children:
+  - {fileID: 11400000, guid: e0959b2faa7490e4eaf830e98a1c41ba, type: 2}
   - {fileID: 11400000, guid: b145b6a5dd129fe4d965990f34a9f7b7, type: 2}
   - {fileID: 11400000, guid: 499abda82a991db4b9a3f09921b6678d, type: 2}

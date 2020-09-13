@@ -1,4 +1,5 @@
 ﻿using BehaviorTree.Nodes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorTree.Factories
@@ -14,13 +15,7 @@ namespace BehaviorTree.Factories
         public static System.Random FACTORY_RANDOM;
 #endif
 
-        /// <summary>
-        /// 0: no children
-        /// 2: exactly 2 children
-        /// -1: unlimited children
-        /// </summary>
-        /// <returns></returns>
-        public abstract int GetValidChildCount();
+        public abstract void SetChildFactories(IEnumerable<NodeFactory> children);
 
         public BehaviorNode CreateNode(GameObject target)
         {

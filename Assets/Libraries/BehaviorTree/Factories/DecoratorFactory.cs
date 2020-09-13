@@ -1,10 +1,14 @@
-﻿namespace BehaviorTree.Factories
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace BehaviorTree.Factories
 {
     public abstract class DecoratorFactory : NodeFactory
     {
-        public override int GetValidChildCount()
+        public NodeFactory child;
+        public override void SetChildFactories(IEnumerable<NodeFactory> children)
         {
-            return 1;
+            child = children.FirstOrDefault();
         }
     }
 }

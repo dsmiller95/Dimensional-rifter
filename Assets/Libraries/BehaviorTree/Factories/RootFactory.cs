@@ -1,4 +1,6 @@
 ﻿using BehaviorTree.Nodes;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BehaviorTree.Factories
@@ -8,9 +10,9 @@ namespace BehaviorTree.Factories
     {
         public NodeFactory child;
 
-        public override int GetValidChildCount()
+        public override void SetChildFactories(IEnumerable<NodeFactory> children)
         {
-            return 1;
+            child = children.FirstOrDefault();
         }
 
         protected override BehaviorNode OnCreateNode(GameObject target)

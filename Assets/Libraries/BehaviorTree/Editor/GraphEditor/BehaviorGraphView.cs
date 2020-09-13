@@ -1,6 +1,8 @@
 ﻿using BehaviorTree.Factories.FactoryGraph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -32,7 +34,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
         private void LoadStateFromAsset()
         {
             var nodes = factoryGraph.SavedNodes;
-            if(nodes == null)
+            if (nodes == null || nodes.Length <= 0)
             {
                 var rootNode = GenerateEntryNode();
                 AddElement(rootNode);
@@ -49,7 +51,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                 foreach (var createdNode in nodesWithSaveData)
                 {
                     createdNode.instantiatedNode
-                        .GenerateConnectionsForNode(createdNode.savedNode, this);
+                        .GenerateConnectionsFromSaveData(createdNode.savedNode, this);
                 }
             }
         }
@@ -62,19 +64,44 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                 return typedNode.GetSaveData();
             });
             factoryGraph.SavedNodes = nodeSaveData.ToArray();
+            factoryGraph.DestroyUnlinkedNodeFactories();
+
+
+            var rootNode = this.Query<BehaviorGraphViewRootNode>().First();
+            try
+            {
+                var rootChild = rootNode
+                    .outputContainer
+                    .Query<Port>().First()
+                    ?.connections.First()
+                    ?.input.node as BehaviorGraphViewNode;
+
+                factoryGraph.entryFactory = rootChild?.backingFactory;
+            }
+            catch (Exception)
+            {
+                Debug.LogError("Root not not connected");
+            }
+
+            EditorUtility.SetDirty(factoryGraph);
         }
 
         public BehaviorGraphViewNode GetBehaviorNodeByGuid(string guid)
-        {;
+        {
             return nodes.ToList()
                 .Cast<BehaviorGraphViewNode>()
                 .Where(node => node.GUID == guid)
                 .FirstOrDefault();
         }
 
-        public void CreateNode(string nodeName)
+        public void CreateNode(
+            FactoryGraphNodeAttribute attribute,
+            Type nodeFactoryType)
         {
-            AddElement(BehaviorGraphViewNode.CreateNewNode(nodeName, false));
+            AddElement(BehaviorGraphViewNode.CreateNewNodeFromFactory(
+                factoryGraph,
+                attribute,
+                nodeFactoryType));
         }
 
         public void LinkPorts(Port outputSocket, Port inputSocket)
@@ -91,8 +118,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
         private BehaviorGraphViewNode GenerateEntryNode()
         {
-            var newNode = BehaviorGraphViewNode.CreateNewNode("Root", true);
-            return newNode;
+            return BehaviorGraphViewNode.CreateEntryNode();
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

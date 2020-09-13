@@ -18,6 +18,7 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
         public override void OnInspectorGUI()
         {
+            DrawDefaultInspector();
             if (GUILayout.Button("Edit Graph"))
             {
                 var targetObject = serializedObject.targetObject as CompositeFactoryGraph;

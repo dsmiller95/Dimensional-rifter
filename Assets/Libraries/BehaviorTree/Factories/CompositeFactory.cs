@@ -1,14 +1,16 @@
-﻿using BehaviorTree.Nodes;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace BehaviorTree.Factories
 {
     public abstract class CompositeFactory : NodeFactory
     {
-        public override int GetValidChildCount()
+        public NodeFactory[] children;
+
+        public override void SetChildFactories(IEnumerable<NodeFactory> children)
         {
-            return -1;
+            this.children = children.ToArray();
         }
+
     }
 }
