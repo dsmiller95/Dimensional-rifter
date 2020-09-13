@@ -12,7 +12,9 @@ namespace BehaviorTree.Factories
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return new Sequence(
-                children.Select(child => child.CreateNode(target))
+                children
+                    .Where(x => x != null)
+                    .Select(child => child.CreateNode(target))
                 );
         }
     }

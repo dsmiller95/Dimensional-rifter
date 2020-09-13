@@ -25,8 +25,10 @@ namespace Assets.Libraries.BehaviorTree.Editor
                 }
             }
 
+            var sceneWindow = typeof(SceneView);
+            var newWindow = CreateWindow<BehaviorGraphEditorWindow>(sceneWindow);
+
             var name = asset.name;
-            var newWindow = CreateInstance<BehaviorGraphEditorWindow>();
             newWindow.titleContent = new GUIContent(name);
             newWindow.factoryGraph = asset;
             newWindow.LoadFromAsset();

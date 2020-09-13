@@ -1,12 +1,14 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.WorldObjects;
 using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "TryToDie", menuName = "Behaviors/Actions/TryToDie", order = 10)]
+    [FactoryGraphNode("Leaf/TryToDie", "TryToDie", 0)]
     public class TryToDieLeafFactory : LeafFactory
     {
         public string calorieBlackboardPath = "currentCalories";

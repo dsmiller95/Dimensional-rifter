@@ -2,6 +2,7 @@
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
 using TradeModeling.Inventories;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
 
     [CreateAssetMenu(fileName = "GetResource", menuName = "Behaviors/Actions/GetResource", order = 10)]
+    [FactoryGraphNode("Leaf/GetResource", "GetResource", 0)]
     public class GetResourceFactory : LeafFactory
     {
         public Resource resourceType;

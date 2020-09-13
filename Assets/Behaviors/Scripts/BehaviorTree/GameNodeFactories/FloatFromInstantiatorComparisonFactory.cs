@@ -1,6 +1,7 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.Scripts.Core;
 using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
 using System;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     }
 
     [CreateAssetMenu(fileName = "FloatInstatiatorComparison", menuName = "Behaviors/Actions/FloatInstatiatorComparison", order = 10)]
+    [FactoryGraphNode("Leaf/FloatInstatiatorComparison", "FloatInstatiatorComparison", 0)]
     public class FloatFromInstantiatorComparisonFactory : LeafFactory
     {
         public float threshold;

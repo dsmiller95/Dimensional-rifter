@@ -1,12 +1,14 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "OccupySleepingStation", menuName = "Behaviors/Actions/OccupySleepingStation", order = 10)]
+    [FactoryGraphNode("Leaf/OccupySleepingStation", "OccupySleepingStation", 0)]
     public class OccupySleepingStation : LeafFactory
     {
         [Header("Find, navigate to, and occupy a sleeping station")]

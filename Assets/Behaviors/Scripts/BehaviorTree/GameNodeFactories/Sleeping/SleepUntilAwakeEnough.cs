@@ -1,12 +1,14 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.Scripts.Core;
 using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "SleepUntilAwakeEnough", menuName = "Behaviors/Actions/SleepUntilAwakeEnough", order = 10)]
+    [FactoryGraphNode("Leaf/SleepUntilAwakeEnough", "SleepUntilAwakeEnough", 0)]
     public class SleepUntilAwakeEnough : LeafFactory
     {
         public float restSpeed;

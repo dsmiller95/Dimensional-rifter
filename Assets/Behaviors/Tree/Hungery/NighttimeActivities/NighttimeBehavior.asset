@@ -1,0 +1,315 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9202344163753328988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restSpeed: 2
+  wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
+  awakefullnessMinimumRequiredForExit: 70
+  sleepingAnimationTrigger: StartSleeping
+  waitTimeForIdleTransition: 1
+  idlingAnimationTrigger: Idling
+--- !u!114 &-8880285951083065070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ac391100b2034ab1a41ac9b3968be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerLevel: 1000
+  calorieBlackboardPath: calories
+--- !u!114 &-7352810876313097259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037c628d46cde1b4d8af0aeb0f6d38cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: 5751672583721706713}
+  - {fileID: -9202344163753328988}
+--- !u!114 &-2744652390835094031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66329d10c4c51d74b81249d1bc5fdbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepPathBlackboard: Path
+  sleepStationBlackboard: SleepingBed
+--- !u!114 &-2120107842614436554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037c628d46cde1b4d8af0aeb0f6d38cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: 6317420608426703131}
+  - {fileID: 7749208696549623210}
+  - {fileID: 0}
+--- !u!114 &-1215833252067380187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31173c7f249984140bb35ad50bdbf2b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 50
+  comparison: 0
+  stateToCompareAgainst: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca4d1d56c2154045ae2e7cbcd13d546, type: 3}
+  m_Name: NighttimeBehavior
+  m_EditorClassIdentifier: 
+  _savedNodes:
+  - Guid: 7b16daec-4391-405d-9b58-46b3f7b1fac7
+    Title: Root
+    factory: {fileID: 0}
+    position: {x: -884, y: -109}
+    ConnectedChildrenGuids:
+    - 5ff60ca3-750b-4cb9-b827-8428a6f92eed
+  - Guid: 5ff60ca3-750b-4cb9-b827-8428a6f92eed
+    Title: StickySelector
+    factory: {fileID: -2120107842614436554}
+    position: {x: -699, y: -118}
+    ConnectedChildrenGuids:
+    - dc67f8b6-2821-4406-bb7f-65c1471bd80c
+    - 1192cbb5-198b-4599-9331-2e1e95ed9fb9
+    - 
+  - Guid: 4376f2b0-f207-45d3-b03d-6722ad53d966
+    Title: GetResource
+    factory: {fileID: 7598613058304731202}
+    position: {x: -7, y: -318}
+    ConnectedChildrenGuids: []
+  - Guid: 37baf150-a688-493e-a602-9b8980174dee
+    Title: Eat
+    factory: {fileID: 2181340645788143001}
+    position: {x: 20, y: -195}
+    ConnectedChildrenGuids: []
+  - Guid: e9d86b9a-3a35-487f-b556-c26f2ea2c519
+    Title: IsHungryGuard
+    factory: {fileID: -8880285951083065070}
+    position: {x: -23, y: -423}
+    ConnectedChildrenGuids: []
+  - Guid: dc67f8b6-2821-4406-bb7f-65c1471bd80c
+    Title: Sequence
+    factory: {fileID: 6317420608426703131}
+    position: {x: -329, y: -307}
+    ConnectedChildrenGuids:
+    - e9d86b9a-3a35-487f-b556-c26f2ea2c519
+    - 4376f2b0-f207-45d3-b03d-6722ad53d966
+    - 37baf150-a688-493e-a602-9b8980174dee
+  - Guid: 1192cbb5-198b-4599-9331-2e1e95ed9fb9
+    Title: Sequence
+    factory: {fileID: 7749208696549623210}
+    position: {x: -463, y: 79}
+    ConnectedChildrenGuids:
+    - b25048f3-4a66-442f-8139-857b21129ada
+    - ed5a7396-3638-4683-86e8-0d959e13294a
+  - Guid: b25048f3-4a66-442f-8139-857b21129ada
+    Title: FloatInstatiatorComparison
+    factory: {fileID: -1215833252067380187}
+    position: {x: -163, y: 21}
+    ConnectedChildrenGuids: []
+  - Guid: ed5a7396-3638-4683-86e8-0d959e13294a
+    Title: StickySelector
+    factory: {fileID: -7352810876313097259}
+    position: {x: -174, y: 200}
+    ConnectedChildrenGuids:
+    - 7fc4917b-104f-4348-8736-80ae7b979139
+    - 4af9b73c-9098-440c-af82-85dd794b285b
+  - Guid: 7fc4917b-104f-4348-8736-80ae7b979139
+    Title: Sequence
+    factory: {fileID: 5751672583721706713}
+    position: {x: 124, y: 62}
+    ConnectedChildrenGuids:
+    - 7676891e-fb48-4a61-bc7e-7e02abca1498
+    - 759863e7-57e8-4c7c-83e0-381aef6b5baa
+    - c0f77764-88de-4ed1-9a8f-ee63d013c304
+  - Guid: 759863e7-57e8-4c7c-83e0-381aef6b5baa
+    Title: SleepUntilAwakeEnough
+    factory: {fileID: 3221346926286148552}
+    position: {x: 410, y: 78}
+    ConnectedChildrenGuids: []
+  - Guid: 7676891e-fb48-4a61-bc7e-7e02abca1498
+    Title: OccupySleepingStation
+    factory: {fileID: -2744652390835094031}
+    position: {x: 406, y: -22}
+    ConnectedChildrenGuids: []
+  - Guid: c0f77764-88de-4ed1-9a8f-ee63d013c304
+    Title: ExitSleepingStation
+    factory: {fileID: 7770556017436500047}
+    position: {x: 441, y: 177}
+    ConnectedChildrenGuids: []
+  - Guid: 4af9b73c-9098-440c-af82-85dd794b285b
+    Title: SleepUntilAwakeEnough
+    factory: {fileID: -9202344163753328988}
+    position: {x: 101, y: 312}
+    ConnectedChildrenGuids: []
+  entryFactory: {fileID: -2120107842614436554}
+  factoriesSavedWithAsset:
+  - {fileID: -2120107842614436554}
+  - {fileID: 6317420608426703131}
+  - {fileID: 2181340645788143001}
+  - {fileID: -8880285951083065070}
+  - {fileID: 7598613058304731202}
+  - {fileID: 7749208696549623210}
+  - {fileID: -1215833252067380187}
+  - {fileID: -7352810876313097259}
+  - {fileID: 5751672583721706713}
+  - {fileID: -2744652390835094031}
+  - {fileID: 3221346926286148552}
+  - {fileID: 7770556017436500047}
+  - {fileID: -9202344163753328988}
+--- !u!114 &2181340645788143001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16fff10d2fff7144a85c37fabd1b0436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryToEatFrom: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
+  caloriesPerFood: 200
+--- !u!114 &3221346926286148552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restSpeed: 4
+  wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
+  awakefullnessMinimumRequiredForExit: 100
+  sleepingAnimationTrigger: StartSleeping
+  waitTimeForIdleTransition: 1
+  idlingAnimationTrigger: Idling
+--- !u!114 &5751672583721706713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: -2744652390835094031}
+  - {fileID: 3221346926286148552}
+  - {fileID: 7770556017436500047}
+--- !u!114 &6317420608426703131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: -8880285951083065070}
+  - {fileID: 7598613058304731202}
+  - {fileID: 2181340645788143001}
+--- !u!114 &7598613058304731202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a59621cf13eeb4cb0c794f229384c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceType: 0
+  validItemSources:
+  - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+  - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
+  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
+--- !u!114 &7749208696549623210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b03db4d3bc7234cafa896a42354547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  children:
+  - {fileID: -1215833252067380187}
+  - {fileID: -7352810876313097259}
+--- !u!114 &7770556017436500047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c8660700bee7c4d8869105749146e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepStationBlackboard: SleepingBed

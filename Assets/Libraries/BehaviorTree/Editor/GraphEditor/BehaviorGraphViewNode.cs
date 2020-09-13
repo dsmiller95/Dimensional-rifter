@@ -135,6 +135,29 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 
         protected virtual void SetupUIElements(FactoryNodeSavedNode saveData = null)
         {
+            var titleText = titleContainer.Children().First();
+            var titleEditor = new TextField("");
+            titleEditor.multiline = false;
+            titleEditor.SetValueWithoutNotify(title);
+
+            titleText
+                .RegisterCallback<MouseDownEvent>(someEvent =>
+                {
+                    titleContainer.Remove(titleText);
+                    titleContainer.Insert(0, titleEditor);
+                    titleEditor.ElementAt(0).Focus();
+                    Debug.Log("got some mouse down");
+                });
+
+            titleEditor
+                .RegisterCallback<FocusOutEvent>(someEvent =>
+                {
+                    titleContainer.Remove(titleEditor);
+                    titleContainer.Insert(0, titleText);
+                    title = titleEditor.text;
+                    Debug.Log("focusLost");
+                });
+
             SetupInputPort();
             if (saveData != null)
             {

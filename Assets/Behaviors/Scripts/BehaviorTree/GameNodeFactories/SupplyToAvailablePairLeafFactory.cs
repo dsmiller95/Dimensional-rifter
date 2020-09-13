@@ -3,6 +3,7 @@ using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Factories;
+using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
 using TradeModeling.Inventories;
 using UnityEngine;
@@ -10,6 +11,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "SupplyToAvailablePair", menuName = "Behaviors/Actions/SupplyToAvailablePair", order = 10)]
+    [FactoryGraphNode("Leaf/SupplyToAvailablePair", "SupplyToAvailablePair", 0)]
     public class SupplyToAvailablePairLeafFactory : LeafFactory
     {
         public ItemSourceType[] validItemSources;
