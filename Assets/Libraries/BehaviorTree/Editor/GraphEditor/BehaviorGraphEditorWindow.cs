@@ -1,6 +1,6 @@
 ﻿using Assets.Libraries.BehaviorTree.Editor.GraphEditor;
 using BehaviorTree.Factories.FactoryGraph;
-using TMPro.EditorUtilities;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -10,30 +10,50 @@ namespace Assets.Libraries.BehaviorTree.Editor
 {
     public class BehaviorGraphEditorWindow : EditorWindow
     {
+        private static IDictionary<int, BehaviorGraphEditorWindow> OpenWindows = new Dictionary<int, BehaviorGraphEditorWindow>();
+        public static BehaviorGraphEditorWindow GetWindowForAsset(CompositeFactoryGraph asset)
+        {
+            var key = asset.GetInstanceID();
+            if (OpenWindows.TryGetValue(key, out BehaviorGraphEditorWindow existingWindow))
+            {
+                if (existingWindow != null && existingWindow)
+                {
+                    return existingWindow;
+                }
+            }
+
+            var name = asset.name;
+            var newWindow = CreateInstance<BehaviorGraphEditorWindow>();
+            newWindow.titleContent = new GUIContent(name);
+            newWindow.factoryGraph = asset;
+            newWindow.LoadFromAsset();
+            OpenWindows[key] = newWindow;
+            return newWindow;
+        }
+
+
         private BehaviorGraphView _graphView;
         public CompositeFactoryGraph factoryGraph;
 
 
-        [MenuItem("BehaviorTree/GraphEditor")]
-        private static void ShowWindow()
-        {
-            // Get existing open window or if none, make a new one:
-            var window = GetWindow<BehaviorGraphEditorWindow>();
-            window.titleContent = new GUIContent("Behavior Tree Graph");
-            window.Show();
-        }
-
-
         private void OnEnable()
         {
-            this.ConstructGraphView();
+            if (factoryGraph && factoryGraph != null)
+            {
+                LoadFromAsset();
+            }
+        }
+
+        private void LoadFromAsset()
+        {
+            ConstructGraphView(factoryGraph);
             GenerateToolbar();
         }
 
 
-        private void ConstructGraphView()
+        private void ConstructGraphView(CompositeFactoryGraph factoryGraph)
         {
-            _graphView = new BehaviorGraphView()
+            _graphView = new BehaviorGraphView(factoryGraph)
             {
                 name = "Behavior Graph"
             };
@@ -49,14 +69,18 @@ namespace Assets.Libraries.BehaviorTree.Editor
             var nodeCreateButton = new Button(() =>
             {
                 _graphView.CreateNode("Fresh");
-
             });
-
             nodeCreateButton.text = "New Node";
             toolbar.Add(nodeCreateButton);
 
-            rootVisualElement.Add(toolbar);
+            var saveButton = new Button(() =>
+            {
+                _graphView.SaveToAsset();
+            });
+            saveButton.text = "Save";
+            toolbar.Add(saveButton);
 
+            rootVisualElement.Add(toolbar);
         }
 
         private void OnDisable()

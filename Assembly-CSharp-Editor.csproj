@@ -55,18 +55,19 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphViewNode.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\FactoryGraphInspector.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\FloatReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\Editor\InventoryReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeView.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\GenericReferenceDrawer.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphView.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeWindow.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorNodeTreeElement.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\VariableInstantiatorInspector.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphEditorWindow.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphViewNode.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphView.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\FactoryGraphInspector.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphViewRootNode.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\Resources\BehaviorGraph.uss" />

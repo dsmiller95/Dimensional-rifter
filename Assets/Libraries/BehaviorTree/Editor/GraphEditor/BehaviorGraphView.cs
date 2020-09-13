@@ -1,18 +1,20 @@
-﻿using System;
+﻿using BehaviorTree.Factories.FactoryGraph;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
 {
-    public class BehaviorGraphView : UnityEditor.Experimental.GraphView.GraphView
+    public class BehaviorGraphView : GraphView
     {
-        private readonly Vector2 defaultNodeSize = new Vector2(300, 150);
+        public CompositeFactoryGraph factoryGraph;
 
-
-        public BehaviorGraphView()
+        public BehaviorGraphView(CompositeFactoryGraph factoryGraph)
         {
+            this.factoryGraph = factoryGraph;
+
             styleSheets.Add(Resources.Load<StyleSheet>("BehaviorGraph"));
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
 
@@ -24,75 +26,74 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             Insert(0, grid);
             grid.StretchToParentSize();
 
-            var rootNode = GenerateEntryNode();
-            AddElement(rootNode);
+            LoadStateFromAsset();
+        }
+
+        private void LoadStateFromAsset()
+        {
+            var nodes = factoryGraph.SavedNodes;
+            if(nodes == null)
+            {
+                var rootNode = GenerateEntryNode();
+                AddElement(rootNode);
+            }
+            else
+            {
+                var nodesWithSaveData = nodes.Select(savedNode =>
+                    {
+                        var instantiatedNode = BehaviorGraphViewNode.NodeFromSaveData(savedNode);
+                        AddElement(instantiatedNode);
+                        return new { savedNode, instantiatedNode };
+                    })
+                    .ToList();
+                foreach (var createdNode in nodesWithSaveData)
+                {
+                    createdNode.instantiatedNode
+                        .GenerateConnectionsForNode(createdNode.savedNode, this);
+                }
+            }
+        }
+
+        public void SaveToAsset()
+        {
+            var nodeSaveData = nodes.ForEach(node =>
+            {
+                var typedNode = node as BehaviorGraphViewNode;
+                return typedNode.GetSaveData();
+            });
+            factoryGraph.SavedNodes = nodeSaveData.ToArray();
+        }
+
+        public BehaviorGraphViewNode GetBehaviorNodeByGuid(string guid)
+        {;
+            return nodes.ToList()
+                .Cast<BehaviorGraphViewNode>()
+                .Where(node => node.GUID == guid)
+                .FirstOrDefault();
         }
 
         public void CreateNode(string nodeName)
         {
-            AddElement(GenerateNewNode(nodeName));
+            AddElement(BehaviorGraphViewNode.CreateNewNode(nodeName, false));
         }
 
-        public BehaviorGraphViewNode GenerateNewNode(string nodeName)
+        public void LinkPorts(Port outputSocket, Port inputSocket)
         {
-            var newNode = new BehaviorGraphViewNode
+            var tempEdge = new Edge()
             {
-                title = nodeName,
-                GUID = Guid.NewGuid().ToString()
+                output = outputSocket,
+                input = inputSocket
             };
-
-            var input = GeneratePort(newNode, Direction.Input);
-            input.portName = "Parent";
-            newNode.inputContainer.Add(input);
-
-            var newOutputButton = new Button(() =>
-            {
-                AddChoicePort(newNode);
-            });
-            newOutputButton.text = "New child";
-            newNode.titleButtonContainer.Add(newOutputButton);
-
-            newNode.RefreshExpandedState();
-            newNode.RefreshPorts();
-
-            newNode.SetPosition(new UnityEngine.Rect(Vector2.zero, defaultNodeSize));
-
-            return newNode;
-        }
-
-        private void AddChoicePort(BehaviorGraphViewNode node)
-        {
-            var generatedPort = GeneratePort(node, Direction.Output);
-            var outputPortCount = node.outputContainer.Query("connector").ToList().Count;
-            generatedPort.portName = $"Child {outputPortCount}";
-
-            node.outputContainer.Add(generatedPort);
-
-            node.RefreshExpandedState();
-            node.RefreshPorts();
+            inputSocket.Connect(tempEdge);
+            outputSocket.Connect(tempEdge);
+            Add(tempEdge);
         }
 
         private BehaviorGraphViewNode GenerateEntryNode()
         {
-            var newNode = new BehaviorGraphViewNode
-            {
-                title = "Root",
-                GUID = Guid.NewGuid().ToString(),
-                EntryPoint = true
-            };
-
-            var port = GeneratePort(newNode, Direction.Output);
-            port.portName = "Child";
-            newNode.outputContainer.Add(port);
-
-            newNode.RefreshExpandedState();
-            newNode.RefreshPorts();
-
-            newNode.SetPosition(new UnityEngine.Rect(Vector2.zero, defaultNodeSize));
-
+            var newNode = BehaviorGraphViewNode.CreateNewNode("Root", true);
             return newNode;
         }
-
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
@@ -107,12 +108,6 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
             });
 
             return compatiblePorts;
-        }
-
-
-        private Port GeneratePort(BehaviorGraphViewNode node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
-        {
-            return node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
         }
     }
 }

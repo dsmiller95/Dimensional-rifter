@@ -97,6 +97,7 @@
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CoordinateSystemTransformBehavior.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\IGatherable.cs" />
@@ -112,9 +113,12 @@
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TryToDieLeafFactory.cs" />
     <Compile Include="Assets\Tiling\UniversalToGenericAdaptors.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\CompositeFactoryGraph.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryNodeSaveData.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanVariable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FindTargetByNameLeafFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\CompositeFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTargetPath.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\Triangle\TriangleCoordinateSystemBehavior.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
+    <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
@@ -136,6 +141,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\CompositeNode.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
     <Compile Include="Assets\Scripts\InstantiateAndAssignTo.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\LeafFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanState.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\TimedSwitchBack.cs" />
@@ -149,6 +155,7 @@
     <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ITileMapStrategy.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
@@ -200,6 +207,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\EatFactory.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Selector.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindBuildableTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
@@ -236,16 +244,8 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryReference.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\WaitFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
-    <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
-    <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\CompositeFactoryGraph.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryNodeSaveData.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\LeafFactory.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\CompositeFactory.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
+    <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

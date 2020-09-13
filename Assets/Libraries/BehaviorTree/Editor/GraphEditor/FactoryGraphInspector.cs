@@ -20,9 +20,8 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
         {
             if (GUILayout.Button("Edit Graph"))
             {
-                var window = EditorWindow.GetWindow<BehaviorGraphEditorWindow>(name);
-                window.titleContent = new GUIContent(name);
-                window.factoryGraph = serializedObject.targetObject as CompositeFactoryGraph;
+                var targetObject = serializedObject.targetObject as CompositeFactoryGraph;
+                var window = BehaviorGraphEditorWindow.GetWindowForAsset(targetObject);
                 window.Show();
             }
         }
