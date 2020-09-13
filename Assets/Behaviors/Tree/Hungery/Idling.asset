@@ -24,7 +24,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ca4d1d56c2154045ae2e7cbcd13d546, type: 3}
-  m_Name: IdleGraph
+  m_Name: Idling
   m_EditorClassIdentifier: 
   _savedNodes:
   - Guid: 3e9eb27b-985d-4ef4-a00b-922aed7a0abc
