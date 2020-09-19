@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
-  m_Name: BerryItemMember
+  m_Script: {fileID: 11500000, guid: d3e53e6981f5aff4eb5e9430cc5f021a, type: 3}
+  m_Name: SquareCrystalItemMemberType
   m_EditorClassIdentifier: 
   uniqueData:
-    uniqueId: 9
+    uniqueId: 12
   recieveStorage: 0
-  gatherableResource: 1
-  memberPrefab: {fileID: 6082261357034508969, guid: bc6df44ea8a514a43a7b031d9d5139fa, type: 3}
+  memberPrefab: {fileID: 6082261357034508969, guid: ad76b63bd4bfb404ab31008634755fdd, type: 3}
+  resourceType: 1

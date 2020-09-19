@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Inventories
 {
-    public class Suppliable : MonoBehaviour
+    public class Suppliable : MonoBehaviour, ISuppliable
     {
         public BooleanReference IsSupplyable;
         public InventoryReference inventoryToSupplyInto;
@@ -15,6 +15,7 @@ namespace Assets.WorldObjects.Inventories
 
         public BooleanReference SupplyFull;
 
+        public SuppliableType SuppliableClassification => SupplyType;
 
         public bool CanRecieveSupply()
         {

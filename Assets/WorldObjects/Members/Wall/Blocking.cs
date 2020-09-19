@@ -16,7 +16,7 @@ namespace Assets.WorldObjects.Members.Wall
     {
         public BooleanReference currentlyBlocking;
 
-        private TileMapMember tilemapMember;
+        //private TileMapMember tilemapMember;
 
         public IObservable<bool> OnBlockingChanges => currentlyBlocking.ValueChanges;
 
@@ -24,23 +24,18 @@ namespace Assets.WorldObjects.Members.Wall
 
         private void Awake()
         {
-            tilemapMember = GetComponent<TileMapMember>();
+            //tilemapMember = GetComponent<TileMapMember>();
         }
 
         private void Start()
         {
-            SetBlocking(currentlyBlocking.CurrentValue);
-            currentlyBlocking.ValueChanges
-                .TakeUntilDisable(this)
-                .Subscribe(newValue =>
-                {
-                    SetBlocking(newValue);
-                });
-        }
-
-
-        private void SetBlocking(bool isBlocking)
-        {
+            //SetBlocking(currentlyBlocking.CurrentValue);
+            //currentlyBlocking.ValueChanges
+            //    .TakeUntilDisable(this)
+            //    .Subscribe(newValue =>
+            //    {
+            //        //SetBlocking(newValue);
+            //    });
         }
     }
 }

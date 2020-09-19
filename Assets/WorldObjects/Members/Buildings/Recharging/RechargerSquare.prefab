@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 6082261357034508972}
   - component: {fileID: 6082261357034508971}
   - component: {fileID: 7249950768649342519}
-  - component: {fileID: 194023527981875250}
-  - component: {fileID: 4790017440937557276}
-  - component: {fileID: 7982143227113421838}
+  - component: {fileID: 5265112988128760533}
   - component: {fileID: 4982236459134736321}
   - component: {fileID: 2219312331084413800}
+  - component: {fileID: 7982143227113421838}
   - component: {fileID: 2519183179349032166}
   m_Layer: 0
   m_Name: RechargerSquare
@@ -125,7 +124,7 @@ MonoBehaviour:
   floatStateConfig: []
   inventoryStateConfig:
   - {fileID: 11400000, guid: 55d7032fe5df291488a7d27196a9cb14, type: 2}
---- !u!114 &194023527981875250
+--- !u!114 &5265112988128760533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,70 +133,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52998f36f9ff2d6489e416167ce5c8e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ccc7f2defa9317449151cdf845a03ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsSupplyable:
-    DataSource: 0
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
-  inventoryToSupplyInto:
-    DataSource: 2
-    Variable: {fileID: 0}
-    Instancer: {fileID: 7249950768649342519}
-    NamePath: build
-  SupplyType: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
-  SupplyFull:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 7249950768649342519}
-    NamePath: IsBuildFull
---- !u!114 &4790017440937557276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c7c7eb9938b1a448a9656f0b927dea1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBuilt:
+  ItemTypeRequriement: {fileID: 11400000, guid: 15e70ca2150949041891aefea6472ce1, type: 2}
+  remainingResourceRequirement: 2
+  hasBeenBuilt:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: Built
-  isBuildSupplyFull:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 7249950768649342519}
-    NamePath: IsBuildFull
---- !u!95 &7982143227113421838
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 80049a717ed78cf44922282c07f12c2e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  supplyClassification: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
 --- !u!114 &4982236459134736321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +190,25 @@ MonoBehaviour:
     Instancer: {fileID: 7249950768649342519}
     NamePath: Occupied
   occupier: {fileID: 0}
+--- !u!95 &7982143227113421838
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 80049a717ed78cf44922282c07f12c2e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2519183179349032166
 MonoBehaviour:
   m_ObjectHideFlags: 0

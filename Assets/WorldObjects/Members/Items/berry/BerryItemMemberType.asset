@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2884d949c67211f40b078feaa70c38a7, type: 3}
-  m_Name: BerryItemInventory
+  m_Script: {fileID: 11500000, guid: d3e53e6981f5aff4eb5e9430cc5f021a, type: 3}
+  m_Name: BerryItemMemberType
   m_EditorClassIdentifier: 
-  DeveloperDescription: inventory holding the berry(ies)
-  IdentifierInInstantiator: Inventory
-  initialItems: []
-  validItems: 00000000
-  spaceFillingItems: 
-  spaceFillingCapacity: 0
+  uniqueData:
+    uniqueId: 11
+  recieveStorage: 0
+  memberPrefab: {fileID: 6082261357034508969, guid: bc6df44ea8a514a43a7b031d9d5139fa, type: 3}
+  resourceType: 0

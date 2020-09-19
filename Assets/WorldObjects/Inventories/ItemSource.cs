@@ -6,10 +6,15 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Inventories
 {
-    public class ItemSource : MonoBehaviour
+    public class ItemSource : MonoBehaviour, IItemSource
     {
         public InventoryReference inventoryToProvideFrom;
         public ItemSourceType SourceType;
+
+        public ItemSourceType ItemSourceType
+        {
+            get => SourceType;
+        }
 
         public IEnumerable<Resource> AvailableTypes()
         {
@@ -23,16 +28,31 @@ namespace Assets.WorldObjects.Inventories
             return inv.Get(resource) > 0;
         }
 
-        public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource resourceType)
+        public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource resourceType, float amount = -1)
         {
             var myInventory = inventoryToProvideFrom.CurrentValue;
-            var transfer = myInventory.TransferResourceInto(resourceType, inventoryToGatherInto, myInventory.Get(resourceType));
+            if(amount == -1)
+            {
+                amount = myInventory.Get(resourceType);
+            }
+            var transfer = myInventory.TransferResourceInto(resourceType, inventoryToGatherInto, amount);
             transfer.Execute();
         }
         public void GatherInto(IInventory<Resource> inventoryToGatherInto)
         {
             var myInventory = inventoryToProvideFrom.CurrentValue;
             myInventory.DrainAllInto(inventoryToGatherInto, myInventory.GetAllResourceTypes().ToArray());
+        }
+
+        public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource? resourceType = null, float amount = -1)
+        {
+            if(!resourceType.HasValue)
+            {
+                this.GatherInto(inventoryToGatherInto);
+            }else
+            {
+                this.GatherInto(inventoryToGatherInto, resourceType.Value, amount);
+            }
         }
     }
 }

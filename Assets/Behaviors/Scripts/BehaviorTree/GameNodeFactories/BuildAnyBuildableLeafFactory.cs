@@ -1,5 +1,5 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
-using Assets.WorldObjects.Members.Building;
+using Assets.WorldObjects.Members.InteractionInterfaces;
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
@@ -25,9 +25,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                         blackboardPathProperty,
                         buildableProperty
                     ),
-                    new ActionOnComponentLeaf<Buildable>(
+                    new ActionOnComponentLeaf<IBuildable>(
                         buildableProperty,
-                        buildable => buildable.BuildIfPossible() ? NodeStatus.SUCCESS : NodeStatus.FAILURE
+                        buildable => buildable.Build() ? NodeStatus.SUCCESS : NodeStatus.FAILURE
                     )
                 );
         }

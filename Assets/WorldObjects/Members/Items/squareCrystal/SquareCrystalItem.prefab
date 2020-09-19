@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6082261357034508971}
   - component: {fileID: 4430772838501633667}
   - component: {fileID: 1883470060943119403}
-  - component: {fileID: 1707475689157343525}
+  - component: {fileID: -1105052018730373616}
   m_Layer: 0
-  m_Name: BerryBush
+  m_Name: SquareCrystalItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2408991836313283690, guid: c49c8c49ef421e64f9fb6847c586078f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 10e26277e25955d429ccc9b87bcb5c97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRegion: {fileID: 0}
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
-  memberType: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
-  orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
+  memberType: {fileID: 11400000, guid: 15e70ca2150949041891aefea6472ce1, type: 2}
+  orderingLayer: {fileID: 11400000, guid: a7f37be9028d9d74ea5735a957da3172, type: 2}
 --- !u!61 &4430772838501633667
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -115,18 +115,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.0625}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.4375}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.37, y: 0.63}
   m_EdgeRadius: 0
 --- !u!114 &1883470060943119403
 MonoBehaviour:
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
---- !u!114 &1707475689157343525
+--- !u!114 &-1105052018730373616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,20 +150,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1b54575d78597a4f8967b718a535599, type: 3}
+  m_Script: {fileID: 11500000, guid: be802258652e9c3498d055ca5406a2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsBuiltAndGrowing:
-    DataSource: 0
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
-  currentGrowthAmount: 0
-  growthPerSecond: 3
-  finalGrowthAmount: 100
-  growingSprites:
-  - {fileID: 619551235208903269, guid: c49c8c49ef421e64f9fb6847c586078f, type: 3}
-  grownSprite: {fileID: 2408991836313283690, guid: c49c8c49ef421e64f9fb6847c586078f, type: 3}
-  resourceToGrow: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
-  amountToGrow: 1
+  resource: {fileID: 11400000, guid: 15e70ca2150949041891aefea6472ce1, type: 2}
+  resourceAmount: 0
+  SourceType: {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}

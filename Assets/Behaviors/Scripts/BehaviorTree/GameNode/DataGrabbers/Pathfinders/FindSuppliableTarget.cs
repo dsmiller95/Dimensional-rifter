@@ -44,7 +44,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             ISet<Resource> availableResources
             )
         {
-            var supplyables = member.GetComponents<Suppliable>();
+            var supplyables = member.GetComponents<ISuppliable>();
             return supplyables.Any(supplyable =>
             {
                 if (!SupplyDeliveryFilter(supplyable))
@@ -54,9 +54,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 return supplyable.ValidSupplyTypes().Overlaps(availableResources);
             });
         }
-        private bool SupplyDeliveryFilter(Suppliable supplyable)
+        private bool SupplyDeliveryFilter(ISuppliable supplyable)
         {
-            return supplyable?.SupplyType == supplyTargetType && supplyable.CanRecieveSupply();
+            return supplyable?.SuppliableClassification == supplyTargetType && supplyable.CanRecieveSupply();
         }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
     /// <summary>
-    /// Finds a pair of one <see cref="ItemSource"/> and one <see cref="Suppliable"/> which can be provided to by that source
+    /// Finds a pair of one <see cref="IItemSource"/> and one <see cref="ISuppliable"/> which can be provided to by that source
     ///     Stores the resource type for which a valid supply pair exists
     /// </summary>
     public class EnsureAvailableResourceSupplyPair : ComponentMemberLeaf<TileMapNavigationMember>
@@ -58,11 +58,11 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             var availableResources = new Dictionary<Resource, IList<TileMapMember>>();
 
             var gatherableMembers = reachableGatherables
-                .Select(x => new { resources = new HashSet<Resource>(x.GetComponent<ItemSource>().AvailableTypes()), member = x });
+                .Select(x => new { resources = new HashSet<Resource>(x.GetComponent<IItemSource>().AvailableTypes()), member = x });
 
             var gathererIterator = gatherableMembers.GetEnumerator();
             var supplyableMembers = reachableSuppliables
-                .SelectMany(x => x.GetComponents<Suppliable>());
+                .SelectMany(x => x.GetComponents<ISuppliable>());
 
             foreach (var supplyable in supplyableMembers)
             {
@@ -100,17 +100,17 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
         private bool GatheringFilter(TileMapMember member)
         {
-            var suppliers = member.GetComponents<ItemSource>().Where(x => validItemSources.Contains(x.SourceType));
+            var suppliers = member.GetComponents<IItemSource>().Where(x => validItemSources.Contains(x.ItemSourceType));
             return suppliers.Any();
         }
         private bool SupplyDeliveryFilter(TileMapMember member)
         {
-            var supplyables = member.GetComponents<Suppliable>();
+            var supplyables = member.GetComponents<ISuppliable>();
             return supplyables.Any(x => SupplyDeliveryFilter(x));
         }
-        private bool SupplyDeliveryFilter(Suppliable supplyable)
+        private bool SupplyDeliveryFilter(ISuppliable supplyable)
         {
-            return supplyable?.SupplyType == validSupplyTarget && supplyable.CanRecieveSupply();
+            return supplyable?.SuppliableClassification == validSupplyTarget && supplyable.CanRecieveSupply();
         }
 
     }

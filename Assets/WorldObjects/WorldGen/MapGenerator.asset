@@ -25,15 +25,15 @@ MonoBehaviour:
     shapeID: NO_BORDERS
   memberGenerationOptions:
   - type: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
-    amount: 20
+    amount: 3
   - type: {fileID: 11400000, guid: ebfc1c257899c614381964766369ae59, type: 2}
-    amount: 2
+    amount: 1
   - type: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
     amount: 1
   - type: {fileID: 11400000, guid: f42627acbc684da40be53c942bffbc20, type: 2}
-    amount: 30
+    amount: 5
   - type: {fileID: 11400000, guid: 215c239955b61a24f947271f223f94c4, type: 2}
     amount: 1
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
-  baseMapSize: {x: 100, y: 100}
-  seed: 3391
+  baseMapSize: {x: 50, y: 50}
+  seed: 222

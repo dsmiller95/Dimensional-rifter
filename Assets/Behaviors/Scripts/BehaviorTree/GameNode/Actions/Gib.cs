@@ -11,7 +11,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// Give items to a target object. if resource type pointer is provided only gives items of
     ///     that type. otherwise tried to give everything.
     /// </summary>
-    public class Gib : ComponentMemberLeaf<TileMapNavigationMember>
+    public class Gib : ComponentMemberLeaf<VariableInstantiator>
     {
         private string resourceTypeInBlackboard;
         private string targetObjectInBlackboard;
@@ -35,11 +35,10 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         {
             if (blackboard.TryGetValueOfType(targetObjectInBlackboard, out GameObject targetObject))
             {
-                var suppliables = targetObject?.GetComponents<Suppliable>();
+                var suppliables = targetObject?.GetComponents<ISuppliable>();
                 if (suppliables == null || suppliables.Length <= 0) return NodeStatus.FAILURE;
 
-                var myVariableState = componentValue.GetComponent<VariableInstantiator>();
-                var myInventory = inventoryToGiveFrom.GetCurrentValue(myVariableState);
+                var myInventory = inventoryToGiveFrom.GetCurrentValue(componentValue);
 
                 if (resourceTypeInBlackboard != null &&
                     blackboard.TryGetValueOfType(resourceTypeInBlackboard, out Resource resourceType))

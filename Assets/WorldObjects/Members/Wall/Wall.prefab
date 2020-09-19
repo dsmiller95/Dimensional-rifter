@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 506530251402321470}
   - component: {fileID: 3320887735696179336}
   - component: {fileID: 1775895047749063725}
-  - component: {fileID: 4646888107847878781}
-  - component: {fileID: 2089076009123118786}
-  - component: {fileID: 3983353939130839650}
+  - component: {fileID: -417059195736227388}
   - component: {fileID: 7829678868410144590}
+  - component: {fileID: 3983353939130839650}
   - component: {fileID: 3272636166119152594}
   m_Layer: 0
   m_Name: Wall
@@ -146,11 +145,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   booleanStateConfig:
   - {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
-  - {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}
   floatStateConfig: []
-  inventoryStateConfig:
-  - {fileID: 11400000, guid: 64a81b7081fbb1849935beb945d64363, type: 2}
---- !u!114 &4646888107847878781
+  inventoryStateConfig: []
+--- !u!114 &-417059195736227388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,69 +156,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 506530251402321468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52998f36f9ff2d6489e416167ce5c8e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ccc7f2defa9317449151cdf845a03ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsSupplyable:
-    DataSource: 0
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
-  inventoryToSupplyInto:
-    DataSource: 2
-    Variable: {fileID: 0}
-    Instancer: {fileID: 1775895047749063725}
-    NamePath: BuildInventory
-  SupplyType: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
-  SupplyFull:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 1775895047749063725}
-    NamePath: IsBuildFull
---- !u!114 &2089076009123118786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c7c7eb9938b1a448a9656f0b927dea1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBuilt:
+  ItemTypeRequriement: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
+  remainingResourceRequirement: 1
+  hasBeenBuilt:
     DataSource: 2
     ConstantValue: 0
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
     NamePath: Built
-  isBuildSupplyFull:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 1775895047749063725}
-    NamePath: IsBuildFull
---- !u!114 &3983353939130839650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a48dfb2d94165545956cd7f638d5c8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlyBlocking:
-    DataSource: 2
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 1775895047749063725}
-    NamePath: Built
+  supplyClassification: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
 --- !u!114 &7829678868410144590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +185,24 @@ MonoBehaviour:
   colorSwitch:
     DataSource: 2
     ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 1775895047749063725}
+    NamePath: Built
+--- !u!114 &3983353939130839650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a48dfb2d94165545956cd7f638d5c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlyBlocking:
+    DataSource: 2
+    ConstantValue: 1
     Variable: {fileID: 0}
     Instancer: {fileID: 1775895047749063725}
     NamePath: Built

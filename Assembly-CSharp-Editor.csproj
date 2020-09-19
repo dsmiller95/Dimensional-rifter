@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphViewRootNode.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphEditorWindow.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Editor\MemberRegistryEditor.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\Resources\BehaviorGraph.uss" />

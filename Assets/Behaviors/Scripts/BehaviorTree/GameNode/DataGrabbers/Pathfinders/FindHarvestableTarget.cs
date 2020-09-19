@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
-    public class FindBuildableTarget : FindTargetPath
+    public class FindHarvestableTarget : FindTargetPath
     {
 
-        public FindBuildableTarget(
+        public FindHarvestableTarget(
             GameObject gameObject,
             string pathTargetProperty) : base(gameObject, pathTargetProperty)
         {
@@ -17,13 +17,13 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         protected override NavigationPath? TryGetPath(Blackboard blackboard)
         {
             return componentValue
-                .GetClosestOfTypeWithPath(BuildableFilter);
+                .GetClosestOfTypeWithPath(HarvestableFilter);
         }
 
-        private bool BuildableFilter(TileMapMember member)
+        private bool HarvestableFilter(TileMapMember member)
         {
-            var buildable = member.GetComponent<IBuildable>();
-            return buildable != null && buildable.IsBuildable();
+            var harvestable = member.GetComponent<IHarvestable>();
+            return harvestable != null && harvestable.HarvestReady();
         }
     }
 }

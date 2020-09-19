@@ -58,7 +58,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         {
             if (blackboard.TryGetValueOfType(targetObjectInBlackboard, out GameObject targetObject))
             {
-                var supplier = targetObject?.GetComponent<ItemSource>();
+                var supplier = targetObject?.GetComponent<IItemSource>();
                 if (supplier == null) return NodeStatus.FAILURE;
 
                 var myVariableState = componentValue.GetComponent<VariableInstantiator>();

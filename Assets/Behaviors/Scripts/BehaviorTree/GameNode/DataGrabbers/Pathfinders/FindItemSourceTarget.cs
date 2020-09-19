@@ -53,10 +53,10 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             Resource resourceToFind
             )
         {
-            var itemSources = member.GetComponents<ItemSource>();
+            var itemSources = member.GetComponents<IItemSource>();
             return itemSources.Any(itemSource =>
             {
-                return validItemSources.Contains(itemSource.SourceType)
+                return validItemSources.Contains(itemSource.ItemSourceType)
                     && itemSource.HasResource(resourceToFind);
             });
         }
