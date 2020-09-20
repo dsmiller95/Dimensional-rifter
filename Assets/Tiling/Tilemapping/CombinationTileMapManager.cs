@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.SaveObjects;
+﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
+using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -23,8 +24,11 @@ namespace Assets.Tiling.Tilemapping
     {
         public TileMapTypePrefabConfig[] tileMapTypes;
 
+        public ConnectivitySystem connectivitySystem;
+
         private void Start()
         {
+            connectivitySystem?.ResetState();
             BakeAllTileMapMeshes();
         }
 
@@ -48,60 +52,6 @@ namespace Assets.Tiling.Tilemapping
                 tileMap.BakeTopologyAvoidingColliders(allColliders.Skip(i + 1));
             }
         }
-
-        private Vector2 lastMousePos;
-        public TileMapRegionNoCoordinateType tileMapToMove;
-
-        public TileMapRegionNoCoordinateType tileMapPrefab;
-        private void Update()
-        {
-            var currentMousePos = MyUtilities.GetMousePos2D();
-            var mouseDelta = currentMousePos - lastMousePos;
-            lastMousePos = currentMousePos;
-
-            if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
-            {
-                var newTileMap = Instantiate(tileMapPrefab, transform).GetComponent<TileMapRegionNoCoordinateType>();
-                newTileMap.BakeTopologyAvoidingColliders(null);
-                tileMapToMove = newTileMap;
-                BeginMovingTileMap(tileMapToMove);
-            }
-            else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)
-            {
-                FinishMovingTileMap();
-            }
-
-            if (isPlacingTileMap)
-            {
-                tileMapToMove.transform.position += (Vector3)(mouseDelta);
-                UpdateTileMapsBelow(tileMapToMove);
-            }
-        }
-
-        public CompleteTileMapPosition? GetPositionInTileMaps(Vector2 worldPosition)
-        {
-            return GetComponentsInChildren<TileMapRegionNoCoordinateType>()
-                .Where(x => x.gameObject.activeInHierarchy)
-                .Select(x => x.GetCoordinatesFromWorldSpaceIfValid(worldPosition))
-                .Where(x => x.HasValue)
-                .FirstOrDefault();
-        }
-
-
-        private bool isPlacingTileMap;
-
-        public void BeginMovingTileMap(TileMapRegionNoCoordinateType tileMap)
-        {
-            isPlacingTileMap = true;
-            BakeAllTileMapMeshes(tileMap);
-        }
-
-        public void FinishMovingTileMap()
-        {
-            isPlacingTileMap = false;
-            BakeAllTileMapMeshes();
-        }
-
         private void UpdateTileMapsBelow(TileMapRegionNoCoordinateType tileMap)
         {
             var index = tileMap.transform.GetSiblingIndex();
@@ -136,6 +86,64 @@ namespace Assets.Tiling.Tilemapping
                 newTileMap.SetupFromSaveObject(region);
             }
         }
+
+        private void Update()
+        {
+            var currentMousePos = MyUtilities.GetMousePos2D();
+            var mouseDelta = currentMousePos - lastMousePos;
+            lastMousePos = currentMousePos;
+
+            if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
+            {
+                var newTileMap = Instantiate(tileMapPrefab, transform).GetComponent<TileMapRegionNoCoordinateType>();
+                newTileMap.BakeTopologyAvoidingColliders(null);
+                tileMapToMove = newTileMap;
+                BeginMovingTileMap(tileMapToMove);
+            }
+            else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)
+            {
+                FinishMovingTileMap();
+            }
+
+            if (isPlacingTileMap)
+            {
+                tileMapToMove.transform.position += (Vector3)(mouseDelta);
+                UpdateTileMapsBelow(tileMapToMove);
+            }
+
+            connectivitySystem?.TryUpdateConnectivity(
+                () => GetComponentsInChildren<TileMapRegionNoCoordinateType>()
+                    .Where(x => x.gameObject.activeInHierarchy)
+                );
+        }
+
+        #region Place-By-Mouse tilemap code
+        private Vector2 lastMousePos;
+        public TileMapRegionNoCoordinateType tileMapToMove;
+        private bool isPlacingTileMap;
+        public TileMapRegionNoCoordinateType tileMapPrefab;
+
+        public CompleteTileMapPosition? GetPositionInTileMaps(Vector2 worldPosition)
+        {
+            return GetComponentsInChildren<TileMapRegionNoCoordinateType>()
+                .Where(x => x.gameObject.activeInHierarchy)
+                .Select(x => x.GetCoordinatesFromWorldSpaceIfValid(worldPosition))
+                .Where(x => x.HasValue)
+                .FirstOrDefault();
+        }
+
+        public void BeginMovingTileMap(TileMapRegionNoCoordinateType tileMap)
+        {
+            isPlacingTileMap = true;
+            BakeAllTileMapMeshes(tileMap);
+        }
+
+        public void FinishMovingTileMap()
+        {
+            isPlacingTileMap = false;
+            BakeAllTileMapMeshes();
+        }
+        #endregion
 
     }
 }

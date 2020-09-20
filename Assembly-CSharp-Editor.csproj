@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\Core\Editor\FloatReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\Editor\InventoryReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeView.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Editor\MemberRegistryEditor.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\GenericReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphView.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeWindow.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="Assets\Scripts\Core\Editor\BooleanReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphViewRootNode.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphEditorWindow.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Editor\MemberRegistryEditor.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\Resources\BehaviorGraph.uss" />
@@ -278,6 +278,15 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>Library\PackageCache\com.unity.render-pipelines.core@8.2.0\Editor\ShaderGenerator\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.burst@1.3.0-preview.9\Unity.Burst.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections@0.8.0-preview.5\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0-preview\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.0\net35\unity-custom\nunit.framework.dll</HintPath>
@@ -743,6 +752,21 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Jobs">
+      <HintPath>Library\ScriptAssemblies\Unity.Jobs.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Jobs.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Jobs.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

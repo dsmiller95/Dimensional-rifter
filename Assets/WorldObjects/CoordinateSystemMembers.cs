@@ -135,7 +135,7 @@ namespace Assets.WorldObjects
             }
             return defaultTile;
         }
-        public IEnumerable<TileMapMember> GetMembersOnTile(T coordinate)
+        public IList<TileMapMember> GetMembersOnTile(T coordinate)
         {
             if (tileMembers.TryGetValue(coordinate, out var value))
             {

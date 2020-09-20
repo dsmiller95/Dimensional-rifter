@@ -49,6 +49,7 @@ MonoBehaviour:
     tileMapPrefab: {fileID: 2319312742710603935, guid: aa6e7734267178b428a86d865698c09c, type: 3}
   - type: 2
     tileMapPrefab: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+  connectivitySystem: {fileID: 11400000, guid: b07d1fcbc200e03448e45a6f2c7e5368, type: 2}
   tileMapToMove: {fileID: 0}
   tileMapPrefab: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
 --- !u!114 &9041530265192463002

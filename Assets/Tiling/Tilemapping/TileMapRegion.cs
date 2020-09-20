@@ -1,4 +1,6 @@
-﻿using Assets.Tiling.ScriptableObjects;
+﻿using Assets.Libraries.Utilities;
+using Assets.Tiling.ScriptableObjects;
+using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects;
 using Assets.WorldObjects.SaveObjects;
@@ -15,7 +17,6 @@ namespace Assets.Tiling.Tilemapping
     public abstract class TileMapRegionNoCoordinateType : MonoBehaviour, ISaveable<TileRegionSaveObject>
     {
         public float sideLength = 1;
-
         public CoordinateSystemMembersAllCoordinates universalContentTracker;
 
         public abstract PolygonCollider2D SetupBoundingCollider();
@@ -41,6 +42,8 @@ namespace Assets.Tiling.Tilemapping
 
         public abstract TileRegionSaveObject GetSaveObject();
         public abstract void SetupFromSaveObject(TileRegionSaveObject save);
+
+        public abstract void AddConnectivityAndMemberData(ConnectivityGraphBuilder connectivityGraphBuilder);
 
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;
@@ -152,6 +155,7 @@ namespace Assets.Tiling.Tilemapping
             //}
         }
 
+        #region Save
         public override TileRegionSaveObject GetSaveObject()
         {
             return new TileRegionSaveObjectTyped<T>
@@ -174,6 +178,7 @@ namespace Assets.Tiling.Tilemapping
             CoordinateRange = typedSaveObject.range;
             contentTracker.SetupFromSaveObject(typedSaveObject.members);
         }
+        #endregion
 
 
         public CoordinateRangeObject<T> coordRangeDefaultForInspector;
@@ -194,56 +199,10 @@ namespace Assets.Tiling.Tilemapping
         public CoordinateSystemTransformBehavior<T> coordSystem;
         public ICoordinateSystem<T> UnscaledCoordinateSystem => coordSystem.BaseCoordinateSystem;
         public ICoordinateSystem<T> WorldSpaceCoordinateSystem => coordSystem.TransformedCoordinateSystem;
-
         public override ICoordinateSystem UntypedCoordianteSystemWorldSpace => WorldSpaceCoordinateSystem;
-
         private ISet<T> disabledCoordinates { get; set; }
 
-        public override void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
-        {
-            var colliderList = collidersToAvoid?.ToArray() ?? new PolygonCollider2D[0];
-            var colliderFlagSpace = colliderList.Select(x => false).ToArray();
-            disabledCoordinates = new HashSet<T>();
-            var setupMesh = tileMapMeshRenderer.BakeTilemapMesh(
-                CoordinateRange,
-                UnscaledCoordinateSystem,
-                (coord, position) =>
-                    {
-                        if (GetCollidesWith(coord, colliderList, colliderFlagSpace))
-                        {
-                            disabledCoordinates.Add(coord);
-                            return false;
-                        }
-                        return true;
-                    });
-
-            var meshHolder = GetComponent<MeshFilter>();
-            meshHolder.mesh = setupMesh;
-        }
-
-        public override CompleteTileMapPosition? GetCoordinatesFromWorldSpaceIfValid(Vector2 worldSpace)
-        {
-            var coordinate = coordSystem.TransformedCoordinateSystem.FromRealPosition(worldSpace);
-            if (IsValidCoordinate(coordinate))
-            {
-                return new CompleteTileMapPosition
-                {
-                    coordinateInMap = coordinate,
-                    tileMap = this
-                };
-            }
-            return null;
-        }
-
-        public bool IsValidCoordinate(ICoordinate coordinate)
-        {
-            if (coordinate is T casted)
-            {
-                return CoordinateRange.ContainsCoordinate(casted) && !disabledCoordinates.Contains(casted);
-            }
-            return false;
-        }
-
+        #region Overlap detection
         public override void UpdateMeshTilesBasedOnColliders(IEnumerable<PolygonCollider2D> collidersToAvoid)
         {
             var colliders = collidersToAvoid.ToArray();
@@ -257,7 +216,6 @@ namespace Assets.Tiling.Tilemapping
                 tileMapMeshRenderer.SetTileEnabled(loadedCoordinate, !collides);
             }
         }
-
 
         private bool GetCollidesWith(T coord, PolygonCollider2D[] otherBounds, bool[] colliderFlagSpace)
         {
@@ -309,7 +267,7 @@ namespace Assets.Tiling.Tilemapping
         }
 
         /// <summary>
-        /// sets up the shape of both the bounding box collider
+        /// sets up the shape of the bounding box collider
         /// </summary>
         /// <returns>the bounding box collider</returns>
         public override PolygonCollider2D SetupBoundingCollider()
@@ -321,6 +279,53 @@ namespace Assets.Tiling.Tilemapping
         private Bounds GetTileBounds(T coord)
         {
             return tileMapSystem.GetRawBounds(coord, sideLength, WorldSpaceCoordinateSystem);
+        }
+        #endregion
+
+        public override void BakeTopologyAvoidingColliders(IEnumerable<PolygonCollider2D> collidersToAvoid = null)
+        {
+            var colliderList = collidersToAvoid?.ToArray() ?? new PolygonCollider2D[0];
+            var colliderFlagSpace = colliderList.Select(x => false).ToArray();
+            disabledCoordinates = new HashSet<T>();
+            var setupMesh = tileMapMeshRenderer.BakeTilemapMesh(
+                CoordinateRange,
+                UnscaledCoordinateSystem,
+                (coord, position) =>
+                {
+                    if (GetCollidesWith(coord, colliderList, colliderFlagSpace))
+                    {
+                        disabledCoordinates.Add(coord);
+                        return false;
+                    }
+                    return true;
+                });
+
+            var meshHolder = GetComponent<MeshFilter>();
+            meshHolder.mesh = setupMesh;
+        }
+
+        public override CompleteTileMapPosition? GetCoordinatesFromWorldSpaceIfValid(Vector2 worldSpace)
+        {
+            var coordinate = coordSystem.TransformedCoordinateSystem.FromRealPosition(worldSpace);
+            if (IsValidCoordinate(coordinate))
+            {
+                return new CompleteTileMapPosition
+                {
+                    coordinateInMap = coordinate,
+                    tileMap = this
+                };
+            }
+            return null;
+        }
+
+        #region Coordinate bounds and range
+        public bool IsValidCoordinate(ICoordinate coordinate)
+        {
+            if (coordinate is T casted)
+            {
+                return CoordinateRange.ContainsCoordinate(casted) && !disabledCoordinates.Contains(casted);
+            }
+            return false;
         }
 
         private IEnumerable<Vector2> GetTileBoundingVertsLocalSpace(T coord)
@@ -351,5 +356,35 @@ namespace Assets.Tiling.Tilemapping
             Gizmos.DrawLine(path.First(), path.Last());
             Gizmos.DrawSphere(path.Last(), size);
         }
+
+        #endregion
+
+        private Dictionary<T, int> coordinateToIndexMap;
+
+        public override void AddConnectivityAndMemberData(ConnectivityGraphBuilder connectivityGraphBuilder)
+        {
+            int beginningIndex = connectivityGraphBuilder.CurrentNodeCount();
+            int currentIndex = beginningIndex;
+            var coordinatesInMap = CoordinateRange
+                .Where(coord => !disabledCoordinates.Contains(coord));
+            coordinateToIndexMap = coordinatesInMap.ToDictionary(coord => coord, coord =>
+            {
+                return currentIndex++;
+            });
+            foreach (var coordinate in coordinatesInMap)
+            {
+                var neighborIDs = UnscaledCoordinateSystem
+                    .Neighbors(coordinate)
+                    .TryPullFromDictionary(coordinateToIndexMap);
+
+                var newNode = new ConnectivityGraphNodeBuilder(neighborIDs);
+
+                newNode.isPassable = contentTracker.IsPassable(coordinate);
+                newNode.membersHere = contentTracker.GetMembersOnTile(coordinate);
+
+                connectivityGraphBuilder.AddNextNode(newNode);
+            }
+        }
+
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateSystemMembers.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityGraphNode.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
+    <Compile Include="Assets\Libraries\Utilities\EnumerableExtensions.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivitySystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\IItemSource.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\NodeFactory.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationResetTrigger.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\ItemController.cs" />
+    <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IBuildable.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Tiling\Interfaces\ICoordinate.cs" />
@@ -203,6 +207,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
     <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
@@ -216,6 +221,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Selector.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindBuildableTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
@@ -256,9 +262,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IBuildable.cs" />
-    <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -477,6 +480,15 @@
     </Reference>
     <Reference Include="Priority Queue">
       <HintPath>Assets\Plugins\Priority Queue.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.burst@1.3.0-preview.9\Unity.Burst.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>Library\PackageCache\com.unity.collections@0.8.0-preview.5\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0-preview\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.1.1f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
@@ -933,6 +945,21 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Jobs">
+      <HintPath>Library\ScriptAssemblies\Unity.Jobs.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Jobs.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Jobs.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

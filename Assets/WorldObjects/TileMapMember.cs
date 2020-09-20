@@ -4,6 +4,7 @@ using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Assets.WorldObjects
 {
@@ -15,6 +16,10 @@ namespace Assets.WorldObjects
     public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo
     {
         public TileMapRegionNoCoordinateType currentRegion;
+        /// <summary>
+        /// a bit mask indicating which regions this member belongs to
+        /// </summary>
+        public ulong RegionBitMask;
 
         [Tooltip("Used to load the memberType on save load")]
         public MembersRegistry membersScriptRegistry;
