@@ -34,7 +34,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         public void ResetState()
         {
             isJobRunning = false;
-            nextConnectivityUpdate = 5;
+            nextConnectivityUpdate = 0;
         }
 
         public void StopEverything()
@@ -215,7 +215,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         return;
                     }
 
-                    AssignAllPossibleToRegion(currentIndex, ((ulong)1) >> currentRegionIndex);
+                    AssignAllPossibleToRegion(currentIndex, ((ulong)1) << currentRegionIndex);
                     if (status[0] == ClassificationJobStatus.ERROR)
                     {
                         return;
@@ -293,11 +293,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         indexInNeighbors++)
                     {
                         var neighborNodeIndex = neighborData[indexInNeighbors];
-                        var neighborNodeStatus = NodeStatuses[neighborNodeIndex];
-                        if (neighborNodeStatus == NodeVisitationStatus.COMPLETE)
-                        {
-                            continue;
-                        }
                         var neighborNode = graphNodes[neighborNodeIndex];
 
                         if ((neighborNode.RegionMask & regionBitMask) != 0)
@@ -310,6 +305,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         neighborNode.RegionMask |= regionBitMask;
                         graphNodes[neighborNodeIndex] = neighborNode;
 
+                        var neighborNodeStatus = NodeStatuses[neighborNodeIndex];
                         if (neighborNodeStatus != NodeVisitationStatus.COMPLETE && neighborNode.Passable)
                         {
                             NodeStatuses[neighborNodeIndex] = NodeVisitationStatus.PENDING;

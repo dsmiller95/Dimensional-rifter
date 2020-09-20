@@ -195,7 +195,9 @@ namespace Assets.WorldObjects
 
         private IEnumerable<(List<ICoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
+            var myRegionID = RegionBitMask;
             var possibleSelections = currentRegion.universalContentTracker.allMembers
+                .Where(member => (member.RegionBitMask & myRegionID) != 0)
                 .Where(filter);
             return possibleSelections.Select(member =>
                 {

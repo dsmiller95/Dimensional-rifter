@@ -2,9 +2,9 @@
 using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
+using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Assets.WorldObjects
 {
@@ -118,7 +118,8 @@ namespace Assets.WorldObjects
 
         public string GetCurrentInfo()
         {
-            return $"Type: {memberType.name}\n";
+            return $"Type: {memberType.name}\n" +
+                $"Region: {Convert.ToString((long)RegionBitMask, 2).PadLeft(10, '0')}\n";
         }
     }
 }
