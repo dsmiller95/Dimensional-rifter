@@ -1,16 +1,10 @@
-﻿using Assets.Scripts.ObjectVariables;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using TradeModeling.Inventories;
-using UnityEngine;
 
 namespace Assets.WorldObjects.Inventories
 {
     public interface IItemSource
     {
-        //public InventoryReference inventoryToProvideFrom;
-        //public ItemSourceType SourceType;
-
         ItemSourceType ItemSourceType { get; }
         IEnumerable<Resource> AvailableTypes();
 

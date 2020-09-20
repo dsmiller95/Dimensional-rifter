@@ -33,7 +33,7 @@ namespace Assets.WorldObjects.Members
 
         [Tooltip("When true this member will be included in the list of possible recepticals for a storage task")]
         public bool recieveStorage = false;
-        
+
         public GameObject memberPrefab;
 
         public virtual InMemberObjectData[] InstantiateNewSaveObject()

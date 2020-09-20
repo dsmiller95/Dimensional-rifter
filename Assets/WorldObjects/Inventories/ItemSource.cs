@@ -11,10 +11,7 @@ namespace Assets.WorldObjects.Inventories
         public InventoryReference inventoryToProvideFrom;
         public ItemSourceType SourceType;
 
-        public ItemSourceType ItemSourceType
-        {
-            get => SourceType;
-        }
+        public ItemSourceType ItemSourceType => SourceType;
 
         public IEnumerable<Resource> AvailableTypes()
         {
@@ -31,7 +28,7 @@ namespace Assets.WorldObjects.Inventories
         public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource resourceType, float amount = -1)
         {
             var myInventory = inventoryToProvideFrom.CurrentValue;
-            if(amount == -1)
+            if (amount == -1)
             {
                 amount = myInventory.Get(resourceType);
             }
@@ -46,12 +43,13 @@ namespace Assets.WorldObjects.Inventories
 
         public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource? resourceType = null, float amount = -1)
         {
-            if(!resourceType.HasValue)
+            if (!resourceType.HasValue)
             {
-                this.GatherInto(inventoryToGatherInto);
-            }else
+                GatherInto(inventoryToGatherInto);
+            }
+            else
             {
-                this.GatherInto(inventoryToGatherInto, resourceType.Value, amount);
+                GatherInto(inventoryToGatherInto, resourceType.Value, amount);
             }
         }
     }
