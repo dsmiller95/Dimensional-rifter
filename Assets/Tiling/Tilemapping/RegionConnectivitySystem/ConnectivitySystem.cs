@@ -36,6 +36,11 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             nextConnectivityUpdate = 5;
         }
 
+        public void StopEverything()
+        {
+            DisposeAllAndEnsureJobStopped();
+        }
+
         /// <summary>
         /// Called every frame. It's up to this system to manage when if it does anything in response to this call
         /// </summary>
@@ -58,14 +63,14 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     Debug.Log("connectivity update success");
                     jobHandle.Complete();
-                    isJobRunning = false;
 
                     if (resultStatus[0] == ClassificationJobStatus.COMPLETED_TOO_MANY_REGIONS)
                     {
                         Debug.LogError("Classification of regions failed: too many regions to fit in the bit mask");
-                    }else if (resultStatus[0] == ClassificationJobStatus.ERROR)
+                    }
+                    else if (resultStatus[0] == ClassificationJobStatus.ERROR)
                     {
-                        Debug.LogError("Classification of regions failed: Generic error");
+                        Debug.LogError("Classification of regions failed: Very Big Loop detected");
                     }
                     else
                     {
@@ -81,15 +86,25 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         }
                     }
 
-                    memberDataFromRunningJob = null;
-                    resultGraphNodes.Dispose();
-                    neighborData.Dispose();
-
-                    resultStatus.Dispose();
-                    finalRegionIndexAccess.Dispose();
-                    nodeStatuses.Dispose();
+                    DisposeAllAndEnsureJobStopped();
                 }
             }
+        }
+
+        private void DisposeAllAndEnsureJobStopped()
+        {
+            if (isJobRunning)
+            {
+                isJobRunning = false;
+                memberDataFromRunningJob = null;
+                resultGraphNodes.Dispose();
+                neighborData.Dispose();
+
+                resultStatus.Dispose();
+                finalRegionIndexAccess.Dispose();
+                nodeStatuses.Dispose();
+            }
+
         }
 
         private void CalculateConnectivityUpdate(IEnumerable<TileMapRegionNoCoordinateType> regions)

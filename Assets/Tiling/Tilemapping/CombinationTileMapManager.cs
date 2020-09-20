@@ -32,6 +32,11 @@ namespace Assets.Tiling.Tilemapping
             BakeAllTileMapMeshes();
         }
 
+        private void OnDestroy()
+        {
+            connectivitySystem.StopEverything();
+        }
+
         private void BakeAllTileMapMeshes(params TileMapRegionNoCoordinateType[] exclude)
         {
             var allTileMaps = GetComponentsInChildren<TileMapRegionNoCoordinateType>()
