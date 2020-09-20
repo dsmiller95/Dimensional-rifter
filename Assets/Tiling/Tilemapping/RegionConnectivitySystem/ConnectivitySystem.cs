@@ -23,6 +23,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         private NativeArray<ClassificationJobStatus> resultStatus;
         private NativeArray<int> finalRegionIndexAccess;
+        private NativeArray<int> fullArrayIterationCount;
         private NativeArray<ClassifyIntoRegions.NodeVisitationStatus> nodeStatuses;
 
 
@@ -51,7 +52,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 if (nextConnectivityUpdate < Time.time)
                 {
                     nextConnectivityUpdate = Time.time + secondsPerConnectivityUpdate;
-                    Debug.Log("Updating connectivity");
                     isJobRunning = true;
                     CalculateConnectivityUpdate(getRegions());
                 }
@@ -61,8 +61,9 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 var jobHandle = currentlyRunningConnectionUpdate;
                 if (jobHandle.IsCompleted && memberDataFromRunningJob != null)
                 {
-                    Debug.Log("connectivity update success");
                     jobHandle.Complete();
+                    var fullIterationNumbers = fullArrayIterationCount[0];
+                    Debug.Log($"Connectivity updated. Number of times iterated through whole array: {fullIterationNumbers}");
 
                     if (resultStatus[0] == ClassificationJobStatus.COMPLETED_TOO_MANY_REGIONS)
                     {
@@ -100,11 +101,11 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 resultGraphNodes.Dispose();
                 neighborData.Dispose();
 
+                fullArrayIterationCount.Dispose();
                 resultStatus.Dispose();
                 finalRegionIndexAccess.Dispose();
                 nodeStatuses.Dispose();
             }
-
         }
 
         private void CalculateConnectivityUpdate(IEnumerable<TileMapRegionNoCoordinateType> regions)
@@ -122,10 +123,12 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 allocatorToUse);
 
             resultStatus = new NativeArray<ClassificationJobStatus>(new[] { ClassificationJobStatus.RUNNING }, allocatorToUse);
-            finalRegionIndexAccess = new NativeArray<int>(1, allocatorToUse);
             nodeStatuses = new NativeArray<ClassifyIntoRegions.NodeVisitationStatus>(
                 resultGraphNodes.Length,
                 allocatorToUse);
+
+            finalRegionIndexAccess = new NativeArray<int>(1, allocatorToUse);
+            fullArrayIterationCount = new NativeArray<int>(1, allocatorToUse);
 
             var classifyJob = new ClassifyIntoRegions
             {
@@ -133,6 +136,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 neighborData = neighborData,
                 status = resultStatus,
                 finalRegionIndex = finalRegionIndexAccess,
+                fullArrayIterationCount = fullArrayIterationCount,
                 NodeStatuses = nodeStatuses
             };
             currentlyRunningConnectionUpdate = classifyJob.Schedule();
@@ -173,17 +177,14 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
             public NativeArray<ClassificationJobStatus> status;
             public NativeArray<int> finalRegionIndex;
+            public NativeArray<int> fullArrayIterationCount;
 
             private int currentRegionIndex;
 
             public void Execute()
             {
+                fullArrayIterationCount[0] = 0;
                 DoExecute();
-                DisposeAllAndComplete();
-            }
-
-            private void DisposeAllAndComplete()
-            {
                 finalRegionIndex[0] = currentRegionIndex;
             }
 
@@ -234,7 +235,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             {
                 AssignRegionsStartingAtNode(startingNodeIndex, regionBitMask);
 
-                var foundAtLeastOnePending = false;
+                bool foundAtLeastOnePending;
                 var infiniteProtector = 10000;
                 do
                 {
@@ -248,12 +249,12 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                             AssignRegionsStartingAtNode(nodeIndex, regionBitMask);
                         }
                     }
+                    fullArrayIterationCount[0] = fullArrayIterationCount[0] + 1;
                     infiniteProtector--;
                     if (infiniteProtector <= 0)
                     {
                         status[0] = ClassificationJobStatus.ERROR;
                         return;
-                        //throw new Exception("Oh no, Infinite loop probably 2");
                     }
                 } while (foundAtLeastOnePending && status[0] != ClassificationJobStatus.ERROR);
             }
@@ -329,7 +330,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     {
                         status[0] = ClassificationJobStatus.ERROR;
                         return true;
-                        //throw new Exception("Oh no, Infinite loop probably");
                     }
                 }
                 return true;

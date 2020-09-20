@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
-using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
@@ -30,8 +29,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             graphNodes = new NativeArray<ConnectivityGraphNode>(nodeBuilders.Count, allocator);
 
             var graphMemberNodes = new GraphMembers();
-
-            Debug.Log($"Building a graph with {nodeBuilders.Count} pathingNodes");
 
             for (var nodeIndex = 0; nodeIndex < nodeBuilders.Count; nodeIndex++)
             {
