@@ -1,5 +1,6 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.Tilemapping;
+using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
 using System;
@@ -15,7 +16,8 @@ namespace Assets.WorldObjects
     /// </summary>
     public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo
     {
-        public TileMapRegionNoCoordinateType currentRegion;
+        [NonSerialized] // grabbed from object heirarchy
+        public TheReelBigCombinationTileMapManager bigManager;
         /// <summary>
         /// a bit mask indicating which regions this member belongs to
         /// </summary>
@@ -35,50 +37,42 @@ namespace Assets.WorldObjects
 
         public TileMemberOrderingLayer orderingLayer;
 
-        protected ICoordinate coordinatePosition;
-        public ICoordinate CoordinatePosition => coordinatePosition;
-        protected ICoordinateSystem coordinateSystem => currentRegion.UntypedCoordianteSystemWorldSpace;
-
+        protected UniversalCoordinate coordinatePosition;
+        public UniversalCoordinate CoordinatePosition => coordinatePosition;
+        
         public void SetPosition(TileMapMember otherMember)
         {
-            SetPosition(otherMember.coordinatePosition, otherMember.currentRegion);
+            SetPosition(otherMember.coordinatePosition);
         }
 
-        public void SetPosition(ICoordinate position, TileMapRegionNoCoordinateType region)
+        public void SetPosition(UniversalCoordinate position)
         {
-            currentRegion?.universalContentTracker.DeRegisterInTileMap(this);
+            bigManager.everyMember.DeRegisterInTileMap(this);
 
             coordinatePosition = position;
-            currentRegion = region;
-            var newPosition = UniversalToGenericAdaptors.ToRealPosition(coordinatePosition, coordinateSystem);
+            var newPosition = bigManager.PositionInRealWorld(coordinatePosition);
             transform.position = orderingLayer.ApplyPositionInOrderingLayer(newPosition);
 
-            currentRegion.universalContentTracker.RegisterInTileMap(this);
+            bigManager.everyMember.RegisterInTileMap(this);
         }
 
         protected virtual void Awake()
         {
-            if (currentRegion == null)
+            if (bigManager == null)
             {
-                currentRegion = GetComponentInParent<TileMapRegionNoCoordinateType>();
+                bigManager = GetComponentInParent<TheReelBigCombinationTileMapManager>();
             }
-        }
-
-        // Start is called before the first frame update
-        protected virtual void Start()
-        {
-        }
-
-
-        // Update is called once per frame
-        void Update()
-        {
+            if(bigManager == null)
+            {
+                // SINGLETON TIME BAYBEE
+                bigManager = GameObject.FindObjectOfType<TheReelBigCombinationTileMapManager>();
+            }
         }
 
 
         private void OnDestroy()
         {
-            currentRegion?.universalContentTracker.DeRegisterInTileMap(this);
+            bigManager.everyMember.DeRegisterInTileMap(this);
         }
 
         public TileMemberData GetSaveObject()

@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3716612893a258047997f0ae1237542a, type: 3}
-  m_Name: SquareTilingSystem
+  m_Script: {fileID: 11500000, guid: 0150f4bf5d2abbf4eb7c902f4abd41a9, type: 3}
+  m_Name: ActiveWorldObject
   m_EditorClassIdentifier: 
+  DeveloperDescription: "the currently active world.\nSet to whatever the currently
+    loaded\n BigManager is"

@@ -1,47 +1,31 @@
-﻿using Assets.Tiling.Tilemapping;
-using Assets.WorldObjects;
-using System.Threading.Tasks;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
 using UnityEngine;
 
 namespace Assets.Tiling.TileAutomata
 {
-    public class AutomataSystem<T> : MonoBehaviour where T : ICoordinate
+    [CreateAssetMenu(fileName = "AutomataSystem", menuName = "MapGeneration/Automata/AutomataSystem", order = 1)]
+    public class AutomataSystem : ScriptableObject
     {
-        public AutomataRule<T>[] rules;
+        public AutomataRule[] rules;
 
-        public async void ExecuteAutomataStep(ICoordinateRange<T> coordinates, CoordinateSystemMembers<T> tileMemebers)
+        public void ExecuteOnRegion(TheReelBigCombinationTileMapManager manager, short layerID)
         {
-            await Task.Run(() =>
-            {
-                foreach (var coordinate in coordinates)
-                {
-                    foreach (var rule in rules)
-                    {
-                        if (rule.TryMatch(coordinate, tileMemebers))
-                        {
-                            break;
-                        }
-                    }
-                }
-            });
+            var regionData = manager.allRegions[layerID];
+            ExecuteAutomataStep(regionData.baseRange, manager.everyMember);
         }
 
-        private ICoordinateRange<T> CoordRange => GetComponent<TileMapRegion<T>>().CoordinateRange;
-        private CoordinateSystemMembers<T> Members => GetComponent<CoordinateSystemMembers<T>>();
-
-
-        public float updateDelay = 1f;
-        private float lastUpdate;
-
-        private void Update()
+        public void ExecuteAutomataStep(IUniversalCoordinateRange coordinates, UniversalCoordinateSystemMembers tileMemebers)
         {
-            if (lastUpdate + updateDelay >= Time.time)
+            foreach (var coordinate in coordinates.GetUniversalCoordinates())
             {
-                return;
+                foreach (var rule in rules)
+                {
+                    if (rule.TryMatch(coordinate, tileMemebers))
+                    {
+                        break;
+                    }
+                }
             }
-            lastUpdate = Time.time;
-
-            ExecuteAutomataStep(CoordRange, Members);
         }
     }
 }

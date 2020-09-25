@@ -1,28 +1,62 @@
 ﻿using Assets.Tiling.TriangleCoords;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.TileConfiguration
 {
-    [System.Serializable]
-    public struct TriangleTileMapTile
+    public enum TriangleTileShapes
     {
-        public TriangleCoordinate coords0;
-        public string ID;
+        FULL_BORDERS,
+        NO_BORDERS,
+
+        TWOEDGES0,
+        TWOEDGES1,
+        TWOEDGES2,
+
+        ONEEDGE0,
+        ONEEDGE1,
+        ONEEDGE2,
     }
 
-    [CreateAssetMenu(fileName = "TriangleTileSet", menuName = "TileMap/TileSets/Triangle", order = 3)]
-    public class TriangleTileSet : TileSet<TriangleCoordinate>
+    [Serializable]
+    public struct TriangleTileMapTile
+    {
+        public TriangleCoordinateStructSystem coords0;
+        public string baseID;
+    }
+
+    [Serializable]
+    public struct TriangleTileShapeOffset
+    {
+        public TriangleCoordinateStructSystem coords0;
+        public TriangleTileShapes shape;
+    }
+
+    [CreateAssetMenu(fileName = "TriangleTileSet", menuName = "TileMap/TileSets/Triangle", order = 1)]
+    public class TriangleTileSet : TileSet
     {
         public TriangleTileMapTile[] tileTypes;
-        public TriangleTileShape tileShape;
-        public override IEnumerable<TileConfig<TriangleCoordinate>> GetTileConfigs()
+        public TriangleTileShapeOffset[] tileShapes;
+
+        public override IEnumerable<TileCoordinates> GetTileConfigs()
         {
-            return tileTypes
-                .SelectMany(x => tileShape
-                    .GenerateTileConfigsFromBaseSetup(x.ID, x.coords0)
-                    );
+            foreach (var tileType in tileTypes)
+            {
+                foreach (var shape in tileShapes)
+                {
+                    yield return new TileCoordinates()
+                    {
+                        tileCoordinate = UniversalCoordinate.From(tileType.coords0 + shape.coords0, 0),
+                        typeIdentifier = new TileTypeInfo(tileType.baseID, GetPrefix(shape.shape))
+                    };
+                }
+            }
+        }
+        public static string GetPrefix(TriangleTileShapes shapeType)
+        {
+            return Enum.GetName(typeof(TriangleTileShapes), shapeType);
         }
     }
 }

@@ -19,4 +19,11 @@ namespace Assets.Tiling
 
         public abstract ICoordinateSystem<T> GetBasicCoordinateSystem();
     }
+
+    public interface ITileMapShaping<T> where T: struct, IBaseCoordinateType
+    {
+        Bounds GetRawBounds(T coord, float sideLength, Transform systemTransform);
+
+        int[] GetTileTriangleIDs();
+    }
 }

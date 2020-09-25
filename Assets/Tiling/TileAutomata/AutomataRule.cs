@@ -1,10 +1,11 @@
-﻿using Assets.WorldObjects;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.WorldObjects;
 using UnityEngine;
 
 namespace Assets.Tiling.TileAutomata
 {
-    public abstract class AutomataRule<T> : ScriptableObject where T : ICoordinate
+    public abstract class AutomataRule : ScriptableObject
     {
-        public abstract bool TryMatch(T coordinate, CoordinateSystemMembers<T> members);
+        public abstract bool TryMatch(UniversalCoordinate coordinate, UniversalCoordinateSystemMembers members);
     }
 }

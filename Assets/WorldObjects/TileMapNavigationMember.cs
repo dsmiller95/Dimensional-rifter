@@ -16,7 +16,7 @@ namespace Assets.WorldObjects
 
     public struct NavigationPath
     {
-        public IList<ICoordinate> coordinatePath;
+        public IList<UniversalCoordinate> coordinatePath;
         public TileMapMember targetMember;
     }
 
@@ -34,9 +34,8 @@ namespace Assets.WorldObjects
     public class TileMapNavigationMember : TileMapMember
     {
         // Start is called before the first frame update
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
             lastMove = Time.time;
         }
 
@@ -122,7 +121,7 @@ namespace Assets.WorldObjects
 
             var nextPosition = path.coordinatePath[0];
             path.coordinatePath.RemoveAt(0);
-            SetPosition(nextPosition, currentRegion);
+            SetPosition(nextPosition);
 
             return NavigationStatus.APPROACHING;
         }
@@ -148,8 +147,8 @@ namespace Assets.WorldObjects
             var path = PathfinderUtils.RandomWalkOfLength(
                         coordinatePosition,
                         steps,
-                        currentRegion,
-                        (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord));
+                        bigManager,
+                        (coord, properties) => bigManager.everyMember.IsPassableTypeUnsafe(coord));
 
             return new NavigationPath
             {
@@ -169,7 +168,7 @@ namespace Assets.WorldObjects
             var paths = AllPossiblePaths(filter, navigateToAdjacent);
 
             var minDist = float.MaxValue;
-            IList<ICoordinate> bestPath = new ICoordinate[0];
+            IList<UniversalCoordinate> bestPath = new UniversalCoordinate[0];
             TileMapMember bestMemeber = null;
 
             foreach (var (path, target) in paths)
@@ -193,19 +192,21 @@ namespace Assets.WorldObjects
             };
         }
 
-        private IEnumerable<(List<ICoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
+        private IEnumerable<(List<UniversalCoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
             var myRegionID = RegionBitMask;
-            var possibleSelections = currentRegion.universalContentTracker.allMembers
-                .Where(member => (member.RegionBitMask & myRegionID) != 0)
+            var myMembershipData = CoordinatePosition.CoordinateMembershipData;
+            var possibleSelections = bigManager.everyMember.allMembers
+                .Where(member => member.CoordinatePosition.CoordinateMembershipData == myMembershipData &&
+                    (member.RegionBitMask & myRegionID) != 0)
                 .Where(filter);
             return possibleSelections.Select(member =>
                 {
                     var path = PathfinderUtils.PathBetween(
                             coordinatePosition,
                             member.CoordinatePosition,
-                            currentRegion,
-                            (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord),
+                            bigManager,
+                            (coord, properties) => bigManager.everyMember.IsPassable(coord),
                             navigateToAdjacent)?.ToList();
                     return (path, member);
                 })
@@ -216,13 +217,13 @@ namespace Assets.WorldObjects
         {
             return AllPossiblePaths(filter).Any();
         }
-        private (List<ICoordinate>, TileMapMember) GetPathIfExists(TileMapMember member)
+        private (List<UniversalCoordinate>, TileMapMember) GetPathIfExists(TileMapMember member)
         {
             var path = PathfinderUtils.PathBetween(
                         coordinatePosition,
                         member.CoordinatePosition,
-                        currentRegion,
-                        (coord, properties) => currentRegion.universalContentTracker.IsPassableTypeUnsafe(coord))?.ToList();
+                        bigManager,
+                        (coord, properties) => bigManager.everyMember.IsPassable(coord))?.ToList();
             return (path,
                     member);
         }
@@ -230,11 +231,6 @@ namespace Assets.WorldObjects
         {
             var foundPath = GetPathIfExists(member);
             return foundPath.Item1 != null;
-        }
-
-        private void OnDestroy()
-        {
-            currentRegion.universalContentTracker.DeRegisterInTileMap(this);
         }
 
         private void OnDrawGizmos()
@@ -245,7 +241,7 @@ namespace Assets.WorldObjects
             }
             Gizmos.color = Color.magenta;
             foreach (var pair in currentPath.Value.coordinatePath
-                .Select(coord => UniversalToGenericAdaptors.ToRealPosition(coord, currentRegion.UntypedCoordianteSystemWorldSpace))
+                .Select(coord => coord.ToPositionInPlane())
                 .RollingWindow(2))
             {
                 Gizmos.DrawLine(pair[0], pair[1]);

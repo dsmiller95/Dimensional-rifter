@@ -11,10 +11,8 @@ namespace Assets.WorldObjects.Members.Building
         {
             var myMember = self.GetComponent<TileMapMember>();
 
-            var currentRegion = myMember.currentRegion;
-
-            var newMember = Instantiate(newPrefab, currentRegion.transform).GetComponent<TileMapMember>();
-            newMember.SetPosition(myMember.CoordinatePosition, currentRegion);
+            var newMember = Instantiate(newPrefab, self.transform.parent).GetComponent<TileMapMember>();
+            newMember.SetPosition(myMember);
             Destroy(self);
         }
 

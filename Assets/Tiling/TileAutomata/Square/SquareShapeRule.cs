@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects;
 using System;
@@ -40,20 +41,26 @@ namespace Assets.Tiling.TileAutomata.Square
     }
 
     [CreateAssetMenu(fileName = "SquareShapeRule", menuName = "MapGeneration/Automata/Square/TileShape", order = 10)]
-    public class SquareShapeRule : AutomataRule<SquareCoordinate>
+    public class SquareShapeRule : AutomataRule
     {
         public string targetBaseType = "ground";
 
         public SquareTileNeighborFlags[] validMatches;
 
-        public override bool TryMatch(SquareCoordinate coordinate, CoordinateSystemMembers<SquareCoordinate> members)
+        public override bool TryMatch(UniversalCoordinate coordinate, UniversalCoordinateSystemMembers members)
         {
+            if(coordinate.type != CoordinateType.SQUARE)
+            {
+                return false;
+            }
+            var squareboi = coordinate.squareDataView;
+            var planeID = coordinate.CoordinatePlaneID;
             var leftover = validMatches
-                .Where(match => match.Self == GetFlag(coordinate, members))
-                .Where(match => match.Top == GetFlag(coordinate + SquareCoordinate.UP, members))
-                .Where(match => match.Bottom == GetFlag(coordinate + SquareCoordinate.DOWN, members))
-                .Where(match => match.Right == GetFlag(coordinate + SquareCoordinate.RIGHT, members))
-                .Where(match => match.Left == GetFlag(coordinate + SquareCoordinate.LEFT, members));
+                .Where(match => match.Self == GetFlag(squareboi, members, planeID))
+                .Where(match => match.Top == GetFlag(squareboi + SquareCoordinate.UP, members, planeID))
+                .Where(match => match.Bottom == GetFlag(squareboi + SquareCoordinate.DOWN, members, planeID))
+                .Where(match => match.Right == GetFlag(squareboi + SquareCoordinate.RIGHT, members, planeID))
+                .Where(match => match.Left == GetFlag(squareboi + SquareCoordinate.LEFT, members, planeID));
 
             var matched = leftover.Cast<SquareTileNeighborFlags?>().FirstOrDefault();
             if (matched.HasValue)
@@ -65,9 +72,13 @@ namespace Assets.Tiling.TileAutomata.Square
             return false;
         }
 
-        private bool GetFlag(SquareCoordinate coordinate, CoordinateSystemMembers<SquareCoordinate> members)
+        private bool GetFlag(
+            SquareCoordinate coordinate,
+            UniversalCoordinateSystemMembers members,
+            short planeID)
         {
-            return members.GetTileType(coordinate).baseID == targetBaseType;
+            var universalcoord = UniversalCoordinate.From(coordinate, planeID);
+            return members.GetTileType(universalcoord).baseID == targetBaseType;
         }
     }
 }

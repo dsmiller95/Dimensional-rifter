@@ -1,4 +1,6 @@
 ﻿using Assets.Tiling;
+using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects.SaveObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,21 +8,25 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.WorldGen
 {
-    public class RegionGenerator<T> where T : ICoordinate
+    public class RegionGenerator
     {
-        private TileRegionSaveObjectTyped<T> mySaveObject;
+        private TileRegionSaveObject mySaveObject;
+
         private MapGenerationConfiguration mapGenConfig;
         private System.Random randomGenerator;
         private Vector2 noiseOffset;
 
-        private ICoordinateSystem<T> throwawayCoordinateSystem;
-        public RegionGenerator(CoordinateSystemType type, ICoordinateRange<T> size, MapGenerationConfiguration config)
+        private short layerID;
+
+        public RegionGenerator(
+            IUniversalCoordinateRange size,
+            short layerID,
+            MapGenerationConfiguration config)
         {
             mapGenConfig = config;
+            this.layerID = layerID;
 
-            mySaveObject = new TileRegionSaveObjectTyped<T>();
-            mySaveObject.tileType = type;
-            mySaveObject.sideLength = 1f;
+            mySaveObject = new TileRegionSaveObject();
             mySaveObject.range = size;
 
 
@@ -29,31 +35,24 @@ namespace Assets.WorldObjects.WorldGen
                 (float)randomGenerator.NextDouble() * 1e6f,
                 (float)randomGenerator.NextDouble() * 1e6f
                 );
-            throwawayCoordinateSystem = UniversalToGenericAdaptors.GetBasicCoordinateSystemFromType<T>(type);
         }
 
 
-        public TileRegionSaveObjectTyped<T> GenerateSaveObject()
+        public TileRegionSaveObject GenerateSaveObject(UniversalTileMembersSaveObject everyMemberObject)
         {
-            var memberSaveObject = new TileMembersSaveObject<T>();
-            GenerateTiles();
-            memberSaveObject.tiles = tiles.Select(x => new TileMapDataTile<T>
+            var tiles = GenerateTiles();
+            everyMemberObject.tiles = everyMemberObject.tiles.Concat(tiles.Select(x => new TileMapDataTile
             {
                 tileType = x.Value,
                 coordinate = x.Key
-            }).ToList();
+            })).ToList();
 
-            memberSaveObject.members = GenerateMemebers().ToList();
-
-            memberSaveObject.defaultTile = mapGenConfig.defaultTile;
-
-            mySaveObject.members = memberSaveObject;
+            everyMemberObject.members = everyMemberObject.members.Concat(GenerateMemebers(tiles)).ToList();
 
             return mySaveObject;
         }
 
-        private IDictionary<T, TileTypeInfo> tiles;
-        private IEnumerable<TileMemberSaveObject<T>> GenerateMemebers()
+        private IEnumerable<TileMemberSaveObject> GenerateMemebers(IDictionary<UniversalCoordinate, TileTypeInfo> tiles)
         {
             var coordinateGenerator = GetInfiniteHaltonGeneratedCoordinatesInsideRange(mySaveObject.range)
                 .Where(coordinate =>
@@ -67,7 +66,7 @@ namespace Assets.WorldObjects.WorldGen
                     return tileProps.isPassable;
                 });
             return mapGenConfig.memberGenerationOptions.SelectMany(config => coordinateGenerator
-                        .Select(coordinate => new TileMemberSaveObject<T>
+                        .Select(coordinate => new TileMemberSaveObject
                         {
                             coordinate = coordinate,
                             objectData = new TileMemberData
@@ -80,9 +79,9 @@ namespace Assets.WorldObjects.WorldGen
                     );
         }
 
-        private IEnumerable<T> GetInfiniteHaltonGeneratedCoordinatesInsideRange(ICoordinateRange<T> range)
+        private IEnumerable<UniversalCoordinate> GetInfiniteHaltonGeneratedCoordinatesInsideRange(IUniversalCoordinateRange range)
         {
-            var boundingPoints = range.BoundingPolygon(throwawayCoordinateSystem, mySaveObject.sideLength);
+            var boundingPoints = range.BoundingPolygon();
             var minVect = new Vector2(float.MaxValue, float.MaxValue);
             var maxVect = new Vector2(float.MinValue, float.MinValue);
             foreach (var extremePoint in boundingPoints)
@@ -94,20 +93,20 @@ namespace Assets.WorldObjects.WorldGen
             }
 
             var haltonGenerator = new HaltonSequenceGenerator(2, 3, randomGenerator.Next(), maxVect, minVect);
-
+            var type = range.coordinateType;
             return haltonGenerator.InfiniteSample()
-                .Select(x => throwawayCoordinateSystem.FromRealPosition(x))
+                .Select(x => UniversalCoordinate.FromPositionInPlane(x, type, layerID))
                 .Where(coord => range.ContainsCoordinate(coord));
         }
 
-        private void GenerateTiles()
+        private IDictionary<UniversalCoordinate, TileTypeInfo> GenerateTiles()
         {
-            tiles = new Dictionary<T, TileTypeInfo>();
+            var tiles = new Dictionary<UniversalCoordinate, TileTypeInfo>();
             foreach (var layer in mapGenConfig.tileGenLayers)
             {
-                foreach (var coord in mySaveObject.range)
+                foreach (var coord in mySaveObject.range.GetUniversalCoordinates())
                 {
-                    var point = throwawayCoordinateSystem.ToRealPosition(coord);
+                    var point = coord.ToPositionInPlane();
                     var sample = SampleNoiseAtOctaves(layer.noise, point);
                     if (sample <= layer.cutoff)
                     {
@@ -115,6 +114,7 @@ namespace Assets.WorldObjects.WorldGen
                     }
                 }
             }
+            return tiles;
         }
 
         private float SampleNoiseAtOctaves(NoiseOctave[] octaves, Vector2 point)

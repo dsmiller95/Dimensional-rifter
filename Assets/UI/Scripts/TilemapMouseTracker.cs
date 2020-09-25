@@ -1,22 +1,23 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Tiling.Tilemapping;
+using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.WorldObjects;
 using UniRx;
 using UnityEngine;
 
 namespace Assets.UI.Scripts
 {
-    [RequireComponent(typeof(CombinationTileMapManager))]
+    [RequireComponent(typeof(TheReelBigCombinationTileMapManager))]
     public class TilemapMouseTracker : MonoBehaviour
     {
         public GameObjectVariable objectToTrack;
 
         private TileMapMember trackingMemeber;
-        private CombinationTileMapManager combinationManager;
+        private TheReelBigCombinationTileMapManager combinationManager;
 
         public void Awake()
         {
-            combinationManager = GetComponent<CombinationTileMapManager>();
+            combinationManager = GetComponent<TheReelBigCombinationTileMapManager>();
 
             SetTracking(objectToTrack.CurrentValue);
             objectToTrack.Value.TakeUntilDestroy(this)
@@ -49,12 +50,12 @@ namespace Assets.UI.Scripts
                 return;
             }
             var mousePos = MyUtilities.GetMousePos2D();
-            var tilemapLocation = combinationManager.GetPositionInTileMaps(mousePos);
+            var tilemapLocation = combinationManager.GetPositionOnActiveTileMapsFromWorldPosition(mousePos);
             if (!tilemapLocation.HasValue)
             {
                 return;
             }
-            trackingMemeber.SetPosition(tilemapLocation.Value.coordinateInMap, tilemapLocation.Value.tileMap);
+            trackingMemeber.SetPosition(tilemapLocation.Value);
         }
     }
 }

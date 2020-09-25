@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.WorldObjects.SaveObjects;
 using Assets.WorldObjects.SaveObjects.SaveManager;
 using System;
@@ -28,8 +29,19 @@ namespace Assets.WorldObjects.WorldGen
 
             mapSize.coord0 = new SquareCoordinate(-mapGenerationConfiguration.baseMapSize.y / 2, -mapGenerationConfiguration.baseMapSize.x / 2);
             mapSize.coord1 = -mapSize.coord0;
-            var baseRegion = new RegionGenerator<SquareCoordinate>(Tiling.CoordinateSystemType.SQUARE, mapSize, mapGenerationConfiguration);
-            world.regions.Add(baseRegion.GenerateSaveObject());
+            var baseRegion = new RegionGenerator(
+                new SquareRangeUniversalContainer(mapSize),
+                0,
+                mapGenerationConfiguration);
+
+            world.members = new UniversalTileMembersSaveObject
+            {
+                tiles = new List<TileMapDataTile>(),
+                members = new List<TileMemberSaveObject>(),
+                defaultTile = mapGenerationConfiguration.defaultTile
+            };
+            world.regions.Add(baseRegion.GenerateSaveObject(world.members));
+
 
             SerializationManager.Save(GeneratedWorldSave, world);
             SaveContext.instance.saveFile = GeneratedWorldSave;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.WorldObjects.SaveObjects
@@ -7,5 +8,6 @@ namespace Assets.WorldObjects.SaveObjects
     public class WorldSaveObject
     {
         public IList<TileRegionSaveObject> regions;
+        public UniversalTileMembersSaveObject members;
     }
 }

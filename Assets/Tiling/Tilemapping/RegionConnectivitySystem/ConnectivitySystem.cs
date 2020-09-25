@@ -45,7 +45,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// <summary>
         /// Called every frame. It's up to this system to manage when if it does anything in response to this call
         /// </summary>
-        public void TryUpdateConnectivity(Func<IEnumerable<TileMapRegionNoCoordinateType>> getRegions)
+        public void TryUpdateConnectivity(Action<ConnectivityGraphBuilder> buildConnectivityGraph)
         {
             if (!isJobRunning)
             {
@@ -53,7 +53,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     nextConnectivityUpdate = Time.time + secondsPerConnectivityUpdate;
                     isJobRunning = true;
-                    CalculateConnectivityUpdate(getRegions());
+                    CalculateConnectivityUpdate(buildConnectivityGraph);
                 }
             }
             else
@@ -108,14 +108,11 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             }
         }
 
-        private void CalculateConnectivityUpdate(IEnumerable<TileMapRegionNoCoordinateType> regions)
+        private void CalculateConnectivityUpdate(Action<ConnectivityGraphBuilder> buildConnectivityGraph)
         {
             var connectionGraphBuilder = new ConnectivityGraphBuilder();
+            buildConnectivityGraph(connectionGraphBuilder);
 
-            foreach (var region in regions)
-            {
-                region.AddConnectivityAndMemberData(connectionGraphBuilder);
-            }
             var allocatorToUse = Allocator.Persistent;
             memberDataFromRunningJob = connectionGraphBuilder.BuildGraph(
                 out resultGraphNodes,

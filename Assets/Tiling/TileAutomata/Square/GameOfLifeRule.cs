@@ -1,4 +1,6 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects;
 using System.Linq;
 using UnityEngine;
@@ -6,19 +8,19 @@ using UnityEngine;
 namespace Assets.Tiling.TileAutomata.Square
 {
     [CreateAssetMenu(fileName = "GameOfLifeRule", menuName = "MapGeneration/Automata/Square/GameOfLife", order = 100)]
-    public class GameOfLifeRule : AutomataRule<SquareCoordinate>
+    public class GameOfLifeRule : AutomataRule
     {
         public string targetBaseType = "ground";
         public TileTypeInfo replaceType = new TileTypeInfo("ground", "NO_BORDERS");
 
-        public override bool TryMatch(SquareCoordinate coordinate, CoordinateSystemMembers<SquareCoordinate> members)
+        public override bool TryMatch(UniversalCoordinate coordinate, UniversalCoordinateSystemMembers members)
         {
-            var me = members.GetTileType(coordinate);
+            var me = members.GetTileType( coordinate);
             if (me.baseID == targetBaseType)
             {
                 return false;
             }
-            var neighbors = members.coordinateSystem.Neighbors(coordinate).Select(x => members.GetTileType(x));
+            var neighbors = coordinate.Neighbors().Select(x => members.GetTileType(x));
 
             var numberOfSame = neighbors.Where(x => x.baseID == targetBaseType).Count();
             if (numberOfSame >= 3)

@@ -32,7 +32,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            var content = componentValue.currentRegion.universalContentTracker.allMembers;
+            var myMembership = componentValue.CoordinatePosition.CoordinateMembershipData;
+            var content = componentValue.bigManager.everyMember.allMembers
+                .Where(member => member.CoordinatePosition.CoordinateMembershipData == myMembership);
             var resourceType = GetPossibleSupplyPair(
                 content.Where(GatheringFilter).Where(x => componentValue.IsReachable(x)),
                 content.Where(SupplyDeliveryFilter).Where(x => componentValue.IsReachable(x))

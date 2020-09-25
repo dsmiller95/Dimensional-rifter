@@ -7,6 +7,35 @@ namespace Extensions
 {
     public static class LinqExtensions
     {
+        public static IEnumerable<T[]> Buffer<T>(this IEnumerable<T> source, int bufferSize)
+        {
+            if(bufferSize <= 0)
+            {
+                while (true)
+                {
+                    yield return new T[0];
+                }
+            }
+
+            var iterator = source.GetEnumerator();
+
+            int position;
+            while(true)
+            {
+                var workingList = new T[bufferSize];
+                for (position = 0; position < bufferSize && iterator.MoveNext(); position++)
+                {
+                    var value = iterator.Current;
+                    workingList[position] = value;
+                }
+                if(position < bufferSize)
+                {
+                    yield break;
+                }
+                yield return workingList;
+            }
+        }
+
         public static IEnumerable<IList<T>> RollingWindow<T>(this IEnumerable<T> source, int window)
         {
             var iterator = source.GetEnumerator();

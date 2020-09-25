@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.Members;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
+using Assets.WorldObjects.Members;
 using System;
 using UnityEngine;
 

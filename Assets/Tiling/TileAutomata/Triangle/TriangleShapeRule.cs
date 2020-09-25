@@ -1,4 +1,5 @@
-﻿using Assets.Tiling.Tilemapping.TileConfiguration;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.Tiling.TriangleCoords;
 using Assets.WorldObjects;
 using System;
@@ -37,14 +38,18 @@ namespace Assets.Tiling.TileAutomata.Square
     }
 
     [CreateAssetMenu(fileName = "TriangeShapeRule", menuName = "MapGeneration/Automata/Triangle/TileShape", order = 10)]
-    public class TriangleShapeRule : AutomataRule<TriangleCoordinate>
+    public class TriangleShapeRule : AutomataRule
     {
         public string targetBaseType = "ground";
 
         public TriangleTileNeighborFlags[] validMatches;
 
-        public override bool TryMatch(TriangleCoordinate coordinate, CoordinateSystemMembers<TriangleCoordinate> members)
+        public override bool TryMatch(UniversalCoordinate coordinate, UniversalCoordinateSystemMembers members)
         {
+            if (coordinate.type != CoordinateType.TRIANGLE)
+            {
+                return false;
+            }
             var leftover = validMatches
                 .Where(match => match.Self == GetFlag(coordinate, members));
 
@@ -65,7 +70,9 @@ namespace Assets.Tiling.TileAutomata.Square
             return false;
         }
 
-        private bool GetFlag(TriangleCoordinate coordinate, CoordinateSystemMembers<TriangleCoordinate> members)
+        private bool GetFlag(
+            UniversalCoordinate coordinate,
+            UniversalCoordinateSystemMembers members)
         {
             return members.GetTileType(coordinate).baseID == targetBaseType;
         }

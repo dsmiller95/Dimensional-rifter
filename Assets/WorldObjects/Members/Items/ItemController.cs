@@ -17,6 +17,7 @@ namespace Assets.WorldObjects.Members.Items
     public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable
     {
         public ResourceItemType resource;
+        [Tooltip("This amount must be set when spawning an item")]
         public float resourceAmount;
         public ItemSourceType SourceType;
 

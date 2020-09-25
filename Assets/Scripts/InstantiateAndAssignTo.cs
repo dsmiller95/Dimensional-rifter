@@ -4,7 +4,7 @@ using UnityEngine;
 public class InstantiateAndAssignTo : MonoBehaviour
 {
     public GameObjectVariable objectToAssignTo;
-    public GameObject parentObject;
+    public GameObjectVariable parentObject;
     public GameObject prefabToInstantiate;
 
     public bool onlyIfNull = true;
@@ -15,7 +15,7 @@ public class InstantiateAndAssignTo : MonoBehaviour
         {
             return;
         }
-        var instantiated = Instantiate(prefabToInstantiate, parentObject.transform);
+        var instantiated = Instantiate(prefabToInstantiate, parentObject.CurrentValue.transform);
         objectToAssignTo.SetValue(instantiated);
     }
 

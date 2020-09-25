@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 30329175704740578}
   - component: {fileID: 30329175704740577}
   - component: {fileID: 9041530265192463002}
+  - component: {fileID: 3806863156771743869}
+  - component: {fileID: 986374241429031136}
   m_Layer: 0
   m_Name: WorldObject
   m_TagString: Untagged
@@ -41,17 +43,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 30329175704740579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87337ca46a3c9b0448796a532ca85c02, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a32095feef9f9549a52f391b714cad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMapTypes:
-  - type: 1
-    tileMapPrefab: {fileID: 2319312742710603935, guid: aa6e7734267178b428a86d865698c09c, type: 3}
-  - type: 2
-    tileMapPrefab: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+  tileMapConfig:
+  - {fileID: 11400000, guid: 1d4fae95506942d43837e6edecd5cbe0, type: 2}
+  allRegions: []
   connectivitySystem: {fileID: 11400000, guid: b07d1fcbc200e03448e45a6f2c7e5368, type: 2}
-  tileMapToMove: {fileID: 0}
-  tileMapPrefab: {fileID: 654275229677371187, guid: d39bb1d38ef7c024ba17e3c888149876, type: 3}
+  everyMember: {fileID: 3806863156771743869}
+  regionBehaviorPrefab: {fileID: 1750253564374762929, guid: f9891ad79ba804b49a0ab1e7b4221ad2, type: 3}
 --- !u!114 &9041530265192463002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,3 +65,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToTrack: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
+--- !u!114 &3806863156771743869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30329175704740579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97dd318c0756a3542b2d2bd03d795976, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultTile:
+    baseID: ground
+    shapeID: 
+  memberPrefabRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
+  tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
+--- !u!114 &986374241429031136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30329175704740579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c959edb31631d6c41842d5f9e0b2cbd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableToSet: {fileID: 11400000, guid: 7bbdec2c90b07b64aa7c0ae9b2369856, type: 2}
+  objectToAssign: {fileID: 30329175704740579}
+  AssignOnInit: 1

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,29 +12,29 @@ namespace Assets.Tiling.TriangleCoords
     ///     both R=false and R=true coords for each rhombus
     /// </summary>
     [System.Serializable]
-    public class TriangleTriangleCoordinateRange : ICoordinateRange<TriangleCoordinate>
+    public class TriangleTriangleCoordinateRange : ICoordinateRangeNEW<TriangleCoordinateStructSystem>
     {
-        public TriangleCoordinate root;
+        public TriangleCoordinateStructSystem root;
         public int triangleSideLength;
 
-        public IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<TriangleCoordinate> coordinateSystem, float individualScale)
+        public IEnumerable<Vector2> BoundingPolygon()
         {
-            individualScale *= 2;
+            var scale = 2;
 
-            var nextPos = coordinateSystem.ToRealPosition(root);
-            yield return nextPos - (TriangleCoordinateSystem.rBasis * individualScale);
+            var nextPos = root.ToPositionInPlane();
+            yield return nextPos - (TriangleCoordinateStructSystem.rBasis * scale);
 
-            var topCoord = new TriangleCoordinate(root.u, root.v + triangleSideLength - 1, false);
-            nextPos = coordinateSystem.ToRealPosition(topCoord);
-            yield return nextPos + Vector2.up * TriangleCoordinateSystem.rBasis.y * 2 * individualScale;
+            var topCoord = new TriangleCoordinateStructSystem(root.u, root.v + triangleSideLength - 1, false);
+            nextPos = topCoord.ToPositionInPlane();
+            yield return nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scale;
 
-            var rightcoord = new TriangleCoordinate(root.u + triangleSideLength - 1, root.v, false);
-            nextPos = coordinateSystem.ToRealPosition(rightcoord);
-            yield return nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinateSystem.rBasis * individualScale);
+            var rightcoord = new TriangleCoordinateStructSystem(root.u + triangleSideLength - 1, root.v, false);
+            nextPos = rightcoord.ToPositionInPlane();
+            yield return nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinateStructSystem.rBasis * scale);
         }
 
 
-        IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
+        IEnumerator<TriangleCoordinateStructSystem> IEnumerable<TriangleCoordinateStructSystem>.GetEnumerator()
         {
             for (var u = 0; u < triangleSideLength; u++)
             {
@@ -41,17 +42,17 @@ namespace Assets.Tiling.TriangleCoords
                 {
                     if (u + v < triangleSideLength - 1)
                     {
-                        yield return new TriangleCoordinate(u + root.u, v + root.v, false);
-                        yield return new TriangleCoordinate(u + root.u, v + root.v, true);
+                        yield return new TriangleCoordinateStructSystem(u + root.u, v + root.v, false);
+                        yield return new TriangleCoordinateStructSystem(u + root.u, v + root.v, true);
                     }
                     else if (u + v < triangleSideLength)
                     {
-                        yield return new TriangleCoordinate(u + root.u, v + root.v, false);
+                        yield return new TriangleCoordinateStructSystem(u + root.u, v + root.v, false);
                     }
                 }
             }
         }
-        public bool ContainsCoordinate(TriangleCoordinate coordinat)
+        public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinat)
         {
             var uConst = coordinat.u - root.u;
             var vConst = coordinat.v - root.v;
@@ -61,7 +62,7 @@ namespace Assets.Tiling.TriangleCoords
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (this as IEnumerable<TriangleCoordinate>).GetEnumerator();
+            return (this as IEnumerable<TriangleCoordinateStructSystem>).GetEnumerator();
         }
     }
 }

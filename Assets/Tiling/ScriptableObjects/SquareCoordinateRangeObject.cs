@@ -1,12 +1,14 @@
 ﻿using Assets.Tiling.SquareCoords;
+using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.Tiling.TriangleCoords;
 using UnityEngine;
 
 namespace Assets.Tiling.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "SquareCoordinateRange", menuName = "TileMap/Ranges/SqaureRange", order = 1)]
-    public class SquareCoordinateRangeObject : CoordinateRangeObject<SquareCoordinate>
+    public class SquareCoordinateRangeObject : CoordinateRangeObject
     {
         public SquareCoordinateRange SquareRange;
-        public override ICoordinateRange<SquareCoordinate> CoordinateRange => SquareRange;
+        public override IUniversalCoordinateRange CoordinateRange => new SquareRangeUniversalContainer(SquareRange);
     }
 }

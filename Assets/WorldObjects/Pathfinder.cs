@@ -1,6 +1,7 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
+using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.Tiling.TriangleCoords;
 using Priority_Queue;
 using Simulation.Tiling.HexCoords;
@@ -11,72 +12,72 @@ using UnityEngine;
 
 namespace Assets.WorldObjects
 {
-    public class Pathfinder<T> where T : ICoordinate
+    public class Pathfinder //<T> where T : struct, IBaseCoordinateType
     {
-        public ISet<T> completed;
+        public ISet<UniversalCoordinate> completed;
 
         class CoordinateData
         {
-            public T coordinate;
-            public T previous;
+            public UniversalCoordinate coordinate;
+            public UniversalCoordinate previous;
             public float distanceFromOrigin;
             public float heuristicValue;
-            private ICoordinateSystem<T> coordinateSystem;
 
             public float Priority => distanceFromOrigin + heuristicValue;
 
             public CoordinateData(
-                T coord,
-                T previous,
-                T target,
-                float currentDistanceFromOrigin, ICoordinateSystem<T> coordinateSystem)
+                UniversalCoordinate coord,
+                UniversalCoordinate previous,
+                UniversalCoordinate target,
+                float currentDistanceFromOrigin)
             {
-                this.coordinateSystem = coordinateSystem;
                 coordinate = coord;
                 this.previous = previous;
                 distanceFromOrigin = currentDistanceFromOrigin;
-                heuristicValue = this.coordinateSystem.HeuristicDistance(coordinate, target);
+                heuristicValue = coordinate.HeuristicDistance(target);
             }
         }
 
-        private IDictionary<T, CoordinateData> visited;
+        private IDictionary<UniversalCoordinate, CoordinateData> visited;
 
-        private SimplePriorityQueue<T, float> fringe;
-        private ICoordinateSystem<T> coordinateSystem;
-        private TileMapRegion<T> tileRegion;
-        private Func<T, TileProperties, bool> coordinateFilterFunction;
+        private SimplePriorityQueue<UniversalCoordinate, float> fringe;
+        private TheReelBigCombinationTileMapManager bigboi;
+        private Func<UniversalCoordinate, TileProperties, bool> coordinateFilterFunction;
 
-        private readonly T origin;
+        private readonly UniversalCoordinate origin;
         public Pathfinder(
-            T origin,
-            TileMapRegion<T> region,
-            Func<T, TileProperties, bool> isCoordinateVisitable)
+            UniversalCoordinate origin,
+            TheReelBigCombinationTileMapManager region,
+            Func<UniversalCoordinate, TileProperties, bool> isCoordinateVisitable)
         {
-            tileRegion = region;
-            coordinateSystem = region.WorldSpaceCoordinateSystem;
+            bigboi = region;
             coordinateFilterFunction = isCoordinateVisitable;
             this.origin = origin;
 
-            fringe = new SimplePriorityQueue<T, float>();
-            visited = new Dictionary<T, CoordinateData>();
-            completed = new HashSet<T>();
+            fringe = new SimplePriorityQueue<UniversalCoordinate, float>();
+            visited = new Dictionary<UniversalCoordinate, CoordinateData>();
+            completed = new HashSet<UniversalCoordinate>();
         }
 
-        public IEnumerable<T> RandomWalkOfLength(int length)
+        public IEnumerable<UniversalCoordinate> RandomWalkOfLength(int length)
         {
             return InfiniteRandomWalkGenerator().Take(length);
         }
 
-        private IEnumerable<T> InfiniteRandomWalkGenerator()
+        private IEnumerable<UniversalCoordinate> InfiniteRandomWalkGenerator()
         {
             var currentPathTip = origin;
             while (true)
             {
-                var neighbors = coordinateSystem
-                    .Neighbors(currentPathTip)
-                    .Where(neighbor => tileRegion.IsValidCoordinate(neighbor)
-                        && coordinateFilterFunction(neighbor, tileRegion.contentTracker.TilePropertiesAt(neighbor))
+                var neighbors = currentPathTip
+                    .Neighbors()
+                    .Where(neighbor => bigboi.ValidCoordinateInOwnPlane(neighbor)
+                        && coordinateFilterFunction(neighbor, bigboi.everyMember.TilePropertiesAt(neighbor))
                     ).ToList();
+                if(neighbors.Count <= 0)
+                {
+                    yield break;
+                }
                 currentPathTip = neighbors[UnityEngine.Random.Range(0, neighbors.Count)];
                 yield return currentPathTip;
             }
@@ -87,7 +88,7 @@ namespace Assets.WorldObjects
         /// </summary>
         /// <param name="destination"></param>
         /// <returns>the shortest path to <paramref name="destination"/> in reverse order, beginning with <paramref name="destination"/> and ending with the origin</returns>
-        public IEnumerable<T> ShortestPathTo(T destination, bool overlapWithTarget = false)
+        public IEnumerable<UniversalCoordinate> ShortestPathTo(UniversalCoordinate destination, bool overlapWithTarget = false)
         {
             try
             {
@@ -99,10 +100,10 @@ namespace Assets.WorldObjects
             }
         }
 
-        private IEnumerable<T> ShortestPathToGenerator(T destination, bool overlapWithTarget)
+        private IEnumerable<UniversalCoordinate> ShortestPathToGenerator(UniversalCoordinate destination, bool overlapWithTarget)
         {
             var currentCoordinate = origin;
-            var currentCoordinateData = new CoordinateData(currentCoordinate, default, destination, 0, coordinateSystem);
+            var currentCoordinateData = new CoordinateData(currentCoordinate, default, destination, 0);
             visited[currentCoordinate] = currentCoordinateData;
             fringe.EnqueueWithoutDuplicates(currentCoordinateData.coordinate, currentCoordinateData.Priority);
 
@@ -125,7 +126,7 @@ namespace Assets.WorldObjects
             }
         }
 
-        private IEnumerable<T> ExtractPathFromVisited(T currentCoordinate, bool overlapWithTarget)
+        private IEnumerable<UniversalCoordinate> ExtractPathFromVisited(UniversalCoordinate currentCoordinate, bool overlapWithTarget)
         {
             CoordinateData data = visited[currentCoordinate];
             while (!data.coordinate.Equals(origin))
@@ -139,16 +140,16 @@ namespace Assets.WorldObjects
             }
         }
 
-        private void VisitNode(CoordinateData node, T destination)
+        private void VisitNode(CoordinateData node, UniversalCoordinate destination)
         {
             var currentCoordinate = node.coordinate;
             completed.Add(currentCoordinate);
 
-            var nonClosedNeighbors = coordinateSystem
-                .Neighbors(currentCoordinate)
+            var nonClosedNeighbors = currentCoordinate
+                .Neighbors()
                 .Where(neighbor => !completed.Contains(neighbor)
-                    && tileRegion.IsValidCoordinate(neighbor)
-                    && coordinateFilterFunction(neighbor, tileRegion.contentTracker.TilePropertiesAt(neighbor))
+                    && bigboi.ValidCoordinateInOwnPlane(neighbor)
+                    && coordinateFilterFunction(neighbor, bigboi.everyMember.TilePropertiesAt(neighbor))
                 );
 
             // assumption is made that every connection is cost of 1
@@ -159,7 +160,7 @@ namespace Assets.WorldObjects
                 CoordinateData nodeData;
                 if (!visited.TryGetValue(neighbor, out nodeData))
                 {
-                    nodeData = new CoordinateData(neighbor, currentCoordinate, destination, neighborDistance, coordinateSystem);
+                    nodeData = new CoordinateData(neighbor, currentCoordinate, destination, neighborDistance);
                     visited[neighbor] = nodeData;
                     fringe.EnqueueWithoutDuplicates(nodeData.coordinate, nodeData.Priority);
                 }
@@ -174,23 +175,24 @@ namespace Assets.WorldObjects
             }
         }
 
-        public static IEnumerable<T> PathBetween(
-            ICoordinate source,
-            ICoordinate destination,
-            TileMapRegionNoCoordinateType coordinateSystem,
-            Func<ICoordinate, TileProperties, bool> passableTiles,
+        public static IEnumerable<UniversalCoordinate> PathBetween(
+            UniversalCoordinate source,
+            UniversalCoordinate destination,
+            TheReelBigCombinationTileMapManager region,
+            Func<UniversalCoordinate, TileProperties, bool> passableTiles,
             bool navigateToAdjacent)
         {
-            var coordSystem = (coordinateSystem as TileMapRegion<T>);
 
-            var pather = new Pathfinder<T>((T)destination, coordSystem, (coord, properties) => passableTiles(coord, properties));
-            return pather.ShortestPathTo((T)source, !navigateToAdjacent);
+            var pather = new Pathfinder(destination, region, (coord, properties) => passableTiles(coord, properties));
+            return pather.ShortestPathTo(source, !navigateToAdjacent);
         }
-        public static IEnumerable<T> RandomWalk(ICoordinate source, int steps, TileMapRegionNoCoordinateType coordinateSystem, Func<ICoordinate, TileProperties, bool> passableTiles)
+        public static IEnumerable<UniversalCoordinate> RandomWalk(
+            UniversalCoordinate source,
+            int steps,
+            TheReelBigCombinationTileMapManager region,
+            Func<UniversalCoordinate, TileProperties, bool> passableTiles)
         {
-            var coordSystem = (coordinateSystem as TileMapRegion<T>);
-
-            var pather = new Pathfinder<T>((T)source, coordSystem, (coord, properties) => passableTiles(coord, properties));
+            var pather = new Pathfinder(source, region, (coord, properties) => passableTiles(coord, properties));
             return pather.RandomWalkOfLength(steps);
         }
 
@@ -198,60 +200,26 @@ namespace Assets.WorldObjects
 
     public static class PathfinderUtils
     {
-        public static IEnumerable<ICoordinate> PathBetween(
-            ICoordinate source,
-            ICoordinate destination,
-            TileMapRegionNoCoordinateType region,
-            Func<ICoordinate, TileProperties, bool> passableTiles,
+        public static IEnumerable<UniversalCoordinate> PathBetween(
+            UniversalCoordinate source,
+            UniversalCoordinate destination,
+            TheReelBigCombinationTileMapManager region,
+            Func<UniversalCoordinate, TileProperties, bool> passableTiles,
             bool navigateToAdjacent = true)
         {
-            var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
-
-            if (!coordinateSpace.IsCompatible(source) || !coordinateSpace.IsCompatible(destination))
+            if(source.CoordinateMembershipData != destination.CoordinateMembershipData)
             {
                 throw new ArgumentException("coordinates not compatable");
             }
-
-            switch (coordinateSpace.CoordType)
-            {
-                case CoordinateSystemType.HEX:
-                    return Pathfinder<AxialCoordinate>.PathBetween(source, destination, region, passableTiles, navigateToAdjacent)?
-                        .Cast<ICoordinate>();
-                case CoordinateSystemType.SQUARE:
-                    return Pathfinder<SquareCoordinate>.PathBetween(source, destination, region, passableTiles, navigateToAdjacent)?
-                        .Cast<ICoordinate>();
-                case CoordinateSystemType.TRIANGLE:
-                    return Pathfinder<TriangleCoordinate>.PathBetween(source, destination, region, passableTiles, navigateToAdjacent)?
-                        .Cast<ICoordinate>();
-            }
-            throw new ArgumentException("invalid coordinate system type");
+            return Pathfinder.PathBetween(source, destination, region, passableTiles, navigateToAdjacent);
         }
-        public static IEnumerable<ICoordinate> RandomWalkOfLength(
-            ICoordinate source,
+        public static IEnumerable<UniversalCoordinate> RandomWalkOfLength(
+            UniversalCoordinate source,
             int walkLength,
-            TileMapRegionNoCoordinateType region,
-            Func<ICoordinate, TileProperties, bool> passableTiles)
+            TheReelBigCombinationTileMapManager region,
+            Func<UniversalCoordinate, TileProperties, bool> passableTiles)
         {
-            var coordinateSpace = region.UntypedCoordianteSystemWorldSpace;
-
-            if (!coordinateSpace.IsCompatible(source))
-            {
-                throw new ArgumentException("coordinates not compatable");
-            }
-
-            switch (coordinateSpace.CoordType)
-            {
-                case CoordinateSystemType.HEX:
-                    return Pathfinder<AxialCoordinate>.RandomWalk(source, walkLength, region, passableTiles)?
-                        .Cast<ICoordinate>();
-                case CoordinateSystemType.SQUARE:
-                    return Pathfinder<SquareCoordinate>.RandomWalk(source, walkLength, region, passableTiles)?
-                        .Cast<ICoordinate>();
-                case CoordinateSystemType.TRIANGLE:
-                    return Pathfinder<TriangleCoordinate>.RandomWalk(source, walkLength, region, passableTiles)?
-                        .Cast<ICoordinate>();
-            }
-            throw new ArgumentException("invalid coordinate system type");
+            return Pathfinder.RandomWalk(source, walkLength, region, passableTiles);
         }
     }
 }

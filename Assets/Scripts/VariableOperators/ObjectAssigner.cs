@@ -9,6 +9,16 @@ namespace Assets.Scripts.VariableOperators
         public GameObject objectToAssign;
 
 
+        public bool AssignOnInit = false;
+
+        private void Awake()
+        {
+            if (AssignOnInit)
+            {
+                this.SetToVariable();
+            }
+        }
+
         public void SetToVariable()
         {
             variableToSet.SetValue(objectToAssign);

@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using UnityEngine;
 
 namespace Assets.Tiling.ScriptableObjects
 {
-    public abstract class CoordinateRangeObject<T> : ScriptableObject where T : ICoordinate
+    public abstract class CoordinateRangeObject : ScriptableObject
     {
-        public abstract ICoordinateRange<T> CoordinateRange { get; }
+        public abstract IUniversalCoordinateRange CoordinateRange { get; }
     }
 }

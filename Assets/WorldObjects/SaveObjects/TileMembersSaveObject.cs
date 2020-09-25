@@ -1,4 +1,5 @@
 ﻿using Assets.Tiling;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects.Members;
 using System;
 using System.Collections.Generic;
@@ -20,22 +21,22 @@ namespace Assets.WorldObjects.SaveObjects
     }
 
     [Serializable]
-    public struct TileMemberSaveObject<T>
+    public struct TileMemberSaveObject
     {
-        public T coordinate;
+        public UniversalCoordinate coordinate;
         public TileMemberData objectData;
     }
     [Serializable]
-    public struct TileMapDataTile<T>
+    public struct TileMapDataTile
     {
-        public T coordinate;
+        public UniversalCoordinate coordinate;
         public TileTypeInfo tileType;
     }
     [Serializable]
-    public class TileMembersSaveObject<T> where T : ICoordinate
+    public class UniversalTileMembersSaveObject
     {
-        public IList<TileMemberSaveObject<T>> members;
-        public IList<TileMapDataTile<T>> tiles;
+        public IList<TileMemberSaveObject> members;
+        public IList<TileMapDataTile> tiles;
         public TileTypeInfo defaultTile;
     }
 }

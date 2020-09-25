@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
 {
-
     /// <summary>
     /// represents a range of triangular coordinates in a rhombus shape. Ignores the R of the input range
     ///     iterates through the triangles as if they were rectangular coordinates, and returns
     ///     both R=false and R=true coords for each rhombus
     /// </summary>
     [Serializable]
-    public class TriangleRhomboidCoordinateRange : ICoordinateRange<TriangleCoordinate>
+    public class TriangleRhomboidCoordinateRange : ICoordinateRangeNEW<TriangleCoordinateStructSystem>
     {
         /// <summary>
         /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
@@ -33,52 +33,52 @@ namespace Assets.Tiling.TriangleCoords
             }
         }
 
-        public TriangleCoordinate coord0;
-        public TriangleCoordinate coord1;
+        public TriangleCoordinateStructSystem coord0;
+        public TriangleCoordinateStructSystem coord1;
 
-        IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
+        IEnumerator<TriangleCoordinateStructSystem> IEnumerable<TriangleCoordinateStructSystem>.GetEnumerator()
         {
             EnsureCoordOrdering();
             for (var u = coord0.u; u < coord1.u; u++)
             {
                 for (var v = coord0.v; v < coord1.v; v++)
                 {
-                    yield return new TriangleCoordinate(u, v, false);
-                    yield return new TriangleCoordinate(u, v, true);
+                    yield return new TriangleCoordinateStructSystem(u, v, false);
+                    yield return new TriangleCoordinateStructSystem(u, v, true);
                 }
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (this as IEnumerable<TriangleCoordinate>).GetEnumerator();
+            return (this as IEnumerable<TriangleCoordinateStructSystem>).GetEnumerator();
         }
 
-        public IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<TriangleCoordinate> coordinateSystem, float individualScale)
+        public IEnumerable<Vector2> BoundingPolygon()
         {
-            individualScale *= 2;
+            var scaling = 2;// individualScale *= 2;
             EnsureCoordOrdering();
 
-            var nextPos = coordinateSystem.ToRealPosition(coord0);
-            yield return nextPos - (TriangleCoordinateSystem.rBasis * individualScale);
+            var nextPos = coord0.ToPositionInPlane();
+            yield return nextPos - (TriangleCoordinateStructSystem.rBasis * scaling);
 
-            var nextCoord = new TriangleCoordinate(coord0.u, coord1.v - 1, false);
-            nextPos = coordinateSystem.ToRealPosition(nextCoord);
-            yield return nextPos + Vector2.up * TriangleCoordinateSystem.rBasis.y * 2 * individualScale;
+            var nextCoord = new TriangleCoordinateStructSystem(coord0.u, coord1.v - 1, false);
+            nextPos = nextCoord.ToPositionInPlane();
+            yield return nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
 
-            nextCoord = new TriangleCoordinate(coord1.u - 1, coord1.v - 1, true);
-            nextPos = coordinateSystem.ToRealPosition(nextCoord);
-            yield return nextPos + (TriangleCoordinateSystem.rBasis * individualScale);
+            nextCoord = new TriangleCoordinateStructSystem(coord1.u - 1, coord1.v - 1, true);
+            nextPos = nextCoord.ToPositionInPlane();
+            yield return nextPos + (TriangleCoordinateStructSystem.rBasis * scaling);
 
-            nextCoord = new TriangleCoordinate(coord1.u - 1, coord0.v, true);
-            nextPos = coordinateSystem.ToRealPosition(nextCoord);
-            yield return nextPos - Vector2.up * TriangleCoordinateSystem.rBasis.y * 2 * individualScale;
+            nextCoord = new TriangleCoordinateStructSystem(coord1.u - 1, coord0.v, true);
+            nextPos = nextCoord.ToPositionInPlane();
+            yield return nextPos - Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
         }
 
-        public bool ContainsCoordinate(TriangleCoordinate coordinat)
+        public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinate)
         {
-            return (coordinat.u >= coord0.u && coordinat.u < coord1.u) &&
-                (coordinat.v >= coord0.v && coordinat.v < coord1.v);
+            return (coordinate.u >= coord0.u && coordinate.u < coord1.u) &&
+                (coordinate.v >= coord0.v && coordinate.v < coord1.v);
         }
     }
 }

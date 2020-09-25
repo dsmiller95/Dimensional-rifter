@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace Assets.Tiling.SquareCoords
 {
     [Serializable]
-    public class SquareCoordinateRange : ICoordinateRange<SquareCoordinate>
+    public class SquareCoordinateRange : ICoordinateRangeNEW<SquareCoordinate>
     {
         /// <summary>
         /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
@@ -53,23 +54,23 @@ namespace Assets.Tiling.SquareCoords
             return (this as IEnumerable<SquareCoordinate>).GetEnumerator();
         }
 
-        public IEnumerable<Vector2> BoundingPolygon(ICoordinateSystem<SquareCoordinate> coordinateSystem, float individualScale)
+        public IEnumerable<Vector2> BoundingPolygon()
         {
-            var halfScale = individualScale / 2;
+            var halfScale = 1 / 2;
 
-            var nextPos = coordinateSystem.ToRealPosition(coord0);
+            var nextPos = coord0.ToPositionInPlane();
             yield return nextPos - Vector2.one * halfScale;
 
             var nextCoord = new SquareCoordinate(coord1.row - 1, coord0.column);
-            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            nextPos = nextCoord.ToPositionInPlane();
             yield return nextPos + new Vector2(-1, 1) * halfScale;
 
             nextCoord = new SquareCoordinate(coord1.row - 1, coord1.column - 1);
-            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            nextPos = nextCoord.ToPositionInPlane();
             yield return nextPos + Vector2.one * halfScale;
 
             nextCoord = new SquareCoordinate(coord0.row, coord1.column - 1);
-            nextPos = coordinateSystem.ToRealPosition(nextCoord);
+            nextPos = nextCoord.ToPositionInPlane();
             yield return nextPos + new Vector2(1, -1) * halfScale;
         }
 
