@@ -1,6 +1,4 @@
-﻿using Assets.Tiling.Tilemapping.NEwSHITE;
-using Assets.WorldObjects;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Tiling.TileAutomata
 {

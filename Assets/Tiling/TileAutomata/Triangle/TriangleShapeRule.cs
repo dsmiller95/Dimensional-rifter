@@ -1,7 +1,4 @@
-﻿using Assets.Tiling.Tilemapping.NEwSHITE;
-using Assets.Tiling.Tilemapping.TileConfiguration;
-using Assets.Tiling.TriangleCoords;
-using Assets.WorldObjects;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
 using System;
 using System.Linq;
 using UnityEngine;

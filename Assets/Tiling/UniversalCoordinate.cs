@@ -23,7 +23,7 @@ namespace Assets.Tiling
 
     [Serializable]
     [StructLayout(LayoutKind.Explicit)]
-    public struct UniversalCoordinate: ISerializable
+    public struct UniversalCoordinate : ISerializable
     {
         // all data views should take up no more than 3 ints, no more that 12 bytes
         [FieldOffset(0)] private int coordinateDataPartOne;
@@ -35,7 +35,7 @@ namespace Assets.Tiling
         /// </summary>
         [FieldOffset(0)] public TriangleCoordinateStructSystem triangleDataView;
         [FieldOffset(0)] public SquareCoordinate squareDataView;
-        
+
 
         /// <summary>
         /// composite of both the type of the coordinate and the plane it belongs to. Can be used to compare if two coordinates
@@ -177,10 +177,10 @@ namespace Assets.Tiling
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("data1", this.coordinateDataPartOne);
-            info.AddValue("data2", this.coordinateDataPartTwo);
-            info.AddValue("data3", this.coordinateDataPartThree);
-            info.AddValue("membership", this.CoordinateMembershipData);
+            info.AddValue("data1", coordinateDataPartOne);
+            info.AddValue("data2", coordinateDataPartTwo);
+            info.AddValue("data3", coordinateDataPartThree);
+            info.AddValue("membership", CoordinateMembershipData);
         }
         // The special constructor is used to deserialize values.
         private UniversalCoordinate(SerializationInfo info, StreamingContext context)

@@ -1,7 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.Tiling.Tilemapping.TileConfiguration;
-using Assets.WorldObjects;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -49,7 +47,7 @@ namespace Assets.Tiling.TileAutomata.Square
 
         public override bool TryMatch(UniversalCoordinate coordinate, UniversalCoordinateSystemMembers members)
         {
-            if(coordinate.type != CoordinateType.SQUARE)
+            if (coordinate.type != CoordinateType.SQUARE)
             {
                 return false;
             }

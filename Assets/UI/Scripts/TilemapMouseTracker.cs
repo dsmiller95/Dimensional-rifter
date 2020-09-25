@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Tiling.Tilemapping;
-using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.WorldObjects;
 using UniRx;
 using UnityEngine;

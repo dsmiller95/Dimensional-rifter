@@ -1,6 +1,4 @@
-﻿using Assets.Tiling;
-using Assets.Tiling.Tilemapping;
-using Assets.Tiling.Tilemapping.TileConfiguration;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.Members.Wall;
@@ -10,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping.NEwSHITE
+namespace Assets.Tiling
 {
 
     public class UniversalCoordinateSystemMembers : MonoBehaviour, ISaveable<UniversalTileMembersSaveObject>

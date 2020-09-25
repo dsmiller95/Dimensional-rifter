@@ -1,14 +1,13 @@
 ﻿using Assets.Libraries.Utilities;
 using Assets.Scripts.Utilities;
+using Assets.Tiling.Tilemapping.MeshEdit;
 using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
-using Assets.Tiling.Tilemapping.TileConfiguration;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping.NEwSHITE
+namespace Assets.Tiling.Tilemapping
 {
     /// <summary>
     /// Data set up in map-gen; or in the inspector. Data that should be Saved and loaded
@@ -89,8 +88,6 @@ namespace Assets.Tiling.Tilemapping.NEwSHITE
             var renderer = GetComponent<MeshRenderer>();
             renderer.material.mainTexture = tileConfiguration.tileTexture;
             meshBuilder.SetupTilesForGivenTexture(tileConfiguration.tileTexture);
-
-            //TODO: update the mesh builder when a tile changes
         }
 
         public PolygonCollider2D SetupBoundingCollider(TileMapRegionData data)
@@ -202,7 +199,7 @@ namespace Assets.Tiling.Tilemapping.NEwSHITE
 
             int currentIndex = beginningIndex;
             var coordinatesInMap = data.baseRange.GetUniversalCoordinates(data.planeIDIndex)
-                .Where(coord => !this.runtimeData.disabledCoordinates.Contains(coord));
+                .Where(coord => !runtimeData.disabledCoordinates.Contains(coord));
             var coordinateToIndexMap = coordinatesInMap.ToDictionary(coord => coord, coord =>
             {
                 return currentIndex++;

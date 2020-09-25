@@ -1,19 +1,17 @@
-﻿using Assets.Tiling;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Simulation.Tiling.HexCoords
 {
-    public class HexCoordinateSystem : ICoordinateSystem<AxialCoordinate>
+    public class HexCoordinateSystem// : ICoordinateSystem<AxialCoordinate>
     {
         public float hexRadius;
 
         private readonly Vector2 qBasis = new Vector2(3f / 2f, -Mathf.Sqrt(3) / 2f);
         private readonly Vector2 rBasis = new Vector2(0, -Mathf.Sqrt(3));
 
-        public CoordinateSystemType CoordType => CoordinateSystemType.HEX;
         public HexCoordinateSystem(float hexRadius)
         {
             this.hexRadius = hexRadius;
@@ -180,10 +178,6 @@ namespace Simulation.Tiling.HexCoords
         public float HeuristicDistance(AxialCoordinate origin, AxialCoordinate destination)
         {
             return (ToRealPosition(origin) - ToRealPosition(destination)).sqrMagnitude;
-        }
-        public bool IsCompatible(ICoordinate coordinate)
-        {
-            return coordinate is AxialCoordinate;
         }
     }
 }

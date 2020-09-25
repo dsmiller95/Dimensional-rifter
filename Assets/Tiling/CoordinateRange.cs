@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping.NEwSHITE
+namespace Assets.Tiling
 {
     public interface IUniversalCoordinateRange
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.MapGen
+namespace Assets.Tiling.Tilemapping.MeshEdit
 {
     /// <summary>
     /// A utility class used to copy duplicates of one mesh into the target mesh

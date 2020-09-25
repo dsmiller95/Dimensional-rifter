@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.MapGen
+namespace Assets.Tiling.Tilemapping.MeshEdit
 {
     public class CopiedMeshEditor
     {

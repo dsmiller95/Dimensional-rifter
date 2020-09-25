@@ -1,6 +1,4 @@
 ﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.NEwSHITE;
-using Assets.Tiling.TriangleCoords;
 using UnityEngine;
 
 namespace Assets.Tiling.ScriptableObjects

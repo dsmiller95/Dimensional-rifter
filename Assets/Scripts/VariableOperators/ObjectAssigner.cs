@@ -15,7 +15,7 @@ namespace Assets.Scripts.VariableOperators
         {
             if (AssignOnInit)
             {
-                this.SetToVariable();
+                SetToVariable();
             }
         }
 

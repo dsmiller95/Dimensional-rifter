@@ -1,6 +1,5 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.Tilemapping;
-using Assets.Tiling.Tilemapping.NEwSHITE;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
 using System;
@@ -39,7 +38,7 @@ namespace Assets.WorldObjects
 
         protected UniversalCoordinate coordinatePosition;
         public UniversalCoordinate CoordinatePosition => coordinatePosition;
-        
+
         public void SetPosition(TileMapMember otherMember)
         {
             SetPosition(otherMember.coordinatePosition);
@@ -62,7 +61,7 @@ namespace Assets.WorldObjects
             {
                 bigManager = GetComponentInParent<TheReelBigCombinationTileMapManager>();
             }
-            if(bigManager == null)
+            if (bigManager == null)
             {
                 // SINGLETON TIME BAYBEE
                 bigManager = GameObject.FindObjectOfType<TheReelBigCombinationTileMapManager>();

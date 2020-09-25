@@ -1,5 +1,5 @@
 ﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects.SaveObjects;
 using Assets.WorldObjects.SaveObjects.SaveManager;
 using System;

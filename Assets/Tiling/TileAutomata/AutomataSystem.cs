@@ -1,4 +1,4 @@
-﻿using Assets.Tiling.Tilemapping.NEwSHITE;
+﻿using Assets.Tiling.Tilemapping;
 using UnityEngine;
 
 namespace Assets.Tiling.TileAutomata

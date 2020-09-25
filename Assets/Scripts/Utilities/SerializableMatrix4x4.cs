@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using Extensions;
 
 namespace Assets.Scripts.Utilities
 {
@@ -41,7 +39,7 @@ namespace Assets.Scripts.Utilities
         public Matrix4x4 GetMatrix()
         {
             var newMatrix = new Matrix4x4();
-            foreach (var vect in FromFloatStream(matrixData).Select((vect, i) => new { vect, i}))
+            foreach (var vect in FromFloatStream(matrixData).Select((vect, i) => new { vect, i }))
             {
                 newMatrix.SetColumn(vect.i, vect.vect);
             }

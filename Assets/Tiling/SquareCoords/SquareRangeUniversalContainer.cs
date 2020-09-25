@@ -1,6 +1,4 @@
-﻿using Assets.Tiling.SquareCoords;
-using Assets.Tiling.Tilemapping.NEwSHITE;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

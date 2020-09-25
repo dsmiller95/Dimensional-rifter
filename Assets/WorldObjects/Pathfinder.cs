@@ -1,10 +1,6 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
-using Assets.Tiling.Tilemapping.NEwSHITE;
-using Assets.Tiling.TriangleCoords;
 using Priority_Queue;
-using Simulation.Tiling.HexCoords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects
 {
-    public class Pathfinder //<T> where T : struct, IBaseCoordinateType
+    public class Pathfinder
     {
         public ISet<UniversalCoordinate> completed;
 
@@ -74,7 +70,7 @@ namespace Assets.WorldObjects
                     .Where(neighbor => bigboi.ValidCoordinateInOwnPlane(neighbor)
                         && coordinateFilterFunction(neighbor, bigboi.everyMember.TilePropertiesAt(neighbor))
                     ).ToList();
-                if(neighbors.Count <= 0)
+                if (neighbors.Count <= 0)
                 {
                     yield break;
                 }
@@ -207,7 +203,7 @@ namespace Assets.WorldObjects
             Func<UniversalCoordinate, TileProperties, bool> passableTiles,
             bool navigateToAdjacent = true)
         {
-            if(source.CoordinateMembershipData != destination.CoordinateMembershipData)
+            if (source.CoordinateMembershipData != destination.CoordinateMembershipData)
             {
                 throw new ArgumentException("coordinates not compatable");
             }

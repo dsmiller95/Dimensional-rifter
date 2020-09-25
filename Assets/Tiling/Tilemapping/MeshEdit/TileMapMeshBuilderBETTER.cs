@@ -1,11 +1,10 @@
-﻿using Assets.MapGen;
-using Assets.Tiling.Tilemapping.TileConfiguration;
+﻿using Assets.Tiling.Tilemapping.TileConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping.NEwSHITE
+namespace Assets.Tiling.Tilemapping.MeshEdit
 {
     public struct MultiVertTileConfig
     {

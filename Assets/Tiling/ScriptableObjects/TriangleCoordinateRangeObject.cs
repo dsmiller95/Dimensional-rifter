@@ -1,5 +1,4 @@
-﻿using Assets.Tiling.Tilemapping.NEwSHITE;
-using Assets.Tiling.TriangleCoords;
+﻿using Assets.Tiling.TriangleCoords;
 using UnityEngine;
 
 namespace Assets.Tiling.ScriptableObjects

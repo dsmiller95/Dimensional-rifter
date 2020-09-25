@@ -2,7 +2,7 @@
 using Assets.Tiling.Tilemapping.TileConfiguration;
 using UnityEngine;
 
-namespace Assets.Tiling.Tilemapping.NEwSHITE
+namespace Assets.Tiling.Tilemapping
 {
     /// <summary>
     /// contains data used to display and configure tilemaps by coordinate type. should contain nothing

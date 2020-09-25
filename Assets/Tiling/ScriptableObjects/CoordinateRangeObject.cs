@@ -1,5 +1,4 @@
-﻿using Assets.Tiling.Tilemapping.NEwSHITE;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Tiling.ScriptableObjects
 {

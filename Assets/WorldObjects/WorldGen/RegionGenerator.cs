@@ -1,5 +1,5 @@
 ﻿using Assets.Tiling;
-using Assets.Tiling.Tilemapping.NEwSHITE;
+using Assets.Tiling.Tilemapping;
 using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects.SaveObjects;
 using System.Collections.Generic;
