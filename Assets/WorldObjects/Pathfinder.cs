@@ -37,13 +37,13 @@ namespace Assets.WorldObjects
         private IDictionary<UniversalCoordinate, CoordinateData> visited;
 
         private SimplePriorityQueue<UniversalCoordinate, float> fringe;
-        private TheReelBigCombinationTileMapManager bigboi;
+        private CombinationTileMapManager bigboi;
         private Func<UniversalCoordinate, TileProperties, bool> coordinateFilterFunction;
 
         private readonly UniversalCoordinate origin;
         public Pathfinder(
             UniversalCoordinate origin,
-            TheReelBigCombinationTileMapManager region,
+            CombinationTileMapManager region,
             Func<UniversalCoordinate, TileProperties, bool> isCoordinateVisitable)
         {
             bigboi = region;
@@ -174,7 +174,7 @@ namespace Assets.WorldObjects
         public static IEnumerable<UniversalCoordinate> PathBetween(
             UniversalCoordinate source,
             UniversalCoordinate destination,
-            TheReelBigCombinationTileMapManager region,
+            CombinationTileMapManager region,
             Func<UniversalCoordinate, TileProperties, bool> passableTiles,
             bool navigateToAdjacent)
         {
@@ -185,7 +185,7 @@ namespace Assets.WorldObjects
         public static IEnumerable<UniversalCoordinate> RandomWalk(
             UniversalCoordinate source,
             int steps,
-            TheReelBigCombinationTileMapManager region,
+            CombinationTileMapManager region,
             Func<UniversalCoordinate, TileProperties, bool> passableTiles)
         {
             var pather = new Pathfinder(source, region, (coord, properties) => passableTiles(coord, properties));
@@ -199,7 +199,7 @@ namespace Assets.WorldObjects
         public static IEnumerable<UniversalCoordinate> PathBetween(
             UniversalCoordinate source,
             UniversalCoordinate destination,
-            TheReelBigCombinationTileMapManager region,
+            CombinationTileMapManager region,
             Func<UniversalCoordinate, TileProperties, bool> passableTiles,
             bool navigateToAdjacent = true)
         {
@@ -212,7 +212,7 @@ namespace Assets.WorldObjects
         public static IEnumerable<UniversalCoordinate> RandomWalkOfLength(
             UniversalCoordinate source,
             int walkLength,
-            TheReelBigCombinationTileMapManager region,
+            CombinationTileMapManager region,
             Func<UniversalCoordinate, TileProperties, bool> passableTiles)
         {
             return Pathfinder.RandomWalk(source, walkLength, region, passableTiles);

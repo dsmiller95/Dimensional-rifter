@@ -19,12 +19,12 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
     ///     tiles from the mesh for higher-frequency calls
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TileMapMeshBuilderBETTER
+    public class TileMapMeshBuilder
     {
         private TileSet tileSet;
         private UniversalCoordinateSystemMembers coordinateMemebers;
 
-        public TileMapMeshBuilderBETTER(TileSet tileSet, UniversalCoordinateSystemMembers members)
+        public TileMapMeshBuilder(TileSet tileSet, UniversalCoordinateSystemMembers members)
         {
             this.tileSet = tileSet;
             coordinateMemebers = members;

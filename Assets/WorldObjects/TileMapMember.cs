@@ -16,7 +16,7 @@ namespace Assets.WorldObjects
     public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo
     {
         [NonSerialized] // grabbed from object heirarchy
-        public TheReelBigCombinationTileMapManager bigManager;
+        public CombinationTileMapManager bigManager;
         /// <summary>
         /// a bit mask indicating which regions this member belongs to
         /// </summary>
@@ -59,12 +59,12 @@ namespace Assets.WorldObjects
         {
             if (bigManager == null)
             {
-                bigManager = GetComponentInParent<TheReelBigCombinationTileMapManager>();
+                bigManager = GetComponentInParent<CombinationTileMapManager>();
             }
             if (bigManager == null)
             {
                 // SINGLETON TIME BAYBEE
-                bigManager = GameObject.FindObjectOfType<TheReelBigCombinationTileMapManager>();
+                bigManager = GameObject.FindObjectOfType<CombinationTileMapManager>();
             }
         }
 

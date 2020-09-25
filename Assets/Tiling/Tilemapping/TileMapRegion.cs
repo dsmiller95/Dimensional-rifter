@@ -35,14 +35,14 @@ namespace Assets.Tiling.Tilemapping
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(PolygonCollider2D))]
     [RequireComponent(typeof(PolygonCollider2D))]
-    public class TileMapRegionBehavior : MonoBehaviour
+    public class TileMapRegion : MonoBehaviour
     {
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;
-        public TileMapMeshBuilderBETTER meshBuilder;
+        public TileMapMeshBuilder meshBuilder;
 
         public TileMapRegionRuntimeData runtimeData;
-        public TheReelBigCombinationTileMapManager BigManager => GetComponentInParent<TheReelBigCombinationTileMapManager>();
+        public CombinationTileMapManager BigManager => GetComponentInParent<CombinationTileMapManager>();
 
         protected virtual void Awake()
         {
@@ -84,7 +84,7 @@ namespace Assets.Tiling.Tilemapping
             UniversalCoordinateSystemMembers members)
         {
 
-            meshBuilder = new TileMapMeshBuilderBETTER(tileConfiguration.tileSet, members);
+            meshBuilder = new TileMapMeshBuilder(tileConfiguration.tileSet, members);
             var renderer = GetComponent<MeshRenderer>();
             renderer.material.mainTexture = tileConfiguration.tileTexture;
             meshBuilder.SetupTilesForGivenTexture(tileConfiguration.tileTexture);
@@ -106,7 +106,7 @@ namespace Assets.Tiling.Tilemapping
 
         public void BakeTopologyAvoidingOthers(
             TileMapRegionData data,
-            IEnumerable<TileMapRegionBehavior> otherRegionsToAvoid)
+            IEnumerable<TileMapRegion> otherRegionsToAvoid)
         {
             var colliderList = otherRegionsToAvoid.Select(x => x.BoundingBoxCollider).ToArray();
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();

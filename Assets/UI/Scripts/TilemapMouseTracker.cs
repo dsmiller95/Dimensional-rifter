@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace Assets.UI.Scripts
 {
-    [RequireComponent(typeof(TheReelBigCombinationTileMapManager))]
+    [RequireComponent(typeof(CombinationTileMapManager))]
     public class TilemapMouseTracker : MonoBehaviour
     {
         public GameObjectVariable objectToTrack;
 
         private TileMapMember trackingMemeber;
-        private TheReelBigCombinationTileMapManager combinationManager;
+        private CombinationTileMapManager combinationManager;
 
         public void Awake()
         {
-            combinationManager = GetComponent<TheReelBigCombinationTileMapManager>();
+            combinationManager = GetComponent<CombinationTileMapManager>();
 
             SetTracking(objectToTrack.CurrentValue);
             objectToTrack.Value.TakeUntilDestroy(this)
