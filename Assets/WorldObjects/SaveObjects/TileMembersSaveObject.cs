@@ -1,6 +1,5 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.Tilemapping.TileConfiguration;
-using Assets.WorldObjects.Members;
 using System;
 using System.Collections.Generic;
 

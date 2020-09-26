@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members
@@ -11,7 +9,7 @@ namespace Assets.WorldObjects.Members
         public abstract void AssignId(int myNewID);
     }
 
-    public abstract class UniqueObjectRegistry: ScriptableObject
+    public abstract class UniqueObjectRegistry : ScriptableObject
     {
         public abstract IDableObject[] AllObjects { get; }
 
@@ -24,7 +22,7 @@ namespace Assets.WorldObjects.Members
         }
     }
 
-    public abstract class UniqueObjectRegistryWithAccess<T> : UniqueObjectRegistry where T: IDableObject
+    public abstract class UniqueObjectRegistryWithAccess<T> : UniqueObjectRegistry where T : IDableObject
     {
         public T[] allObjects;
         public override IDableObject[] AllObjects => allObjects;

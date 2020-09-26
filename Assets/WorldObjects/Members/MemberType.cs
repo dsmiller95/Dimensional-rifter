@@ -38,7 +38,7 @@ namespace Assets.WorldObjects.Members
 
         public override void AssignId(int myNewID)
         {
-            this.memberID = myNewID;
+            memberID = myNewID;
         }
     }
 }
