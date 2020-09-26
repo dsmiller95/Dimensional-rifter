@@ -71,7 +71,7 @@ namespace Assets.WorldObjects.WorldGen
                             coordinate = coordinate,
                             objectData = new TileMemberData
                             {
-                                memberType = config.type.uniqueData,
+                                memberID = config.type.memberID,
                                 objectDatas = config.type.InstantiateNewSaveObject()
                             }
                         })

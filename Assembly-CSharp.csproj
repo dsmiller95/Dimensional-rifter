@@ -73,6 +73,7 @@
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IHarvestable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
+    <Compile Include="Assets\Scripts\Utilities\UniqueObjectRegistry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\IsHungryGuardFactory.cs" />
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationResetTrigger.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\ItemController.cs" />
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IBuildable.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoard.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
@@ -251,7 +253,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\TileMapMeshBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

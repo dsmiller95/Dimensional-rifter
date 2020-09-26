@@ -85,14 +85,14 @@ namespace Assets.WorldObjects
             var saveAble = GetComponent<IMemberSaveable>();
             return new TileMemberData
             {
-                memberType = memberType.uniqueData,
+                memberID = memberType.memberID,
                 objectDatas = saveableData.ToArray()
             };
         }
 
         public void SetupFromSaveObject(TileMemberData save)
         {
-            memberType = membersScriptRegistry.GetMemberFromUniqueInfo(save.memberType);
+            memberType = membersScriptRegistry.GetUniqueObjectFromID(save.memberID);
 
             var saveables = GetComponents<IMemberSaveable>();
             var saveObjects = save.objectDatas.ToDictionary(x => x.identifierInMember, x => x.data);

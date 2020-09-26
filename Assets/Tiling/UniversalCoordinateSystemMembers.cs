@@ -135,7 +135,7 @@ namespace Assets.Tiling
 
             foreach (var memberData in save.members)
             {
-                var newType = memberPrefabRegistry.GetMemberFromUniqueInfo(memberData.objectData.memberType);
+                var newType = memberPrefabRegistry.GetUniqueObjectFromID(memberData.objectData.memberID);
 
                 var instantiated = Instantiate(newType.memberPrefab, transform).GetComponent<TileMapMember>();
                 instantiated?.SetPosition(memberData.coordinate);

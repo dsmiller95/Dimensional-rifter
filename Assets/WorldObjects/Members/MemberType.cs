@@ -6,30 +6,11 @@ namespace Assets.WorldObjects.Members
 {
 
     [Serializable]
-    public struct MemberTypeUniqueData
-    {
-        public int uniqueId;
-        public override bool Equals(object obj)
-        {
-            if (obj is MemberTypeUniqueData other)
-            {
-                return other.uniqueId == uniqueId;
-            }
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return uniqueId;
-        }
-    }
-
-    [Serializable]
     [CreateAssetMenu(fileName = "MemberType", menuName = "Members/MemberType/Type", order = 2)]
-    public class MemberType : ScriptableObject
+    public class MemberType : IDableObject
     {
         [SerializeField]
-        public MemberTypeUniqueData uniqueData;
+        public int memberID;
 
         [Tooltip("When true this member will be included in the list of possible recepticals for a storage task")]
         public bool recieveStorage = false;
@@ -45,14 +26,19 @@ namespace Assets.WorldObjects.Members
         {
             if (obj is MemberType other)
             {
-                return other.uniqueData.Equals(uniqueData);
+                return other.memberID == memberID;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return uniqueData.GetHashCode();
+            return memberID;
+        }
+
+        public override void AssignId(int myNewID)
+        {
+            this.memberID = myNewID;
         }
     }
 }

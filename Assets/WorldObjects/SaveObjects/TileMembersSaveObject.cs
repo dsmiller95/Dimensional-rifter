@@ -16,7 +16,7 @@ namespace Assets.WorldObjects.SaveObjects
     [Serializable]
     public struct TileMemberData
     {
-        public MemberTypeUniqueData memberType;
+        public int memberID;
         public InMemberObjectData[] objectDatas;
     }
 
