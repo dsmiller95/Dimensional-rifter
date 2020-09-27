@@ -11,20 +11,32 @@ namespace Assets.WorldObjects.Members.Buildings
         public BuildingController targetController;
         public ErrandType ErrandType => errandType;
 
-        public BuildingErrand(BuildingErrandType errandType, BuildingController builder)
+        public GameObject buildWorker;
+
+        private IErrandCompletionReciever<BuildingErrand> completionReciever;
+        private bool BehaviorCompleted = false;
+
+        public BuildingErrand(
+            BuildingErrandType errandType,
+            BuildingController toBeBuilt,
+            GameObject buildWorker)
         {
             this.errandType = errandType;
-            targetController = builder;
+            targetController = toBeBuilt;
+            this.buildWorker = buildWorker;
+            this.completionReciever = toBeBuilt;
+
+            SetupBehavior();
         }
 
         private BehaviorNode ErrandBehaviorTreeRoot;
 
-        public void ClaimedBy(GameObject claimer)
+        private void SetupBehavior()
         {
             ErrandBehaviorTreeRoot =
             new Sequence(
                 new FindPathToBakedTarget(
-                    claimer,
+                    buildWorker,
                     targetController.gameObject,
                     "Path",
                     true),
@@ -36,9 +48,11 @@ namespace Assets.WorldObjects.Members.Buildings
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log($"Build behavior completed for {claimer.name}");
-
-                    return targetController.Build() ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
+                    Debug.Log($"Build behavior completed for {buildWorker.name}");
+                    var result = targetController.Build();
+                    BehaviorCompleted = true;
+                    completionReciever.ErrandCompleted(this);
+                    return result ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
                 })
             );
         }
@@ -46,6 +60,14 @@ namespace Assets.WorldObjects.Members.Buildings
         public NodeStatus Execute(Blackboard blackboard)
         {
             return ErrandBehaviorTreeRoot?.Evaluate(blackboard) ?? NodeStatus.FAILURE;
+        }
+        public void OnReset()
+        {
+            if (!BehaviorCompleted)
+            {
+                completionReciever.ErrandAborted(this);
+            }
+            ErrandBehaviorTreeRoot = null;
         }
     }
 }

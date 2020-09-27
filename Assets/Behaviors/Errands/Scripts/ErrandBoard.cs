@@ -7,7 +7,7 @@ namespace Assets.Behaviors.Errands.Scripts
     [CreateAssetMenu(fileName = "ErrandBoard", menuName = "Behaviors/ErrandBoard", order = 1)]
     public class ErrandBoard : ScriptableObject
     {
-        public IList<ErrandHandler>[] ErrandsByErrandTypeUniqueID;
+        public ISet<IErrandSource<IErrand>>[] ErrandSourcesByErrandTypeID;
         public ErrandTypeRegistry ErrandRegistry;
 
         /// <summary>
@@ -16,53 +16,54 @@ namespace Assets.Behaviors.Errands.Scripts
         /// <param name="type"></param>
         /// <param name="claimer"></param>
         /// <returns>Errand if any found, otherwise null</returns>
-        public ErrandHandler AttemptClaimAnyErrandOfType(ErrandType type, GameObject claimer)
+        public IErrand AttemptClaimAnyErrandOfType(ErrandType type, GameObject claimer)
         {
             var errandIndex = type.uniqueID;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
-            return ErrandsByErrandTypeUniqueID[errandIndex]
-                .FirstOrDefault(errand => errand.Available && errand.TryClaim(claimer));
+            return ErrandSourcesByErrandTypeID[errandIndex]
+                .Select(source => source.GetErrand(claimer))
+                .FirstOrDefault(errand => errand != null);
         }
 
-        public bool DeRegisterErrand(ErrandHandler errandHandler)
+        public bool DeRegisterErrandSource(IErrandSource<IErrand> errandSource)
         {
-            var errandIndex = errandHandler.errand.ErrandType.uniqueID;
+            var errandType = errandSource.ErrandType;
+            var errandIndex = errandType.uniqueID;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
-            Debug.Log($"Deregistered errand: {errandHandler.errand.ErrandType.name}");
-            return ErrandsByErrandTypeUniqueID[errandIndex].Remove(errandHandler);
+            Debug.Log($"Deregistered errand source of type: {errandType.name}");
+            return ErrandSourcesByErrandTypeID[errandIndex].Remove(errandSource);
         }
 
-        public void RegisterErrand(IErrand errand)
+        public void RegisterErrandSource(IErrandSource<IErrand> source)
         {
-            var errandIndex = errand.ErrandType.uniqueID;
+            var errandIndex = source.ErrandType.uniqueID;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
 
-            var errandHandler = new ErrandHandler(errand, this);
-            ErrandsByErrandTypeUniqueID[errandIndex].Add(errandHandler);
-            Debug.Log($"Registered errand: {errand.ErrandType.name}");
+            ErrandSourcesByErrandTypeID[errandIndex].Add(source);
+            Debug.Log($"Registered errand: {source.ErrandType.name}");
         }
 
         private void ExtendErrandMappingToLengthIfNeeded(int errandIndex)
         {
-            if (ErrandsByErrandTypeUniqueID != null && errandIndex < ErrandsByErrandTypeUniqueID.Length)
+            if (ErrandSourcesByErrandTypeID != null && errandIndex < ErrandSourcesByErrandTypeID.Length)
             {
                 return;
             }
-            var newArray = new IList<ErrandHandler>[errandIndex + 1];
+            var newArray = new ISet<IErrandSource<IErrand>>[errandIndex + 1];
             int i = 0;
-            if (ErrandsByErrandTypeUniqueID != null)
+            if (ErrandSourcesByErrandTypeID != null)
             {
-                for (; i < ErrandsByErrandTypeUniqueID.Length; i++)
+                for (; i < ErrandSourcesByErrandTypeID.Length; i++)
                 {
-                    newArray[i] = ErrandsByErrandTypeUniqueID[i];
+                    newArray[i] = ErrandSourcesByErrandTypeID[i];
                 }
             }
             for (; i < newArray.Length; i++)
             {
-                newArray[i] = new List<ErrandHandler>();
+                newArray[i] = new HashSet<IErrandSource<IErrand>>();
             }
 
-            ErrandsByErrandTypeUniqueID = newArray;
+            ErrandSourcesByErrandTypeID = newArray;
         }
     }
 }

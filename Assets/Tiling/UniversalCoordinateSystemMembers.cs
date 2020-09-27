@@ -88,11 +88,6 @@ namespace Assets.Tiling
             }
             return new TileMapMember[0];
         }
-        [Obsolete("Use IsPassable")]
-        public bool IsPassableTypeUnsafe(UniversalCoordinate coord)
-        {
-            return IsPassable(coord);
-        }
         public bool IsPassable(UniversalCoordinate coordinate)
         {
             var props = TilePropertiesAt(coordinate);

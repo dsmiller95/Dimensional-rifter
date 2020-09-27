@@ -28,11 +28,6 @@ MonoBehaviour:
   m_Name: FindWorkGraph
   m_EditorClassIdentifier: 
   _savedNodes:
-  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
-    Title: Building Supply
-    factory: {fileID: 8877972465841013884}
-    position: {x: 385, y: 138}
-    ConnectedChildrenGuids: []
   - Guid: 19721b47-ecb3-462c-86b3-0d7a8171235e
     Title: Harvest Anything
     factory: {fileID: 6229142998929930300}
@@ -62,6 +57,11 @@ MonoBehaviour:
     Title: Claim An Errand
     factory: {fileID: -7686626533107331920}
     position: {x: 276, y: 37}
+    ConnectedChildrenGuids: []
+  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
+    Title: Building Supply
+    factory: {fileID: 8877972465841013884}
+    position: {x: 331, y: 130}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: 4294714761230635347}
   factoriesSavedWithAsset:

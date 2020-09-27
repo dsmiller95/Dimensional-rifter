@@ -148,7 +148,7 @@ namespace Assets.WorldObjects
                         coordinatePosition,
                         steps,
                         bigManager,
-                        (coord, properties) => bigManager.everyMember.IsPassableTypeUnsafe(coord));
+                        (coord, properties) => bigManager.everyMember.IsPassable(coord));
 
             return new NavigationPath
             {

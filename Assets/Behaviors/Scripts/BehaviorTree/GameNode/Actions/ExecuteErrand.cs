@@ -15,26 +15,13 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         }
         public override void Reset(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out ErrandHandler errand))
-            {
-                errand.Complete();
-            }
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out ErrandHandler errand))
+            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out IErrand errand))
             {
-                if (errand.IsComplete)
-                {
-                    return NodeStatus.SUCCESS;
-                }
-                var result = errand.errand.Execute(blackboard);
-                if (result != NodeStatus.RUNNING)
-                {
-                    errand.Complete();
-                }
-                return result;
+                return errand.Execute(blackboard);
             }
 
             return NodeStatus.FAILURE;

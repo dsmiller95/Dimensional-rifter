@@ -16,17 +16,19 @@ namespace Assets.WorldObjects.Members.Buildings
         public float remainingResourceRequirement;
     }
     [DisallowMultipleComponent]
-    public class BuildingController : MonoBehaviour, IBuildable, ISuppliable, IMemberSaveable
+    public class BuildingController : MonoBehaviour,
+        IBuildable, ISuppliable, IMemberSaveable,
+        IErrandSource<BuildingErrand>, IErrandCompletionReciever<BuildingErrand>
     {
         public ResourceItemType ItemTypeRequriement;
         public float remainingResourceRequirement;
         public BooleanReference hasBeenBuilt;
+        public SuppliableType supplyClassification;
+        public SuppliableType SuppliableClassification => supplyClassification;
 
         public ErrandBoard errandBoard;
         public BuildingErrandType buildErrandType;
-
-        public SuppliableType supplyClassification;
-        public SuppliableType SuppliableClassification => supplyClassification;
+        public ErrandType ErrandType => buildErrandType;
 
         public bool Build()
         {
@@ -35,6 +37,7 @@ namespace Assets.WorldObjects.Members.Buildings
                 return false;
             }
             hasBeenBuilt.SetValue(true);
+            errandBoard.DeRegisterErrandSource(this);
             return true;
         }
         public bool IsBuildable()
@@ -74,8 +77,7 @@ namespace Assets.WorldObjects.Members.Buildings
 
             if (IsBuildable())
             {
-                var newErrand = buildErrandType.CreateErrand(this);
-                errandBoard.RegisterErrand(newErrand);
+                errandBoard.RegisterErrandSource(this);
             }
         }
 
@@ -109,6 +111,35 @@ namespace Assets.WorldObjects.Members.Buildings
             {
                 Debug.LogError("Error: save data is improperly formatted");
             }
+        }
+
+        private bool BuildErrandActive;
+
+        public BuildingErrand GetErrand(GameObject errandExecutor)
+        {
+            if (!IsBuildable())
+            {
+                Debug.LogError("Errand requested for building controller which should not be registered as a source");
+                return null;
+            }
+            if (BuildErrandActive)
+            {
+                return null;
+            }
+            BuildErrandActive = true;
+            return new BuildingErrand(
+                buildErrandType,
+                this,
+                errandExecutor);
+        }
+
+        public void ErrandCompleted(BuildingErrand errand)
+        {
+            BuildErrandActive = false;
+        }
+        public void ErrandAborted(BuildingErrand errand)
+        {
+            BuildErrandActive = false;
         }
     }
 }

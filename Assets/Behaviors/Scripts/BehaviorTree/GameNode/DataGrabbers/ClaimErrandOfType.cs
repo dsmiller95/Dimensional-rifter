@@ -24,16 +24,16 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         }
         public override void Reset(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out ErrandHandler errand))
+            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out IErrand errand))
             {
-                errand.Complete();
+                errand.OnReset();
                 blackboard.ClearValue(errandPathInBlackboard);
             }
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out ErrandHandler errand))
+            if (blackboard.TryGetValueOfType(errandPathInBlackboard, out IErrand errand))
             {
                 // only grab an errand if there is none already -- this node must be reset in order to grab another
                 return NodeStatus.SUCCESS;

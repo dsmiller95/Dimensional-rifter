@@ -19,7 +19,6 @@ namespace Assets.Behaviors.Errands.Scripts
         /// <param name="actor"></param>
         /// <returns></returns>
         NodeStatus Execute(Blackboard blackboard);
-
-        void ClaimedBy(GameObject claimer);
+        void OnReset();
     }
 }

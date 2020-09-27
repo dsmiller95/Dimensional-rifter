@@ -1,0 +1,28 @@
+title Errands
+
+participant Behavior Machine
+participant Errand Board
+participant Errand Source
+participant Errand
+
+
+Errand Board<-Errand Source:registers self
+Behavior Machine->Errand Board:Requests errand of some type\n
+Errand Board->Errand Source:GetErrand(GameObject)
+Errand Source->Errand:new Errand()
+activate Errand
+opt If no remaining work to be handed out
+Errand Board<-Errand Source:De-Register self
+end
+Errand Board<-Errand Source:return Errand
+Behavior Machine<-Errand Board:return Errand
+loop repeat until complete/fail
+Behavior Machine->Errand:Execute(Blackboard)
+end
+Behavior Machine->Errand:Complete()
+Errand Source<-Errand:ErrandCompleted(this)
+deactivate Errand
+opt If Errand completed due to failure
+Errand Board<-Errand Source:Register self
+end
+
