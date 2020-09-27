@@ -192,6 +192,26 @@ namespace Assets.WorldObjects
             };
         }
 
+        public NavigationPath? GetPathTo(TileMapMember target, bool navigateToAdjacent = true)
+        {
+            var path = PathfinderUtils.PathBetween(
+                CoordinatePosition,
+                target.CoordinatePosition,
+                bigManager,
+                (coord, properties) => bigManager.everyMember.IsPassable(coord),
+                navigateToAdjacent
+            );
+            if (path == null)
+            {
+                return null;
+            }
+            return new NavigationPath
+            {
+                coordinatePath = path.ToList(),
+                targetMember = target
+            };
+        }
+
         private IEnumerable<(List<UniversalCoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
             var myRegionID = RegionBitMask;

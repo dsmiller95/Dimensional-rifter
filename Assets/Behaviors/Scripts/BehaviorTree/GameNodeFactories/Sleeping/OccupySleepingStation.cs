@@ -28,7 +28,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     sleepPathBlackboard,
                     sleepStationBlackboard
                 ),// todo: will have to handle if someone gets to my station first?
-                new ActionOnComponentLeaf<SleepStation>(
+                new ActionOnComponentInBlackboardLeaf<SleepStation>(
                     sleepStationBlackboard,
                     (station) => station.OccupyStation(target) ? NodeStatus.SUCCESS : NodeStatus.FAILURE
                 )

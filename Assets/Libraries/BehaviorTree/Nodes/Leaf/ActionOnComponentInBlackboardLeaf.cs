@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace BehaviorTree.Nodes
 {
-    public class ActionOnComponentLeaf<T> : Leaf
+    public class ActionOnComponentInBlackboardLeaf<T> : Leaf
     {
         private Func<T, NodeStatus> action;
         private string targetObjectProperty;
 
-        public ActionOnComponentLeaf(
+        public ActionOnComponentInBlackboardLeaf(
             string targetObjectProperty,
             Func<T, NodeStatus> action)
         {

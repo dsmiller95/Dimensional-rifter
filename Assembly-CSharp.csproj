@@ -62,7 +62,6 @@
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\BuildAnyBuildableLeafFactory.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
@@ -79,10 +78,13 @@
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateStructSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\SupplyToSupplyTypeFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnTargetComponentLeaf.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTarget.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\LambdaLeaf.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\WorldGenerator.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Wall\Blocking.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\RootFactory.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
@@ -106,8 +108,10 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\ExecuteErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GrowingThingController.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinate.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandTypeRegistry.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareRangeUniversalContainer.cs" />
     <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
@@ -157,6 +162,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoard.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandHandler.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
@@ -215,11 +221,10 @@
     <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindBuildableTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentLeaf.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentInBlackboardLeaf.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSuppliableTarget.cs" />
@@ -253,6 +258,9 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToBakedTarget.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

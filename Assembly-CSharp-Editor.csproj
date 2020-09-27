@@ -60,7 +60,7 @@
     <Compile Include="Assets\Scripts\Core\Editor\FloatReferenceDrawer.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\Editor\InventoryReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeView.cs" />
-    <Compile Include="Assets\Scripts\Core\Editor\UniqueObjectRegistryEditor.cs" />
+    <Compile Include="Assets\Scripts\Utilities\Editor\UniqueObjectRegistryEditor.cs" />
     <Compile Include="Assets\Scripts\Core\Editor\GenericReferenceDrawer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\GraphEditor\BehaviorGraphView.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Editor\BehaviorTreeWindow.cs" />

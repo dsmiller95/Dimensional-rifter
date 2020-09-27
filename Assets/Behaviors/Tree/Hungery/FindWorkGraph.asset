@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7686626533107331920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
+  m_Name: Claim An Errand
+  m_EditorClassIdentifier: 
+  errandPathInBlackboard: Errand
+  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  errandType: {fileID: 11400000, guid: f68436973f202d24498909e424948e40, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,26 +28,6 @@ MonoBehaviour:
   m_Name: FindWorkGraph
   m_EditorClassIdentifier: 
   _savedNodes:
-  - Guid: d867b8cc-7423-4952-bf2d-2bf82aebb712
-    Title: Root
-    factory: {fileID: 0}
-    position: {x: -274, y: 94}
-    ConnectedChildrenGuids:
-    - 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
-  - Guid: 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
-    Title: Find Task
-    factory: {fileID: 4294714761230635347}
-    position: {x: -80, y: 92}
-    ConnectedChildrenGuids:
-    - 89ea8dca-0210-4c6a-b1e8-3900fb502067
-    - 6db26504-62c9-42df-ba51-f02496f6dc18
-    - 19721b47-ecb3-462c-86b3-0d7a8171235e
-    - 88e457e7-bdaa-4dfd-9d56-d0cf90da8c5e
-  - Guid: 89ea8dca-0210-4c6a-b1e8-3900fb502067
-    Title: BuildAnyBuildable
-    factory: {fileID: 7976033067091648560}
-    position: {x: 304, y: -16}
-    ConnectedChildrenGuids: []
   - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
     Title: Building Supply
     factory: {fileID: 8877972465841013884}
@@ -48,13 +43,33 @@ MonoBehaviour:
     factory: {fileID: 6541563360892428532}
     position: {x: 394, y: 314}
     ConnectedChildrenGuids: []
+  - Guid: 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
+    Title: Find Task
+    factory: {fileID: 4294714761230635347}
+    position: {x: -117, y: 112}
+    ConnectedChildrenGuids:
+    - 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
+    - 6db26504-62c9-42df-ba51-f02496f6dc18
+    - 19721b47-ecb3-462c-86b3-0d7a8171235e
+    - 88e457e7-bdaa-4dfd-9d56-d0cf90da8c5e
+  - Guid: d867b8cc-7423-4952-bf2d-2bf82aebb712
+    Title: Root
+    factory: {fileID: 0}
+    position: {x: -377, y: 133}
+    ConnectedChildrenGuids:
+    - 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
+  - Guid: 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
+    Title: Claim An Errand
+    factory: {fileID: -7686626533107331920}
+    position: {x: 276, y: 37}
+    ConnectedChildrenGuids: []
   entryFactory: {fileID: 4294714761230635347}
   factoriesSavedWithAsset:
   - {fileID: 4294714761230635347}
-  - {fileID: 7976033067091648560}
   - {fileID: 8877972465841013884}
   - {fileID: 6541563360892428532}
   - {fileID: 6229142998929930300}
+  - {fileID: -7686626533107331920}
 --- !u!114 &4294714761230635347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +83,7 @@ MonoBehaviour:
   m_Name: Find Task
   m_EditorClassIdentifier: 
   children:
-  - {fileID: 7976033067091648560}
+  - {fileID: -7686626533107331920}
   - {fileID: 8877972465841013884}
   - {fileID: 6229142998929930300}
   - {fileID: 6541563360892428532}
@@ -103,20 +118,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
   validSupplyTarget: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
   selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
---- !u!114 &7976033067091648560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ceee580df352454badae4fe4d87e31f, type: 3}
-  m_Name: BuildAnyBuildable
-  m_EditorClassIdentifier: 
-  blackboardPathProperty: Path
-  buildableProperty: Target
 --- !u!114 &8877972465841013884
 MonoBehaviour:
   m_ObjectHideFlags: 0

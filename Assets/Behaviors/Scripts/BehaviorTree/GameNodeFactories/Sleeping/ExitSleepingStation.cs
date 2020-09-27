@@ -15,7 +15,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return
-                new ActionOnComponentLeaf<SleepStation>(
+                new ActionOnComponentInBlackboardLeaf<SleepStation>(
                     sleepStationBlackboard,
                     (station) => station.ExitStation(target) ? NodeStatus.SUCCESS : NodeStatus.FAILURE
                 );

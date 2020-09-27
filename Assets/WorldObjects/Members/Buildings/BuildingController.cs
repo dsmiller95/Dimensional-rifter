@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core;
+﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.Scripts.Core;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
@@ -20,6 +21,9 @@ namespace Assets.WorldObjects.Members.Buildings
         public ResourceItemType ItemTypeRequriement;
         public float remainingResourceRequirement;
         public BooleanReference hasBeenBuilt;
+
+        public ErrandBoard errandBoard;
+        public BuildingErrandType buildErrandType;
 
         public SuppliableType supplyClassification;
         public SuppliableType SuppliableClassification => supplyClassification;
@@ -67,6 +71,12 @@ namespace Assets.WorldObjects.Members.Buildings
         private void SetRemainingResourceRequirement(float remaining)
         {
             remainingResourceRequirement = remaining;
+
+            if (IsBuildable())
+            {
+                var newErrand = buildErrandType.CreateErrand(this);
+                errandBoard.RegisterErrand(newErrand);
+            }
         }
 
         public ISet<Resource> ValidSupplyTypes()
