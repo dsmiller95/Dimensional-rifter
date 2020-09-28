@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Core;
+﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.Scripts.Core;
+using Assets.WorldObjects.Members.Buildings;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
 using System;
@@ -18,7 +20,9 @@ namespace Assets.WorldObjects.Members.Food
 
     // can't have multiple on same component due to saveObject tag being constant
     [DisallowMultipleComponent]
-    public class GrowingThingController : MonoBehaviour, IHarvestable, IMemberSaveable
+    public class GrowingThingController : MonoBehaviour,
+        IHarvestable, IMemberSaveable,
+        IErrandSource<GatheringErrand>, IErrandCompletionReciever<GatheringErrand>
     {
         public BooleanReference IsBuiltAndGrowing;
 
@@ -33,6 +37,11 @@ namespace Assets.WorldObjects.Members.Food
 
         public ResourceItemType resourceToGrow;
         public float amountToGrow;
+
+
+        public ErrandBoard errandBoard;
+        public GatheringErrandType gatheringErrandType;
+        public ErrandType ErrandType => gatheringErrandType;
 
         public bool DoHarvest()
         {
@@ -50,6 +59,7 @@ namespace Assets.WorldObjects.Members.Food
             spawnedItem.resourceAmount = amountToGrow;
 
             SetGrownAmount(0f);
+            errandBoard.DeRegisterErrandSource(this);
 
             return true;
         }
@@ -76,6 +86,7 @@ namespace Assets.WorldObjects.Members.Food
                 currentGrowthAmount = finalGrowthAmount;
                 IsGrown = true;
                 GetComponent<SpriteRenderer>().sprite = grownSprite;
+                errandBoard.RegisterErrandSource(this);
             }
             else
             {
@@ -113,6 +124,36 @@ namespace Assets.WorldObjects.Members.Food
             {
                 SetGrownAmount(saveObject.currentGrowth);
             }
+        }
+
+
+        private bool ErrandActive;
+
+        public GatheringErrand GetErrand(GameObject errandExecutor)
+        {
+            if (!HarvestReady())
+            {
+                Debug.LogError("Errand requested for building controller which should not be registered as a source");
+                return null;
+            }
+            if (ErrandActive)
+            {
+                return null;
+            }
+            ErrandActive = true;
+            return new GatheringErrand(
+                gatheringErrandType,
+                this,
+                errandExecutor);
+        }
+
+        public void ErrandCompleted(GatheringErrand errand)
+        {
+            ErrandActive = false;
+        }
+        public void ErrandAborted(GatheringErrand errand)
+        {
+            ErrandActive = false;
         }
     }
 }

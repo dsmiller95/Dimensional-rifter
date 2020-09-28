@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1806a9668fd261f42b147e35e2a4522d, type: 3}
-  m_Name: ErrandTypeRegistry
+  m_Script: {fileID: 11500000, guid: 2d6dc95b0eecd354396891fdc2a5f196, type: 3}
+  m_Name: GatherAnyErrand
   m_EditorClassIdentifier: 
-  allObjects:
-  - {fileID: 11400000, guid: f68436973f202d24498909e424948e40, type: 2}
-  - {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}
+  uniqueID: 0

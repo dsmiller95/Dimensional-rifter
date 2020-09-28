@@ -62,7 +62,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     jobHandle.Complete();
                     var fullIterationNumbers = fullArrayIterationCount[0];
-                    Debug.Log($"Connectivity updated. Number of times iterated through whole array: {fullIterationNumbers}");
+                    //Debug.Log($"Connectivity updated. Number of times iterated through whole array: {fullIterationNumbers}");
 
                     if (resultStatus[0] == ClassificationJobStatus.COMPLETED_TOO_MANY_REGIONS)
                     {
@@ -74,7 +74,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     }
                     else
                     {
-                        Debug.Log($"Found {finalRegionIndexAccess[0] + 1} seperate regions");
+                        //Debug.Log($"Found {finalRegionIndexAccess[0] + 1} seperate regions");
 
                         foreach (var kvp in memberDataFromRunningJob.allMembersByConnectivityID)
                         {

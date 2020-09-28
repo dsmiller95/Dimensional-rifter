@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRegion: {fileID: 0}
+  RegionBitMask: 0
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
@@ -167,3 +167,5 @@ MonoBehaviour:
   grownSprite: {fileID: 2408991836313283690, guid: c49c8c49ef421e64f9fb6847c586078f, type: 3}
   resourceToGrow: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
   amountToGrow: 1
+  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  gatheringErrandType: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}

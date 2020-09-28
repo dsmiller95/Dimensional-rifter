@@ -10,11 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
-  m_Name: Claim An Errand
+  m_Name: Claim Building Errand
   m_EditorClassIdentifier: 
   errandPathInBlackboard: Errand
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
   errandType: {fileID: 11400000, guid: f68436973f202d24498909e424948e40, type: 2}
+--- !u!114 &-6981285855500029429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
+  m_Name: Claim Harvest Errand
+  m_EditorClassIdentifier: 
+  errandPathInBlackboard: Errand
+  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  errandType: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,15 +43,26 @@ MonoBehaviour:
   m_Name: FindWorkGraph
   m_EditorClassIdentifier: 
   _savedNodes:
-  - Guid: 19721b47-ecb3-462c-86b3-0d7a8171235e
-    Title: Harvest Anything
-    factory: {fileID: 6229142998929930300}
-    position: {x: 379, y: 225}
-    ConnectedChildrenGuids: []
   - Guid: 88e457e7-bdaa-4dfd-9d56-d0cf90da8c5e
     Title: Storage Supply
     factory: {fileID: 6541563360892428532}
     position: {x: 394, y: 314}
+    ConnectedChildrenGuids: []
+  - Guid: d867b8cc-7423-4952-bf2d-2bf82aebb712
+    Title: Root
+    factory: {fileID: 0}
+    position: {x: -377, y: 133}
+    ConnectedChildrenGuids:
+    - 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
+  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
+    Title: Building Supply
+    factory: {fileID: 8877972465841013884}
+    position: {x: 331, y: 130}
+    ConnectedChildrenGuids: []
+  - Guid: 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
+    Title: Claim Building Errand
+    factory: {fileID: -7686626533107331920}
+    position: {x: 276, y: 37}
     ConnectedChildrenGuids: []
   - Guid: 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
     Title: Find Task
@@ -45,23 +71,17 @@ MonoBehaviour:
     ConnectedChildrenGuids:
     - 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
     - 6db26504-62c9-42df-ba51-f02496f6dc18
-    - 19721b47-ecb3-462c-86b3-0d7a8171235e
+    - a6a52a8a-0e03-4271-b760-614ba44386b9
     - 88e457e7-bdaa-4dfd-9d56-d0cf90da8c5e
-  - Guid: d867b8cc-7423-4952-bf2d-2bf82aebb712
-    Title: Root
-    factory: {fileID: 0}
-    position: {x: -377, y: 133}
-    ConnectedChildrenGuids:
-    - 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
-  - Guid: 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
-    Title: Claim An Errand
-    factory: {fileID: -7686626533107331920}
-    position: {x: 276, y: 37}
+  - Guid: a6a52a8a-0e03-4271-b760-614ba44386b9
+    Title: Claim Harvest Errand
+    factory: {fileID: -6981285855500029429}
+    position: {x: 382, y: 221}
     ConnectedChildrenGuids: []
-  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
-    Title: Building Supply
-    factory: {fileID: 8877972465841013884}
-    position: {x: 331, y: 130}
+  - Guid: 19721b47-ecb3-462c-86b3-0d7a8171235e
+    Title: Harvest Anything
+    factory: {fileID: 6229142998929930300}
+    position: {x: 605, y: 219}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: 4294714761230635347}
   factoriesSavedWithAsset:
@@ -70,6 +90,7 @@ MonoBehaviour:
   - {fileID: 6541563360892428532}
   - {fileID: 6229142998929930300}
   - {fileID: -7686626533107331920}
+  - {fileID: -6981285855500029429}
 --- !u!114 &4294714761230635347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +106,7 @@ MonoBehaviour:
   children:
   - {fileID: -7686626533107331920}
   - {fileID: 8877972465841013884}
-  - {fileID: 6229142998929930300}
+  - {fileID: -6981285855500029429}
   - {fileID: 6541563360892428532}
 --- !u!114 &6229142998929930300
 MonoBehaviour:

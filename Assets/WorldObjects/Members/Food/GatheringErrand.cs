@@ -1,30 +1,30 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.WorldObjects.Members.Food;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
-namespace Assets.WorldObjects.Members.Buildings
+namespace Assets.WorldObjects.Members.Food
 {
-    ///TODO: abstract some of this out based on commanalities with <see cref="GatheringErrand"/>
-    public class BuildingErrand : IErrand
+    public class GatheringErrand : IErrand
     {
-        private BuildingErrandType errandType;
-        public BuildingController targetController;
+        private GatheringErrandType errandType;
+        public GrowingThingController targetController;
         public ErrandType ErrandType => errandType;
 
-        public GameObject buildWorker;
+        public GameObject gatheringWorker;
 
-        private IErrandCompletionReciever<BuildingErrand> completionReciever;
+        private IErrandCompletionReciever<GatheringErrand> completionReciever;
         private bool BehaviorCompleted = false;
 
-        public BuildingErrand(
-            BuildingErrandType errandType,
-            BuildingController toBeBuilt,
-            GameObject buildWorker)
+        public GatheringErrand(
+            GatheringErrandType errandType,
+            GrowingThingController toBeBuilt,
+            GameObject gatheringWorker)
         {
             this.errandType = errandType;
             targetController = toBeBuilt;
-            this.buildWorker = buildWorker;
+            this.gatheringWorker = gatheringWorker;
             this.completionReciever = toBeBuilt;
 
             SetupBehavior();
@@ -37,24 +37,24 @@ namespace Assets.WorldObjects.Members.Buildings
             ErrandBehaviorTreeRoot =
             new Sequence(
                 new FindPathToBakedTarget(
-                    buildWorker,
+                    gatheringWorker,
                     targetController.gameObject,
                     "Path",
                     true),
                 new NavigateToTarget(
-                    buildWorker,
+                    gatheringWorker,
                     "Path",
                     "target"),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log("Reached buildable");
+                    Debug.Log("Reached gatherable");
                     return NodeStatus.SUCCESS;
                 }),
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log($"Build behavior completed for {buildWorker.name}");
-                    var result = targetController.Build();
+                    Debug.Log($"Build behavior completed for {gatheringWorker.name}");
+                    var result = targetController.DoHarvest();
                     BehaviorCompleted = true;
                     completionReciever.ErrandCompleted(this);
                     return result ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
