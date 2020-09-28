@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8718be907681f54f8100156b8ee29d4, type: 3}
   m_Name: FindRandomWalkPath
   m_EditorClassIdentifier: 
-  randomWalkLength: 3
+  randomWalkLength: 6
   blackboardPathProperty: Path
 --- !u!114 &11400000
 MonoBehaviour:
@@ -33,11 +33,6 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     ConnectedChildrenGuids:
     - 14d9186e-dbd8-4958-977c-ea635bba51f4
-  - Guid: a8410d60-e48e-4ef1-9570-b74b56a0b9a3
-    Title: FindRandomWalkPath
-    factory: {fileID: -6417018526191007531}
-    position: {x: 494, y: -1}
-    ConnectedChildrenGuids: []
   - Guid: 14d9186e-dbd8-4958-977c-ea635bba51f4
     Title: Sequence
     factory: {fileID: 5147179290796810256}
@@ -49,6 +44,11 @@ MonoBehaviour:
     Title: NavigateToTarget
     factory: {fileID: 3705067671818606248}
     position: {x: 513, y: 176}
+    ConnectedChildrenGuids: []
+  - Guid: a8410d60-e48e-4ef1-9570-b74b56a0b9a3
+    Title: FindRandomWalkPath
+    factory: {fileID: -6417018526191007531}
+    position: {x: 494, y: -1}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: 5147179290796810256}
   factoriesSavedWithAsset:

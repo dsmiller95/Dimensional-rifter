@@ -127,6 +127,7 @@ namespace Assets.WorldObjects.Members.Food
         }
 
 
+        #region Errands
         private bool ErrandActive;
 
         public GatheringErrand GetErrand(GameObject errandExecutor)
@@ -137,6 +138,12 @@ namespace Assets.WorldObjects.Members.Food
                 return null;
             }
             if (ErrandActive)
+            {
+                return null;
+            }
+            var tilememberActor = errandExecutor.GetComponent<TileMapNavigationMember>();
+            var myTileMember = GetComponent<TileMapMember>();
+            if (!tilememberActor.IsReachable(myTileMember))
             {
                 return null;
             }
@@ -155,5 +162,6 @@ namespace Assets.WorldObjects.Members.Food
         {
             ErrandActive = false;
         }
+        #endregion
     }
 }

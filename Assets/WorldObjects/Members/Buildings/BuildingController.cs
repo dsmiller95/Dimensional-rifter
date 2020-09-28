@@ -113,6 +113,8 @@ namespace Assets.WorldObjects.Members.Buildings
             }
         }
 
+        #region Errands
+
         private bool BuildErrandActive;
 
         public BuildingErrand GetErrand(GameObject errandExecutor)
@@ -126,6 +128,13 @@ namespace Assets.WorldObjects.Members.Buildings
             {
                 return null;
             }
+            var tilememberActor = errandExecutor.GetComponent<TileMapNavigationMember>();
+            var myTileMember = GetComponent<TileMapMember>();
+            if (!tilememberActor.IsReachable(myTileMember))
+            {
+                return null;
+            }
+
             BuildErrandActive = true;
             return new BuildingErrand(
                 buildErrandType,
@@ -141,5 +150,6 @@ namespace Assets.WorldObjects.Members.Buildings
         {
             BuildErrandActive = false;
         }
+        #endregion
     }
 }
