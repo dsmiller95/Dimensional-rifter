@@ -45,7 +45,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 {
                     foreach (var suppliable in suppliables)
                     {
-                        if (suppliable.SupplyInto(myInventory, resourceType))
+                        if (suppliable.SupplyFrom(myInventory, resourceType))
                         {
                             return NodeStatus.SUCCESS;
                         };
@@ -55,7 +55,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 {
                     foreach (var suppliable in suppliables)
                     {
-                        if (suppliable.SupplyInto(myInventory))
+                        if (suppliable.SupplyFrom(myInventory))
                         {
                             return NodeStatus.SUCCESS;
                         };

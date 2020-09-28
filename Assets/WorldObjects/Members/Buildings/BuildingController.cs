@@ -54,7 +54,7 @@ namespace Assets.WorldObjects.Members.Buildings
             return resource == ItemTypeRequriement.resourceType && CanRecieveSupply();
         }
 
-        public bool SupplyInto(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
+        public bool SupplyFrom(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
         {
             if (resourceType.HasValue && resourceType.Value != ItemTypeRequriement.resourceType)
             {

@@ -85,7 +85,21 @@ namespace TradeModeling.Inventories
             var currentAmount = inventory.Get(type);
             return inventory.SetAmount(type, currentAmount - amount)
                 .Then(newAmount => currentAmount - newAmount);
+        }
 
+        /// <summary>
+        /// Consume everything in the inventory
+        /// </summary>
+        /// <returns>whether or not anything was consumed</returns>
+        public static bool ConsumeAll<T>(this IInventory<T> inventory)
+        {
+            var consumedAnything = false;
+            foreach (var itemType in inventory.GetResourcesWithAny())
+            {
+                inventory.SetAmount(itemType, 0).Execute();
+                consumedAnything = true;
+            }
+            return consumedAnything;
         }
 
         /// <summary>

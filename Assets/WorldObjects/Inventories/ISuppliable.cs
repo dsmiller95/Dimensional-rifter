@@ -28,6 +28,12 @@ namespace Assets.WorldObjects.Inventories
         /// <returns></returns>
         bool IsResourceSupplyable(Resource resource);
 
-        bool SupplyInto(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null);
+        /// <summary>
+        /// Supply into the inventory, from <paramref name="inventoryToTakeFrom"/>
+        /// </summary>
+        /// <param name="inventoryToTakeFrom">inventory to supply from</param>
+        /// <param name="resourceType">the resource to transfer. If null, attempt transfer everything</param>
+        /// <returns>true if a transfer was made, false otherwise</returns>
+        bool SupplyFrom(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members
@@ -17,7 +18,9 @@ namespace Assets.WorldObjects.Members
         {
             for (var i = 0; i < AllObjects.Length; i++)
             {
-                AllObjects[i].AssignId(i);
+                var uniqueObject = AllObjects[i];
+                uniqueObject.AssignId(i);
+                EditorUtility.SetDirty(uniqueObject);
             }
         }
     }

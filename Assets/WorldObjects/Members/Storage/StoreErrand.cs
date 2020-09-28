@@ -5,16 +5,14 @@ using BehaviorTree.Nodes;
 using System;
 using UnityEngine;
 
-namespace Assets.Behaviors.Errands.Scripts.GameErrands
+namespace Assets.WorldObjects.Members.Storage
 {
-    public class SupplyErrand : IErrand
+    public class StoreErrand : IErrand
     {
-        private ItemSourceType itemSource;
-        private SuppliableType supplyTarget;
-        private SupplyErrandType errandType;
+        private StoreErrandType errandType;
         public ErrandType ErrandType => errandType;
 
-        public SupplyErrand(SupplyErrandType errandType)
+        public StoreErrand(StoreErrandType errandType)
         {
             this.errandType = errandType;
         }

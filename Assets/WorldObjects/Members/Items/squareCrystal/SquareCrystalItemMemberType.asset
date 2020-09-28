@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e53e6981f5aff4eb5e9430cc5f021a, type: 3}
   m_Name: SquareCrystalItemMemberType
   m_EditorClassIdentifier: 
-  uniqueData:
-    uniqueId: 12
+  memberID: 6
   recieveStorage: 0
   memberPrefab: {fileID: 6082261357034508969, guid: ad76b63bd4bfb404ab31008634755fdd, type: 3}
   resourceType: 1

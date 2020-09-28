@@ -12,10 +12,8 @@ GameObject:
   - component: {fileID: 506530251402321464}
   - component: {fileID: 506530251402321470}
   - component: {fileID: 3320887735696179336}
-  - component: {fileID: 8705325802301842311}
-  - component: {fileID: 7595939773234849522}
-  - component: {fileID: 6768749659577978936}
   - component: {fileID: 1623191977960245352}
+  - component: {fileID: 5104252145145604256}
   m_Layer: 0
   m_Name: Storage box
   m_TagString: Untagged
@@ -32,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 506530251402321468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -77,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.7735849, g: 0.5605878, b: 0.13501246, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4c868f84d6cf2c1479670b169f1e6232, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRegion: {fileID: 0}
+  RegionBitMask: 0
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: ebfc1c257899c614381964766369ae59, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
@@ -119,9 +117,9 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -130,70 +128,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!114 &8705325802301842311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  booleanStateConfig: []
-  floatStateConfig: []
-  inventoryStateConfig:
-  - {fileID: 11400000, guid: 986f4ee07bc97264998764ebeef199f6, type: 2}
---- !u!114 &7595939773234849522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06af26fa7a24e8b4ea9988c0726ca6a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryToProvideFrom:
-    DataSource: 2
-    Variable: {fileID: 0}
-    Instancer: {fileID: 8705325802301842311}
-    NamePath: Storage
-  SourceType: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
---- !u!114 &6768749659577978936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52998f36f9ff2d6489e416167ce5c8e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsSupplyable:
-    DataSource: 0
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
-  inventoryToSupplyInto:
-    DataSource: 2
-    Variable: {fileID: 0}
-    Instancer: {fileID: 8705325802301842311}
-    NamePath: Storage
-  SupplyType: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
-  SupplyFull:
-    DataSource: 0
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 0}
-    NamePath: 
 --- !u!114 &1623191977960245352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,3 +141,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
+--- !u!114 &5104252145145604256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b48a619fa8638814daf41fd862dea5bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  supplyClassification: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
+  sourceClassification: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+  inventoryCapacity: 20

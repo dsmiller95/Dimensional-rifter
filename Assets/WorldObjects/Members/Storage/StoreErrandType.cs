@@ -2,12 +2,12 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Behaviors.Errands.Scripts.GameErrands
+namespace Assets.WorldObjects.Members.Storage
 {
     [CreateAssetMenu(fileName = "SupplyErrandType", menuName = "Behaviors/Errands/SupplyErrandType", order = 1)]
-    public class SupplyErrandType : ErrandType
+    public class StoreErrandType : ErrandType
     {
-        public SupplyErrand CreateErrand()
+        public StoreErrand CreateErrand()
         {
             throw new NotImplementedException();
         }

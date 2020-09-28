@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core;
+using Assets.Scripts.Utilities;
 using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
@@ -9,22 +10,16 @@ using UnityEngine;
 namespace Assets.Scripts.ObjectVariables
 {
     [Serializable]
-    public struct SaveableInventoryAmount
-    {
-        public Resource type;
-        public float amount;
-    }
-    [Serializable]
     public class InventorySaveData
     {
-        public SaveableInventoryAmount[] amounts;
+        public SaveableInventoryAmount<Resource>[] amounts;
     }
 
 
     [CreateAssetMenu(fileName = "InventoryState", menuName = "State/InventoryState", order = 5)]
     public class InventoryState : GenericState<IInventory<Resource>>
     {
-        public SaveableInventoryAmount[] initialItems;
+        public SaveableInventoryAmount<Resource>[] initialItems;
 
         public Resource[] validItems;
         public Resource[] spaceFillingItems;
@@ -42,7 +37,7 @@ namespace Assets.Scripts.ObjectVariables
         }
 
         private IInventory<Resource> GenerateInventoryWithDefaultAmounts(
-            SaveableInventoryAmount[] defaultAmounts,
+            SaveableInventoryAmount<Resource>[] defaultAmounts,
             Resource[] validResources,
             Resource[] spaceFillingResources,
             int space
@@ -59,30 +54,16 @@ namespace Assets.Scripts.ObjectVariables
                 spaceFillingResources,
                 space,
                 validResources);
-            SetAmountsToInventory(defaultAmounts, inventory);
-
+            inventory.SetSerializedToInventory(defaultAmounts);
             return inventory;
-        }
-
-        private void SetAmountsToInventory(IEnumerable<SaveableInventoryAmount> amounts, IInventory<Resource> inventory)
-        {
-            foreach (var startingAmount in amounts)
-            {
-                inventory.SetAmount(startingAmount.type, startingAmount.amount).Execute();
-            }
         }
 
         public override object GetSaveObjectFromVariable(GenericVariable<IInventory<Resource>> variable)
         {
             var currentInventory = variable.CurrentValue;
-            var saveAmounts = currentInventory.GetCurrentResourceAmounts().Select(x => new SaveableInventoryAmount
-            {
-                type = x.Key,
-                amount = x.Value
-            }).ToArray();
             return new InventorySaveData
             {
-                amounts = saveAmounts
+                amounts = currentInventory.GetSerializableInventoryAmounts()
             };
         }
 
@@ -93,7 +74,7 @@ namespace Assets.Scripts.ObjectVariables
             {
                 return;
             }
-            SetAmountsToInventory(saveValue.amounts, variable.CurrentValue);
+            variable.CurrentValue.SetSerializedToInventory(saveValue.amounts);
         }
     }
 }

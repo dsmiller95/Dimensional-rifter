@@ -33,6 +33,17 @@ namespace TradeModeling.Inventories
             }
         }
 
+        public static SpaceFillingInventory<J> GetEmptyInventoryAllSpaceFilling<J>(int capacity) where J: Enum
+        {
+            var spaceFillingItems = Enum.GetValues(typeof(J)).Cast<J>().ToList();
+            var initialItems = new Dictionary<J, float>();
+            return new SpaceFillingInventory<J>(
+                initialItems,
+                spaceFillingItems,
+                capacity,
+                spaceFillingItems);
+        }
+
         protected SpaceFillingInventory(SpaceFillingInventory<T> other) : base(other)
         {
             _inventoryCapacity = other._inventoryCapacity;

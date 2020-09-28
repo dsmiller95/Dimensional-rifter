@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
   m_Name: FoodMember
   m_EditorClassIdentifier: 
-  uniqueData:
-    uniqueId: 0
+  memberID: 3
   recieveStorage: 0
-  gatherableResource: 1
   memberPrefab: {fileID: 6082261357034508969, guid: dea4e82fa6b1759498aab775ce1c8ce9, type: 3}

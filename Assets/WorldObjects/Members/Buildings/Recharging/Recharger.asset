@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f94bdf08ff35449abf35db83c578c6, type: 3}
   m_Name: Recharger
   m_EditorClassIdentifier: 
-  uniqueData:
-    uniqueId: 8
+  memberID: 5
   recieveStorage: 0
-  gatherableResource: 1
   memberPrefab: {fileID: 6082261357034508969, guid: cbdb964d52b3e1d43a4dd1e2cd506a86, type: 3}
   boolDefaults:
   - defaultValue: 1

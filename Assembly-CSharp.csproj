@@ -86,6 +86,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\LambdaLeaf.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\WorldGenerator.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrandType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Wall\Blocking.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\RootFactory.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\GlobalReferencePassthroughFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\GatheringErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Harvest.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryGraphNodeAttribute.cs" />
@@ -223,10 +225,12 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\GatheringErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentInBlackboardLeaf.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSuppliableTarget.cs" />
@@ -241,16 +245,15 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\GatherOfTypeFactory.cs" />
     <Compile Include="Assets\WorldObjects\Resource.cs" />
     <Compile Include="Assets\WorldObjects\TileMapNavigationMember.cs" />
-    <Compile Include="Assets\Behaviors\Errands\Scripts\GameErrands\Supply\SupplyErrand.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableType.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SupplyToAvailablePairLeafFactory.cs" />
-    <Compile Include="Assets\Behaviors\Errands\Scripts\GameErrands\Supply\SupplyErrandType.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FloatFromInstantiatorComparisonFactory.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataRule.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindHarvestableTarget.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\StorageController.cs" />
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\ItemGatherable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
@@ -262,8 +265,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\GatheringErrandType.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\GatheringErrand.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

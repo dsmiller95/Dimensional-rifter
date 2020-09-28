@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
   m_Name: CorpseMember
   m_EditorClassIdentifier: 
-  uniqueData:
-    uniqueId: 10
+  memberID: 2
   recieveStorage: 0
-  gatherableResource: 0
   memberPrefab: {fileID: 5372322527512826100, guid: 1c33492d8167927489529ec10e96f958, type: 3}

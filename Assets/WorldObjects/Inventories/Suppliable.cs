@@ -39,7 +39,7 @@ namespace Assets.WorldObjects.Inventories
             return inv.CanFitMoreOf(resource);
         }
 
-        public bool SupplyInto(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
+        public bool SupplyFrom(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
         {
             if (!CanRecieveSupply())
             {
