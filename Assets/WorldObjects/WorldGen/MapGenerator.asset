@@ -26,7 +26,7 @@ MonoBehaviour:
     baseID: ground
     shapeID: NO_BORDERS
   memberGenerationOptions:
-  - type: {fileID: 11400000, guid: 085a558d009e7904c8f371b57bea31dd, type: 2}
+  - type: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
     amount: 3
   - type: {fileID: 11400000, guid: ebfc1c257899c614381964766369ae59, type: 2}
     amount: 1

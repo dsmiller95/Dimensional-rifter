@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d30ef65d3e3062488663615c308125c, type: 3}
+  m_Name: StoringErrandSource
+  m_EditorClassIdentifier: 
+  board: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  transferInventory: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
+  storageErrandSlices:
+  - errandType: {fileID: 11400000, guid: aa4ecbb43b1667a488828d42d1d2097d, type: 2}
+    validSources:
+    - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
+    - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
+    supplyTypeTarget: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
+  - errandType: {fileID: 11400000, guid: 1be86b14015750e41970cb4eefe62228, type: 2}
+    validSources:
+    - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
+    - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
+    - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+    supplyTypeTarget: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}

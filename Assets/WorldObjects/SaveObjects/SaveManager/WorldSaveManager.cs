@@ -16,11 +16,14 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
         {
             var saveDataObject = worldObject.GetComponent<ISaveable<WorldSaveObject>>();
             var data = saveDataObject.GetSaveObject();
+            SaveSystemHooks.TriggerPreSave();
             SerializationManager.Save(SaveContext.instance.saveFile, data);
+            SaveSystemHooks.TriggerPostSave();
         }
 
         public void Load()
         {
+            SaveSystemHooks.TriggerPreLoad();
             var loadedData = SerializationManager.Load(SaveContext.instance.saveFile);
             if (loadedData != null && loadedData is WorldSaveObject worldSaveData)
             {
@@ -30,6 +33,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
                 var saveDataObject = worldObject.GetComponent<ISaveable<WorldSaveObject>>();
                 saveDataObject.SetupFromSaveObject(worldSaveData);
             }
+            SaveSystemHooks.TriggerPostLoad();
         }
     }
 }

@@ -198,6 +198,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\GlobalReferencePassthroughFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSourceOwner.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GatheringErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Harvest.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
@@ -266,7 +267,8 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSourceOwner.cs" />
+    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveSystemHooks.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoardOwner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

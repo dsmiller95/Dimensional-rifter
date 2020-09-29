@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.WorldObjects.SaveObjects.SaveManager;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,22 @@ namespace Assets.Behaviors.Errands.Scripts
     {
         public ISet<IErrandSource<IErrand>>[] ErrandSourcesByErrandTypeID;
         public ErrandTypeRegistry ErrandRegistry;
+
+
+        public void Init()
+        {
+            SaveSystemHooks.Instance.PreLoad += ClearErrandSources;
+        }
+
+        private void ClearErrandSources()
+        {
+            if (ErrandSourcesByErrandTypeID == null) return;
+            Debug.Log("Clearing all errands");
+            foreach (var sourceSet in ErrandSourcesByErrandTypeID)
+            {
+                sourceSet.Clear();
+            }
+        }
 
         /// <summary>
         /// Attempt to claim any errand matching <paramref name="type"/>

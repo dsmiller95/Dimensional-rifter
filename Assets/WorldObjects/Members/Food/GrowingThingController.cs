@@ -43,6 +43,15 @@ namespace Assets.WorldObjects.Members.Food
         public GatheringErrandType gatheringErrandType;
         public ErrandType ErrandType => gatheringErrandType;
 
+        private void Awake()
+        {
+            if (growthPerSecond <= 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(growthPerSecond)} must be above 0");
+            }
+            SetGrownAmount(currentGrowthAmount);
+        }
+
         public bool DoHarvest()
         {
             if (!HarvestReady())
@@ -69,14 +78,6 @@ namespace Assets.WorldObjects.Members.Food
             return IsGrown;
         }
 
-        private void Awake()
-        {
-            if (growthPerSecond <= 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(growthPerSecond)} must be above 0");
-            }
-            SetGrownAmount(currentGrowthAmount);
-        }
 
         private void SetGrownAmount(float grownAmount)
         {
@@ -125,6 +126,7 @@ namespace Assets.WorldObjects.Members.Food
                 SetGrownAmount(saveObject.currentGrowth);
             }
         }
+
 
 
         #region Errands

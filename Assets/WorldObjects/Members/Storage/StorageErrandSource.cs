@@ -1,7 +1,8 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
-using Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories;
 using Assets.Scripts.Core;
 using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.SaveObjects.SaveManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TradeModeling.Inventories;
@@ -9,27 +10,86 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
 {
+    [Serializable]
+    public class StorageErrandSourceSlice : IErrandSource<StoreErrand>
+    {
+        public StoreErrandType errandType;
+        public ItemSourceType[] validSources;
+        public SuppliableType supplyTypeTarget;
+
+        public ErrandType ErrandType => errandType;
+        private StorageErrandSource baseErrandSource;
+        private ISet<ItemSourceType> validSourceSet;
+
+        public void Init(StorageErrandSource errandSource)
+        {
+            baseErrandSource = errandSource;
+            validSourceSet = new HashSet<ItemSourceType>(validSources);
+        }
+
+        public StoreErrand GetErrand(GameObject errandExecutor)
+        {
+            var executorNavigator = errandExecutor.GetComponent<TileMapNavigationMember>();
+            var validSources = baseErrandSource.itemSources
+                .Where(source => validSourceSet.Contains(source.ItemSourceType) && FilterIfReachable(source, executorNavigator));
+            var validTargets = baseErrandSource.supplyTargets
+                .Where(supply => supply.SuppliableClassification == supplyTypeTarget && FilterIfReachable(supply, executorNavigator));
+            return baseErrandSource.GetErrand(
+                errandExecutor,
+                errandType,
+                validSources,
+                validTargets);
+        }
+        private bool FilterIfReachable(object componentMember, TileMapNavigationMember navigator)
+        {
+            if (componentMember is Component component)
+            {
+                var member = component.GetComponent<TileMapMember>();
+                return navigator.IsReachable(member);
+            }
+            return false;
+        }
+    }
+
     [CreateAssetMenu(fileName = "StorageErrandSource", menuName = "Behaviors/Errands/StorageErrandSource", order = 10)]
-    public class StorageErrandSource : ErrandSourceObject<StoreErrand>, IErrandCompletionReciever<StoreErrand>
+    public class StorageErrandSource : ScriptableObject, IErrandCompletionReciever<StoreErrand>
     {
         public ErrandBoard board;
-        public StoreErrandType errandType; 
         public GenericSelector<IInventory<Resource>> transferInventory;
+        public StorageErrandSourceSlice[] storageErrandSlices;
 
-        public override ErrandType ErrandType => errandType;
 
-        private ISet<IItemSource> itemSources;
-        private ISet<ISuppliable> supplyTargets;
+        public ISet<IItemSource> itemSources;
+        public ISet<ISuppliable> supplyTargets;
 
         public void Init()
         {
             itemSources = new HashSet<IItemSource>();
             supplyTargets = new HashSet<ISuppliable>();
-            board.RegisterErrandSource(this);
+
+            SaveSystemHooks.Instance.PreLoad += ClearItemSourcesAndSupplies;
+            SaveSystemHooks.Instance.PostLoad += RegisterStorageErrandSources;
+        }
+
+        private void ClearItemSourcesAndSupplies()
+        {
+            Debug.Log("Clearing all storage sources and suppliables");
+            itemSources.Clear();
+            supplyTargets.Clear();
+        }
+
+        private void RegisterStorageErrandSources()
+        {
+            foreach (var sourceSlice in storageErrandSlices)
+            {
+                sourceSlice.Init(this);
+                board.RegisterErrandSource(sourceSlice);
+            }
         }
 
         public void RegisterItemSource(IItemSource itemSource)
         {
+            Debug.Log($"Registering item source {(itemSource as Component)?.name} of type {itemSource.ItemSourceType}");
             itemSources.Add(itemSource);
             //TODO: maybe don't register every time anything happens
             //board.RegisterErrandSource(this);
@@ -42,11 +102,13 @@ namespace Assets.WorldObjects.Members.Storage
         public void RegisterSuppliable(ISuppliable suppliable)
         {
             supplyTargets.Add(suppliable);
+            Debug.Log($"Registered suppliable of type: {suppliable.SuppliableClassification.name}");
             //board.RegisterErrandSource(this);
         }
-        public void DeRegisterSuppliable(ISuppliable itemSource)
+        public void DeRegisterSuppliable(ISuppliable suppliable)
         {
-            supplyTargets.Remove(itemSource);
+            supplyTargets.Remove(suppliable);
+            Debug.Log($"Deregistered suppliable of type: {suppliable.SuppliableClassification.name}");
         }
 
         private (IItemSource, ISuppliable, Resource)? GetPossibleSupplyPair(
@@ -97,12 +159,13 @@ namespace Assets.WorldObjects.Members.Storage
 
 
         #region Errands
-        public override StoreErrand GetErrand(GameObject errandExecutor)
+        public StoreErrand GetErrand(
+            GameObject errandExecutor,
+            StoreErrandType errandType,
+            IEnumerable<IItemSource> reachableGatherables,
+            IEnumerable<ISuppliable> reachableSuppliables)
         {
-            var executorNavigator = errandExecutor.GetComponent<TileMapNavigationMember>();
-            var supplyPair = GetPossibleSupplyPair(
-                itemSources.Where(source => FilterIfReachable(source, executorNavigator)),
-                supplyTargets.Where(source => FilterIfReachable(source, executorNavigator)));
+            var supplyPair = GetPossibleSupplyPair(reachableGatherables, reachableSuppliables);
             if (!supplyPair.HasValue)
             {
                 return null;

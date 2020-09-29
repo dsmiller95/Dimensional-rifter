@@ -30,6 +30,21 @@ MonoBehaviour:
   errandPathInBlackboard: Errand
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
   errandType: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}
+--- !u!114 &-1494609241791033005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
+  m_Name: Claim building supply errand
+  m_EditorClassIdentifier: 
+  errandPathInBlackboard: Errand
+  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  errandType: {fileID: 11400000, guid: 1be86b14015750e41970cb4eefe62228, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,7 +75,7 @@ MonoBehaviour:
     position: {x: -117, y: 112}
     ConnectedChildrenGuids:
     - 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
-    - 6db26504-62c9-42df-ba51-f02496f6dc18
+    - b3875a56-ca22-48a9-ab13-eb4fcf0ee604
     - a6a52a8a-0e03-4271-b760-614ba44386b9
     - 828097c6-fd53-47f7-8ad4-90db6954dd8a
   - Guid: 19721b47-ecb3-462c-86b3-0d7a8171235e
@@ -78,15 +93,20 @@ MonoBehaviour:
     factory: {fileID: 6541563360892428532}
     position: {x: 639, y: 323}
     ConnectedChildrenGuids: []
+  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
+    Title: Building Supply
+    factory: {fileID: 8877972465841013884}
+    position: {x: 650, y: 137}
+    ConnectedChildrenGuids: []
+  - Guid: b3875a56-ca22-48a9-ab13-eb4fcf0ee604
+    Title: Claim building supply errand
+    factory: {fileID: -1494609241791033005}
+    position: {x: 315, y: 122}
+    ConnectedChildrenGuids: []
   - Guid: 828097c6-fd53-47f7-8ad4-90db6954dd8a
     Title: Do Storage Cleanup errand
     factory: {fileID: 225734886346691548}
     position: {x: 374, y: 330}
-    ConnectedChildrenGuids: []
-  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
-    Title: Building Supply
-    factory: {fileID: 8877972465841013884}
-    position: {x: 331, y: 130}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: 4294714761230635347}
   factoriesSavedWithAsset:
@@ -97,6 +117,7 @@ MonoBehaviour:
   - {fileID: -7686626533107331920}
   - {fileID: -6981285855500029429}
   - {fileID: 225734886346691548}
+  - {fileID: -1494609241791033005}
 --- !u!114 &225734886346691548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - {fileID: -7686626533107331920}
-  - {fileID: 8877972465841013884}
+  - {fileID: -1494609241791033005}
   - {fileID: -6981285855500029429}
   - {fileID: 225734886346691548}
 --- !u!114 &6229142998929930300

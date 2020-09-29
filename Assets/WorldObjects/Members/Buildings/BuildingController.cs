@@ -3,6 +3,7 @@ using Assets.Scripts.Core;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
+using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
 using TradeModeling.Inventories;
@@ -29,6 +30,13 @@ namespace Assets.WorldObjects.Members.Buildings
         public ErrandBoard errandBoard;
         public BuildingErrandType buildErrandType;
         public ErrandType ErrandType => buildErrandType;
+        public StorageErrandSource storageErrandSource;
+
+        private void Start()
+        {
+            // Make sure all the errands/suppliables are registered if spawned in via build command
+            this.SetRemainingResourceRequirement(remainingResourceRequirement);
+        }
 
         public bool Build()
         {
@@ -74,6 +82,14 @@ namespace Assets.WorldObjects.Members.Buildings
         private void SetRemainingResourceRequirement(float remaining)
         {
             remainingResourceRequirement = remaining;
+            if(remainingResourceRequirement <= 1e-5)
+            {
+                storageErrandSource.DeRegisterSuppliable(this);
+            }else
+            {
+                Debug.Log($"Registering building {name} with {remaining} resource requirement");
+                storageErrandSource.RegisterSuppliable(this);
+            }
 
             if (IsBuildable())
             {
@@ -107,7 +123,11 @@ namespace Assets.WorldObjects.Members.Buildings
             {
                 SetRemainingResourceRequirement(savedData.remainingResourceRequirement);
             }
-            else if (save != null)
+            else if (save == null)
+            {
+                // Assume we were generated via map gen
+                SetRemainingResourceRequirement(0);
+            } else
             {
                 Debug.LogError("Error: save data is improperly formatted");
             }
