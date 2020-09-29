@@ -31,6 +31,14 @@ namespace Assets.WorldObjects.Members.Storage
         private SpaceFillingInventory<Resource> myInventory;
 
 
+        public StorageErrandSource storingCleanupErrandSource;
+
+        private void Awake()
+        {
+            storingCleanupErrandSource.RegisterSuppliable(this);
+
+        }
+
         #region IMemberSaveable
         public string IdentifierInsideMember()
         {

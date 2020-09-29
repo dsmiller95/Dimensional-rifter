@@ -4,12 +4,8 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
 {
-    [CreateAssetMenu(fileName = "SupplyErrandType", menuName = "Behaviors/Errands/SupplyErrandType", order = 1)]
+    [CreateAssetMenu(fileName = "StoreErrandType", menuName = "Behaviors/Errands/StoreErrandType", order = 1)]
     public class StoreErrandType : ErrandType
     {
-        public StoreErrand CreateErrand()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

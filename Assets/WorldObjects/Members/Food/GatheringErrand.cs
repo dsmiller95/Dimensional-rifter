@@ -47,13 +47,12 @@ namespace Assets.WorldObjects.Members.Food
                     "target"),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log("Reached gatherable");
                     return NodeStatus.SUCCESS;
                 }),
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log($"Build behavior completed for {gatheringWorker.name}");
+                    Debug.Log($"Gather behavior completed for {gatheringWorker.name}");
                     var result = targetController.DoHarvest();
                     BehaviorCompleted = true;
                     completionReciever.ErrandCompleted(this);

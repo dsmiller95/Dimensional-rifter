@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Behaviors.Errands.Scripts
 {
-    [CreateAssetMenu(fileName = "ErrandBoard", menuName = "Behaviors/ErrandBoard", order = 1)]
+    [CreateAssetMenu(fileName = "ErrandBoard", menuName = "Behaviors/Errands/ErrandBoard", order = 1)]
     public class ErrandBoard : ScriptableObject
     {
         public ISet<IErrandSource<IErrand>>[] ErrandSourcesByErrandTypeID;
@@ -40,7 +40,7 @@ namespace Assets.Behaviors.Errands.Scripts
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
 
             ErrandSourcesByErrandTypeID[errandIndex].Add(source);
-            Debug.Log($"Registered errand: {source.ErrandType.name}");
+            Debug.Log($"Registered errand source of type: {source.ErrandType.name}");
         }
 
         private void ExtendErrandMappingToLengthIfNeeded(int errandIndex)

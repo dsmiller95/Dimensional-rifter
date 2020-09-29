@@ -1,4 +1,5 @@
 ﻿using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
 using TradeModeling.Inventories;
@@ -22,9 +23,16 @@ namespace Assets.WorldObjects.Members.Items
         public ItemSourceType SourceType;
 
         public ItemSourceType ItemSourceType => SourceType;
+        public StorageErrandSource storingCleanupErrandSource;
+
+        private void Awake()
+        {
+            storingCleanupErrandSource.RegisterItemSource(this);
+        }
 
         private void OnItemCompletelyGathered()
         {
+            storingCleanupErrandSource.DeRegisterItemSource(this);
             Destroy(gameObject);
         }
 

@@ -110,8 +110,10 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandSourceObject.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\ExecuteErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GrowingThingController.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Eating.cs" />
@@ -255,7 +257,6 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindHarvestableTarget.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageController.cs" />
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Items\ItemGatherable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
     <Compile Include="Assets\WorldObjects\GameTimeOwner.cs" />
     <Compile Include="Assets\WorldObjects\GameTime.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSourceOwner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -156,3 +156,4 @@ MonoBehaviour:
   supplyClassification: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
   sourceClassification: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
   inventoryCapacity: 20
+  storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}
