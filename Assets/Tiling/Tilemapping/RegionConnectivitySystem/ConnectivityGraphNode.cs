@@ -7,75 +7,34 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
     public class ConnectivityGraphBuilder
     {
-        private IList<ConnectivityGraphNodeBuilder> nodeBuilders = new List<ConnectivityGraphNodeBuilder>();
+        private IList<ConnectivityGraphNodeCoordinate> allNodes = new List<ConnectivityGraphNodeCoordinate>();
+        public GraphMembers allMembers = new GraphMembers();
+        public int totalNeighbors = 0;
 
-        private int totalNeighbors = 0;
-
-        public void AddNextNode(ConnectivityGraphNodeBuilder nextNode)
+        public void AddNextNode(ConnectivityGraphNodeCoordinate nextNode, TileMapMember[] members)
         {
-            nextNode.neighborBeginIndex = totalNeighbors;
-            totalNeighbors += nextNode.neighborIndexes.Count();
-            nextNode.neighborEndIndex = totalNeighbors;
-            nodeBuilders.Add(nextNode);
+            totalNeighbors += nextNode.coordinate.NeighborCount();
+            allNodes.Add(nextNode);
+            if(members != null)
+            {
+                allMembers.allMembersByConnectivityID[CurrentNodeCount() - 1] = members;
+            }
         }
         public int CurrentNodeCount()
         {
-            return nodeBuilders.Count;
+            return allNodes.Count;
         }
 
-        public GraphMembers BuildGraph(out NativeArray<ConnectivityGraphNode> graphNodes, out NativeArray<int> neighborData, Allocator allocator)
+        public void BuildGraph(out NativeArray<ConnectivityGraphNodeCoordinate> graphNodes, Allocator allocator)
         {
-            neighborData = new NativeArray<int>(totalNeighbors, allocator);
-            graphNodes = new NativeArray<ConnectivityGraphNode>(nodeBuilders.Count, allocator);
+            graphNodes = new NativeArray<ConnectivityGraphNodeCoordinate>(CurrentNodeCount(), allocator);
 
-            var graphMemberNodes = new GraphMembers();
-
-            for (var nodeIndex = 0; nodeIndex < nodeBuilders.Count; nodeIndex++)
+            for (var nodeIndex = 0; nodeIndex < allNodes.Count; nodeIndex++)
             {
-                var nodeBuilder = nodeBuilders[nodeIndex];
-                var graphNode = new ConnectivityGraphNode
-                {
-                    RegionMask = 0,
-                    Passable = nodeBuilder.isPassable,
-                    NeighborLookup = new IndexInArrayLookup
-                    {
-                        startIndex = nodeBuilder.neighborBeginIndex,
-                        endIndex = nodeBuilder.neighborEndIndex
-                    }
-                };
-                graphNodes[nodeIndex] = graphNode;
-                for (var neighborIndex = 0; neighborIndex < nodeBuilder.neighborIndexes.Count(); neighborIndex++)
-                {
-                    var indexInNeighborData = neighborIndex + graphNode.NeighborLookup.startIndex;
-                    neighborData[indexInNeighborData] = nodeBuilder.neighborIndexes[neighborIndex];
-                }
-
-                if (nodeBuilder.membersHere.Count > 0)
-                {
-                    graphMemberNodes.allMembersByConnectivityID[nodeIndex] = nodeBuilder.membersHere.ToArray();
-                }
+                var nodeData = allNodes[nodeIndex];
+                graphNodes[nodeIndex] = nodeData;
             }
-
-            return graphMemberNodes;
         }
-    }
-
-    public class ConnectivityGraphNodeBuilder
-    {
-        public ConnectivityGraphNodeBuilder(int neighborCount)
-        {
-            neighborIndexes = new List<int>(neighborCount);
-        }
-        public ConnectivityGraphNodeBuilder(IEnumerable<int> neighbors)
-        {
-            neighborIndexes = neighbors.ToList();
-        }
-        public IList<int> neighborIndexes;
-        public bool isPassable;
-        public IList<TileMapMember> membersHere;
-
-        public int neighborBeginIndex;
-        public int neighborEndIndex;
     }
 
     public struct ConnectivityGraphNode
@@ -87,6 +46,12 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// </summary>
         public ulong RegionMask;
         public bool Passable;
+    }
+
+    public struct ConnectivityGraphNodeCoordinate
+    {
+        public UniversalCoordinate coordinate;
+        public bool passable;
     }
 
     public class GraphMembers

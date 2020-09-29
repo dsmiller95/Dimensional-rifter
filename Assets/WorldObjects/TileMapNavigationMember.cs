@@ -233,24 +233,9 @@ namespace Assets.WorldObjects
                 .Where(x => x.Item1 != null);
         }
 
-        public bool AreAnyOfTypeReachable(Func<TileMapMember, bool> filter)
-        {
-            return AllPossiblePaths(filter).Any();
-        }
-        private (List<UniversalCoordinate>, TileMapMember) GetPathIfExists(TileMapMember member)
-        {
-            var path = PathfinderUtils.PathBetween(
-                        coordinatePosition,
-                        member.CoordinatePosition,
-                        bigManager,
-                        (coord, properties) => bigManager.everyMember.IsPassable(coord))?.ToList();
-            return (path,
-                    member);
-        }
         public bool IsReachable(TileMapMember member)
         {
-            var foundPath = GetPathIfExists(member);
-            return foundPath.Item1 != null;
+            return (member.RegionBitMask & RegionBitMask) != 0;
         }
 
         private void OnDrawGizmos()

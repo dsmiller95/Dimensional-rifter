@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -73,6 +74,51 @@ namespace Assets.Tiling.TriangleCoords
                 yield return new TriangleCoordinateStructSystem(u, v, true);
                 yield return new TriangleCoordinateStructSystem(u, v - 1, true);
                 yield return new TriangleCoordinateStructSystem(u - 1, v, true);
+            }
+        }
+        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
+        {
+            if (R)
+            {
+                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                {
+                    u = u + 1,
+                    v = v,
+                    R = false
+                }, planeID);
+                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                {
+                    u = u,
+                    v = v,
+                    R = false
+                }, planeID);
+                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                {
+                    u = u,
+                    v = v + 1,
+                    R = false
+                }, planeID);
+            }
+            else
+            {
+                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                {
+                    u = u,
+                    v = v,
+                    R = true
+                }, planeID);
+                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                {
+                    u = u,
+                    v = v - 1,
+                    R = true
+                }, planeID);
+                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                {
+                    u = u - 1,
+                    v = v,
+                    R = true
+                }, planeID);
             }
         }
 

@@ -17,6 +17,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private JobHandle currentlyRunningConnectionUpdate;
         private GraphMembers memberDataFromRunningJob;
 
+        private NativeArray<ConnectivityGraphNodeCoordinate> inputGraphNodes;
+        private NativeHashMap<UniversalCoordinate, int> coordinateIndexes;
+        private NativeArray<UniversalCoordinate> tmpNeighborCoordinateSwapSpace;
+
         private NativeArray<ConnectivityGraphNode> resultGraphNodes;
         private NativeArray<int> neighborData;
 
@@ -62,19 +66,19 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     jobHandle.Complete();
                     var fullIterationNumbers = fullArrayIterationCount[0];
-                    //Debug.Log($"Connectivity updated. Number of times iterated through whole array: {fullIterationNumbers}");
+                    Debug.Log($"[Connectivity] Updated. Number of times iterated through whole array: {fullIterationNumbers}");
 
                     if (resultStatus[0] == ClassificationJobStatus.COMPLETED_TOO_MANY_REGIONS)
                     {
-                        Debug.LogError("Classification of regions failed: too many regions to fit in the bit mask");
+                        Debug.LogError("[Connectivity] Classification of regions failed: too many regions to fit in the bit mask");
                     }
                     else if (resultStatus[0] == ClassificationJobStatus.ERROR)
                     {
-                        Debug.LogError("Classification of regions failed: Very Big Loop detected");
+                        Debug.LogError("[Connectivity] Classification of regions failed: Very Big Loop detected");
                     }
                     else
                     {
-                        //Debug.Log($"Found {finalRegionIndexAccess[0] + 1} seperate regions");
+                        Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
 
                         foreach (var kvp in memberDataFromRunningJob.allMembersByConnectivityID)
                         {
@@ -97,6 +101,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             {
                 isJobRunning = false;
                 memberDataFromRunningJob = null;
+                inputGraphNodes.Dispose();
+                coordinateIndexes.Dispose();
+                tmpNeighborCoordinateSwapSpace.Dispose();
+
                 resultGraphNodes.Dispose();
                 neighborData.Dispose();
 
@@ -113,10 +121,27 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             buildConnectivityGraph(connectionGraphBuilder);
 
             var allocatorToUse = Allocator.Persistent;
-            memberDataFromRunningJob = connectionGraphBuilder.BuildGraph(
-                out resultGraphNodes,
-                out neighborData,
+            connectionGraphBuilder.BuildGraph(
+                out inputGraphNodes,
                 allocatorToUse);
+            memberDataFromRunningJob = connectionGraphBuilder.allMembers;
+            neighborData = new NativeArray<int>(connectionGraphBuilder.totalNeighbors, allocatorToUse);
+            resultGraphNodes = new NativeArray<ConnectivityGraphNode>(inputGraphNodes.Length, allocatorToUse);
+
+            coordinateIndexes = new NativeHashMap<UniversalCoordinate, int>(inputGraphNodes.Length, allocatorToUse);
+            tmpNeighborCoordinateSwapSpace = new NativeArray<UniversalCoordinate>(UniversalCoordinate.MaxNeighborCount, allocatorToUse);
+
+            var neighborGraphingJob = new CoordinateListingToGraphDataJob
+            {
+                inputGraphCoordinates = inputGraphNodes,
+                neighborCoordinateWorkSpace = tmpNeighborCoordinateSwapSpace,
+                coordinateIndexes = coordinateIndexes,
+
+                outputGraphNodes = resultGraphNodes,
+                outputNeighborData = neighborData
+            };
+
+            var neighborJobHandle = neighborGraphingJob.Schedule();
 
             resultStatus = new NativeArray<ClassificationJobStatus>(new[] { ClassificationJobStatus.RUNNING }, allocatorToUse);
             nodeStatuses = new NativeArray<ClassifyIntoRegions.NodeVisitationStatus>(
@@ -129,13 +154,13 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             var classifyJob = new ClassifyIntoRegions
             {
                 graphNodes = resultGraphNodes,
-                neighborData = neighborData,
+                intputNeighborData = neighborData,
                 status = resultStatus,
                 finalRegionIndex = finalRegionIndexAccess,
                 fullArrayIterationCount = fullArrayIterationCount,
                 NodeStatuses = nodeStatuses
             };
-            currentlyRunningConnectionUpdate = classifyJob.Schedule();
+            currentlyRunningConnectionUpdate = classifyJob.Schedule(neighborJobHandle);
         }
 
         public enum ClassificationJobStatus
@@ -166,8 +191,9 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 COMPLETE
             }
 
+
             public NativeArray<ConnectivityGraphNode> graphNodes;
-            public NativeArray<int> neighborData;
+            public NativeArray<int> intputNeighborData;
 
             public NativeArray<NodeVisitationStatus> NodeStatuses;
 
@@ -288,7 +314,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         indexInNeighbors < currentNode.NeighborLookup.endIndex;
                         indexInNeighbors++)
                     {
-                        var neighborNodeIndex = neighborData[indexInNeighbors];
+                        var neighborNodeIndex = intputNeighborData[indexInNeighbors];
                         var neighborNode = graphNodes[neighborNodeIndex];
 
                         if ((neighborNode.RegionMask & regionBitMask) != 0)

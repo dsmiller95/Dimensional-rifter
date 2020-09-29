@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling.SquareCoords
@@ -125,6 +126,13 @@ namespace Assets.Tiling.SquareCoords
             yield return this + DOWN;
             yield return this + LEFT;
             yield return this + RIGHT;
+        }
+        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
+        {
+            swapSpace[0] = UniversalCoordinate.From(this + UP, planeID);
+            swapSpace[1] = UniversalCoordinate.From(this + DOWN, planeID);
+            swapSpace[2] = UniversalCoordinate.From(this + LEFT, planeID);
+            swapSpace[3] = UniversalCoordinate.From(this + RIGHT, planeID);
         }
     }
 

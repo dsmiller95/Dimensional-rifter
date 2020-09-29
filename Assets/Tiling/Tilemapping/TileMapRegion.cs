@@ -194,27 +194,19 @@ namespace Assets.Tiling.Tilemapping
             TileMapRegionData data,
             ConnectivityGraphBuilder connectivityGraphBuilder)
         {
-            int beginningIndex = connectivityGraphBuilder.CurrentNodeCount();
             var allMembers = BigManager.everyMember;
 
-            int currentIndex = beginningIndex;
             var coordinatesInMap = data.baseRange.GetUniversalCoordinates(data.planeIDIndex)
                 .Where(coord => !runtimeData.disabledCoordinates.Contains(coord));
-            var coordinateToIndexMap = coordinatesInMap.ToDictionary(coord => coord, coord =>
-            {
-                return currentIndex++;
-            });
             foreach (var coordinate in coordinatesInMap)
             {
-                var neighborIDs = coordinate.Neighbors()
-                    .TryPullFromDictionary(coordinateToIndexMap);
-
-                var newNode = new ConnectivityGraphNodeBuilder(neighborIDs);
-
-                newNode.isPassable = allMembers.IsPassable(coordinate);
-                newNode.membersHere = allMembers.GetMembersOnTile(coordinate);
-
-                connectivityGraphBuilder.AddNextNode(newNode);
+                var nextNode = new ConnectivityGraphNodeCoordinate
+                {
+                    coordinate = coordinate,
+                    passable = allMembers.IsPassable(coordinate)
+                };
+                var members = allMembers.GetMembersOnTile(coordinate);
+                connectivityGraphBuilder.AddNextNode(nextNode, (members == null || members.Count == 0) ? null : members.ToArray());
             }
         }
     }

@@ -87,7 +87,6 @@ namespace Assets.WorldObjects.Members.Buildings
                 storageErrandSource.DeRegisterSuppliable(this);
             }else
             {
-                Debug.Log($"Registering building {name} with {remaining} resource requirement");
                 storageErrandSource.RegisterSuppliable(this);
             }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling
@@ -23,8 +24,10 @@ namespace Assets.Tiling
 
     [Serializable]
     [StructLayout(LayoutKind.Explicit)]
-    public struct UniversalCoordinate : ISerializable
+    public struct UniversalCoordinate : ISerializable, IEquatable<UniversalCoordinate>
     {
+        public static int MaxNeighborCount = 6;
+
         // all data views should take up no more than 3 ints, no more that 12 bytes
         [FieldOffset(0)] private int coordinateDataPartOne;
         [FieldOffset(4)] private int coordinateDataPartTwo;
@@ -175,6 +178,33 @@ namespace Assets.Tiling
             }
         }
 
+        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace)
+        {
+            switch (type)
+            {
+                case CoordinateType.TRIANGLE:
+                    triangleDataView.SetNeighborsIntoSwapSpace(swapSpace, CoordinatePlaneID);
+                    return;
+                case CoordinateType.SQUARE:
+                    squareDataView.SetNeighborsIntoSwapSpace(swapSpace, CoordinatePlaneID);
+                    return;
+                default:
+                    break;
+            }
+        }
+        public int NeighborCount()
+        {
+            switch (type)
+            {
+                case CoordinateType.TRIANGLE:
+                    return 3;
+                case CoordinateType.SQUARE:
+                    return 4;
+                default:
+                    return -1;
+            }
+        }
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("data1", coordinateDataPartOne);
@@ -194,6 +224,24 @@ namespace Assets.Tiling
             coordinateDataPartTwo = info.GetInt32("data2");
             coordinateDataPartThree = info.GetInt32("data3");
             CoordinateMembershipData = info.GetInt32("membership");
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + coordinateDataPartOne;
+            hash = hash * 23 + coordinateDataPartTwo;
+            hash = hash * 23 + coordinateDataPartThree;
+            hash = hash * 23 + CoordinateMembershipData;
+            return hash;
+        }
+
+        public bool Equals(UniversalCoordinate other)
+        {
+            return other.CoordinateMembershipData == CoordinateMembershipData &&
+                other.coordinateDataPartOne == coordinateDataPartOne &&
+                other.coordinateDataPartTwo == coordinateDataPartTwo &&
+                other.coordinateDataPartThree == coordinateDataPartThree;
         }
     }
 }
