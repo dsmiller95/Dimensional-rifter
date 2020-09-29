@@ -36,7 +36,7 @@ namespace Assets.WorldObjects.Members.Storage
         private void Awake()
         {
             storingCleanupErrandSource.RegisterSuppliable(this);
-
+            storingCleanupErrandSource.RegisterItemSource(this);
         }
 
         #region IMemberSaveable
