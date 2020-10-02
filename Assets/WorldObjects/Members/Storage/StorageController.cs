@@ -88,7 +88,19 @@ namespace Assets.WorldObjects.Members.Storage
                 inventoryToTakeFrom.DrainAllInto(myInventory, resourceType.Value)
                 :
                 inventoryToTakeFrom.DrainAllInto(myInventory, inventoryToTakeFrom.GetAllResourceTypes().ToArray());
-            return drainResult.Any(pair => pair.Value > 1e-5);
+
+            var positiveTransfers = drainResult.Where(pair => pair.Value > 1e-5);
+            var toastString = "";
+            foreach (var kvp in positiveTransfers)
+            {
+                toastString += $"{kvp.Value} {Enum.GetName(typeof(Resource), kvp.Key)}\n";
+            }
+            ToastProvider.ShowToast(
+                toastString,
+                gameObject
+                );
+
+            return positiveTransfers.Any();
         }
 
         public ISet<Resource> ValidSupplyTypes()
@@ -124,7 +136,7 @@ namespace Assets.WorldObjects.Members.Storage
                 var toastString = "";
                 foreach (var kvp in transferredResult)
                 {
-                    toastString += $"Gathered {kvp.Value} of {Enum.GetName(typeof(Resource), kvp.Key)}\n";
+                    toastString += $"{kvp.Value} {Enum.GetName(typeof(Resource), kvp.Key)}\n";
                 }
 
                 ToastProvider.ShowToast(
@@ -137,7 +149,7 @@ namespace Assets.WorldObjects.Members.Storage
                 var transferOption = myInventory.TransferResourceInto(resourceType.Value, inventoryToGatherInto, amount);
                 transferOption.Execute();
                 ToastProvider.ShowToast(
-                    $"Gathered {transferOption.info} of {Enum.GetName(typeof(Resource), resourceType.Value)}\n",
+                    $"{transferOption.info} {Enum.GetName(typeof(Resource), resourceType.Value)}\n",
                     gameObject
                     );
             }else

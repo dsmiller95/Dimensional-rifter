@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Scripts.Core;
+using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
@@ -46,6 +47,10 @@ namespace Assets.WorldObjects.Members.Buildings
             }
             hasBeenBuilt.SetValue(true);
             errandBoard.DeRegisterErrandSource(this);
+            ToastProvider.ShowToast(
+                "Built",
+                gameObject
+                );
             return true;
         }
         public bool IsBuildable()
@@ -76,6 +81,11 @@ namespace Assets.WorldObjects.Members.Buildings
             var withdrawl = inventoryToTakeFrom.Consume(ItemTypeRequriement.resourceType, remainingResourceRequirement);
             SetRemainingResourceRequirement(remainingResourceRequirement - withdrawl.info);
             withdrawl.Execute();
+
+            ToastProvider.ShowToast(
+                $"{withdrawl.info} {Enum.GetName(typeof(Resource), ItemTypeRequriement.resourceType)}",
+                gameObject
+                );
             return true;
         }
 

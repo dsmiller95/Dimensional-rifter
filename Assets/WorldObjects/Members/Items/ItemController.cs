@@ -58,7 +58,7 @@ namespace Assets.WorldObjects.Members.Items
             addOption.Execute();
 
             ToastProvider.ShowToast(
-                $"Gathered {addOption.info} of {Enum.GetName(typeof(Resource), myType)}",
+                $"{addOption.info} {Enum.GetName(typeof(Resource), myType)}",
                 gameObject
                 );
 

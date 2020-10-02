@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Scripts.Core;
+using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Members.Buildings;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
@@ -69,6 +70,11 @@ namespace Assets.WorldObjects.Members.Food
 
             SetGrownAmount(0f);
             errandBoard.DeRegisterErrandSource(this);
+
+            ToastProvider.ShowToast(
+                "Harvested",
+                gameObject
+                );
 
             return true;
         }
