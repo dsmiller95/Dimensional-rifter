@@ -131,6 +131,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTargetPath.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateListingToGraphDataJob.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\Suppliable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Assets\Scripts\InstantiateAndAssignTo.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\LeafFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanState.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoardOwner.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\TimedSwitchBack.cs" />
@@ -166,6 +168,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoard.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
+    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveSystemHooks.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
@@ -267,9 +270,8 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveSystemHooks.cs" />
-    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoardOwner.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateListingToGraphDataJob.cs" />
+    <Compile Include="Assets\UI\Buttery Toast\ToastController.cs" />
+    <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -74,7 +74,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                     supplier.GatherInto(myInventory);
                 }
 
-                // todo: no more gathering!
+                // todo: no more gathering!?
                 targetObject.GetComponent<IGatherable>()?.OnGathered();
 
                 return NodeStatus.SUCCESS;

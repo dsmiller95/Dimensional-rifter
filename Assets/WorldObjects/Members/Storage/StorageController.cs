@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.Inventories;
+﻿using Assets.UI.Buttery_Toast;
+using Assets.WorldObjects.Inventories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,22 +110,39 @@ namespace Assets.WorldObjects.Members.Storage
 
         public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource? resourceType = null, float amount = -1)
         {
-            if (resourceType.HasValue)
+            if(amount < 0)
             {
-                if(amount < 0)
+                Dictionary<Resource, float> transferredResult;
+                if (resourceType.HasValue)
                 {
-                    myInventory.DrainAllInto(inventoryToGatherInto, resourceType.Value);
+                    transferredResult = myInventory.DrainAllInto(inventoryToGatherInto, resourceType.Value);
                 }else
                 {
-                    myInventory.TransferResourceInto(resourceType.Value, inventoryToGatherInto, amount).Execute();
+                    transferredResult = myInventory.DrainAllInto(inventoryToGatherInto, myInventory.GetAllResourceTypes().ToArray());
                 }
+
+                var toastString = "";
+                foreach (var kvp in transferredResult)
+                {
+                    toastString += $"Gathered {kvp.Value} of {Enum.GetName(typeof(Resource), kvp.Key)}\n";
+                }
+
+                ToastProvider.ShowToast(
+                    toastString,
+                    gameObject
+                    );
+            }
+            else if(resourceType.HasValue)
+            {
+                var transferOption = myInventory.TransferResourceInto(resourceType.Value, inventoryToGatherInto, amount);
+                transferOption.Execute();
+                ToastProvider.ShowToast(
+                    $"Gathered {transferOption.info} of {Enum.GetName(typeof(Resource), resourceType.Value)}\n",
+                    gameObject
+                    );
             }else
             {
-                if(amount > 0)
-                {
-                    Debug.LogError("Setting an amount but no resource makes no sense, ignoring amount");
-                }
-                myInventory.DrainAllInto(inventoryToGatherInto, myInventory.GetAllResourceTypes().ToArray());
+                throw new NotImplementedException("Cannot take a set amount without specifying which resource");
             }
         }
 

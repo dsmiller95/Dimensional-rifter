@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.Inventories;
+﻿using Assets.UI.Buttery_Toast;
+using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,11 @@ namespace Assets.WorldObjects.Members.Items
             var addOption = inventoryToGatherInto.Add(myType, amount);
             resourceAmount -= addOption.info;
             addOption.Execute();
+
+            ToastProvider.ShowToast(
+                $"Gathered {addOption.info} of {Enum.GetName(typeof(Resource), myType)}",
+                gameObject
+                );
 
             if (resourceAmount <= 1e-5)
             {
