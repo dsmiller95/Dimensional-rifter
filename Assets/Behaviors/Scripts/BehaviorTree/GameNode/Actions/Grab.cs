@@ -2,6 +2,7 @@
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Food;
+using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
 using TradeModeling.Inventories;
 using UnityEngine;
@@ -61,21 +62,17 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 var supplier = targetObject?.GetComponent<IItemSource>();
                 if (supplier == null) return NodeStatus.FAILURE;
 
-                var myVariableState = componentValue.GetComponent<VariableInstantiator>();
-                var myInventory = inventoryToGatherInto.GetCurrentValue(myVariableState);
+                var inventoryHolder = componentValue.GetComponent<InventoryHoldingController>();
 
                 var resource = GetResource(blackboard);
                 if (resource.HasValue)
                 {
-                    supplier.GatherInto(myInventory, resource.Value);
+                    supplier.GatherInto(inventoryHolder, resource.Value);
                 }
                 else
                 {
-                    supplier.GatherInto(myInventory);
+                    supplier.GatherAllInto(inventoryHolder);
                 }
-
-                // todo: no more gathering!?
-                targetObject.GetComponent<IGatherable>()?.OnGathered();
 
                 return NodeStatus.SUCCESS;
             }

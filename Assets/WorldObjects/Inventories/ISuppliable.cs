@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.WorldObjects.Members.Hungry.HeldItems;
+using System.Collections.Generic;
 using TradeModeling.Inventories;
 
 namespace Assets.WorldObjects.Inventories
@@ -32,8 +33,10 @@ namespace Assets.WorldObjects.Inventories
         /// Supply into the inventory, from <paramref name="inventoryToTakeFrom"/>
         /// </summary>
         /// <param name="inventoryToTakeFrom">inventory to supply from</param>
-        /// <param name="resourceType">the resource to transfer. If null, attempt transfer everything</param>
+        /// <param name="resourceType">the resource to transfer</param>
         /// <returns>true if a transfer was made, false otherwise</returns>
-        bool SupplyFrom(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null);
+        bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType);
+
+        bool SupplyAllFrom(InventoryHoldingController inventoryToTakeFrom);
     }
 }

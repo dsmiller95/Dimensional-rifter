@@ -68,6 +68,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\GetResourceFactory.cs" />
+    <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IHarvestable.cs" />
@@ -103,7 +104,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\IGatherable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
     <Compile Include="Assets\Libraries\Utilities\EnumerableExtensions.cs" />
@@ -132,7 +132,6 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateListingToGraphDataJob.cs" />
-    <Compile Include="Assets\WorldObjects\Inventories\Suppliable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
@@ -144,6 +143,7 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\IItemSource.cs" />
+    <Compile Include="Assets\UI\Buttery Toast\ToastController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\ExitSleepingStation.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SelfTileMemberReplacer.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryDirectSelector.cs" />
@@ -158,7 +158,6 @@
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoardOwner.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\CopiedMeshEditor.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\TimedSwitchBack.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Scripts\Core\GenericState.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\NodeFactory.cs" />
@@ -187,7 +186,6 @@
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\FindRandomWalkPathFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\NavigateToTarget.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\GatherableProducer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Blackboard.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComponentMemberLeaf.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
@@ -197,8 +195,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Wait.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Leaf.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\MeshCopier.cs" />
-    <Compile Include="Assets\WorldObjects\Inventories\ItemSource.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\GrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\GlobalReferencePassthroughFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSourceOwner.cs" />
@@ -242,7 +238,6 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSuppliableTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\Food.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareShapeRule.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileMapConfigurationData.cs" />
@@ -270,8 +265,7 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\UI\Buttery Toast\ToastController.cs" />
-    <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

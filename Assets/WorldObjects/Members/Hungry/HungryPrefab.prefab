@@ -10,16 +10,17 @@ GameObject:
   m_Component:
   - component: {fileID: 2486412580906688398}
   - component: {fileID: 4312956191732574274}
+  - component: {fileID: -5377919881584068312}
+  - component: {fileID: 2318843608267076656}
   - component: {fileID: 2001414270136398790}
   - component: {fileID: 5619728940487949368}
   - component: {fileID: 3768257725704724496}
-  - component: {fileID: -5377919881584068312}
-  - component: {fileID: 2318843608267076656}
   - component: {fileID: 8564191902136200649}
+  - component: {fileID: 3399309816133380429}
   - component: {fileID: -6440330297767109688}
   - component: {fileID: -6128353374799927090}
   - component: {fileID: 4021323601481749371}
-  - component: {fileID: 3399309816133380429}
+  - component: {fileID: 4248669821745000984}
   m_Layer: 0
   m_Name: HungryPrefab
   m_TagString: Untagged
@@ -92,56 +93,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2001414270136398790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99ca70fc6068344aaff4ad43cc873c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentRegion: {fileID: 0}
-  membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
-  memberType: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
-  orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
-  movementSpeed: 0.1
---- !u!114 &5619728940487949368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  booleanStateConfig:
-  - {fileID: 11400000, guid: e84297e5fbd79924985a4085fdd35e3a, type: 2}
-  floatStateConfig:
-  - {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
-  inventoryStateConfig:
-  - {fileID: 11400000, guid: fd5e295b82e7896499bd32d34ff73f23, type: 2}
---- !u!114 &3768257725704724496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372322527512826100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4691bb5557492e4d8aa3051a13c011a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  caloriesUsedPerSecond: 10
-  currentCalories: 2000
-  maximumCalories: 5000
 --- !u!61 &-5377919881584068312
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -181,6 +132,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
+--- !u!114 &2001414270136398790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b99ca70fc6068344aaff4ad43cc873c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RegionBitMask: 0
+  membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
+  memberType: {fileID: 11400000, guid: 286e406e417309841a81f212c706e0e7, type: 2}
+  orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
+  movementSpeed: 0.1
+--- !u!114 &5619728940487949368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b9327a888e2b04891e1e88884f6d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  booleanStateConfig:
+  - {fileID: 11400000, guid: e84297e5fbd79924985a4085fdd35e3a, type: 2}
+  floatStateConfig:
+  - {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
+  inventoryStateConfig:
+  - {fileID: 11400000, guid: fd5e295b82e7896499bd32d34ff73f23, type: 2}
+--- !u!114 &3768257725704724496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4691bb5557492e4d8aa3051a13c011a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  caloriesUsedPerSecond: 10
+  currentCalories: 2000
+  maximumCalories: 5000
 --- !u!114 &8564191902136200649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +195,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootTreeFactory: {fileID: 11400000, guid: 74ba6ce438f2cc74b92ff484d60bdb6b, type: 2}
+--- !u!114 &3399309816133380429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9fffdfec7f5604a948a8305a88d342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToIncrease:
+    DataSource: 2
+    ConstantValue: 0
+    Variable: {fileID: 0}
+    Instancer: {fileID: 5619728940487949368}
+    NamePath: wakefulness
+  CanGrow:
+    DataSource: 0
+    ConstantValue: 1
+    Variable: {fileID: 0}
+    Instancer: {fileID: 5619728940487949368}
+    NamePath: 
+  changePerSecond: -0.7
+  stoppingPoint: 0
 --- !u!114 &-6440330297767109688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +264,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3399309816133380429
+--- !u!114 &4248669821745000984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,20 +273,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5372322527512826100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c9fffdfec7f5604a948a8305a88d342, type: 3}
+  m_Script: {fileID: 11500000, guid: b22ec88c8123de04da16e3148db6a23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToIncrease:
-    DataSource: 2
-    ConstantValue: 0
-    Variable: {fileID: 0}
-    Instancer: {fileID: 5619728940487949368}
-    NamePath: wakefulness
-  CanGrow:
-    DataSource: 0
-    ConstantValue: 1
-    Variable: {fileID: 0}
-    Instancer: {fileID: 5619728940487949368}
-    NamePath: 
-  changePerSecond: -0.7
-  stoppingPoint: 0
+  inventoryTarget: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
+  stateHolder: {fileID: 5619728940487949368}

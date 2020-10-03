@@ -1,5 +1,6 @@
 ﻿using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members.Hungry.HeldItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,8 @@ namespace Assets.WorldObjects.Members.Storage
                 myInventory = SpaceFillingInventory<Resource>
                     .GetEmptyInventoryAllSpaceFilling<Resource>(inventoryCapacity);
                 myInventory.SetSerializedToInventory(typedSaveData.inventoryContents);
-            }else
+            }
+            else
             {
                 myInventory = SpaceFillingInventory<Resource>
                     .GetEmptyInventoryAllSpaceFilling<Resource>(inventoryCapacity);
@@ -82,25 +84,37 @@ namespace Assets.WorldObjects.Members.Storage
             return myInventory.CanFitMoreOf(resource);
         }
 
-        public bool SupplyFrom(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
+        public bool SupplyAllFrom(InventoryHoldingController inventory)
         {
-            var drainResult = resourceType.HasValue ?
-                inventoryToTakeFrom.DrainAllInto(myInventory, resourceType.Value)
-                :
-                inventoryToTakeFrom.DrainAllInto(myInventory, inventoryToTakeFrom.GetAllResourceTypes().ToArray());
-
-            var positiveTransfers = drainResult.Where(pair => pair.Value > 1e-5);
-            var toastString = "";
-            foreach (var kvp in positiveTransfers)
+            var toastString = new StringBuilder();
+            if (!inventory.PullAllItemsFromSelfIntoInv(
+                myInventory,
+                gameObject,
+                toastString))
             {
-                toastString += $"{kvp.Value} {Enum.GetName(typeof(Resource), kvp.Key)}\n";
-            }
+                return false;
+            };
+
             ToastProvider.ShowToast(
-                toastString,
+                toastString.ToString(),
                 gameObject
                 );
+            return true;
+        }
 
-            return positiveTransfers.Any();
+        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType)
+        {
+            var toastString = new StringBuilder();
+            if (!inventoryToTakeFrom.PullItemFromSelf(myInventory, resourceType, gameObject, toastString))
+            {
+                return false;
+            }
+
+            ToastProvider.ShowToast(
+                toastString.ToString(),
+                gameObject
+                );
+            return true;
         }
 
         public ISet<Resource> ValidSupplyTypes()
@@ -120,41 +134,35 @@ namespace Assets.WorldObjects.Members.Storage
             return myInventory.Get(resource) > 0;
         }
 
-        public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource? resourceType = null, float amount = -1)
+        public void GatherAllInto(InventoryHoldingController inventoryToGatherInto)
         {
-            if(amount < 0)
+            var toastMessage = new StringBuilder();
+            if (inventoryToGatherInto.GrabAllItemsIntoSelf(
+                myInventory,
+                gameObject,
+                toastMessage))
             {
-                Dictionary<Resource, float> transferredResult;
-                if (resourceType.HasValue)
-                {
-                    transferredResult = myInventory.DrainAllInto(inventoryToGatherInto, resourceType.Value);
-                }else
-                {
-                    transferredResult = myInventory.DrainAllInto(inventoryToGatherInto, myInventory.GetAllResourceTypes().ToArray());
-                }
-
-                var toastString = "";
-                foreach (var kvp in transferredResult)
-                {
-                    toastString += $"{kvp.Value} {Enum.GetName(typeof(Resource), kvp.Key)}\n";
-                }
-
                 ToastProvider.ShowToast(
-                    toastString,
+                    toastMessage.ToString(),
                     gameObject
                     );
             }
-            else if(resourceType.HasValue)
+        }
+
+        public void GatherInto(InventoryHoldingController inventoryToGatherInto, Resource resourceType, float amount = -1)
+        {
+            var toastMessage = new StringBuilder();
+            if (inventoryToGatherInto.GrabItemIntoSelf(
+                myInventory,
+                resourceType,
+                gameObject,
+                toastMessage,
+                amount))
             {
-                var transferOption = myInventory.TransferResourceInto(resourceType.Value, inventoryToGatherInto, amount);
-                transferOption.Execute();
                 ToastProvider.ShowToast(
-                    $"{transferOption.info} {Enum.GetName(typeof(Resource), resourceType.Value)}\n",
+                    toastMessage.ToString(),
                     gameObject
                     );
-            }else
-            {
-                throw new NotImplementedException("Cannot take a set amount without specifying which resource");
             }
         }
 

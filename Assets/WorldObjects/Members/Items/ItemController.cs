@@ -1,8 +1,10 @@
 ﻿using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using TradeModeling.Inventories;
 using UnityEngine;
 
@@ -42,10 +44,14 @@ namespace Assets.WorldObjects.Members.Items
             yield return resource.resourceType;
         }
 
-        public void GatherInto(IInventory<Resource> inventoryToGatherInto, Resource? resourceType = null, float amount = -1)
+        public void GatherAllInto(InventoryHoldingController inventoryToGatherInto)
+        {
+            this.GatherInto(inventoryToGatherInto, resource.resourceType);
+        }
+        public void GatherInto(InventoryHoldingController inventoryToGatherInto, Resource resourceType, float amount = -1)
         {
             var myType = resource.resourceType;
-            if (resourceType.HasValue && resourceType.Value != myType)
+            if (resourceType != myType)
             {
                 return;
             }
@@ -53,12 +59,20 @@ namespace Assets.WorldObjects.Members.Items
             {
                 amount = resourceAmount;
             }
-            var addOption = inventoryToGatherInto.Add(myType, amount);
-            resourceAmount -= addOption.info;
-            addOption.Execute();
+            var toastMessage = new StringBuilder();
+            var gatheredAmt = inventoryToGatherInto.GrabItemIntoSelf(
+                resourceType,
+                gameObject,
+                toastMessage,
+                amount);
+            if(gatheredAmt <= 1e-5)
+            {
+                return;
+            }
+            resourceAmount -= gatheredAmt;
 
             ToastProvider.ShowToast(
-                $"{addOption.info} {Enum.GetName(typeof(Resource), myType)}",
+                toastMessage.ToString(),
                 gameObject
                 );
 

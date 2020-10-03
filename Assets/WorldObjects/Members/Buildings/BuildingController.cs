@@ -2,11 +2,13 @@
 using Assets.Scripts.Core;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
 using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using TradeModeling.Inventories;
 using UnityEngine;
 
@@ -67,9 +69,13 @@ namespace Assets.WorldObjects.Members.Buildings
             return resource == ItemTypeRequriement.resourceType && CanRecieveSupply();
         }
 
-        public bool SupplyFrom(IInventory<Resource> inventoryToTakeFrom, Resource? resourceType = null)
+        public bool SupplyAllFrom(InventoryHoldingController inventoryToTakeFrom)
         {
-            if (resourceType.HasValue && resourceType.Value != ItemTypeRequriement.resourceType)
+            return this.SupplyFrom(inventoryToTakeFrom, ItemTypeRequriement.resourceType);
+        }
+        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType)
+        {
+            if (resourceType != ItemTypeRequriement.resourceType)
             {
                 return false;
             }
@@ -78,12 +84,21 @@ namespace Assets.WorldObjects.Members.Buildings
                 return false;
             }
 
-            var withdrawl = inventoryToTakeFrom.Consume(ItemTypeRequriement.resourceType, remainingResourceRequirement);
-            SetRemainingResourceRequirement(remainingResourceRequirement - withdrawl.info);
-            withdrawl.Execute();
+            var toastMsg = new StringBuilder();
+            var withdrawlAmt = inventoryToTakeFrom
+                .PullItemFromSelf(
+                resourceType,
+                gameObject,
+                toastMsg,
+                remainingResourceRequirement);
+            if(withdrawlAmt < 1e-5)
+            {
+                return false;
+            }
+            SetRemainingResourceRequirement(remainingResourceRequirement - withdrawlAmt);
 
             ToastProvider.ShowToast(
-                $"{withdrawl.info} {Enum.GetName(typeof(Resource), ItemTypeRequriement.resourceType)}",
+                toastMsg.ToString(),
                 gameObject
                 );
             return true;

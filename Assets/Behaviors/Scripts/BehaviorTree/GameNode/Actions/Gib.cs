@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
 using TradeModeling.Inventories;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// Give items to a target object. if resource type pointer is provided only gives items of
     ///     that type. otherwise tried to give everything.
     /// </summary>
-    public class Gib : ComponentMemberLeaf<VariableInstantiator>
+    public class Gib : ComponentMemberLeaf<InventoryHoldingController>
     {
         private string resourceTypeInBlackboard;
         private string targetObjectInBlackboard;
@@ -38,14 +39,12 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 var suppliables = targetObject?.GetComponents<ISuppliable>();
                 if (suppliables == null || suppliables.Length <= 0) return NodeStatus.FAILURE;
 
-                var myInventory = inventoryToGiveFrom.GetCurrentValue(componentValue);
-
                 if (resourceTypeInBlackboard != null &&
                     blackboard.TryGetValueOfType(resourceTypeInBlackboard, out Resource resourceType))
                 {
                     foreach (var suppliable in suppliables)
                     {
-                        if (suppliable.SupplyFrom(myInventory, resourceType))
+                        if (suppliable.SupplyFrom(componentValue, resourceType))
                         {
                             return NodeStatus.SUCCESS;
                         };
@@ -55,7 +54,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 {
                     foreach (var suppliable in suppliables)
                     {
-                        if (suppliable.SupplyFrom(myInventory))
+                        if (suppliable.SupplyAllFrom(componentValue))
                         {
                             return NodeStatus.SUCCESS;
                         };
