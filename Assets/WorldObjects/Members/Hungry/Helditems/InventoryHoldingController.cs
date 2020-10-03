@@ -21,7 +21,7 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
             var grabbedAny = false;
             foreach (var resource in inventoryToGrabFrom.GetAllResourceTypes().ToList())
             {
-                grabbedAny |= this.GrabItemIntoSelf(
+                grabbedAny |= GrabItemIntoSelf(
                     inventoryToGrabFrom,
                     resource,
                     originPoint,
@@ -38,7 +38,7 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
             float amount = -1)
         {
             var inventory = inventoryTarget.GetCurrentValue(stateHolder);
-            if(amount < 0)
+            if (amount < 0)
             {
                 amount = inventoryToGrabFrom.Get(itemType);
             }
@@ -82,9 +82,9 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
             var suppliedAny = false;
             foreach (var resource in inventory.GetAllResourceTypes().ToList())
             {
-                suppliedAny |= this.PullItemFromSelf(
-                    inventoryToDepositInto, 
-                    resource, 
+                suppliedAny |= PullItemFromSelf(
+                    inventoryToDepositInto,
+                    resource,
                     destinationPoint,
                     toastMessage);
             }
@@ -92,7 +92,7 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
         }
 
         public bool PullItemFromSelf(
-            IInventory<Resource> inventoryToDepositInto, 
+            IInventory<Resource> inventoryToDepositInto,
             Resource itemType,
             GameObject destinationPoint,
             StringBuilder toastMessage,

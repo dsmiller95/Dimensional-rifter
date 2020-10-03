@@ -1,5 +1,4 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
-using System;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage

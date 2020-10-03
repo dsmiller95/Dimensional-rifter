@@ -1,9 +1,7 @@
 ﻿using Assets.Scripts.Core;
-using Assets.Scripts.Utilities;
 using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TradeModeling.Inventories;
 using UnityEngine;
 

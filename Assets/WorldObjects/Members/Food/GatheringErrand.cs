@@ -1,6 +1,5 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
-using Assets.WorldObjects.Members.Food;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace Assets.WorldObjects.Members.Food
             this.errandType = errandType;
             targetController = toBeBuilt;
             this.gatheringWorker = gatheringWorker;
-            this.completionReciever = toBeBuilt;
+            completionReciever = toBeBuilt;
 
             SetupBehavior();
         }

@@ -3,7 +3,6 @@ using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.Scripts.Core;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Nodes;
-using System;
 using TradeModeling.Inventories;
 using UnityEngine;
 

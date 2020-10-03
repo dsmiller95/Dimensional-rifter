@@ -1,6 +1,5 @@
 ﻿using Assets.WorldObjects.Members.Hungry.HeldItems;
 using System.Collections.Generic;
-using TradeModeling.Inventories;
 
 namespace Assets.WorldObjects.Inventories
 {

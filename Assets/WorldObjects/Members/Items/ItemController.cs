@@ -5,7 +5,6 @@ using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Items
@@ -46,7 +45,7 @@ namespace Assets.WorldObjects.Members.Items
 
         public void GatherAllInto(InventoryHoldingController inventoryToGatherInto)
         {
-            this.GatherInto(inventoryToGatherInto, resource.resourceType);
+            GatherInto(inventoryToGatherInto, resource.resourceType);
         }
         public void GatherInto(InventoryHoldingController inventoryToGatherInto, Resource resourceType, float amount = -1)
         {
@@ -65,7 +64,7 @@ namespace Assets.WorldObjects.Members.Items
                 gameObject,
                 toastMessage,
                 amount);
-            if(gatheredAmt <= 1e-5)
+            if (gatheredAmt <= 1e-5)
             {
                 return;
             }

@@ -1,6 +1,5 @@
 ﻿using Assets.WorldObjects;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Collections;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -15,7 +14,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             totalNeighbors += nextNode.coordinate.NeighborCount();
             allNodes.Add(nextNode);
-            if(members != null)
+            if (members != null)
             {
                 allMembers.allMembersByConnectivityID[CurrentNodeCount() - 1] = members;
             }

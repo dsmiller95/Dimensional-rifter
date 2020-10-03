@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Assets.WorldObjects.SaveObjects.SaveManager
+﻿namespace Assets.WorldObjects.SaveObjects.SaveManager
 {
     public class SaveSystemHooks
     {

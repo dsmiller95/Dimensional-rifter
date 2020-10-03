@@ -9,7 +9,6 @@ using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings
@@ -38,7 +37,7 @@ namespace Assets.WorldObjects.Members.Buildings
         private void Start()
         {
             // Make sure all the errands/suppliables are registered if spawned in via build command
-            this.SetRemainingResourceRequirement(remainingResourceRequirement);
+            SetRemainingResourceRequirement(remainingResourceRequirement);
         }
 
         public bool Build()
@@ -71,7 +70,7 @@ namespace Assets.WorldObjects.Members.Buildings
 
         public bool SupplyAllFrom(InventoryHoldingController inventoryToTakeFrom)
         {
-            return this.SupplyFrom(inventoryToTakeFrom, ItemTypeRequriement.resourceType);
+            return SupplyFrom(inventoryToTakeFrom, ItemTypeRequriement.resourceType);
         }
         public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType)
         {
@@ -91,7 +90,7 @@ namespace Assets.WorldObjects.Members.Buildings
                 gameObject,
                 toastMsg,
                 remainingResourceRequirement);
-            if(withdrawlAmt < 1e-5)
+            if (withdrawlAmt < 1e-5)
             {
                 return false;
             }
@@ -107,10 +106,11 @@ namespace Assets.WorldObjects.Members.Buildings
         private void SetRemainingResourceRequirement(float remaining)
         {
             remainingResourceRequirement = remaining;
-            if(remainingResourceRequirement <= 1e-5)
+            if (remainingResourceRequirement <= 1e-5)
             {
                 storageErrandSource.DeRegisterSuppliable(this);
-            }else
+            }
+            else
             {
                 storageErrandSource.RegisterSuppliable(this);
             }
@@ -151,7 +151,8 @@ namespace Assets.WorldObjects.Members.Buildings
             {
                 // Assume we were generated via map gen
                 SetRemainingResourceRequirement(0);
-            } else
+            }
+            else
             {
                 Debug.LogError("Error: save data is improperly formatted");
             }

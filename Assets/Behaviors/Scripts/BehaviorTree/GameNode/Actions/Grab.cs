@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Core;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
-using Assets.WorldObjects.Members.Food;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
 using TradeModeling.Inventories;

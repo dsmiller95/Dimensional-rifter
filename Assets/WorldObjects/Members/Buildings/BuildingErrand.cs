@@ -25,7 +25,7 @@ namespace Assets.WorldObjects.Members.Buildings
             this.errandType = errandType;
             targetController = toBeBuilt;
             this.buildWorker = buildWorker;
-            this.completionReciever = toBeBuilt;
+            completionReciever = toBeBuilt;
 
             SetupBehavior();
         }
