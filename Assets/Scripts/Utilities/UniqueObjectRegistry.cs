@@ -14,6 +14,14 @@ namespace Assets.WorldObjects.Members
     {
         public abstract IDableObject[] AllObjects { get; }
 
+        private void Awake()
+        {
+            OnObjectSetChanged();
+        }
+        public virtual void OnObjectSetChanged()
+        {
+
+        }
         public void AssignAllIDs()
         {
             for (var i = 0; i < AllObjects.Length; i++)
@@ -22,6 +30,7 @@ namespace Assets.WorldObjects.Members
                 uniqueObject.AssignId(i);
                 EditorUtility.SetDirty(uniqueObject);
             }
+            OnObjectSetChanged();
         }
     }
 

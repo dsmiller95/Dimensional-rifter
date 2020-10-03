@@ -78,25 +78,10 @@ MonoBehaviour:
     - b3875a56-ca22-48a9-ab13-eb4fcf0ee604
     - a6a52a8a-0e03-4271-b760-614ba44386b9
     - 828097c6-fd53-47f7-8ad4-90db6954dd8a
-  - Guid: 19721b47-ecb3-462c-86b3-0d7a8171235e
-    Title: Harvest Anything
-    factory: {fileID: 6229142998929930300}
-    position: {x: 605, y: 219}
-    ConnectedChildrenGuids: []
   - Guid: a6a52a8a-0e03-4271-b760-614ba44386b9
     Title: Claim Harvest Errand
     factory: {fileID: -6981285855500029429}
     position: {x: 382, y: 221}
-    ConnectedChildrenGuids: []
-  - Guid: 88e457e7-bdaa-4dfd-9d56-d0cf90da8c5e
-    Title: Storage Supply
-    factory: {fileID: 6541563360892428532}
-    position: {x: 639, y: 323}
-    ConnectedChildrenGuids: []
-  - Guid: 6db26504-62c9-42df-ba51-f02496f6dc18
-    Title: Building Supply
-    factory: {fileID: 8877972465841013884}
-    position: {x: 650, y: 137}
     ConnectedChildrenGuids: []
   - Guid: b3875a56-ca22-48a9-ab13-eb4fcf0ee604
     Title: Claim building supply errand
@@ -111,9 +96,6 @@ MonoBehaviour:
   entryFactory: {fileID: 4294714761230635347}
   factoriesSavedWithAsset:
   - {fileID: 4294714761230635347}
-  - {fileID: 8877972465841013884}
-  - {fileID: 6541563360892428532}
-  - {fileID: 6229142998929930300}
   - {fileID: -7686626533107331920}
   - {fileID: -6981285855500029429}
   - {fileID: 225734886346691548}
@@ -150,52 +132,3 @@ MonoBehaviour:
   - {fileID: -1494609241791033005}
   - {fileID: -6981285855500029429}
   - {fileID: 225734886346691548}
---- !u!114 &6229142998929930300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfc65706d9d8cdb42940ea91107740ec, type: 3}
-  m_Name: Harvest Anything
-  m_EditorClassIdentifier: 
-  harvestTargetInBlackboard: Target
-  harvestPathInBlackboard: Path
---- !u!114 &6541563360892428532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c8356f12de0d049874eb53a7e660d4, type: 3}
-  m_Name: Storage Supply
-  m_EditorClassIdentifier: 
-  validItemSources:
-  - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
-  - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
-  validSupplyTarget: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
-  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
---- !u!114 &8877972465841013884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c8356f12de0d049874eb53a7e660d4, type: 3}
-  m_Name: Building Supply
-  m_EditorClassIdentifier: 
-  validItemSources:
-  - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
-  - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
-  - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
-  validSupplyTarget: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
-  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}

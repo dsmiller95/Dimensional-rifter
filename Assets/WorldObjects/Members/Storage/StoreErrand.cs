@@ -1,9 +1,7 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
-using Assets.Scripts.Core;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Nodes;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
@@ -22,7 +20,6 @@ namespace Assets.WorldObjects.Members.Storage
 
 
         public GameObject storingWorker;
-        public GenericSelector<IInventory<Resource>> inventoryToTransfer;
 
         private IErrandCompletionReciever<StoreErrand> notifier;
         private bool BehaviorCompleted = false;
@@ -35,7 +32,6 @@ namespace Assets.WorldObjects.Members.Storage
             Resource resourceToTransfer,
             float amountToTransfer,
             GameObject actor,
-            GenericSelector<IInventory<Resource>> actorInventory,
             IErrandCompletionReciever<StoreErrand> notifier)
         {
             this.errandType = errandType;
@@ -45,7 +41,6 @@ namespace Assets.WorldObjects.Members.Storage
             this.amountToTransfer = amountToTransfer;
 
             storingWorker = actor;
-            inventoryToTransfer = actorInventory;
 
             this.notifier = notifier;
 
@@ -65,10 +60,9 @@ namespace Assets.WorldObjects.Members.Storage
                     storingWorker,
                     "Path",
                     "target"),
-                new Grab(
+                Grab.GrabWithAnimation(
                     storingWorker,
                     "target",
-                    inventoryToTransfer,
                     resourceToTransfer),
                 new FindPathToBakedTarget(
                     storingWorker,
@@ -79,10 +73,9 @@ namespace Assets.WorldObjects.Members.Storage
                     storingWorker,
                     "Path",
                     "target"),
-                new Gib(
+                Gib.GibWithAnimation(
                     storingWorker,
-                    "target",
-                    inventoryToTransfer),
+                    "target"),
                 new LabmdaLeaf(blackboard =>
                 {
                     BehaviorCompleted = true;

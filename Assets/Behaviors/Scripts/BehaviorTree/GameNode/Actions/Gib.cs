@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Core;
+﻿using Assets.UI.ItemTransferAnimations;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
@@ -17,19 +16,35 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         private string resourceTypeInBlackboard;
         private string targetObjectInBlackboard;
 
-        private GenericSelector<IInventory<Resource>> inventoryToGiveFrom;
-
-
-        public Gib(
+        private Gib(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            GenericSelector<IInventory<Resource>> inventoryToGiveFrom,
             string resourceTypeInBlackboard = null
             ) : base(gameObject)
         {
-            this.inventoryToGiveFrom = inventoryToGiveFrom;
             this.resourceTypeInBlackboard = resourceTypeInBlackboard;
             this.targetObjectInBlackboard = targetObjectInBlackboard;
+        }
+        public static BehaviorNode GibWithAnimation(
+            GameObject gameObject,
+            string targetObjectInBlackboard,
+            string resourceTypeInBlackboard = null)
+        {
+            return new Sequence(
+                new LabmdaLeaf(blackboard =>
+                {
+                    if (blackboard.TryGetValueOfType(targetObjectInBlackboard, out GameObject obj))
+                    {
+                        ItemTransferParticleProvider.ShowItemTransferAnimation(gameObject, obj);
+                    }
+                    return NodeStatus.SUCCESS;
+                }),
+                new Wait(ItemTransferParticleProvider.Instance.ItemTransferAnimationTime),
+                new Gib(
+                    gameObject,
+                    targetObjectInBlackboard,
+                    resourceTypeInBlackboard)
+            );
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)

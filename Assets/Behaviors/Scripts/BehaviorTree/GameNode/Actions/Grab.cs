@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Core;
+﻿using Assets.UI.ItemTransferAnimations;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
@@ -21,37 +20,79 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
         private string targetObjectInBlackboard;
 
-        private GenericSelector<IInventory<Resource>> inventoryToGatherInto;
 
+        private Grab(
+            GameObject gameObject,
+            string targetObjectInBlackboard) : base(gameObject)
+        {
+            this.targetObjectInBlackboard = targetObjectInBlackboard;
+        }
 
         private Grab(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            GenericSelector<IInventory<Resource>> inventoryToGatherInto) : base(gameObject)
-        {
-            this.inventoryToGatherInto = inventoryToGatherInto;
-            this.targetObjectInBlackboard = targetObjectInBlackboard;
-        }
-
-        public Grab(
-            GameObject gameObject,
-            string targetObjectInBlackboard,
-            GenericSelector<IInventory<Resource>> inventoryToGatherInto,
             string resourceTypeInBlackboard = null
-            ) : this(gameObject, targetObjectInBlackboard, inventoryToGatherInto)
+            ) : this(gameObject, targetObjectInBlackboard)
         {
             resourceFromBlackboard = true;
             this.resourceTypeInBlackboard = resourceTypeInBlackboard;
         }
-        public Grab(
+        private Grab(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            GenericSelector<IInventory<Resource>> inventoryToGatherInto,
             Resource resourceType
-            ) : this(gameObject, targetObjectInBlackboard, inventoryToGatherInto)
+            ) : this(gameObject, targetObjectInBlackboard)
         {
             resourceFromBlackboard = false;
             resourceToGrab = resourceType;
+        }
+        public static BehaviorNode GrabWithAnimation(
+            GameObject gameObject,
+            string targetObjectInBlackboard,
+            string resourceTypeInBlackboard = null)
+        {
+            return WrapWithAnimation(
+                new Grab(
+                    gameObject,
+                    targetObjectInBlackboard,
+                    resourceTypeInBlackboard),
+                targetObjectInBlackboard,
+                gameObject
+                );
+        }
+
+        public static BehaviorNode GrabWithAnimation(
+            GameObject gameObject,
+            string targetObjectInBlackboard,
+            Resource resourceType)
+        {
+            return WrapWithAnimation(
+                new Grab(
+                    gameObject,
+                    targetObjectInBlackboard,
+                    resourceType),
+                targetObjectInBlackboard,
+                gameObject
+                );
+        }
+
+        private static BehaviorNode WrapWithAnimation(
+            Grab grabNode,
+            string targetObjectBlackboard,
+            GameObject target)
+        {
+            return new Sequence(
+                new LabmdaLeaf(blackboard =>
+                {
+                    if (blackboard.TryGetValueOfType(targetObjectBlackboard, out GameObject obj))
+                    {
+                        ItemTransferParticleProvider.ShowItemTransferAnimation(obj, target);
+                    }
+                    return NodeStatus.SUCCESS;
+                }),
+                new Wait(ItemTransferParticleProvider.Instance.ItemTransferAnimationTime),
+                grabNode
+            );
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)

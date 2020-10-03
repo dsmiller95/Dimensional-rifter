@@ -79,7 +79,6 @@
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateStructSystem.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\SupplyToSupplyTypeFactory.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnTargetComponentLeaf.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandType.cs" />
@@ -212,6 +211,7 @@
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinateSystemMembers.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
     <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
@@ -235,7 +235,6 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrand.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindSuppliableTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
@@ -249,7 +248,6 @@
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableType.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\SupplyToAvailablePairLeafFactory.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FloatFromInstantiatorComparisonFactory.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataRule.cs" />
@@ -265,7 +263,7 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
+    <Compile Include="Assets\UI\ItemTransferAnimations\ItemTransferParticleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -1,11 +1,9 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
-using Assets.Scripts.Core;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.SaveObjects.SaveManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
@@ -55,7 +53,6 @@ namespace Assets.WorldObjects.Members.Storage
     public class StorageErrandSource : ScriptableObject, IErrandCompletionReciever<StoreErrand>
     {
         public ErrandBoard board;
-        public GenericSelector<IInventory<Resource>> transferInventory;
         public StorageErrandSourceSlice[] storageErrandSlices;
 
 
@@ -178,7 +175,6 @@ namespace Assets.WorldObjects.Members.Storage
                 resource,
                 float.MaxValue,
                 errandExecutor,
-                transferInventory,
                 this);
         }
 

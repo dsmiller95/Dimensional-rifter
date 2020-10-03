@@ -1,10 +1,8 @@
-﻿using Assets.Scripts.Core;
-using Assets.WorldObjects;
+﻿using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
@@ -16,14 +14,12 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     {
         public Resource resourceType;
         public ItemSourceType[] validItemSources;
-        public GenericSelector<IInventory<Resource>> selfInventoryToUse;
 
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return GatherOfTypeFactory.GatherResourceOfType(
                 target,
                 validItemSources,
-                selfInventoryToUse,
                 resourceType);
         }
     }
