@@ -65,6 +65,7 @@
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
+    <Compile Include="Assets\UI\Priorities\PriorityRowEditController.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\GetResourceFactory.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateStructSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnTargetComponentLeaf.cs" />
     <Compile Include="Assets\CameraMovementController.cs" />
+    <Compile Include="Assets\UI\ItemTransferAnimations\ItemTransferParticleProvider.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\LambdaLeaf.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinate.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\SleepUntilAwakeEnough.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
+    <Compile Include="Assets\ToggleObjectActive.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
@@ -210,6 +213,7 @@
     <Compile Include="Assets\Tiling\CoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
+    <Compile Include="Assets\UI\Priorities\SinglePriorityHolder.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinateSystemMembers.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
@@ -255,6 +259,7 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageController.cs" />
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
+    <Compile Include="Assets\UI\Priorities\PriorityHolderSet.cs" />
     <Compile Include="Assets\WorldObjects\GameTimeOwner.cs" />
     <Compile Include="Assets\WorldObjects\GameTime.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
@@ -263,7 +268,9 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\UI\ItemTransferAnimations\ItemTransferParticleProvider.cs" />
+    <Compile Include="Assets\Scripts\Utilities\LiveObjectSet.cs" />
+    <Compile Include="Assets\UI\Priorities\PriorityHolderObjectSet.cs" />
+    <Compile Include="Assets\UI\Priorities\PriorityButton.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
