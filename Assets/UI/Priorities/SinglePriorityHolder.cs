@@ -13,8 +13,8 @@ namespace Assets.UI.Priorities
         {
             return new SerializablePriorityHolder
             {
-                priorities = this.priorities,
-                priorityHolderName = this.priorityHolderName
+                priorities = priorities,
+                priorityHolderName = priorityHolderName
             };
         }
 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7686626533107331920
+--- !u!114 &-2944537699926721759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,42 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
-  m_Name: Claim Building Errand
+  m_Script: {fileID: 11500000, guid: 910a8b7135b310e4ab097ac85902b8df, type: 3}
+  m_Name: DoHighestPriorityErrand
   m_EditorClassIdentifier: 
   errandPathInBlackboard: Errand
+  prioritySetToErrands: {fileID: 11400000, guid: a93c8993347c9094cbaed0003ad9f933, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
-  errandType: {fileID: 11400000, guid: f68436973f202d24498909e424948e40, type: 2}
---- !u!114 &-6981285855500029429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
-  m_Name: Claim Harvest Errand
-  m_EditorClassIdentifier: 
-  errandPathInBlackboard: Errand
-  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
-  errandType: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}
---- !u!114 &-1494609241791033005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
-  m_Name: Claim building supply errand
-  m_EditorClassIdentifier: 
-  errandPathInBlackboard: Errand
-  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
-  errandType: {fileID: 11400000, guid: 1be86b14015750e41970cb4eefe62228, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,72 +33,12 @@ MonoBehaviour:
     factory: {fileID: 0}
     position: {x: -377, y: 133}
     ConnectedChildrenGuids:
-    - 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
-  - Guid: 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
-    Title: Claim Building Errand
-    factory: {fileID: -7686626533107331920}
-    position: {x: 276, y: 37}
+    - 51f92d83-153c-4413-aa10-dd41cea3838d
+  - Guid: 51f92d83-153c-4413-aa10-dd41cea3838d
+    Title: DoHighestPriorityErrand
+    factory: {fileID: -2944537699926721759}
+    position: {x: -93, y: 120}
     ConnectedChildrenGuids: []
-  - Guid: 9d85e0a6-9f9e-4cbd-9dea-4565f876698a
-    Title: Find Task
-    factory: {fileID: 4294714761230635347}
-    position: {x: -117, y: 112}
-    ConnectedChildrenGuids:
-    - 47a6c8b5-1b2b-45ae-9a6a-415a95b4743a
-    - b3875a56-ca22-48a9-ab13-eb4fcf0ee604
-    - a6a52a8a-0e03-4271-b760-614ba44386b9
-    - 828097c6-fd53-47f7-8ad4-90db6954dd8a
-  - Guid: a6a52a8a-0e03-4271-b760-614ba44386b9
-    Title: Claim Harvest Errand
-    factory: {fileID: -6981285855500029429}
-    position: {x: 382, y: 221}
-    ConnectedChildrenGuids: []
-  - Guid: b3875a56-ca22-48a9-ab13-eb4fcf0ee604
-    Title: Claim building supply errand
-    factory: {fileID: -1494609241791033005}
-    position: {x: 315, y: 122}
-    ConnectedChildrenGuids: []
-  - Guid: 828097c6-fd53-47f7-8ad4-90db6954dd8a
-    Title: Do Storage Cleanup errand
-    factory: {fileID: 225734886346691548}
-    position: {x: 374, y: 330}
-    ConnectedChildrenGuids: []
-  entryFactory: {fileID: 4294714761230635347}
+  entryFactory: {fileID: -2944537699926721759}
   factoriesSavedWithAsset:
-  - {fileID: 4294714761230635347}
-  - {fileID: -7686626533107331920}
-  - {fileID: -6981285855500029429}
-  - {fileID: 225734886346691548}
-  - {fileID: -1494609241791033005}
---- !u!114 &225734886346691548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
-  m_Name: Do Storage Cleanup errand
-  m_EditorClassIdentifier: 
-  errandPathInBlackboard: Errand
-  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
-  errandType: {fileID: 11400000, guid: aa4ecbb43b1667a488828d42d1d2097d, type: 2}
---- !u!114 &4294714761230635347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037c628d46cde1b4d8af0aeb0f6d38cd, type: 3}
-  m_Name: Find Task
-  m_EditorClassIdentifier: 
-  children:
-  - {fileID: -7686626533107331920}
-  - {fileID: -1494609241791033005}
-  - {fileID: -6981285855500029429}
-  - {fileID: 225734886346691548}
+  - {fileID: -2944537699926721759}

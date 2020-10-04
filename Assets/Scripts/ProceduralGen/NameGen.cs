@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniRx;
 using UnityEngine;
 
 namespace Assets.Scripts.ProceduralGen
@@ -15,7 +11,7 @@ namespace Assets.Scripts.ProceduralGen
         public string name;
     }
     [CreateAssetMenu(fileName = "NameGenerator", menuName = "MapGeneration/NameGenerator", order = 10)]
-    public class NameGen: ScriptableObject
+    public class NameGen : ScriptableObject
     {
         public string[] FirstNames;
         public string[] LastNames;
@@ -25,7 +21,7 @@ namespace Assets.Scripts.ProceduralGen
         {
             var randomGen = new System.Random();
             var title = SelectRandomlyBasedOnWeights(Titles, randomGen);
-            if(title.Length > 0)
+            if (title.Length > 0)
             {
                 title = title + ' ';
             }
@@ -51,7 +47,7 @@ namespace Assets.Scripts.ProceduralGen
                 {
                     throw new Exception("random algo failed");
                 }
-                    currentChoicePoint += choices[currentChoiceIndex].weight;
+                currentChoicePoint += choices[currentChoiceIndex].weight;
             } while (currentChoicePoint < randomValScaled);
             return choices[currentChoiceIndex].name;
         }

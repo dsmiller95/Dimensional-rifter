@@ -7,7 +7,7 @@ namespace Assets.WorldObjects.Members.Food
 {
     public class GatheringErrand : IErrand
     {
-        private GatheringErrandType errandType;
+        private HarvestErrandType errandType;
         public GrowingThingController targetController;
         public ErrandType ErrandType => errandType;
 
@@ -17,7 +17,7 @@ namespace Assets.WorldObjects.Members.Food
         private bool BehaviorCompleted = false;
 
         public GatheringErrand(
-            GatheringErrandType errandType,
+            HarvestErrandType errandType,
             GrowingThingController toBeBuilt,
             GameObject gatheringWorker)
         {

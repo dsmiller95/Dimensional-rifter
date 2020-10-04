@@ -1,16 +1,11 @@
-﻿using Assets.Behaviors.Errands.Scripts;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Assets.UI.Priorities
 {
     public class PriorityHolderSet : MonoBehaviour
     {
-        public ErrandType[] errandTypesToSetPrioritiesFor;
         public PriorityHolderObjectSet priorities;
-
         public GameObject editPrefab;
 
         private void Awake()
@@ -22,7 +17,7 @@ namespace Assets.UI.Priorities
             ReDrawPriorityGrid();
             priorities.OnItemSetChanged += ReDrawPriorityGrid;
         }
-        
+
         private void OnDestroy()
         {
             priorities.OnItemSetChanged -= ReDrawPriorityGrid;

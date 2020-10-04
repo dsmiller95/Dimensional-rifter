@@ -1,16 +1,11 @@
 ﻿using Assets.Scripts.ProceduralGen;
 using Assets.UI.Priorities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Hungry
 {
     [CreateAssetMenu(fileName = "WorkerGenerator", menuName = "MapGeneration/WorkerGenerator", order = 10)]
-    public class WorkerGenerationConfiguration: ScriptableObject
+    public class WorkerGenerationConfiguration : ScriptableObject
     {
         public NameGen nameGenerator;
         public int prioritySettingCount;

@@ -40,7 +40,7 @@ namespace Assets.WorldObjects.Members.Food
 
 
         public ErrandBoard errandBoard;
-        public GatheringErrandType gatheringErrandType;
+        public HarvestErrandType gatheringErrandType;
         public ErrandType ErrandType => gatheringErrandType;
 
         private void Awake()

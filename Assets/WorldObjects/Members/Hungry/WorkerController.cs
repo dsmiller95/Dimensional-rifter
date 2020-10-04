@@ -1,10 +1,5 @@
-﻿using Assets.Scripts.ProceduralGen;
-using Assets.UI.Priorities;
+﻿using Assets.UI.Priorities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Hungry
@@ -16,7 +11,7 @@ namespace Assets.WorldObjects.Members.Hungry
     }
 
     [DisallowMultipleComponent]
-    public class WorkerController: MonoBehaviour, IMemberSaveable, IInterestingInfo
+    public class WorkerController : MonoBehaviour, IMemberSaveable, IInterestingInfo
     {
         public SinglePriorityHolder myPriorities;
         public PriorityHolderObjectSet priorityObjectSet;
@@ -47,11 +42,11 @@ namespace Assets.WorldObjects.Members.Hungry
         public void SetupFromSaveObject(object save)
         {
             WorkerSaveObject saveObject = save as WorkerSaveObject;
-            if(saveObject == null)
+            if (saveObject == null)
             {
                 saveObject = selfGenerator.GenerateSaveObject();
             }
-            this.myPriorities = SinglePriorityHolder.FromSerializable(saveObject.priority);
+            myPriorities = SinglePriorityHolder.FromSerializable(saveObject.priority);
         }
 
         public string GetCurrentInfo()
