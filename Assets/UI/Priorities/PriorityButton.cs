@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -45,7 +41,7 @@ namespace Assets.UI.Priorities
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 TryIncrementPriority();
-                    Debug.Log("Left click");
+                Debug.Log("Left click");
             }
             else if (eventData.button == PointerEventData.InputButton.Right)
             {

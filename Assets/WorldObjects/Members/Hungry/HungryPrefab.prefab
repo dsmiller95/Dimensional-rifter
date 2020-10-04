@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: -6128353374799927090}
   - component: {fileID: 4021323601481749371}
   - component: {fileID: 4248669821745000984}
+  - component: {fileID: 7341554821590097393}
   m_Layer: 0
   m_Name: HungryPrefab
   m_TagString: Untagged
@@ -278,3 +279,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryTarget: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
   stateHolder: {fileID: 5619728940487949368}
+--- !u!114 &7341554821590097393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372322527512826100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf3daa33b189d3488dcb66e7e05eaef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPriorities: {fileID: 0}
+  priorityObjectSet: {fileID: 11400000, guid: 1ab6a43068bf3aa46b80c2e6acf1cabc, type: 2}
+  selfGenerator: {fileID: 11400000, guid: 2b1749088babdd143bfe5c5831c4edf2, type: 2}

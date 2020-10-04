@@ -22,11 +22,21 @@ namespace Assets.UI.Priorities
             ReDrawPriorityGrid();
             priorities.OnItemSetChanged += ReDrawPriorityGrid;
         }
+        
+        private void OnDestroy()
+        {
+            priorities.OnItemSetChanged -= ReDrawPriorityGrid;
+        }
 
         private PriorityRowEditController[] editControllers;
 
         private void ReDrawPriorityGrid()
         {
+            if (!this)
+            {
+                priorities.OnItemSetChanged -= ReDrawPriorityGrid;
+                return;
+            }
             foreach (Transform child in transform)
             {
                 Destroy(child.gameObject);

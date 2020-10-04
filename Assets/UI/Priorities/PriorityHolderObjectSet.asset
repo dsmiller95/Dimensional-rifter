@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b18071a262b73084cb1f2f9d087730fd, type: 3}
   m_Name: PriorityHolderObjectSet
   m_EditorClassIdentifier: 
-  InitialObjectsForInspector:
-  - {fileID: 11400000, guid: e4aa5892ba04e6e4ca08cf28f4b0a71e, type: 2}
-  - {fileID: 11400000, guid: 5a06bf348d0164840b07b1067892e5a3, type: 2}
-  - {fileID: 11400000, guid: 6b101119ec152264f94a96db38e42c51, type: 2}
+  InitialObjectsForInspector: []

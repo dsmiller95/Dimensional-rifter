@@ -271,6 +271,9 @@
     <Compile Include="Assets\Scripts\Utilities\LiveObjectSet.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityHolderObjectSet.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityButton.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
+    <Compile Include="Assets\Scripts\ProceduralGen\NameGen.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerGenerationConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

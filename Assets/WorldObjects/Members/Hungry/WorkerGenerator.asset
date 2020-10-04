@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c70847c22ac7ae4e8916360359cd679, type: 3}
-  m_Name: priorityholder1
+  m_Script: {fileID: 11500000, guid: 71b1af133b1f44f47ab21f62309ccaad, type: 3}
+  m_Name: WorkerGenerator
   m_EditorClassIdentifier: 
-  PrioritySetID: 0
-  prioritySetName: bob
-  priorities: 00000000000000000000000000000000
+  nameGenerator: {fileID: 11400000, guid: ae65cb3cd258af74fb4c55041e63139a, type: 2}
+  prioritySettingCount: 4
+  defaultPrioritySetting: 2
