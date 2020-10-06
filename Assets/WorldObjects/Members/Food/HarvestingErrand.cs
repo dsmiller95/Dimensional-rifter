@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food
 {
-    public class GatheringErrand : IErrand
+    public class HarvestingErrand : IErrand
     {
         private HarvestErrandType errandType;
         public GrowingThingController targetController;
@@ -13,10 +13,10 @@ namespace Assets.WorldObjects.Members.Food
 
         public GameObject gatheringWorker;
 
-        private IErrandCompletionReciever<GatheringErrand> completionReciever;
+        private IErrandCompletionReciever<HarvestingErrand> completionReciever;
         private bool BehaviorCompleted = false;
 
-        public GatheringErrand(
+        public HarvestingErrand(
             HarvestErrandType errandType,
             GrowingThingController toBeBuilt,
             GameObject gatheringWorker)

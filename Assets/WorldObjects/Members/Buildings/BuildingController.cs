@@ -63,7 +63,7 @@ namespace Assets.WorldObjects.Members.Buildings
         {
             return !hasBeenBuilt.CurrentValue && remainingResourceRequirement > 0;
         }
-        public bool IsResourceSupplyable(Resource resource)
+        public bool CanClaimSpaceForMoreOf(Resource resource)
         {
             return resource == ItemTypeRequriement.resourceType && CanRecieveSupply();
         }
@@ -72,7 +72,7 @@ namespace Assets.WorldObjects.Members.Buildings
         {
             return SupplyFrom(inventoryToTakeFrom, ItemTypeRequriement.resourceType);
         }
-        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType)
+        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType, float amount = -1)
         {
             if (resourceType != ItemTypeRequriement.resourceType)
             {
@@ -82,6 +82,11 @@ namespace Assets.WorldObjects.Members.Buildings
             {
                 return false;
             }
+            var amountToTransfer = remainingResourceRequirement;
+            if(amount >= 0)
+            {
+                amountToTransfer = Math.Min(amountToTransfer, amount);
+            }
 
             var toastMsg = new StringBuilder();
             var withdrawlAmt = inventoryToTakeFrom
@@ -89,7 +94,7 @@ namespace Assets.WorldObjects.Members.Buildings
                 resourceType,
                 gameObject,
                 toastMsg,
-                remainingResourceRequirement);
+                amountToTransfer);
             if (withdrawlAmt < 1e-5)
             {
                 return false;

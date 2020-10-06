@@ -63,7 +63,8 @@ namespace Assets.WorldObjects.Members.Storage
                 Grab.GrabWithAnimation(
                     storingWorker,
                     "target",
-                    resourceToTransfer),
+                    resourceToTransfer,
+                    amountToTransfer),
                 new FindPathToBakedTarget(
                     storingWorker,
                     (supplyTarget as Component).gameObject,

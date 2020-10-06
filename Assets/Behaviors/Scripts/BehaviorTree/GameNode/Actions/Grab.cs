@@ -13,6 +13,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// </summary>
     public class Grab : ComponentMemberLeaf<TileMapNavigationMember>
     {
+        private float grabAmount;
 
         private bool resourceFromBlackboard;
         private string resourceTypeInBlackboard;
@@ -23,39 +24,28 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
         private Grab(
             GameObject gameObject,
-            string targetObjectInBlackboard) : base(gameObject)
+            string targetObjectInBlackboard,
+            float grabAmount) : base(gameObject)
         {
             this.targetObjectInBlackboard = targetObjectInBlackboard;
+            this.grabAmount = grabAmount;
         }
 
-        private Grab(
-            GameObject gameObject,
-            string targetObjectInBlackboard,
-            string resourceTypeInBlackboard = null
-            ) : this(gameObject, targetObjectInBlackboard)
-        {
-            resourceFromBlackboard = true;
-            this.resourceTypeInBlackboard = resourceTypeInBlackboard;
-        }
-        private Grab(
-            GameObject gameObject,
-            string targetObjectInBlackboard,
-            Resource resourceType
-            ) : this(gameObject, targetObjectInBlackboard)
-        {
-            resourceFromBlackboard = false;
-            resourceToGrab = resourceType;
-        }
         public static BehaviorNode GrabWithAnimation(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            string resourceTypeInBlackboard = null)
+            string resourceTypeInBlackboard = null,
+            float grabAmount = -1)
         {
+            var grabAction = new Grab(gameObject,
+                targetObjectInBlackboard,
+                grabAmount)
+            {
+                resourceTypeInBlackboard = resourceTypeInBlackboard,
+                resourceFromBlackboard = true
+            };
             return WrapWithAnimation(
-                new Grab(
-                    gameObject,
-                    targetObjectInBlackboard,
-                    resourceTypeInBlackboard),
+                grabAction,
                 targetObjectInBlackboard,
                 gameObject
                 );
@@ -64,13 +54,18 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         public static BehaviorNode GrabWithAnimation(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            Resource resourceType)
+            Resource resourceType,
+            float grabAmount = -1)
         {
+            var grabAction = new Grab(gameObject,
+                targetObjectInBlackboard,
+                grabAmount)
+            {
+                resourceToGrab = resourceType,
+                resourceFromBlackboard = true
+            };
             return WrapWithAnimation(
-                new Grab(
-                    gameObject,
-                    targetObjectInBlackboard,
-                    resourceType),
+                grabAction,
                 targetObjectInBlackboard,
                 gameObject
                 );
@@ -107,7 +102,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 var resource = GetResource(blackboard);
                 if (resource.HasValue)
                 {
-                    supplier.GatherInto(inventoryHolder, resource.Value);
+                    supplier.GatherInto(inventoryHolder, resource.Value, this.grabAmount);
                 }
                 else
                 {

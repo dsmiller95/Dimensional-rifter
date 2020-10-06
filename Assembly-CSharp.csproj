@@ -74,6 +74,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IHarvestable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\DoHighestPriorityErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
     <Compile Include="Assets\Scripts\Utilities\UniqueObjectRegistry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\IsHungryGuardFactory.cs" />
@@ -86,23 +87,28 @@
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\LambdaLeaf.cs" />
+    <Compile Include="Assets\UI\Priorities\PriorityHolderObjectSet.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\WorldGenerator.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrandType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Wall\Blocking.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimHighestPriorityErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\RootFactory.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SelectorFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerGenerationConfiguration.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinate.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\SleepUntilAwakeEnough.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
     <Compile Include="Assets\ToggleObjectActive.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
+    <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
@@ -168,6 +174,7 @@
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IBuildable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\TileMapMeshBuilder.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoard.cs" />
+    <Compile Include="Assets\Scripts\Utilities\LiveObjectSet.cs" />
     <Compile Include="Assets\Scripts\SwapSprite.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveSystemHooks.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
@@ -195,6 +202,7 @@
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleCoordinateRangeObject.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Wait.cs" />
+    <Compile Include="Assets\UI\Priorities\PriorityButton.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Leaf.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\MeshCopier.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
@@ -226,12 +234,13 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindItemSourceTarget.cs" />
     <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\EatFactory.cs" />
+    <Compile Include="Assets\Scripts\ProceduralGen\NameGen.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Selector.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\GatheringErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\HarvestingErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentInBlackboardLeaf.cs" />
@@ -268,15 +277,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Scripts\Utilities\LiveObjectSet.cs" />
-    <Compile Include="Assets\UI\Priorities\PriorityHolderObjectSet.cs" />
-    <Compile Include="Assets\UI\Priorities\PriorityButton.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
-    <Compile Include="Assets\Scripts\ProceduralGen\NameGen.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerGenerationConfiguration.cs" />
-    <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\DoHighestPriorityErrand.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimHighestPriorityErrand.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

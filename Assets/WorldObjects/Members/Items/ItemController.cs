@@ -81,7 +81,7 @@ namespace Assets.WorldObjects.Members.Items
             }
         }
 
-        public bool HasResource(Resource resource)
+        public bool HasClaimableResource(Resource resource)
         {
             return resource == this.resource.resourceType;
         }

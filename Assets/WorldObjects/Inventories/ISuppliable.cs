@@ -26,7 +26,7 @@ namespace Assets.WorldObjects.Inventories
         /// </summary>
         /// <param name="resource"></param>
         /// <returns></returns>
-        bool IsResourceSupplyable(Resource resource);
+        bool CanClaimSpaceForMoreOf(Resource resource);
 
         /// <summary>
         /// Supply into the inventory, from <paramref name="inventoryToTakeFrom"/>
@@ -34,7 +34,7 @@ namespace Assets.WorldObjects.Inventories
         /// <param name="inventoryToTakeFrom">inventory to supply from</param>
         /// <param name="resourceType">the resource to transfer</param>
         /// <returns>true if a transfer was made, false otherwise</returns>
-        bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType);
+        bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType, float amount = -1);
 
         bool SupplyAllFrom(InventoryHoldingController inventoryToTakeFrom);
     }

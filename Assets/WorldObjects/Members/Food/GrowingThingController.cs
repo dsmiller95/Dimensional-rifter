@@ -22,7 +22,7 @@ namespace Assets.WorldObjects.Members.Food
     [DisallowMultipleComponent]
     public class GrowingThingController : MonoBehaviour,
         IHarvestable, IMemberSaveable,
-        IErrandSource<GatheringErrand>, IErrandCompletionReciever<GatheringErrand>
+        IErrandSource<HarvestingErrand>, IErrandCompletionReciever<HarvestingErrand>
     {
         public BooleanReference IsBuiltAndGrowing;
 
@@ -137,7 +137,7 @@ namespace Assets.WorldObjects.Members.Food
         #region Errands
         private bool ErrandActive;
 
-        public GatheringErrand GetErrand(GameObject errandExecutor)
+        public HarvestingErrand GetErrand(GameObject errandExecutor)
         {
             if (!HarvestReady())
             {
@@ -155,17 +155,17 @@ namespace Assets.WorldObjects.Members.Food
                 return null;
             }
             ErrandActive = true;
-            return new GatheringErrand(
+            return new HarvestingErrand(
                 gatheringErrandType,
                 this,
                 errandExecutor);
         }
 
-        public void ErrandCompleted(GatheringErrand errand)
+        public void ErrandCompleted(HarvestingErrand errand)
         {
             ErrandActive = false;
         }
-        public void ErrandAborted(GatheringErrand errand)
+        public void ErrandAborted(HarvestingErrand errand)
         {
             ErrandActive = false;
         }

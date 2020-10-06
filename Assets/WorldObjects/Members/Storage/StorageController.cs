@@ -79,7 +79,7 @@ namespace Assets.WorldObjects.Members.Storage
             return myInventory.remainingCapacity > 0;
         }
 
-        public bool IsResourceSupplyable(Resource resource)
+        public bool CanClaimSpaceForMoreOf(Resource resource)
         {
             return myInventory.CanFitMoreOf(resource);
         }
@@ -102,10 +102,10 @@ namespace Assets.WorldObjects.Members.Storage
             return true;
         }
 
-        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType)
+        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType, float amount = -1)
         {
             var toastString = new StringBuilder();
-            if (!inventoryToTakeFrom.PullItemFromSelf(myInventory, resourceType, gameObject, toastString))
+            if (!inventoryToTakeFrom.PullItemFromSelf(myInventory, resourceType, gameObject, toastString, amount))
             {
                 return false;
             }
@@ -129,7 +129,7 @@ namespace Assets.WorldObjects.Members.Storage
             return myInventory.GetResourcesWithAny();
         }
 
-        public bool HasResource(Resource resource)
+        public bool HasClaimableResource(Resource resource)
         {
             return myInventory.Get(resource) > 0;
         }
