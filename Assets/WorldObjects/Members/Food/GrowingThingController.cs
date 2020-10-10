@@ -65,7 +65,7 @@ namespace Assets.WorldObjects.Members.Food
             spawnedTileMemeber.SetPosition(myMember);
 
             var spawnedItem = spawnedTileMemeber.GetComponent<ItemController>();
-            spawnedItem.resourceAmount = amountToGrow;
+            spawnedItem.SetAmountInItem(amountToGrow);
 
             SetGrownAmount(0f);
             errandBoard.DeRegisterErrandSource(this);

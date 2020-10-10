@@ -60,7 +60,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             var availableResources = new Dictionary<Resource, IList<TileMapMember>>();
 
             var gatherableMembers = reachableGatherables
-                .Select(x => new { resources = new HashSet<Resource>(x.GetComponent<IItemSource>().AvailableTypes()), member = x });
+                .Select(x => new { resources = new HashSet<Resource>(x.GetComponent<IItemSource>().ClaimableTypes()), member = x });
 
             var gathererIterator = gatherableMembers.GetEnumerator();
             var supplyableMembers = reachableSuppliables
@@ -112,7 +112,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         }
         private bool SupplyDeliveryFilter(ISuppliable supplyable)
         {
-            return supplyable?.SuppliableClassification == validSupplyTarget && supplyable.CanRecieveSupply();
+            return supplyable?.SuppliableClassification == validSupplyTarget && supplyable.CanClaimSpaceForAny();
         }
 
     }

@@ -14,9 +14,6 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     public class Grab : ComponentMemberLeaf<TileMapNavigationMember>
     {
         private float grabAmount;
-
-        private bool resourceFromBlackboard;
-        private string resourceTypeInBlackboard;
         private Resource resourceToGrab;
 
         private string targetObjectInBlackboard;
@@ -25,30 +22,12 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         private Grab(
             GameObject gameObject,
             string targetObjectInBlackboard,
+            Resource resource,
             float grabAmount) : base(gameObject)
         {
             this.targetObjectInBlackboard = targetObjectInBlackboard;
             this.grabAmount = grabAmount;
-        }
-
-        public static BehaviorNode GrabWithAnimation(
-            GameObject gameObject,
-            string targetObjectInBlackboard,
-            string resourceTypeInBlackboard = null,
-            float grabAmount = -1)
-        {
-            var grabAction = new Grab(gameObject,
-                targetObjectInBlackboard,
-                grabAmount)
-            {
-                resourceTypeInBlackboard = resourceTypeInBlackboard,
-                resourceFromBlackboard = true
-            };
-            return WrapWithAnimation(
-                grabAction,
-                targetObjectInBlackboard,
-                gameObject
-                );
+            this.resourceToGrab = resource;
         }
 
         public static BehaviorNode GrabWithAnimation(
@@ -59,11 +38,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         {
             var grabAction = new Grab(gameObject,
                 targetObjectInBlackboard,
-                grabAmount)
-            {
-                resourceToGrab = resourceType,
-                resourceFromBlackboard = true
-            };
+                resourceType,
+                grabAmount);
             return WrapWithAnimation(
                 grabAction,
                 targetObjectInBlackboard,
@@ -99,34 +75,16 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
                 var inventoryHolder = componentValue.GetComponent<InventoryHoldingController>();
 
-                var resource = GetResource(blackboard);
-                if (resource.HasValue)
+                var allocation = supplier.ClaimSubtractionFromSource(resourceToGrab, this.grabAmount);
+                if(allocation == null)
                 {
-                    supplier.GatherInto(inventoryHolder, resource.Value, this.grabAmount);
+                    return NodeStatus.FAILURE;
                 }
-                else
-                {
-                    supplier.GatherAllInto(inventoryHolder);
-                }
+                supplier.GatherInto(inventoryHolder, resourceToGrab, allocation);
 
                 return NodeStatus.SUCCESS;
             }
             return NodeStatus.FAILURE;
-        }
-
-        private Resource? GetResource(Blackboard blackboard)
-        {
-            if (resourceFromBlackboard &&
-                resourceTypeInBlackboard != null &&
-                blackboard.TryGetValueOfType(resourceTypeInBlackboard, out Resource resourceType))
-            {
-                return resourceType;
-            }
-            if (!resourceFromBlackboard)
-            {
-                return resourceToGrab;
-            }
-            return null;
         }
 
         public override void Reset(Blackboard blackboard)

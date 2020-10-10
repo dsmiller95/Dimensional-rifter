@@ -76,7 +76,9 @@ namespace Assets.WorldObjects.Members.Storage
                     "target"),
                 Gib.GibWithAnimation(
                     storingWorker,
-                    "target"),
+                    "target",
+                    resourceToTransfer,
+                    amountToTransfer),
                 new LabmdaLeaf(blackboard =>
                 {
                     BehaviorCompleted = true;

@@ -119,11 +119,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   booleanStateConfig:
   - {fileID: 11400000, guid: fc8ccb495141b484c9eaf9e45009562b, type: 2}
-  - {fileID: 11400000, guid: e37a69a4c4c5f9e4e93eb5186642b998, type: 2}
   - {fileID: 11400000, guid: 9e949f3a8bc90b14099277d25b6b5832, type: 2}
   floatStateConfig: []
-  inventoryStateConfig:
-  - {fileID: 11400000, guid: 55d7032fe5df291488a7d27196a9cb14, type: 2}
+  inventoryStateConfig: []
 --- !u!114 &5265112988128760533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemTypeRequriement: {fileID: 11400000, guid: 15e70ca2150949041891aefea6472ce1, type: 2}
-  remainingResourceRequirement: 2
+  defaultResourceRequiredAmount: 2
   hasBeenBuilt:
     DataSource: 2
     ConstantValue: 0

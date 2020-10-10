@@ -115,7 +115,7 @@ namespace Assets.WorldObjects.Members.Storage
             var availableResources = new Dictionary<Resource, IList<IItemSource>>();
 
             var gatherableMembers = reachableGatherables
-                .Select(x => new { resources = new HashSet<Resource>(x.AvailableTypes()), member = x });
+                .Select(x => new { resources = new HashSet<Resource>(x.ClaimableTypes()), member = x });
 
             var gathererIterator = gatherableMembers.GetEnumerator();
             var supplyableMembers = reachableSuppliables;

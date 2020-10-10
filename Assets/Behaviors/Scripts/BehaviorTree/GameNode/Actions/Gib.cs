@@ -3,7 +3,9 @@ using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
@@ -13,22 +15,26 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// </summary>
     public class Gib : ComponentMemberLeaf<InventoryHoldingController>
     {
-        private string resourceTypeInBlackboard;
+        private Resource resourceToTransfer;
+        private float gibAmount;
         private string targetObjectInBlackboard;
 
         private Gib(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            string resourceTypeInBlackboard = null
+            Resource resourceToTransfer,
+            float gibAmount
             ) : base(gameObject)
         {
-            this.resourceTypeInBlackboard = resourceTypeInBlackboard;
+            this.resourceToTransfer = resourceToTransfer;
             this.targetObjectInBlackboard = targetObjectInBlackboard;
+            this.gibAmount = gibAmount;
         }
         public static BehaviorNode GibWithAnimation(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            string resourceTypeInBlackboard = null)
+            Resource resourceToTransfer,
+            float gibAmount)
         {
             return new Sequence(
                 new LabmdaLeaf(blackboard =>
@@ -43,7 +49,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 new Gib(
                     gameObject,
                     targetObjectInBlackboard,
-                    resourceTypeInBlackboard)
+                    resourceToTransfer,
+                    gibAmount)
             );
         }
 
@@ -54,25 +61,15 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 var suppliables = targetObject?.GetComponents<ISuppliable>();
                 if (suppliables == null || suppliables.Length <= 0) return NodeStatus.FAILURE;
 
-                if (resourceTypeInBlackboard != null &&
-                    blackboard.TryGetValueOfType(resourceTypeInBlackboard, out Resource resourceType))
+                foreach (var suppliable in suppliables)
                 {
-                    foreach (var suppliable in suppliables)
+                    var allocation = suppliable.ClaimAdditionToSuppliable(resourceToTransfer, gibAmount);
+                    if(allocation != null)
                     {
-                        if (suppliable.SupplyFrom(componentValue, resourceType))
+                        if(suppliable.SupplyFrom(componentValue, resourceToTransfer, allocation))
                         {
                             return NodeStatus.SUCCESS;
-                        };
-                    }
-                }
-                else
-                {
-                    foreach (var suppliable in suppliables)
-                    {
-                        if (suppliable.SupplyAllFrom(componentValue))
-                        {
-                            return NodeStatus.SUCCESS;
-                        };
+                        }
                     }
                 }
             }

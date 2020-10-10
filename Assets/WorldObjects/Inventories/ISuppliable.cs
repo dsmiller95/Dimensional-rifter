@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.Members.Hungry.HeldItems;
+﻿using Assets.Scripts.ResourceManagement;
+using Assets.WorldObjects.Members.Hungry.HeldItems;
 using System.Collections.Generic;
 
 namespace Assets.WorldObjects.Inventories
@@ -13,7 +14,7 @@ namespace Assets.WorldObjects.Inventories
         /// 
         /// </summary>
         /// <returns>If this suppliable can recieve any items</returns>
-        bool CanRecieveSupply();
+        bool CanClaimSpaceForAny();
 
         /// <summary>
         /// 
@@ -27,15 +28,18 @@ namespace Assets.WorldObjects.Inventories
         /// <param name="resource"></param>
         /// <returns></returns>
         bool CanClaimSpaceForMoreOf(Resource resource);
+        ResourceAllocation ClaimAdditionToSuppliable(Resource resourceType, float amount);
 
         /// <summary>
         /// Supply into the inventory, from <paramref name="inventoryToTakeFrom"/>
+        ///     Should ensure that the allocation is released regardless of the ability to transfer
         /// </summary>
         /// <param name="inventoryToTakeFrom">inventory to supply from</param>
         /// <param name="resourceType">the resource to transfer</param>
         /// <returns>true if a transfer was made, false otherwise</returns>
-        bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType, float amount = -1);
-
-        bool SupplyAllFrom(InventoryHoldingController inventoryToTakeFrom);
+        bool SupplyFrom(
+            InventoryHoldingController inventoryToTakeFrom,
+            Resource resourceType, // todo: the resourceType can go away, this should be handled in the ClaimAddition method
+            ResourceAllocation amount);
     }
 }

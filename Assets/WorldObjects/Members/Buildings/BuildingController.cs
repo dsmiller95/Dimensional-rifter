@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Scripts.Core;
+using Assets.Scripts.ResourceManagement;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
@@ -16,7 +17,7 @@ namespace Assets.WorldObjects.Members.Buildings
     [Serializable]
     class BuildableSaveData
     {
-        public float remainingResourceRequirement;
+        public LimitedResourcePoolSaveObject builtResourceAmount;
     }
     [DisallowMultipleComponent]
     public class BuildingController : MonoBehaviour,
@@ -24,7 +25,10 @@ namespace Assets.WorldObjects.Members.Buildings
         IErrandSource<BuildingErrand>, IErrandCompletionReciever<BuildingErrand>
     {
         public ResourceItemType ItemTypeRequriement;
-        public float remainingResourceRequirement;
+        public float defaultResourceRequiredAmount;
+
+        public LimitedResourcePool builtAmountPool;
+
         public BooleanReference hasBeenBuilt;
         public SuppliableType supplyClassification;
         public SuppliableType SuppliableClassification => supplyClassification;
@@ -37,7 +41,11 @@ namespace Assets.WorldObjects.Members.Buildings
         private void Start()
         {
             // Make sure all the errands/suppliables are registered if spawned in via build command
-            SetRemainingResourceRequirement(remainingResourceRequirement);
+            if(builtAmountPool == null)
+            {
+                builtAmountPool = new LimitedResourcePool(defaultResourceRequiredAmount, 0f);
+            }
+            OnResourceAmountChanged();
         }
 
         public bool Build()
@@ -56,36 +64,48 @@ namespace Assets.WorldObjects.Members.Buildings
         }
         public bool IsBuildable()
         {
-            return !hasBeenBuilt.CurrentValue && remainingResourceRequirement <= 1e-5;
+            return !hasBeenBuilt.CurrentValue && !builtAmountPool.CanAllocateAddition();
         }
 
-        public bool CanRecieveSupply()
+        #region ISuppliable
+        public bool CanClaimSpaceForAny()
         {
-            return !hasBeenBuilt.CurrentValue && remainingResourceRequirement > 0;
+            return !hasBeenBuilt.CurrentValue && builtAmountPool.CanAllocateAddition();
         }
         public bool CanClaimSpaceForMoreOf(Resource resource)
         {
-            return resource == ItemTypeRequriement.resourceType && CanRecieveSupply();
+            return resource == ItemTypeRequriement.resourceType && CanClaimSpaceForAny();
+        }
+        public ISet<Resource> ValidSupplyTypes()
+        {
+            var result = new HashSet<Resource>();
+            result.Add(ItemTypeRequriement.resourceType);
+            return result;
+        }
+        public ResourceAllocation ClaimAdditionToSuppliable(Resource resourceType, float amount)
+        {
+            if(resourceType != ItemTypeRequriement.resourceType)
+            {
+                return null;
+            }
+            return builtAmountPool.TryAllocateAddition(amount);
         }
 
-        public bool SupplyAllFrom(InventoryHoldingController inventoryToTakeFrom)
-        {
-            return SupplyFrom(inventoryToTakeFrom, ItemTypeRequriement.resourceType);
-        }
-        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType, float amount = -1)
+        public bool SupplyFrom(
+            InventoryHoldingController inventoryToTakeFrom,
+            Resource resourceType,
+            ResourceAllocation amount)
         {
             if (resourceType != ItemTypeRequriement.resourceType)
             {
+                amount.Release();
                 return false;
             }
-            if (remainingResourceRequirement <= 1e-5)
+            if (!amount.IsTarget(builtAmountPool))
             {
+                Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
+                amount.Release();
                 return false;
-            }
-            var amountToTransfer = remainingResourceRequirement;
-            if(amount >= 0)
-            {
-                amountToTransfer = Math.Min(amountToTransfer, amount);
             }
 
             var toastMsg = new StringBuilder();
@@ -94,12 +114,12 @@ namespace Assets.WorldObjects.Members.Buildings
                 resourceType,
                 gameObject,
                 toastMsg,
-                amountToTransfer);
+                amount);
             if (withdrawlAmt < 1e-5)
             {
                 return false;
             }
-            SetRemainingResourceRequirement(remainingResourceRequirement - withdrawlAmt);
+            OnResourceAmountChanged();
 
             ToastProvider.ShowToast(
                 toastMsg.ToString(),
@@ -107,11 +127,10 @@ namespace Assets.WorldObjects.Members.Buildings
                 );
             return true;
         }
-
-        private void SetRemainingResourceRequirement(float remaining)
+        #endregion
+        private void OnResourceAmountChanged()
         {
-            remainingResourceRequirement = remaining;
-            if (remainingResourceRequirement <= 1e-5)
+            if (!builtAmountPool.CanAllocateAddition())
             {
                 storageErrandSource.DeRegisterSuppliable(this);
             }
@@ -126,12 +145,6 @@ namespace Assets.WorldObjects.Members.Buildings
             }
         }
 
-        public ISet<Resource> ValidSupplyTypes()
-        {
-            var result = new HashSet<Resource>();
-            result.Add(ItemTypeRequriement.resourceType);
-            return result;
-        }
 
         public string IdentifierInsideMember()
         {
@@ -142,7 +155,7 @@ namespace Assets.WorldObjects.Members.Buildings
         {
             return new BuildableSaveData
             {
-                remainingResourceRequirement = remainingResourceRequirement
+                builtResourceAmount = builtAmountPool.GetSaveObject()
             };
         }
 
@@ -150,17 +163,15 @@ namespace Assets.WorldObjects.Members.Buildings
         {
             if (save is BuildableSaveData savedData)
             {
-                SetRemainingResourceRequirement(savedData.remainingResourceRequirement);
-            }
-            else if (save == null)
-            {
-                // Assume we were generated via map gen
-                SetRemainingResourceRequirement(0);
+                builtAmountPool = new LimitedResourcePool(savedData.builtResourceAmount);
+                OnResourceAmountChanged();
             }
             else
             {
-                Debug.LogError("Error: save data is improperly formatted");
+                // Assume we were generated via map gen
+                builtAmountPool = new LimitedResourcePool(defaultResourceRequiredAmount, 0f);
             }
+            OnResourceAmountChanged();
         }
 
         #region Errands

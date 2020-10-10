@@ -16,3 +16,4 @@ MonoBehaviour:
   recieveStorage: 0
   memberPrefab: {fileID: 6082261357034508969, guid: ad76b63bd4bfb404ab31008634755fdd, type: 3}
   resourceType: 1
+  MapSpawnAmount: 1

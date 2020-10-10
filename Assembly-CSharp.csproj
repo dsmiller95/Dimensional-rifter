@@ -124,7 +124,6 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GrowingThingController.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\StateMachine\FunctionalStates\Eating.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinate.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
@@ -179,6 +178,7 @@
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveSystemHooks.cs" />
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
+    <Compile Include="Assets\Scripts\ResourceManagement\LimitedResourcePool.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToBakedTarget.cs" />
@@ -277,6 +277,8 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Scripts\ResourceManagement\ResourceAllocation.cs" />
+    <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

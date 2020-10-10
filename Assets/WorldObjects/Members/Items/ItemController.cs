@@ -1,4 +1,5 @@
-﻿using Assets.UI.Buttery_Toast;
+﻿using Assets.Scripts.ResourceManagement;
+using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.Storage;
@@ -6,25 +7,28 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using static Assets.Scripts.ResourceManagement.LimitedResourcePool;
 
 namespace Assets.WorldObjects.Members.Items
 {
     [Serializable]
-    class ItemSaveObject
+    public class ItemSaveObject
     {
         //only saving values that are not set in the prefab in the inspector
-        public float remainingResourceAmount;
+        public LimitedResourcePoolSaveObject remainingResourceAmount;
     }
 
     [DisallowMultipleComponent]
     public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable
     {
+        public static readonly float ItemMaxCapacity = 100;
+        public static readonly string SaveDataIndentifier = "Item";
+
         public ResourceItemType resource;
-        [Tooltip("This amount must be set when spawning an item")]
-        public float resourceAmount;
         public ItemSourceType SourceType;
 
-        public ItemSourceType ItemSourceType => SourceType;
+        private LimitedResourcePool resourceAmount;
+
         public StorageErrandSource storingCleanupErrandSource;
 
         private void Awake()
@@ -38,26 +42,54 @@ namespace Assets.WorldObjects.Members.Items
             Destroy(gameObject);
         }
 
-        public IEnumerable<Resource> AvailableTypes()
+        /// <summary>
+        /// Sets the size of this item. Only meant to be used when creating a new item,
+        ///     this will clear any claims on the item
+        /// </summary>
+        /// <param name="newAmount"></param>
+        public void SetAmountInItem(float newAmount)
+        {
+            this.resourceAmount = new LimitedResourcePool(ItemMaxCapacity, newAmount);
+        }
+
+        #region IItemSource
+        public ItemSourceType ItemSourceType => SourceType;
+        public IEnumerable<Resource> ClaimableTypes()
         {
             yield return resource.resourceType;
         }
-
-        public void GatherAllInto(InventoryHoldingController inventoryToGatherInto)
+        public bool HasClaimableResource(Resource resource)
         {
-            GatherInto(inventoryToGatherInto, resource.resourceType);
+            return resource == this.resource.resourceType
+                && this.resourceAmount.CanAllocateSubtraction();
         }
-        public void GatherInto(InventoryHoldingController inventoryToGatherInto, Resource resourceType, float amount = -1)
+        public ResourceAllocation ClaimSubtractionFromSource(Resource resource, float amount = -1)
+        {
+            if(resource != this.resource.resourceType)
+            {
+                return null;
+            }
+            return resourceAmount.TryAllocateSubtraction(amount);
+        }
+
+        public void GatherInto(
+            InventoryHoldingController inventoryToGatherInto,
+            Resource resourceType,
+            ResourceAllocation amount)
         {
             var myType = resource.resourceType;
             if (resourceType != myType)
             {
+                amount.Release();
                 return;
             }
-            if (amount == -1)
+            if (!amount.IsTarget(resourceAmount))
             {
-                amount = resourceAmount;
+                Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
+                amount.Release();
+                return;
             }
+
             var toastMessage = new StringBuilder();
             var gatheredAmt = inventoryToGatherInto.GrabItemIntoSelf(
                 resourceType,
@@ -68,34 +100,31 @@ namespace Assets.WorldObjects.Members.Items
             {
                 return;
             }
-            resourceAmount -= gatheredAmt;
 
             ToastProvider.ShowToast(
                 toastMessage.ToString(),
                 gameObject
                 );
 
-            if (resourceAmount <= 1e-5)
+            if (!resourceAmount.CanAllocateSubtraction())
             {
                 OnItemCompletelyGathered();
             }
         }
 
-        public bool HasClaimableResource(Resource resource)
-        {
-            return resource == this.resource.resourceType;
-        }
+        #endregion
 
+        #region IMemberSaveable
         public string IdentifierInsideMember()
         {
-            return "Item";
+            return SaveDataIndentifier;
         }
 
         public object GetSaveObject()
         {
             return new ItemSaveObject
             {
-                remainingResourceAmount = resourceAmount
+                remainingResourceAmount = resourceAmount.GetSaveObject()
             };
         }
 
@@ -103,8 +132,9 @@ namespace Assets.WorldObjects.Members.Items
         {
             if (save is ItemSaveObject saveObject)
             {
-                resourceAmount = saveObject.remainingResourceAmount;
+                resourceAmount = new LimitedResourcePool(saveObject.remainingResourceAmount);
             }
         }
+        #endregion
     }
 }

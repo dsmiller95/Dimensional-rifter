@@ -1,4 +1,5 @@
-﻿using Assets.UI.Buttery_Toast;
+﻿using Assets.Scripts.ResourceManagement;
+using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using System;
@@ -14,8 +15,7 @@ namespace Assets.WorldObjects.Members.Storage
     [Serializable]
     public class StorageSaveData
     {
-        public int capacity;
-        public SaveableInventoryAmount<Resource>[] inventoryContents;
+        public LimitedMultiResourcePoolSaveObject resourcePoolData;
     }
 
     [DisallowMultipleComponent]
@@ -29,8 +29,8 @@ namespace Assets.WorldObjects.Members.Storage
         public ItemSourceType sourceClassification;
         public ItemSourceType ItemSourceType => sourceClassification;
 
-        public int inventoryCapacity = 10;
-        private SpaceFillingInventory<Resource> myInventory;
+        public int defaultInventoryCapacity = 10;
+        private LimitedMultiResourcePool myInventory;
 
 
         public StorageErrandSource storingCleanupErrandSource;
@@ -51,8 +51,7 @@ namespace Assets.WorldObjects.Members.Storage
         {
             return new StorageSaveData
             {
-                capacity = inventoryCapacity,
-                inventoryContents = myInventory.GetSerializableInventoryAmounts()
+                resourcePoolData = myInventory.GetSaveObject()
             };
         }
 
@@ -60,110 +59,106 @@ namespace Assets.WorldObjects.Members.Storage
         {
             if (save is StorageSaveData typedSaveData)
             {
-                inventoryCapacity = typedSaveData.capacity;
-                myInventory = SpaceFillingInventory<Resource>
-                    .GetEmptyInventoryAllSpaceFilling<Resource>(inventoryCapacity);
-                myInventory.SetSerializedToInventory(typedSaveData.inventoryContents);
+                myInventory = new LimitedMultiResourcePool(typedSaveData.resourcePoolData);
             }
             else
             {
-                myInventory = SpaceFillingInventory<Resource>
-                    .GetEmptyInventoryAllSpaceFilling<Resource>(inventoryCapacity);
+                myInventory = new LimitedMultiResourcePool(defaultInventoryCapacity);
             }
         }
         #endregion
 
         #region ISuppliable
-        public bool CanRecieveSupply()
+        public bool CanClaimSpaceForAny()
         {
-            return myInventory.remainingCapacity > 0;
-        }
-
-        public bool CanClaimSpaceForMoreOf(Resource resource)
-        {
-            return myInventory.CanFitMoreOf(resource);
-        }
-
-        public bool SupplyAllFrom(InventoryHoldingController inventory)
-        {
-            var toastString = new StringBuilder();
-            if (!inventory.PullAllItemsFromSelfIntoInv(
-                myInventory,
-                gameObject,
-                toastString))
-            {
-                return false;
-            };
-
-            ToastProvider.ShowToast(
-                toastString.ToString(),
-                gameObject
-                );
-            return true;
-        }
-
-        public bool SupplyFrom(InventoryHoldingController inventoryToTakeFrom, Resource resourceType, float amount = -1)
-        {
-            var toastString = new StringBuilder();
-            if (!inventoryToTakeFrom.PullItemFromSelf(myInventory, resourceType, gameObject, toastString, amount))
-            {
-                return false;
-            }
-
-            ToastProvider.ShowToast(
-                toastString.ToString(),
-                gameObject
-                );
-            return true;
+            return myInventory.CanAllocateAddition();
         }
 
         public ISet<Resource> ValidSupplyTypes()
         {
-            return myInventory.GetResourcesWithSpace();
+            return new HashSet<Resource>(myInventory.GetResourcesWithAllocatableSpace());
+        }
+
+        public bool CanClaimSpaceForMoreOf(Resource resource)
+        {
+            return myInventory.CanAllocateAddition();
+        }
+        public ResourceAllocation ClaimAdditionToSuppliable(Resource resourceType, float amount)
+        {
+            return myInventory.TryAllocateAddition(resourceType, amount);
+        }
+
+        public bool SupplyFrom(
+            InventoryHoldingController inventoryToTakeFrom,
+            Resource resourceType,
+            ResourceAllocation amount)
+        {
+            if (!amount.IsTarget(myInventory))
+            {
+                Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
+                amount.Release();
+                return false;
+            }
+            var toastString = new StringBuilder();
+            var takenAmount = inventoryToTakeFrom.PullItemFromSelf(
+                resourceType,
+                gameObject,
+                toastString,
+                amount);
+            if (takenAmount <= 1e-5)
+            {
+                return false;
+            }
+
+            ToastProvider.ShowToast(
+                toastString.ToString(),
+                gameObject
+                );
+            return true;
         }
         #endregion
 
         #region IItemSource
-        public IEnumerable<Resource> AvailableTypes()
+        public IEnumerable<Resource> ClaimableTypes()
         {
-            return myInventory.GetResourcesWithAny();
+            return myInventory.GetResourcesWithAllocatableSubtraction();
         }
 
         public bool HasClaimableResource(Resource resource)
         {
-            return myInventory.Get(resource) > 0;
+            return myInventory.CanAllocateSubtraction(resource);
         }
 
-        public void GatherAllInto(InventoryHoldingController inventoryToGatherInto)
+        public ResourceAllocation ClaimSubtractionFromSource(Resource resourceType, float amount = -1)
         {
-            var toastMessage = new StringBuilder();
-            if (inventoryToGatherInto.GrabAllItemsIntoSelf(
-                myInventory,
-                gameObject,
-                toastMessage))
+            return myInventory.TryAllocateSubtraction(resourceType, amount);
+        }
+
+        public void GatherInto(
+            InventoryHoldingController inventoryToGatherInto,
+            Resource resourceType,
+            ResourceAllocation amount)
+        {
+            if (!amount.IsTarget(myInventory))
             {
-                ToastProvider.ShowToast(
-                    toastMessage.ToString(),
-                    gameObject
-                    );
+                Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
+                amount.Release();
+                return;
             }
-        }
-
-        public void GatherInto(InventoryHoldingController inventoryToGatherInto, Resource resourceType, float amount = -1)
-        {
             var toastMessage = new StringBuilder();
-            if (inventoryToGatherInto.GrabItemIntoSelf(
-                myInventory,
+            var actualGrabbedAmount = inventoryToGatherInto.GrabItemIntoSelf(
                 resourceType,
                 gameObject,
                 toastMessage,
-                amount))
+                amount);
+            if(actualGrabbedAmount <= 1e-5)
             {
-                ToastProvider.ShowToast(
-                    toastMessage.ToString(),
-                    gameObject
-                    );
+                return;
             }
+            ToastProvider.ShowToast(
+                toastMessage.ToString(),
+                gameObject
+                );
         }
 
         #endregion
@@ -171,18 +166,7 @@ namespace Assets.WorldObjects.Members.Storage
         #region IInterestingInfo
         public string GetCurrentInfo()
         {
-            var info = new StringBuilder("Storage: \n");
-            info.AppendLine($"Capacity: {inventoryCapacity}, remaining: {myInventory.remainingCapacity}");
-            SerializeInventoryInto(myInventory, info);
-
-            return info.ToString();
-        }
-        private void SerializeInventoryInto(IInventory<Resource> inventory, StringBuilder builder)
-        {
-            foreach (var resource in inventory.GetCurrentResourceAmounts().Where(x => x.Value > 1e-5))
-            {
-                builder.AppendLine($"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}");
-            }
+            return "Storage: \n" + myInventory.ToString();
         }
         #endregion
 
