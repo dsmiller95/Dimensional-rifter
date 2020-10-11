@@ -45,6 +45,18 @@
             return result;
         }
 
+        public void ReduceClaim(float smallerClaim)
+        {
+            if(Amount <= smallerClaim || smallerClaim < 0)
+            {
+                return;
+            }
+            this.TryReduceClaimToSmaller(smallerClaim);
+            this.Amount = smallerClaim;
+        }
+
+        protected abstract bool TryReduceClaimToSmaller(float smallerClaim);
+
         /// <summary>
         /// return true if the allocation was executed at all, false otherwise
         ///     If returning true, the resource must handle its own resource release process

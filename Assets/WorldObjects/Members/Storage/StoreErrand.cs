@@ -55,6 +55,8 @@ namespace Assets.WorldObjects.Members.Storage
             grabAllocation = itemSource.ClaimSubtractionFromSource(resourceToTransfer, amountToTransfer);
             gibAllocation = supplyTarget.ClaimAdditionToSuppliable(resourceToTransfer, amountToTransfer);
             var actualTransferAmount = Mathf.Min(grabAllocation.Amount, gibAllocation.Amount);
+            grabAllocation.ReduceClaim(actualTransferAmount);
+            gibAllocation.ReduceClaim(actualTransferAmount);
             //TODO: ensure that the allocation is no bigger than it has to be, instead of adjusting the real amount
             //  based on the min
             ErrandBehaviorTreeRoot =

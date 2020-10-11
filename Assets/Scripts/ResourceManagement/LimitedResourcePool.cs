@@ -100,6 +100,12 @@ namespace Assets.Scripts.ResourceManagement
                 target.totalAllocatedAdditions -= Amount;
                 return true;
             }
+            protected override bool TryReduceClaimToSmaller(float smallerClaim)
+            {
+                var differenceInSize = Amount - smallerClaim;
+                target.totalAllocatedAdditions -= differenceInSize;
+                return true;
+            }
 
             protected override void DoRelease()
             {
@@ -131,6 +137,12 @@ namespace Assets.Scripts.ResourceManagement
                 }
                 target.currentAmount = newAmount;
                 target.totalAllocatedSubtractions -= Amount;
+                return true;
+            }
+            protected override bool TryReduceClaimToSmaller(float smallerClaim)
+            {
+                var differenceInSize = Amount - smallerClaim;
+                target.totalAllocatedSubtractions -= differenceInSize;
                 return true;
             }
 

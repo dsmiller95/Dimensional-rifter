@@ -124,6 +124,12 @@ namespace Assets.Scripts.ResourceManagement
                 target.totalAllocatedAdditions -= Amount;
                 return true;
             }
+            protected override bool TryReduceClaimToSmaller(float smallerClaim)
+            {
+                var differenceInSize = Amount - smallerClaim;
+                target.totalAllocatedAdditions -= differenceInSize;
+                return true;
+            }
 
             protected override void DoRelease()
             {
@@ -208,6 +214,17 @@ namespace Assets.Scripts.ResourceManagement
                     return true;
                 }
                 return false;
+            }
+            protected override bool TryReduceClaimToSmaller(float smallerClaim)
+            {
+                if (!target.totalAllocatedSubtractions.ContainsKey(type))
+                {
+                    this.isReleased = true;
+                    return false;
+                }
+                var differenceInSize = Amount - smallerClaim;
+                target.totalAllocatedSubtractions[type] -= differenceInSize;
+                return true;
             }
 
             protected override void DoRelease()
