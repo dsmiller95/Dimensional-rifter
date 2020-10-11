@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     public class FindItemSourceTarget : FindTargetPath
     {
         private Resource resourceToGrab;
-        private float maxAmount;
+        private string maxAmountInBlackboard;
         private string itemClaimProperty;
 
         private ItemSourceType[] validItemSources;
@@ -19,12 +19,12 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             GameObject gameObject,
             ItemSourceType[] validItemSources,
             Resource resource,
-            float maxAmount,
+            string maxAmountInBlackboard,
             string pathTargetProperty,
             string itemClaimProperty) : base(gameObject, pathTargetProperty)
         {
             resourceToGrab = resource;
-            this.maxAmount = maxAmount;
+            this.maxAmountInBlackboard = maxAmountInBlackboard;
             this.itemClaimProperty = itemClaimProperty;
             this.validItemSources = validItemSources;
         }
@@ -38,7 +38,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             if (path.HasValue)
             {
                 var targetSource = path.Value.targetMember.GetComponent<IItemSource>();
-                var claim = targetSource.ClaimSubtractionFromSource(resourceToGrab, maxAmount);
+                float amount = -1;
+                blackboard.TryGetValueOfType(maxAmountInBlackboard, out amount);
+                var claim = targetSource.ClaimSubtractionFromSource(resourceToGrab, amount);
                 blackboard.SetValue(itemClaimProperty, claim);
             }
             return path;

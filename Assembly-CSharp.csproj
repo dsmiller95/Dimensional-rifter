@@ -63,12 +63,12 @@
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetResourceFactory.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityRowEditController.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrandSource.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\GetResourceFactory.cs" />
     <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
@@ -77,7 +77,6 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\DoHighestPriorityErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
     <Compile Include="Assets\Scripts\Utilities\UniqueObjectRegistry.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\IsHungryGuardFactory.cs" />
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateStructSystem.cs" />
@@ -234,7 +233,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindItemSourceTarget.cs" />
     <Compile Include="Assets\Scripts\Core\GenericReference.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\EatFactory.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\EatFactory.cs" />
     <Compile Include="Assets\Scripts\ProceduralGen\NameGen.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Selector.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\AssignSelfOnClick.cs" />
@@ -246,6 +245,7 @@
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentInBlackboardLeaf.cs" />
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetFoodToEatFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\ResourceAllocation.cs" />
@@ -254,6 +254,7 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareShapeRule.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\IsHungryGuardFactory.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileMapConfigurationData.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\OnBooleanEdgeEvent.cs" />
@@ -282,9 +283,9 @@
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-     <None Include="Assets\External\netstandard2.0\TradeModeling.dll" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\External\netstandard2.0\TradeModeling.dll" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />

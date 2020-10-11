@@ -106,11 +106,19 @@ namespace Assets.Libraries.BehaviorTree.Editor.GraphEditor
                     {
                         return 0;
                     }
-                    var childPort = graphView
+                    var childPorts = graphView
                         .GetBehaviorNodeByGuid(otherNode.Guid)
-                        ?.inputContainer[0] as Port;
+                        ?.inputContainer;
+                    if(childPorts.childCount <= 0)
+                    {
+                        return 0;
+                    }
+                    var childPort = childPorts[0] as Port;
+                    if (outputContainer.childCount <= 0)
+                    {
+                        return 0;
+                    }
                     var outputPort = outputContainer[childIndex] as Port;
-
                     graphView.LinkPorts(outputPort, childPort);
 
                     return 0;

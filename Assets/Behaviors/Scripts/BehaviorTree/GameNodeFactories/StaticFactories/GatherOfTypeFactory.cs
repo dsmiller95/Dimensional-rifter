@@ -12,7 +12,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
            GameObject target,
            ItemSourceType[] validItemSources,
            Resource resource,
-           float amount = -1,
+           string amountInBlackboard = "UNLIMITED GATHER",
            string tempResourceClaimProp = "itemGatherClaim",
            string tempPathProp = "itemSourcePath",
            string targetReachedProp = "itemSourceObject")
@@ -23,7 +23,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     target,
                     validItemSources,
                     resource,
-                    amount,
+                    amountInBlackboard,
                     tempPathProp,
                     tempResourceClaimProp
                 ),

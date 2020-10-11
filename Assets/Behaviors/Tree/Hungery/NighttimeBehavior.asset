@@ -32,6 +32,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hungerLevel: 1000
   calorieBlackboardPath: calories
+--- !u!114 &-7568547565066502944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7ecaacd9d7d81341b83c0e5786bdf06, type: 3}
+  m_Name: Get Food
+  m_EditorClassIdentifier: 
+  targetCalories: 2000
+  caloriesPerFood: 200
+  foodBitsTempPath: FoodBits
+  validItemSources:
+  - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
+  - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+  - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
 --- !u!114 &-7352810876313097259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +66,20 @@ MonoBehaviour:
   children:
   - {fileID: 5751672583721706713}
   - {fileID: -9202344163753328988}
+--- !u!114 &-3131104013838243521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7b690de30ce1e4c90acd54d5f25f84, type: 3}
+  m_Name: Eatin
+  m_EditorClassIdentifier: 
+  inventoryToEatFrom: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
+  caloriesPerFood: 200
 --- !u!114 &-2744652390835094031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,36 +199,33 @@ MonoBehaviour:
     ConnectedChildrenGuids:
     - b25048f3-4a66-442f-8139-857b21129ada
     - ed5a7396-3638-4683-86e8-0d959e13294a
-  - Guid: e9d86b9a-3a35-487f-b556-c26f2ea2c519
-    Title: IsHungryGuard
-    factory: {fileID: -8880285951083065070}
-    position: {x: -23, y: -423}
-    ConnectedChildrenGuids: []
-  - Guid: 37baf150-a688-493e-a602-9b8980174dee
-    Title: Eat
-    factory: {fileID: 2181340645788143001}
-    position: {x: 20, y: -195}
-    ConnectedChildrenGuids: []
-  - Guid: 4376f2b0-f207-45d3-b03d-6722ad53d966
-    Title: Get Food
-    factory: {fileID: 7598613058304731202}
-    position: {x: -7, y: -317}
-    ConnectedChildrenGuids: []
   - Guid: dc67f8b6-2821-4406-bb7f-65c1471bd80c
     Title: Try to eat
     factory: {fileID: 6317420608426703131}
     position: {x: -329, y: -307}
     ConnectedChildrenGuids:
-    - e9d86b9a-3a35-487f-b556-c26f2ea2c519
-    - 4376f2b0-f207-45d3-b03d-6722ad53d966
-    - 37baf150-a688-493e-a602-9b8980174dee
+    - b8b2823e-bed3-41a4-89fb-800e4400d5ca
+    - 23dbc0ac-bda5-4a03-bc09-5fc62442f748
+    - e2703a82-9a1a-49a7-b76b-40ebb1b242d4
+  - Guid: e2703a82-9a1a-49a7-b76b-40ebb1b242d4
+    Title: Eatin
+    factory: {fileID: -3131104013838243521}
+    position: {x: -37, y: -163}
+    ConnectedChildrenGuids: []
+  - Guid: 23dbc0ac-bda5-4a03-bc09-5fc62442f748
+    Title: Get Food
+    factory: {fileID: -7568547565066502944}
+    position: {x: -53, y: -270}
+    ConnectedChildrenGuids: []
+  - Guid: b8b2823e-bed3-41a4-89fb-800e4400d5ca
+    Title: IsHungryGuard
+    factory: {fileID: 1286606240274092962}
+    position: {x: -58, y: -356}
+    ConnectedChildrenGuids: []
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
   - {fileID: -2120107842614436554}
   - {fileID: 6317420608426703131}
-  - {fileID: 2181340645788143001}
-  - {fileID: -8880285951083065070}
-  - {fileID: 7598613058304731202}
   - {fileID: 7749208696549623210}
   - {fileID: -1215833252067380187}
   - {fileID: -7352810876313097259}
@@ -204,6 +234,23 @@ MonoBehaviour:
   - {fileID: 3221346926286148552}
   - {fileID: 7770556017436500047}
   - {fileID: -9202344163753328988}
+  - {fileID: 1286606240274092962}
+  - {fileID: -7568547565066502944}
+  - {fileID: -3131104013838243521}
+--- !u!114 &1286606240274092962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e8a1aebf084b64cbfc7d8fd1eaad09, type: 3}
+  m_Name: IsHungryGuard
+  m_EditorClassIdentifier: 
+  hungerLevel: 1000
+  calorieBlackboardPath: calories
 --- !u!114 &2181340645788143001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,9 +312,9 @@ MonoBehaviour:
   m_Name: Try to eat
   m_EditorClassIdentifier: 
   children:
-  - {fileID: -8880285951083065070}
-  - {fileID: 7598613058304731202}
-  - {fileID: 2181340645788143001}
+  - {fileID: 1286606240274092962}
+  - {fileID: -7568547565066502944}
+  - {fileID: -3131104013838243521}
 --- !u!114 &7598613058304731202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +331,6 @@ MonoBehaviour:
   validItemSources:
   - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
   - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
-  selfInventoryToUse: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
 --- !u!114 &7749208696549623210
 MonoBehaviour:
   m_ObjectHideFlags: 0

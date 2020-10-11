@@ -71,6 +71,7 @@ namespace BehaviorTree.Factories.FactoryGraph
 
             factoriesSavedWithAsset = factoriesSavedWithAsset
                 .Where(factory => factory != this)
+                .Where(factory => !!factory && factory != null)
                 .Select(factory =>
                 {
                     if (factoriesReferencedInSaveData.Contains(factory.GetInstanceID()))
