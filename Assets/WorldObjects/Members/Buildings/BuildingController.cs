@@ -121,6 +121,11 @@ namespace Assets.WorldObjects.Members.Buildings
                 );
             return true;
         }
+
+        public bool IsClaimValidForThisSuppliable(ResourceAllocation claim)
+        {
+            return claim.IsTarget(builtAmountPool);
+        }
         #endregion
         private void OnResourceAmountChanged()
         {

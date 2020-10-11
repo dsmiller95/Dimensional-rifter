@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.Scripts.ResourceManagement;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Nodes;
 using UnityEngine;
@@ -24,6 +25,8 @@ namespace Assets.WorldObjects.Members.Storage
         private IErrandCompletionReciever<StoreErrand> notifier;
         private bool BehaviorCompleted = false;
 
+        private ResourceAllocation grabAllocation;
+        private ResourceAllocation gibAllocation;
 
         public StoreErrand(
             StoreErrandType errandType,
@@ -49,6 +52,11 @@ namespace Assets.WorldObjects.Members.Storage
 
         private void SetupBehavior()
         {
+            grabAllocation = itemSource.ClaimSubtractionFromSource(resourceToTransfer, amountToTransfer);
+            gibAllocation = supplyTarget.ClaimAdditionToSuppliable(resourceToTransfer, amountToTransfer);
+            var actualTransferAmount = Mathf.Min(grabAllocation.Amount, gibAllocation.Amount);
+            //TODO: ensure that the allocation is no bigger than it has to be, instead of adjusting the real amount
+            //  based on the min
             ErrandBehaviorTreeRoot =
             new Sequence(
                 new FindPathToBakedTarget(
@@ -60,11 +68,10 @@ namespace Assets.WorldObjects.Members.Storage
                     storingWorker,
                     "Path",
                     "target"),
-                Grab.GrabWithAnimation(
+                Grab.GrabWithBakedAllocation(
                     storingWorker,
                     "target",
-                    resourceToTransfer,
-                    amountToTransfer),
+                    grabAllocation),
                 new FindPathToBakedTarget(
                     storingWorker,
                     (supplyTarget as Component).gameObject,
@@ -74,11 +81,10 @@ namespace Assets.WorldObjects.Members.Storage
                     storingWorker,
                     "Path",
                     "target"),
-                Gib.GibWithAnimation(
+                Gib.GibWithBakedAllocation(
                     storingWorker,
                     "target",
-                    resourceToTransfer,
-                    amountToTransfer),
+                    gibAllocation),
                 new LabmdaLeaf(blackboard =>
                 {
                     BehaviorCompleted = true;
@@ -100,6 +106,9 @@ namespace Assets.WorldObjects.Members.Storage
                 notifier.ErrandAborted(this);
             }
             ErrandBehaviorTreeRoot = null;
+            grabAllocation.Release();
+            gibAllocation.Release();
+            grabAllocation = gibAllocation = null;
             //TODO: drop everything if interrupted?
         }
     }

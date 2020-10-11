@@ -111,6 +111,7 @@
     <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
+    <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
+    <Compile Include="Assets\Scripts\ResourceManagement\ResourceAllocation.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
@@ -277,8 +279,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Scripts\ResourceManagement\ResourceAllocation.cs" />
-    <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

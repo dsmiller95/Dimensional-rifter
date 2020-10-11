@@ -243,11 +243,19 @@ namespace Assets.Scripts.ResourceManagement
         {
             var builder = new StringBuilder();
             builder.AppendLine($"Capacity: {maxCapacity}, remaining: {remainingCapacity}");
-            foreach (var resource in itemAmounts.Where(x => x.Value > 1e-5))
+            SerializeResourceAmountsFromDictionary(itemAmounts, builder);
+            builder.AppendLine("Allocated Subtractions: ");
+            SerializeResourceAmountsFromDictionary(totalAllocatedSubtractions, builder);
+            builder.AppendLine($"Allocated Additions: {totalAllocatedAdditions}");
+            return builder.ToString();
+        }
+
+        private void SerializeResourceAmountsFromDictionary(IDictionary<Resource, float> amounts, StringBuilder builder)
+        {
+            foreach (var resource in amounts.Where(x => x.Value > 1e-5))
             {
                 builder.AppendLine($"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}");
             }
-            return builder.ToString();
         }
     }
 }

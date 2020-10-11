@@ -112,6 +112,11 @@ namespace Assets.WorldObjects.Members.Storage
                 );
             return true;
         }
+
+        public bool IsClaimValidForThisSuppliable(ResourceAllocation claim)
+        {
+            return claim.IsTarget(myInventory);
+        }
         #endregion
 
         #region IItemSource

@@ -1,5 +1,5 @@
-﻿using Assets.UI.ItemTransferAnimations;
-using Assets.WorldObjects;
+﻿using Assets.Scripts.ResourceManagement;
+using Assets.UI.ItemTransferAnimations;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
@@ -11,35 +11,61 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// Grab items from a target object. if resource type pointer is provided only gathers items of
     ///     that type. otherwise tried to gather everything.
     /// </summary>
-    public class Grab : ComponentMemberLeaf<TileMapNavigationMember>
+    public class Grab : ComponentMemberLeaf<InventoryHoldingController>
     {
-        private float grabAmount;
-        private Resource resourceToGrab;
-
         private string targetObjectInBlackboard;
 
+        private bool getClaimFromBlackboard;
+        private string grabClaimInBlackboard;
+        private ResourceAllocation grabClaim;
 
         private Grab(
             GameObject gameObject,
-            string targetObjectInBlackboard,
-            Resource resource,
-            float grabAmount) : base(gameObject)
+            string targetObjectInBlackboard) : base(gameObject)
         {
             this.targetObjectInBlackboard = targetObjectInBlackboard;
-            this.grabAmount = grabAmount;
-            resourceToGrab = resource;
+        }
+        private Grab(
+            GameObject gameObject,
+            string targetObjectInBlackboard,
+            string grabClaimInBlackboard
+            ) : this(gameObject, targetObjectInBlackboard)
+        {
+            getClaimFromBlackboard = true;
+            this.grabClaimInBlackboard = grabClaimInBlackboard;
+        }
+        private Grab(
+            GameObject gameObject,
+            string targetObjectInBlackboard,
+            ResourceAllocation grabClaim) : this(gameObject, targetObjectInBlackboard)
+        {
+            getClaimFromBlackboard = false;
+            this.grabClaim = grabClaim;
         }
 
         public static BehaviorNode GrabWithAnimation(
             GameObject gameObject,
             string targetObjectInBlackboard,
-            Resource resourceType,
-            float grabAmount = -1)
+            string grabClaimInBlackboard)
         {
             var grabAction = new Grab(gameObject,
                 targetObjectInBlackboard,
-                resourceType,
-                grabAmount);
+                grabClaimInBlackboard);
+            return WrapWithAnimation(
+                grabAction,
+                targetObjectInBlackboard,
+                gameObject
+                );
+        }
+
+        public static BehaviorNode GrabWithBakedAllocation(
+            GameObject gameObject,
+            string targetObjectInBlackboard,
+            ResourceAllocation resourceAllocation)
+        {
+            var grabAction = new Grab(gameObject,
+                targetObjectInBlackboard,
+                resourceAllocation);
             return WrapWithAnimation(
                 grabAction,
                 targetObjectInBlackboard,
@@ -48,7 +74,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         }
 
         private static BehaviorNode WrapWithAnimation(
-            Grab grabNode,
+            BehaviorNode grabNode,
             string targetObjectBlackboard,
             GameObject target)
         {
@@ -68,23 +94,24 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if (blackboard.TryGetValueOfType(targetObjectInBlackboard, out GameObject targetObject))
+            if (!blackboard.TryGetValueOfType(targetObjectInBlackboard, out GameObject targetObject))
             {
-                var supplier = targetObject?.GetComponent<IItemSource>();
-                if (supplier == null) return NodeStatus.FAILURE;
+                return NodeStatus.FAILURE;
+            }
+            var supplier = targetObject?.GetComponent<IItemSource>();
+            if (supplier == null) return NodeStatus.FAILURE;
 
-                var inventoryHolder = componentValue.GetComponent<InventoryHoldingController>();
-
-                var allocation = supplier.ClaimSubtractionFromSource(resourceToGrab, grabAmount);
-                if (allocation == null)
+            var claim = this.grabClaim;
+            if (this.getClaimFromBlackboard)
+            {
+                if (!blackboard.TryGetValueOfType(grabClaimInBlackboard, out claim))
                 {
                     return NodeStatus.FAILURE;
                 }
-                supplier.GatherInto(inventoryHolder, allocation);
-
-                return NodeStatus.SUCCESS;
             }
-            return NodeStatus.FAILURE;
+            supplier.GatherInto(componentValue, claim);
+
+            return NodeStatus.SUCCESS;
         }
 
         public override void Reset(Blackboard blackboard)

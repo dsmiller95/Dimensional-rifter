@@ -40,5 +40,6 @@ namespace Assets.WorldObjects.Inventories
         bool SupplyFrom(
             InventoryHoldingController inventoryToTakeFrom,
             ResourceAllocation amount);
+        bool IsClaimValidForThisSuppliable(ResourceAllocation claim);
     }
 }
