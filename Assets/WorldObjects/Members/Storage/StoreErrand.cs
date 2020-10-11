@@ -60,38 +60,49 @@ namespace Assets.WorldObjects.Members.Storage
             //TODO: ensure that the allocation is no bigger than it has to be, instead of adjusting the real amount
             //  based on the min
             ErrandBehaviorTreeRoot =
-            new Sequence(
-                new FindPathToBakedTarget(
-                    storingWorker,
-                    (itemSource as Component).gameObject,
-                    "Path",
-                    true),
-                new NavigateToTarget(
-                    storingWorker,
-                    "Path",
-                    "target"),
-                Grab.GrabWithBakedAllocation(
-                    storingWorker,
-                    "target",
-                    grabAllocation),
-                new FindPathToBakedTarget(
-                    storingWorker,
-                    (supplyTarget as Component).gameObject,
-                    "Path",
-                    true),
-                new NavigateToTarget(
-                    storingWorker,
-                    "Path",
-                    "target"),
-                Gib.GibWithBakedAllocation(
-                    storingWorker,
-                    "target",
-                    gibAllocation),
+            new Selector(
+                new Sequence(
+                    new FindPathToBakedTarget(
+                        storingWorker,
+                        (itemSource as Component).gameObject,
+                        "Path",
+                        true),
+                    new NavigateToTarget(
+                        storingWorker,
+                        "Path",
+                        "target"),
+                    Grab.GrabWithBakedAllocation(
+                        storingWorker,
+                        "target",
+                        grabAllocation),
+                    new FindPathToBakedTarget(
+                        storingWorker,
+                        (supplyTarget as Component).gameObject,
+                        "Path",
+                        true),
+                    new NavigateToTarget(
+                        storingWorker,
+                        "Path",
+                        "target"),
+                    Gib.GibWithBakedAllocation(
+                        storingWorker,
+                        "target",
+                        gibAllocation),
+                    new LabmdaLeaf(blackboard =>
+                    {
+                        grabAllocation.Release();
+                        gibAllocation.Release();
+                        BehaviorCompleted = true;
+                        notifier.ErrandCompleted(this);
+                        return NodeStatus.SUCCESS;
+                    })
+                ),
                 new LabmdaLeaf(blackboard =>
                 {
-                    BehaviorCompleted = true;
-                    notifier.ErrandCompleted(this);
-                    return NodeStatus.SUCCESS;
+                    Debug.Log("storage errand failed, clearing allocations");
+                    grabAllocation.Release();
+                    gibAllocation.Release();
+                    return NodeStatus.FAILURE;
                 })
             );
         }
@@ -108,8 +119,6 @@ namespace Assets.WorldObjects.Members.Storage
                 notifier.ErrandAborted(this);
             }
             ErrandBehaviorTreeRoot = null;
-            grabAllocation.Release();
-            gibAllocation.Release();
             grabAllocation = gibAllocation = null;
             //TODO: drop everything if interrupted?
         }

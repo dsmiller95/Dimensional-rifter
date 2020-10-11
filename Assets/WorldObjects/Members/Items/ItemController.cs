@@ -18,7 +18,7 @@ namespace Assets.WorldObjects.Members.Items
     }
 
     [DisallowMultipleComponent]
-    public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable
+    public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable, IInterestingInfo
     {
         public static readonly float ItemMaxCapacity = 100;
         public static readonly string SaveDataIndentifier = "Item";
@@ -55,7 +55,10 @@ namespace Assets.WorldObjects.Members.Items
         public ItemSourceType ItemSourceType => SourceType;
         public IEnumerable<Resource> ClaimableTypes()
         {
-            yield return resource.resourceType;
+            if (resourceAmount.CanAllocateSubtraction())
+            {
+                yield return resource.resourceType;
+            }
         }
         public bool HasClaimableResource(Resource resource)
         {
@@ -126,6 +129,14 @@ namespace Assets.WorldObjects.Members.Items
             {
                 resourceAmount = new LimitedResourcePool(saveObject.remainingResourceAmount);
             }
+        }
+        #endregion
+
+        #region IInterestingInfo
+        public string GetCurrentInfo()
+        {
+            return $"Item: {Enum.GetName(typeof(Resource), resource.resourceType)}\n" +
+                resourceAmount.ToString();
         }
         #endregion
     }

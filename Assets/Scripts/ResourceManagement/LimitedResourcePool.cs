@@ -37,6 +37,12 @@ namespace Assets.Scripts.ResourceManagement
             };
         }
 
+        public override string ToString()
+        {
+            return $"Amount: {currentAmount} Capacity: {maxCapacity}\n" +
+                $"Adds: {totalAllocatedAdditions} Subs: {totalAllocatedSubtractions}";
+        }
+
         public bool CanAllocateAddition()
         {
             return currentAmount + totalAllocatedAdditions < maxCapacity;

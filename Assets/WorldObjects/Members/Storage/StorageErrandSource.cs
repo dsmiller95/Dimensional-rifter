@@ -86,10 +86,7 @@ namespace Assets.WorldObjects.Members.Storage
 
         public void RegisterItemSource(IItemSource itemSource)
         {
-            Debug.Log($"Registering item source {(itemSource as Component)?.name} of type {itemSource.ItemSourceType}");
             itemSources.Add(itemSource);
-            //TODO: maybe don't register every time anything happens
-            //board.RegisterErrandSource(this);
         }
         public void DeRegisterItemSource(IItemSource itemSource)
         {
@@ -99,13 +96,10 @@ namespace Assets.WorldObjects.Members.Storage
         public void RegisterSuppliable(ISuppliable suppliable)
         {
             supplyTargets.Add(suppliable);
-            Debug.Log($"Registered suppliable of type: {suppliable.SuppliableClassification.name}");
-            //board.RegisterErrandSource(this);
         }
         public void DeRegisterSuppliable(ISuppliable suppliable)
         {
             supplyTargets.Remove(suppliable);
-            Debug.Log($"Deregistered suppliable of type: {suppliable.SuppliableClassification.name}");
         }
 
         private (IItemSource, ISuppliable, Resource)? GetPossibleSupplyPair(
