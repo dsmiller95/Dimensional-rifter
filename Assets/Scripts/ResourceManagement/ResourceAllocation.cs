@@ -19,6 +19,11 @@
             return targetObject == possibleTarget;
         }
 
+        public bool Execute()
+        {
+            return this.Execute(this.Amount);
+        }
+
         /// <summary>
         /// Attempts to execute the allocation by applying its claim to the base pool.
         ///     If this fails it means that resources have been mis-allocated and mishandled

@@ -5,7 +5,9 @@ using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Items
@@ -35,20 +37,53 @@ namespace Assets.WorldObjects.Members.Items
             storingCleanupErrandSource.RegisterItemSource(this);
         }
 
+        private bool AddAmountIntoSelf(float extraAmount)
+        {
+            var additionAllocation = this.resourceAmount.TryAllocateAddition(extraAmount);
+            if(additionAllocation == null)
+            {
+                return false;
+            }
+            return additionAllocation.Execute();
+        }
+
         private void OnItemCompletelyGathered()
         {
-            storingCleanupErrandSource.DeRegisterItemSource(this);
             Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            storingCleanupErrandSource.DeRegisterItemSource(this);
         }
 
         /// <summary>
         /// Sets the size of this item. Only meant to be used when creating a new item,
-        ///     this will clear any claims on the item
+        ///     this will clear any claims on the item.
+        /// The position of the item should be set before this is called
         /// </summary>
         /// <param name="newAmount"></param>
-        public void SetAmountInItem(float newAmount)
+        public void InitializeItemToAmount(float newAmount)
         {
             resourceAmount = new LimitedResourcePool(ItemMaxCapacity, newAmount);
+            AttemptToMergeWithOtherOnTile();
+        }
+
+        private bool AttemptToMergeWithOtherOnTile()
+        {
+            var tilemember = this.GetComponent<TileMapMember>();
+            var otherItem = tilemember.bigManager.everyMember.GetMembersOnTile(tilemember.CoordinatePosition)
+                .Where(x => x != tilemember)
+                .Select(x => x.GetComponent<ItemController>())
+                .Where(x => x != null && x.resource == this.resource)
+                .FirstOrDefault();
+            if (otherItem != default && otherItem.AddAmountIntoSelf(resourceAmount.CurrentAmount))
+            {
+                Debug.Log("Merged item into another, destroying self");
+                Destroy(gameObject);
+                return true;
+            }
+            return false;
         }
 
         #region IItemSource
@@ -128,6 +163,7 @@ namespace Assets.WorldObjects.Members.Items
             if (save is ItemSaveObject saveObject)
             {
                 resourceAmount = new LimitedResourcePool(saveObject.remainingResourceAmount);
+                AttemptToMergeWithOtherOnTile();
             }
         }
         #endregion

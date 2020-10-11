@@ -11,7 +11,7 @@ namespace Assets.Scripts.ResourceManagement
 
     public class LimitedResourcePool
     {
-        private float currentAmount;
+        public float CurrentAmount { get; private set; }
         private float maxCapacity;
 
         private float totalAllocatedAdditions;
@@ -20,7 +20,7 @@ namespace Assets.Scripts.ResourceManagement
 
         public LimitedResourcePool(float capacity, float initialAmount)
         {
-            currentAmount = initialAmount;
+            CurrentAmount = initialAmount;
             totalAllocatedAdditions = 0f;
             maxCapacity = capacity;
         }
@@ -32,26 +32,26 @@ namespace Assets.Scripts.ResourceManagement
         {
             return new LimitedResourcePoolSaveObject()
             {
-                currentAmount = currentAmount,
+                currentAmount = CurrentAmount,
                 maxCapacity = maxCapacity
             };
         }
 
         public override string ToString()
         {
-            return $"Amount: {currentAmount} Capacity: {maxCapacity}\n" +
+            return $"Amount: {CurrentAmount} Capacity: {maxCapacity}\n" +
                 $"Adds: {totalAllocatedAdditions} Subs: {totalAllocatedSubtractions}";
         }
 
         public bool CanAllocateAddition()
         {
-            return currentAmount + totalAllocatedAdditions < maxCapacity;
+            return CurrentAmount + totalAllocatedAdditions < maxCapacity;
         }
         public AdditionAllocation TryAllocateAddition(float amount)
         {
-            if (amount + totalAllocatedAdditions + currentAmount > maxCapacity)
+            if (amount + totalAllocatedAdditions + CurrentAmount > maxCapacity)
             {
-                amount = maxCapacity - (totalAllocatedAdditions + currentAmount);
+                amount = maxCapacity - (totalAllocatedAdditions + CurrentAmount);
             }
             if (amount < 0)
             {
@@ -62,13 +62,13 @@ namespace Assets.Scripts.ResourceManagement
 
         public bool CanAllocateSubtraction()
         {
-            return (currentAmount - totalAllocatedSubtractions) > 1e-5;
+            return (CurrentAmount - totalAllocatedSubtractions) > 1e-5;
         }
         public SubtractionAllocation TryAllocateSubtraction(float amount = -1)
         {
-            if (amount < 0 || amount > (currentAmount - totalAllocatedSubtractions))
+            if (amount < 0 || amount > (CurrentAmount - totalAllocatedSubtractions))
             {
-                amount = currentAmount - totalAllocatedSubtractions;
+                amount = CurrentAmount - totalAllocatedSubtractions;
             }
             if (amount <= 0)
             {
@@ -94,7 +94,7 @@ namespace Assets.Scripts.ResourceManagement
                     return false;
                 }
 
-                var newAmount = target.currentAmount + amountToAdd;
+                var newAmount = target.CurrentAmount + amountToAdd;
                 if (newAmount > target.maxCapacity)
                 {
                     Release();
@@ -102,7 +102,7 @@ namespace Assets.Scripts.ResourceManagement
                 }
                 // add a new amount based on the Actual Amount, but deallocate the original
                 //  Amount from the allocated additions sum
-                target.currentAmount = newAmount;
+                target.CurrentAmount = newAmount;
                 target.totalAllocatedAdditions -= Amount;
                 return true;
             }
@@ -135,13 +135,13 @@ namespace Assets.Scripts.ResourceManagement
                 {
                     return false;
                 }
-                var newAmount = target.currentAmount - amountToSub;
+                var newAmount = target.CurrentAmount - amountToSub;
                 if (newAmount < 0)
                 {
                     Release();
                     throw new Exception("resource pool subtractions are over-allocated!");
                 }
-                target.currentAmount = newAmount;
+                target.CurrentAmount = newAmount;
                 target.totalAllocatedSubtractions -= Amount;
                 return true;
             }
