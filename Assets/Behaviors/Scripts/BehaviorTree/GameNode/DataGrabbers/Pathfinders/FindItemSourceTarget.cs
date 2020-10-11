@@ -62,7 +62,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         public override void Reset(Blackboard blackboard)
         {
             base.Reset(blackboard);
-            if(blackboard.TryGetValueOfType(itemClaimProperty, out ResourceAllocation itemClaim))
+            if (blackboard.TryGetValueOfType(itemClaimProperty, out ResourceAllocation itemClaim))
             {
                 itemClaim.Release();
             }

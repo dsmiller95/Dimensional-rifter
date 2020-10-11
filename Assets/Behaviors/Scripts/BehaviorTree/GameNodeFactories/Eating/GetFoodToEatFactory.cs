@@ -1,5 +1,4 @@
-﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
-using Assets.WorldObjects.Inventories;
+﻿using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry;
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;

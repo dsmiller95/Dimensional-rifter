@@ -101,8 +101,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             var supplier = targetObject?.GetComponent<IItemSource>();
             if (supplier == null) return NodeStatus.FAILURE;
 
-            var claim = this.grabClaim;
-            if (this.getClaimFromBlackboard)
+            var claim = grabClaim;
+            if (getClaimFromBlackboard)
             {
                 if (!blackboard.TryGetValueOfType(grabClaimInBlackboard, out claim))
                 {

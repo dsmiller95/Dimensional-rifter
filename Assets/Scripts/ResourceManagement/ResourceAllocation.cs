@@ -47,12 +47,12 @@
 
         public void ReduceClaim(float smallerClaim)
         {
-            if(Amount <= smallerClaim || smallerClaim < 0)
+            if (Amount <= smallerClaim || smallerClaim < 0)
             {
                 return;
             }
-            this.TryReduceClaimToSmaller(smallerClaim);
-            this.Amount = smallerClaim;
+            TryReduceClaimToSmaller(smallerClaim);
+            Amount = smallerClaim;
         }
 
         protected abstract bool TryReduceClaimToSmaller(float smallerClaim);

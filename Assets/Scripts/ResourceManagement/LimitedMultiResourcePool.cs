@@ -219,7 +219,7 @@ namespace Assets.Scripts.ResourceManagement
             {
                 if (!target.totalAllocatedSubtractions.ContainsKey(type))
                 {
-                    this.isReleased = true;
+                    isReleased = true;
                     return false;
                 }
                 var differenceInSize = Amount - smallerClaim;

@@ -79,7 +79,7 @@ namespace Assets.WorldObjects.Members.Buildings
         public ISet<Resource> ValidSupplyTypes()
         {
             var result = new HashSet<Resource>();
-            if (this.CanClaimSpaceForAny())
+            if (CanClaimSpaceForAny())
             {
                 result.Add(ItemTypeRequriement.resourceType);
             }
