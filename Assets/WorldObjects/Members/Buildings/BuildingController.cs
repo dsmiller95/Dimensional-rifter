@@ -41,7 +41,7 @@ namespace Assets.WorldObjects.Members.Buildings
         private void Start()
         {
             // Make sure all the errands/suppliables are registered if spawned in via build command
-            if(builtAmountPool == null)
+            if (builtAmountPool == null)
             {
                 builtAmountPool = new LimitedResourcePool(defaultResourceRequiredAmount, 0f);
             }
@@ -84,7 +84,7 @@ namespace Assets.WorldObjects.Members.Buildings
         }
         public ResourceAllocation ClaimAdditionToSuppliable(Resource resourceType, float amount)
         {
-            if(resourceType != ItemTypeRequriement.resourceType)
+            if (resourceType != ItemTypeRequriement.resourceType)
             {
                 return null;
             }

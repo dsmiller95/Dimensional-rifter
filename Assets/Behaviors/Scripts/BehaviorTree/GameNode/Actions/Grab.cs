@@ -27,7 +27,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         {
             this.targetObjectInBlackboard = targetObjectInBlackboard;
             this.grabAmount = grabAmount;
-            this.resourceToGrab = resource;
+            resourceToGrab = resource;
         }
 
         public static BehaviorNode GrabWithAnimation(
@@ -75,8 +75,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 
                 var inventoryHolder = componentValue.GetComponent<InventoryHoldingController>();
 
-                var allocation = supplier.ClaimSubtractionFromSource(resourceToGrab, this.grabAmount);
-                if(allocation == null)
+                var allocation = supplier.ClaimSubtractionFromSource(resourceToGrab, grabAmount);
+                if (allocation == null)
                 {
                     return NodeStatus.FAILURE;
                 }

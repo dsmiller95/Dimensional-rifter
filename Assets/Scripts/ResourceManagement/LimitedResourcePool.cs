@@ -1,5 +1,4 @@
-﻿using Assets.WorldObjects.SaveObjects;
-using System;
+﻿using System;
 
 namespace Assets.Scripts.ResourceManagement
 {
@@ -26,7 +25,7 @@ namespace Assets.Scripts.ResourceManagement
             maxCapacity = capacity;
         }
 
-        public LimitedResourcePool(LimitedResourcePoolSaveObject saveObject): this(saveObject.maxCapacity, saveObject.currentAmount)
+        public LimitedResourcePool(LimitedResourcePoolSaveObject saveObject) : this(saveObject.maxCapacity, saveObject.currentAmount)
         {
         }
         public LimitedResourcePoolSaveObject GetSaveObject()
@@ -44,11 +43,11 @@ namespace Assets.Scripts.ResourceManagement
         }
         public AdditionAllocation TryAllocateAddition(float amount)
         {
-            if(amount + totalAllocatedAdditions + currentAmount > maxCapacity)
+            if (amount + totalAllocatedAdditions + currentAmount > maxCapacity)
             {
                 amount = maxCapacity - (totalAllocatedAdditions + currentAmount);
             }
-            if(amount < 0)
+            if (amount < 0)
             {
                 return null;
             }
@@ -65,7 +64,7 @@ namespace Assets.Scripts.ResourceManagement
             {
                 amount = currentAmount - totalAllocatedSubtractions;
             }
-            if(amount <= 0)
+            if (amount <= 0)
             {
                 return null;
             }
@@ -92,7 +91,7 @@ namespace Assets.Scripts.ResourceManagement
                 var newAmount = target.currentAmount + amountToAdd;
                 if (newAmount > target.maxCapacity)
                 {
-                    this.Release();
+                    Release();
                     throw new Exception("resource pool additions are over-allocated!");
                 }
                 // add a new amount based on the Actual Amount, but deallocate the original
@@ -127,7 +126,7 @@ namespace Assets.Scripts.ResourceManagement
                 var newAmount = target.currentAmount - amountToSub;
                 if (newAmount < 0)
                 {
-                    this.Release();
+                    Release();
                     throw new Exception("resource pool subtractions are over-allocated!");
                 }
                 target.currentAmount = newAmount;

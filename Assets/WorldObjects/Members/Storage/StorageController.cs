@@ -4,10 +4,7 @@ using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using TradeModeling.Inventories;
-using UniRx;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
@@ -149,7 +146,7 @@ namespace Assets.WorldObjects.Members.Storage
                 gameObject,
                 toastMessage,
                 amount);
-            if(actualGrabbedAmount <= 1e-5)
+            if (actualGrabbedAmount <= 1e-5)
             {
                 return;
             }

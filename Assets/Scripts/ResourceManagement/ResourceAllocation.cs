@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts.ResourceManagement
+﻿namespace Assets.Scripts.ResourceManagement
 {
     public abstract class ResourceAllocation
     {
@@ -17,7 +11,7 @@ namespace Assets.Scripts.ResourceManagement
         {
             Amount = amount;
             isReleased = false;
-            this.targetObject = target;
+            targetObject = target;
         }
 
         public bool IsTarget(object possibleTarget)

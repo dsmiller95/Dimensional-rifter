@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using static Assets.Scripts.ResourceManagement.LimitedResourcePool;
 
 namespace Assets.WorldObjects.Members.Items
 {
@@ -49,7 +48,7 @@ namespace Assets.WorldObjects.Members.Items
         /// <param name="newAmount"></param>
         public void SetAmountInItem(float newAmount)
         {
-            this.resourceAmount = new LimitedResourcePool(ItemMaxCapacity, newAmount);
+            resourceAmount = new LimitedResourcePool(ItemMaxCapacity, newAmount);
         }
 
         #region IItemSource
@@ -61,11 +60,11 @@ namespace Assets.WorldObjects.Members.Items
         public bool HasClaimableResource(Resource resource)
         {
             return resource == this.resource.resourceType
-                && this.resourceAmount.CanAllocateSubtraction();
+                && resourceAmount.CanAllocateSubtraction();
         }
         public ResourceAllocation ClaimSubtractionFromSource(Resource resource, float amount = -1)
         {
-            if(resource != this.resource.resourceType)
+            if (resource != this.resource.resourceType)
             {
                 return null;
             }

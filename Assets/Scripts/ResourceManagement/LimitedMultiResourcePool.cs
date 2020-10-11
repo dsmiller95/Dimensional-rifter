@@ -1,10 +1,8 @@
 ﻿using Assets.WorldObjects;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 
 namespace Assets.Scripts.ResourceManagement
 {
@@ -110,9 +108,9 @@ namespace Assets.Scripts.ResourceManagement
                 {
                     return false;
                 }
-                if(target.totalAllocatedAdditions + target.totalFullSpace > target.maxCapacity)
+                if (target.totalAllocatedAdditions + target.totalFullSpace > target.maxCapacity)
                 {
-                    this.Release();
+                    Release();
                     throw new Exception("Multi resource pool is over-allocated!");
                 }
                 var newAmount = amountToAdd;
@@ -244,7 +242,7 @@ namespace Assets.Scripts.ResourceManagement
         public override string ToString()
         {
             var builder = new StringBuilder();
-            builder.AppendLine($"Capacity: {maxCapacity}, remaining: {this.remainingCapacity}");
+            builder.AppendLine($"Capacity: {maxCapacity}, remaining: {remainingCapacity}");
             foreach (var resource in itemAmounts.Where(x => x.Value > 1e-5))
             {
                 builder.AppendLine($"{Enum.GetName(typeof(Resource), resource.Key)}: {resource.Value:F1}");

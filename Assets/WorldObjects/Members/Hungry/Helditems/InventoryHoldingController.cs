@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.ResourceManagement;
 using System;
-using System.Linq;
 using System.Text;
 using TradeModeling.Inventories;
 using UnityEngine;

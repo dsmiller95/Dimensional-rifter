@@ -3,9 +3,7 @@ using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using BehaviorTree.Nodes;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
@@ -64,9 +62,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 foreach (var suppliable in suppliables)
                 {
                     var allocation = suppliable.ClaimAdditionToSuppliable(resourceToTransfer, gibAmount);
-                    if(allocation != null)
+                    if (allocation != null)
                     {
-                        if(suppliable.SupplyFrom(componentValue, allocation))
+                        if (suppliable.SupplyFrom(componentValue, allocation))
                         {
                             return NodeStatus.SUCCESS;
                         }
