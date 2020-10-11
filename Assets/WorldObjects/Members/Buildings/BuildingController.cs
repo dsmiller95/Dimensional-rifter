@@ -64,7 +64,7 @@ namespace Assets.WorldObjects.Members.Buildings
         }
         public bool IsBuildable()
         {
-            return !hasBeenBuilt.CurrentValue && !builtAmountPool.CanAllocateAddition();
+            return !hasBeenBuilt.CurrentValue && builtAmountPool.IsFull();
         }
 
         #region ISuppliable

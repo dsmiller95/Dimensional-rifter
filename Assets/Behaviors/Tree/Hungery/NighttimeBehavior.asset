@@ -206,12 +206,7 @@ MonoBehaviour:
     ConnectedChildrenGuids:
     - b8b2823e-bed3-41a4-89fb-800e4400d5ca
     - 23dbc0ac-bda5-4a03-bc09-5fc62442f748
-    - e2703a82-9a1a-49a7-b76b-40ebb1b242d4
-  - Guid: e2703a82-9a1a-49a7-b76b-40ebb1b242d4
-    Title: Eatin
-    factory: {fileID: -3131104013838243521}
-    position: {x: -37, y: -163}
-    ConnectedChildrenGuids: []
+    - a211d073-1ab0-4f4a-9589-76cbe59dcf69
   - Guid: 23dbc0ac-bda5-4a03-bc09-5fc62442f748
     Title: Get Food
     factory: {fileID: -7568547565066502944}
@@ -221,6 +216,11 @@ MonoBehaviour:
     Title: IsHungryGuard
     factory: {fileID: 1286606240274092962}
     position: {x: -58, y: -356}
+    ConnectedChildrenGuids: []
+  - Guid: a211d073-1ab0-4f4a-9589-76cbe59dcf69
+    Title: Eat
+    factory: {fileID: 8182145743791132906}
+    position: {x: -15, y: -187}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
@@ -236,7 +236,7 @@ MonoBehaviour:
   - {fileID: -9202344163753328988}
   - {fileID: 1286606240274092962}
   - {fileID: -7568547565066502944}
-  - {fileID: -3131104013838243521}
+  - {fileID: 8182145743791132906}
 --- !u!114 &1286606240274092962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
   children:
   - {fileID: 1286606240274092962}
   - {fileID: -7568547565066502944}
-  - {fileID: -3131104013838243521}
+  - {fileID: 8182145743791132906}
 --- !u!114 &7598613058304731202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,3 +359,17 @@ MonoBehaviour:
   m_Name: ExitSleepingStation
   m_EditorClassIdentifier: 
   sleepStationBlackboard: SleepingBed
+--- !u!114 &8182145743791132906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7b690de30ce1e4c90acd54d5f25f84, type: 3}
+  m_Name: Eat
+  m_EditorClassIdentifier: 
+  inventoryToEatFrom: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
+  caloriesPerFood: 200

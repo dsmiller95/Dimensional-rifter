@@ -12,7 +12,7 @@ namespace Assets.Scripts.ResourceManagement
     public class LimitedResourcePool
     {
         public float CurrentAmount { get; private set; }
-        private float maxCapacity;
+        public float MaxCapacity { get; private set; }
 
         private float totalAllocatedAdditions;
         private float totalAllocatedSubtractions;
@@ -22,7 +22,7 @@ namespace Assets.Scripts.ResourceManagement
         {
             CurrentAmount = initialAmount;
             totalAllocatedAdditions = 0f;
-            maxCapacity = capacity;
+            MaxCapacity = capacity;
         }
 
         public LimitedResourcePool(LimitedResourcePoolSaveObject saveObject) : this(saveObject.maxCapacity, saveObject.currentAmount)
@@ -33,25 +33,30 @@ namespace Assets.Scripts.ResourceManagement
             return new LimitedResourcePoolSaveObject()
             {
                 currentAmount = CurrentAmount,
-                maxCapacity = maxCapacity
+                maxCapacity = MaxCapacity
             };
         }
 
         public override string ToString()
         {
-            return $"Amount: {CurrentAmount} Capacity: {maxCapacity}\n" +
+            return $"Amount: {CurrentAmount} Capacity: {MaxCapacity}\n" +
                 $"Adds: {totalAllocatedAdditions} Subs: {totalAllocatedSubtractions}";
+        }
+
+        public bool IsFull()
+        {
+            return CurrentAmount >= MaxCapacity - 1e-5;
         }
 
         public bool CanAllocateAddition()
         {
-            return CurrentAmount + totalAllocatedAdditions < maxCapacity;
+            return CurrentAmount + totalAllocatedAdditions < MaxCapacity;
         }
         public AdditionAllocation TryAllocateAddition(float amount)
         {
-            if (amount + totalAllocatedAdditions + CurrentAmount > maxCapacity)
+            if (amount + totalAllocatedAdditions + CurrentAmount > MaxCapacity)
             {
-                amount = maxCapacity - (totalAllocatedAdditions + CurrentAmount);
+                amount = MaxCapacity - (totalAllocatedAdditions + CurrentAmount);
             }
             if (amount < 0)
             {
@@ -95,7 +100,7 @@ namespace Assets.Scripts.ResourceManagement
                 }
 
                 var newAmount = target.CurrentAmount + amountToAdd;
-                if (newAmount > target.maxCapacity)
+                if (newAmount > target.MaxCapacity)
                 {
                     Release();
                     throw new Exception("resource pool additions are over-allocated!");
