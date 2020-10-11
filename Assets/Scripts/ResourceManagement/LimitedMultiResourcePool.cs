@@ -138,19 +138,16 @@ namespace Assets.Scripts.ResourceManagement
 
         public bool CanAllocateSubtraction(Resource type)
         {
-            if (itemAmounts.TryGetValue(type, out float currentAmount))
+            itemAmounts.TryGetValue(type, out float currentAmount);
+            if (currentAmount <= 1e-5)
             {
-                if (currentAmount <= 1e-5)
-                {
-                    return false;
-                }
-                if (totalAllocatedSubtractions.TryGetValue(type, out float allocatedSubtraction))
-                {
-                    return allocatedSubtraction < currentAmount;
-                }
-                return true;
+                return false;
             }
-            return false;
+            if (totalAllocatedSubtractions.TryGetValue(type, out float allocatedSubtraction))
+            {
+                return allocatedSubtraction < currentAmount;
+            }
+            return true;
         }
 
         public SubtractionAllocation TryAllocateSubtraction(Resource type, float amount = -1)

@@ -164,7 +164,6 @@ namespace Assets.WorldObjects.Members.Buildings
             if (save is BuildableSaveData savedData)
             {
                 builtAmountPool = new LimitedResourcePool(savedData.builtResourceAmount);
-                OnResourceAmountChanged();
             }
             else
             {

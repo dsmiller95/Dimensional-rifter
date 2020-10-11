@@ -40,7 +40,7 @@ namespace Assets.Scripts.ResourceManagement
 
         public bool CanAllocateAddition()
         {
-            return currentAmount + totalAllocatedAdditions > maxCapacity;
+            return currentAmount + totalAllocatedAdditions < maxCapacity;
         }
         public AdditionAllocation TryAllocateAddition(float amount)
         {

@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemTypeRequriement: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
-  remainingResourceRequirement: 1
+  defaultResourceRequiredAmount: 1
   hasBeenBuilt:
     DataSource: 2
     ConstantValue: 0
