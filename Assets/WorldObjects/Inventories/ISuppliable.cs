@@ -39,7 +39,6 @@ namespace Assets.WorldObjects.Inventories
         /// <returns>true if a transfer was made, false otherwise</returns>
         bool SupplyFrom(
             InventoryHoldingController inventoryToTakeFrom,
-            Resource resourceType, // todo: the resourceType can go away, this should be handled in the ClaimAddition method
             ResourceAllocation amount);
     }
 }

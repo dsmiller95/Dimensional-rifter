@@ -15,7 +15,6 @@ namespace Assets.WorldObjects.Inventories
 
         void GatherInto(
             InventoryHoldingController inventoryToGatherInto,
-            Resource resourceType, // TODO: shouldn't need this anymore. the resource type is stored in the allocation
             ResourceAllocation amount);
     }
 }

@@ -93,14 +93,8 @@ namespace Assets.WorldObjects.Members.Buildings
 
         public bool SupplyFrom(
             InventoryHoldingController inventoryToTakeFrom,
-            Resource resourceType,
             ResourceAllocation amount)
         {
-            if (resourceType != ItemTypeRequriement.resourceType)
-            {
-                amount.Release();
-                return false;
-            }
             if (!amount.IsTarget(builtAmountPool))
             {
                 Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
@@ -111,7 +105,7 @@ namespace Assets.WorldObjects.Members.Buildings
             var toastMsg = new StringBuilder();
             var withdrawlAmt = inventoryToTakeFrom
                 .PullItemFromSelf(
-                resourceType,
+                ItemTypeRequriement.resourceType,
                 gameObject,
                 toastMsg,
                 amount);

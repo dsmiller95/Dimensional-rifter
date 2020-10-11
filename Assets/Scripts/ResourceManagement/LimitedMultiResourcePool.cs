@@ -91,7 +91,7 @@ namespace Assets.Scripts.ResourceManagement
         public class AdditionAllocation : ResourceAllocation
         {
             private LimitedMultiResourcePool target;
-            private Resource type;
+            public Resource type { get; private set; }
             public AdditionAllocation(
                 float amount,
                 Resource type,
@@ -170,7 +170,7 @@ namespace Assets.Scripts.ResourceManagement
         public class SubtractionAllocation : ResourceAllocation
         {
             private LimitedMultiResourcePool target;
-            private Resource type;
+            public Resource type { get; private set; }
             public SubtractionAllocation(
                 float amount,
                 Resource type,

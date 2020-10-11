@@ -90,10 +90,9 @@ namespace Assets.WorldObjects.Members.Storage
 
         public bool SupplyFrom(
             InventoryHoldingController inventoryToTakeFrom,
-            Resource resourceType,
             ResourceAllocation amount)
         {
-            if (!amount.IsTarget(myInventory))
+            if (!amount.IsTarget(myInventory) || !(amount is LimitedMultiResourcePool.AdditionAllocation typedAllocation))
             {
                 Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
                 amount.Release();
@@ -101,7 +100,7 @@ namespace Assets.WorldObjects.Members.Storage
             }
             var toastString = new StringBuilder();
             var takenAmount = inventoryToTakeFrom.PullItemFromSelf(
-                resourceType,
+                typedAllocation.type,
                 gameObject,
                 toastString,
                 amount);
@@ -136,10 +135,9 @@ namespace Assets.WorldObjects.Members.Storage
 
         public void GatherInto(
             InventoryHoldingController inventoryToGatherInto,
-            Resource resourceType,
             ResourceAllocation amount)
         {
-            if (!amount.IsTarget(myInventory))
+            if (!amount.IsTarget(myInventory) || !(amount is LimitedMultiResourcePool.SubtractionAllocation typedAllocation))
             {
                 Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
                 amount.Release();
@@ -147,7 +145,7 @@ namespace Assets.WorldObjects.Members.Storage
             }
             var toastMessage = new StringBuilder();
             var actualGrabbedAmount = inventoryToGatherInto.GrabItemIntoSelf(
-                resourceType,
+                typedAllocation.type,
                 gameObject,
                 toastMessage,
                 amount);

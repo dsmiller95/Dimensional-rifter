@@ -80,7 +80,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 {
                     return NodeStatus.FAILURE;
                 }
-                supplier.GatherInto(inventoryHolder, resourceToGrab, allocation);
+                supplier.GatherInto(inventoryHolder, allocation);
 
                 return NodeStatus.SUCCESS;
             }

@@ -74,15 +74,8 @@ namespace Assets.WorldObjects.Members.Items
 
         public void GatherInto(
             InventoryHoldingController inventoryToGatherInto,
-            Resource resourceType,
             ResourceAllocation amount)
         {
-            var myType = resource.resourceType;
-            if (resourceType != myType)
-            {
-                amount.Release();
-                return;
-            }
             if (!amount.IsTarget(resourceAmount))
             {
                 Debug.LogError("Attempted to apply allocation to an object which it did not originate from");
@@ -92,7 +85,7 @@ namespace Assets.WorldObjects.Members.Items
 
             var toastMessage = new StringBuilder();
             var gatheredAmt = inventoryToGatherInto.GrabItemIntoSelf(
-                resourceType,
+                resource.resourceType,
                 gameObject,
                 toastMessage,
                 amount);

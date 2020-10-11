@@ -66,7 +66,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                     var allocation = suppliable.ClaimAdditionToSuppliable(resourceToTransfer, gibAmount);
                     if(allocation != null)
                     {
-                        if(suppliable.SupplyFrom(componentValue, resourceToTransfer, allocation))
+                        if(suppliable.SupplyFrom(componentValue, allocation))
                         {
                             return NodeStatus.SUCCESS;
                         }
