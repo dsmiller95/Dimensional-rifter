@@ -55,6 +55,16 @@ namespace Assets.WorldObjects
             bigManager.everyMember.RegisterInTileMap(this);
         }
 
+        protected void InterplateFromCurrentTo(UniversalCoordinate target, float t)
+        {
+            var sourcePos = bigManager.PositionInRealWorld(coordinatePosition);
+            var targetPos = bigManager.PositionInRealWorld(target);
+            var lerped = Vector3.Lerp(sourcePos, targetPos, t);
+            lerped.z = transform.position.z;
+            transform.position = lerped;
+            
+        }
+
         protected virtual void Awake()
         {
             if (bigManager == null)

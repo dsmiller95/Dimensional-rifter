@@ -48,57 +48,6 @@ namespace Assets.WorldObjects
         public float movementSpeed = .5f;
         private float lastMove;
 
-        private NavigationPath? currentPath;
-        public NavigationAttemptResult SeekClosestOfType(Func<TileMapMember, bool> filter)
-        {
-            var navigationResult = AttemptAdvanceAlongCurrentPath();
-            if (navigationResult.status == NavigationStatus.INVALID_TARGET && BeginTrackingPathToClosestOfType(filter))
-            {
-                return new NavigationAttemptResult
-                {
-                    status = NavigationStatus.APPROACHING
-                };
-            }
-            return navigationResult;
-        }
-
-        /// <summary>
-        /// Attempt to advance the member along the currently set path. Will return INVALID_TARGET if there is no set target, or if 
-        ///     the current path is no longer valid. this could happen if the target has been destroyed, or if something impassible has been
-        ///     placed along the current path
-        /// </summary>
-        /// <returns></returns>
-        public NavigationAttemptResult AttemptAdvanceAlongCurrentPath()
-        {
-            if (!currentPath.HasValue || currentPath.Value.targetMember == null)
-            {
-                return new NavigationAttemptResult
-                {
-                    status = NavigationStatus.INVALID_TARGET
-                };
-            }
-
-            var result = AttemptAdvanceAlongPath(currentPath.Value);
-
-            if (result == NavigationStatus.ARRIVED)
-            {
-                var wrappedResult = new NavigationAttemptResult
-                {
-                    reached = currentPath.Value.targetMember,
-                    status = result
-                };
-                currentPath = null;
-                return wrappedResult;
-            }
-            if (result == NavigationStatus.INVALID_TARGET)
-            {
-                currentPath = null;
-            }
-            return new NavigationAttemptResult
-            {
-                status = result
-            };
-        }
         /// <summary>
         /// Attempt to advance the member along the given path. Will return INVALID_TARGET if there is no set target, or if 
         ///     the current path is no longer valid. this could happen if the target has been destroyed, or if something impassible has been
@@ -108,38 +57,26 @@ namespace Assets.WorldObjects
         /// <returns></returns>
         public NavigationStatus AttemptAdvanceAlongPath(NavigationPath path)
         {
-            if (lastMove + movementSpeed > Time.time)
-            {
-                return NavigationStatus.APPROACHING;
-            }
-            lastMove = Time.time;
-
             if (path.coordinatePath.Count <= 0)
             {
                 return NavigationStatus.ARRIVED;
             }
+
+            var timeSinceLastMove = Time.time - lastMove;
+            var movementRatio = timeSinceLastMove / movementSpeed;
+            if(movementRatio <= 1)
+            {
+                this.InterplateFromCurrentTo(path.coordinatePath.First(), movementRatio);
+                return NavigationStatus.APPROACHING;
+            }
+            lastMove = Time.time;
+
 
             var nextPosition = path.coordinatePath[0];
             path.coordinatePath.RemoveAt(0);
             SetPosition(nextPosition);
 
             return NavigationStatus.APPROACHING;
-        }
-
-        /// <summary>
-        /// Attempt to being pathing to the closest object. will store the path internally if one exists
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <returns>true if a path exists to any member matching <paramref name="filter"/>, false otherwise</returns>
-        public bool BeginTrackingPathToClosestOfType(Func<TileMapMember, bool> filter)
-        {
-            var newPath = GetClosestOfTypeWithPath(filter);
-            if (!newPath.HasValue)
-            {
-                return false;
-            }
-            currentPath = newPath;
-            return true;
         }
 
         public NavigationPath? GetRandomPathOfLength(int steps)
@@ -236,21 +173,6 @@ namespace Assets.WorldObjects
         public bool IsReachable(TileMapMember member)
         {
             return (member.RegionBitMask & RegionBitMask) != 0;
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!currentPath.HasValue || currentPath.Value.coordinatePath == null)
-            {
-                return;
-            }
-            Gizmos.color = Color.magenta;
-            foreach (var pair in currentPath.Value.coordinatePath
-                .Select(coord => coord.ToPositionInPlane())
-                .RollingWindow(2))
-            {
-                Gizmos.DrawLine(pair[0], pair[1]);
-            }
         }
     }
 }
