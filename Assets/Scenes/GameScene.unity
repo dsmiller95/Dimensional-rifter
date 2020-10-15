@@ -1701,7 +1701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemTransferAnimationTime: 0.4
-  itemTransferParticleSystemPrefab: {fileID: 5999375222014797454, guid: 6729827cc1e4a724a9837cd49b8ab648, type: 3}
+  itemTransferParticleSystemPrefab: {fileID: 5999375222014797454, guid: 847f905231e847341aade2f7475690eb, type: 3}
 --- !u!4 &775401334
 Transform:
   m_ObjectHideFlags: 0

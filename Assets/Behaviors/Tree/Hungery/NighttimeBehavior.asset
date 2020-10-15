@@ -192,13 +192,6 @@ MonoBehaviour:
     factory: {fileID: -1215833252067380187}
     position: {x: -163, y: 21}
     ConnectedChildrenGuids: []
-  - Guid: 1192cbb5-198b-4599-9331-2e1e95ed9fb9
-    Title: Try To Sleep
-    factory: {fileID: 7749208696549623210}
-    position: {x: -463, y: 79}
-    ConnectedChildrenGuids:
-    - b25048f3-4a66-442f-8139-857b21129ada
-    - ed5a7396-3638-4683-86e8-0d959e13294a
   - Guid: dc67f8b6-2821-4406-bb7f-65c1471bd80c
     Title: Try to eat
     factory: {fileID: 6317420608426703131}
@@ -212,16 +205,23 @@ MonoBehaviour:
     factory: {fileID: -7568547565066502944}
     position: {x: -53, y: -270}
     ConnectedChildrenGuids: []
-  - Guid: b8b2823e-bed3-41a4-89fb-800e4400d5ca
-    Title: IsHungryGuard
-    factory: {fileID: 1286606240274092962}
-    position: {x: -58, y: -356}
-    ConnectedChildrenGuids: []
   - Guid: a211d073-1ab0-4f4a-9589-76cbe59dcf69
     Title: Eat
     factory: {fileID: 8182145743791132906}
     position: {x: -15, y: -187}
     ConnectedChildrenGuids: []
+  - Guid: b8b2823e-bed3-41a4-89fb-800e4400d5ca
+    Title: IsHungryGuard
+    factory: {fileID: 1286606240274092962}
+    position: {x: -58, y: -356}
+    ConnectedChildrenGuids: []
+  - Guid: 1192cbb5-198b-4599-9331-2e1e95ed9fb9
+    Title: Try To Sleep
+    factory: {fileID: 7749208696549623210}
+    position: {x: -463, y: 79}
+    ConnectedChildrenGuids:
+    - b25048f3-4a66-442f-8139-857b21129ada
+    - ed5a7396-3638-4683-86e8-0d959e13294a
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
   - {fileID: -2120107842614436554}

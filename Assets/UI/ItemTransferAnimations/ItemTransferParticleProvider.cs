@@ -29,7 +29,7 @@ namespace Assets.UI.ItemTransferAnimations
 
             newParticleSystem.transform.LookAt(
                 new Vector3(target.transform.position.x, target.transform.position.y, newParticleSystem.transform.position.z),
-                Vector3.up);
+                Vector3.forward);
         }
 
         public static void ShowItemTransferAnimation(GameObject itemSource, GameObject itemTarget)
