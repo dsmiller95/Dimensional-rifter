@@ -1,4 +1,5 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.WorldObjects;
 using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
@@ -19,7 +20,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
         {
             return
             new Sequence(
-                new FindSleepStation(
+                new FindAndClaimSleepStation(
                     target,
                     sleepPathBlackboard
                 ),

@@ -48,7 +48,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             catch
             {
                 Debug.LogError($"Failed to load file at {path}");
-                return null;
+                throw;
             }
             finally
             {

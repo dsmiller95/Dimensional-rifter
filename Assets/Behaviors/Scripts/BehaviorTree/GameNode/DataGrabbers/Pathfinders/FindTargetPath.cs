@@ -6,7 +6,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
     public abstract class FindTargetPath : ComponentMemberLeaf<TileMapNavigationMember>
     {
-        private string pathTargetPropertyInBlackboard;
+        protected string pathTargetPropertyInBlackboard;
 
         public FindTargetPath(
             GameObject gameObject,
