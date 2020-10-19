@@ -42,5 +42,7 @@ namespace Assets.Tiling
         /// </summary>
         /// <returns></returns>
         bool ContainsCoordinate(T coordinate);
+
+        int TotalCoordinateContents();
     }
 }

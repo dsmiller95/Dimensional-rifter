@@ -63,5 +63,10 @@ namespace Assets.Tiling.TriangleCoords
         {
             return (this as IEnumerable<TriangleCoordinateStructSystem>).GetEnumerator();
         }
+
+        public int TotalCoordinateContents()
+        {
+            return triangleSideLength * triangleSideLength;
+        }
     }
 }

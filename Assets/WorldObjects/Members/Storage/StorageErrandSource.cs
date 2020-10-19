@@ -70,7 +70,6 @@ namespace Assets.WorldObjects.Members.Storage
 
         private void ClearItemSourcesAndSupplies()
         {
-            Debug.Log("Clearing all storage sources and suppliables");
             itemSources.Clear();
             supplyTargets.Clear();
         }

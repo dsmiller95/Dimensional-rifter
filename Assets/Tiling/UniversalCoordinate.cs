@@ -12,7 +12,7 @@ namespace Assets.Tiling
 {
     public enum CoordinateType : short
     {
-        INVALID,
+        INVALID = 0,
         TRIANGLE,
         SQUARE
     }
@@ -224,6 +224,19 @@ namespace Assets.Tiling
             coordinateDataPartTwo = info.GetInt32("data2");
             coordinateDataPartThree = info.GetInt32("data3");
             CoordinateMembershipData = info.GetInt32("membership");
+        }
+
+        public override string ToString()
+        {
+            switch (type)
+            {
+                case CoordinateType.TRIANGLE:
+                    return $"Triangle: {triangleDataView}, in plane {CoordinatePlaneID}";
+                case CoordinateType.SQUARE:
+                    return $"Square: {squareDataView}, in plane {CoordinatePlaneID}";
+                default:
+                    return "Invalid coordinate";
+            }
         }
 
         public override int GetHashCode()

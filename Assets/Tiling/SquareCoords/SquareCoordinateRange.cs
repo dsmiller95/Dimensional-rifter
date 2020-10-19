@@ -36,7 +36,7 @@ namespace Assets.Tiling.SquareCoords
         /// </summary>
         public SquareCoordinate coord1;
 
-        IEnumerator<SquareCoordinate> IEnumerable<SquareCoordinate>.GetEnumerator()
+        public IEnumerator<SquareCoordinate> GetEnumerator()
         {
             EnsureCoordOrdering();
             for (var column = coord0.column; column < coord1.column; column++)
@@ -77,6 +77,18 @@ namespace Assets.Tiling.SquareCoords
         {
             return (coordinat.column >= coord0.column && coordinat.column < coord1.column) &&
                 (coordinat.row >= coord0.row && coordinat.row < coord1.row);
+        }
+
+        public override string ToString()
+        {
+            return $"({coord0})-({coord1})";
+        }
+
+        public int TotalCoordinateContents()
+        {
+            EnsureCoordOrdering();
+            var diff = coord1 - coord0;
+            return diff.row * diff.column;
         }
     }
 }

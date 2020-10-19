@@ -60,13 +60,19 @@ namespace Assets.Tiling.Tilemapping
             Vector2 realPositionInPlane,
             TileMapRegionData data)
         {
-            Vector2 pointInPlane = data.coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
-            var coord = UniversalCoordinate.FromPositionInPlane(pointInPlane, data.baseRange.coordinateType, data.planeIDIndex);
+            var coord = this.GetCoordinateFromRealPosition(realPositionInPlane, data);
             if (IsValidInThisPlane(coord, data))
             {
                 return coord;
             }
             return null;
+        }
+        public UniversalCoordinate GetCoordinateFromRealPosition(
+            Vector2 realPositionInPlane,
+            TileMapRegionData data)
+        {
+            Vector2 pointInPlane = data.coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
+            return UniversalCoordinate.FromPositionInPlane(pointInPlane, data.baseRange.coordinateType, data.planeIDIndex);
         }
 
         public bool IsValidInThisPlane(UniversalCoordinate coordinate, TileMapRegionData data)

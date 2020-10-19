@@ -79,5 +79,10 @@ namespace Assets.Tiling.TriangleCoords
             return (coordinate.u >= coord0.u && coordinate.u < coord1.u) &&
                 (coordinate.v >= coord0.v && coordinate.v < coord1.v);
         }
+        public int TotalCoordinateContents()
+        {
+            EnsureCoordOrdering();
+            return (coord1.u - coord0.u) * (coord1.v - coord0.v) * 2;
+        }
     }
 }

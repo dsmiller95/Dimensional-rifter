@@ -1,5 +1,6 @@
 ﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.SaveObjects;
+using Assets.WorldObjects.SaveObjects.SaveManager;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Assets.Tiling.Tilemapping
 
     public class CombinationTileMapManager : MonoBehaviour, ISaveable<WorldSaveObject>
     {
+
         /// <summary>
         /// used when loading tileMaps from save
         /// </summary>
@@ -37,6 +39,23 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinateSystemMembers everyMember;
 
         public TileMapRegion regionBehaviorPrefab;
+
+        public static CombinationTileMapManager instance;
+        private void Awake()
+        {
+            Debug.Log("combination awake");
+            if(instance != null)
+            {
+                Debug.LogError("Instance already registered, combination tile map manager is singleton-y");
+            }
+            instance = this;
+            SaveSystemHooks.Instance.PreLoad += ClearInstance;
+        }
+
+        private void ClearInstance()
+        {
+            instance = null;
+        }
 
         private void Start()
         {
@@ -84,7 +103,13 @@ namespace Assets.Tiling.Tilemapping
 
         private void OnDestroy()
         {
+            Debug.Log("Destroyed combo");
             connectivitySystem.StopEverything();
+            if(instance == this)
+            {
+                instance = null;
+            }
+            SaveSystemHooks.Instance.PreLoad -= ClearInstance;
         }
 
         private void BakeAllTileMapMeshes(int startFromIndex = 0)
@@ -205,13 +230,6 @@ namespace Assets.Tiling.Tilemapping
                 regionBehaviors[i].AddConnectivityAndMemberData(allRegions[i], builder);
             }
         }
-
-        #region Place-By-Mouse tilemap code
-        //private Vector2 lastMousePos;
-        //public TileMapRegionNoCoordinateType tileMapToMove;
-        //private bool isPlacingTileMap;
-        //public TileMapRegionNoCoordinateType tileMapPrefab;
-
         public UniversalCoordinate? GetPositionOnActiveTileMapsFromWorldPosition(Vector2 worldPosition)
         {
             for (short planeID = 0; planeID < allRegions.Length; planeID++)
@@ -226,6 +244,21 @@ namespace Assets.Tiling.Tilemapping
             }
             return null;
         }
+
+        public UniversalCoordinate GetCoordinateOnPlaneIDNoValidCheck(Vector2 worldPosition, UniversalCoordinate otherCoordinate)
+        {
+            var planeID = otherCoordinate.CoordinatePlaneID;
+            var planeData = allRegions[planeID];
+            var region = regionBehaviors[planeID];
+            return region.GetCoordinateFromRealPosition(worldPosition, planeData);
+        }
+
+        #region Place-By-Mouse tilemap code
+        //private Vector2 lastMousePos;
+        //public TileMapRegionNoCoordinateType tileMapToMove;
+        //private bool isPlacingTileMap;
+        //public TileMapRegionNoCoordinateType tileMapPrefab;
+
 
         //public void BeginMovingTileMap(TileMapRegionNoCoordinateType tileMap)
         //{
