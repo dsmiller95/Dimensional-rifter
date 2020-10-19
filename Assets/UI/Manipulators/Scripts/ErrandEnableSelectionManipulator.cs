@@ -2,7 +2,6 @@
 using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
 using Assets.UI.Manipulators.Scripts;
-using System;
 using UnityEngine;
 
 namespace Assets.UI.Manipulators
@@ -40,7 +39,7 @@ namespace Assets.UI.Manipulators
                     // dragging
                     var posInWorld = MyUtilities.GetMousePos2D();
                     var hoveredOverCoord = CombinationTileMapManager.instance.GetCoordinateOnPlaneIDNoValidCheck(posInWorld, firstCoordinate);
-                    if(range == null || !range.coord1.Equals(hoveredOverCoord.squareDataView))
+                    if (range == null || !range.coord1.Equals(hoveredOverCoord.squareDataView))
                     {
                         range = new SquareCoordinateRange
                         {
@@ -51,7 +50,8 @@ namespace Assets.UI.Manipulators
                         Debug.Log(range);
                         areaVisualizer.RenderRange(range, firstCoordinate.CoordinatePlaneID);
                     }
-                }else
+                }
+                else
                 {
                     // dragging done
                     Debug.Log(range);

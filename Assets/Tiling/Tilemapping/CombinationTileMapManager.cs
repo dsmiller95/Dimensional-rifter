@@ -10,7 +10,6 @@ namespace Assets.Tiling.Tilemapping
 
     public class CombinationTileMapManager : MonoBehaviour, ISaveable<WorldSaveObject>
     {
-
         /// <summary>
         /// used when loading tileMaps from save
         /// </summary>
@@ -43,7 +42,6 @@ namespace Assets.Tiling.Tilemapping
         public static CombinationTileMapManager instance;
         private void Awake()
         {
-            Debug.Log("combination awake");
             if(instance != null)
             {
                 Debug.LogError("Instance already registered, combination tile map manager is singleton-y");
@@ -103,7 +101,6 @@ namespace Assets.Tiling.Tilemapping
 
         private void OnDestroy()
         {
-            Debug.Log("Destroyed combo");
             connectivitySystem.StopEverything();
             if(instance == this)
             {

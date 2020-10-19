@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.UI.Manipulators
 {
-    public class ManipulatorController: MonoBehaviour
+    public class ManipulatorController : MonoBehaviour
     {
         public MapManipulator activeManipulator;
 
@@ -19,12 +14,12 @@ namespace Assets.UI.Manipulators
         public void SetActiveManipulator(MapManipulator nextActive)
         {
             activeManipulator?.OnClose();
-            this.activeManipulator = nextActive;
+            activeManipulator = nextActive;
         }
 
         public void OnManipulatorClosed(MapManipulator manipulator)
         {
-            if(manipulator == activeManipulator)
+            if (manipulator == activeManipulator)
             {
                 activeManipulator = null;
             }
