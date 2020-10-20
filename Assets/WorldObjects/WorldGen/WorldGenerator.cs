@@ -25,10 +25,10 @@ namespace Assets.WorldObjects.WorldGen
             var world = new WorldSaveObject();
             world.regions = new List<TileRegionSaveObject>();
 
-            var mapSize = new SquareCoordinateRange();
-
-            mapSize.coord0 = new SquareCoordinate(-mapGenerationConfiguration.baseMapSize.y / 2, -mapGenerationConfiguration.baseMapSize.x / 2);
-            mapSize.coord1 = -mapSize.coord0;
+            var rootCoord = new SquareCoordinate(-mapGenerationConfiguration.baseMapSize.y / 2, -mapGenerationConfiguration.baseMapSize.x / 2);
+            var mapSize = SquareCoordinateRange.FromCoordsLargestExclusive(
+                rootCoord,
+                -rootCoord);
             var baseRegion = new RegionGenerator(
                 new SquareRangeUniversalContainer(mapSize),
                 0,

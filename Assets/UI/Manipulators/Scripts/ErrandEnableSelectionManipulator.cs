@@ -39,14 +39,12 @@ namespace Assets.UI.Manipulators
                     // dragging
                     var posInWorld = MyUtilities.GetMousePos2D();
                     var hoveredOverCoord = CombinationTileMapManager.instance.GetCoordinateOnPlaneIDNoValidCheck(posInWorld, firstCoordinate);
-                    if (range == null || !range.coord1.Equals(hoveredOverCoord.squareDataView))
+                    var newRange = SquareCoordinateRange.FromCoordsInclusive(firstCoordinate.squareDataView, hoveredOverCoord.squareDataView);
+
+                    if (range == null || !range.Equals(newRange))
                     {
-                        range = new SquareCoordinateRange
-                        {
-                            coord0 = firstCoordinate.squareDataView,
-                            coord1 = hoveredOverCoord.squareDataView
-                        };
                         Debug.Log("Range changed");
+                        range = newRange;
                         Debug.Log(range);
                         areaVisualizer.RenderRange(range, firstCoordinate.CoordinatePlaneID);
                     }
