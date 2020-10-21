@@ -55,6 +55,7 @@ namespace Assets.UI.Manipulators
                     Debug.Log(range);
                     range = default;
                     firstCoordinate = default;
+                    areaVisualizer.StopRenderRange();
                 }
             }
             else if (Input.GetMouseButtonDown(0))

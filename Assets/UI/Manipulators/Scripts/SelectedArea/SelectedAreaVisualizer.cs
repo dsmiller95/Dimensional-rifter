@@ -1,12 +1,6 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
-using Assets.UI.Manipulators.Scripts.SelectedArea;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Rendering;
-using Unity.Transforms;
 using UnityEngine;
 
 namespace Assets.UI.Manipulators.Scripts
@@ -14,10 +8,19 @@ namespace Assets.UI.Manipulators.Scripts
     [RequireComponent(typeof(MeshRenderer))]
     public class SelectedAreaVisualizer : MonoBehaviour
     {
+        private void Awake()
+        {
+            this.StopRenderRange();
+        }
 
+        public void StopRenderRange()
+        {
+            this.GetComponent<MeshRenderer>().enabled = false;
+        }
 
         public void RenderRange(SquareCoordinateRange range, short coordinatePlaneId)
         {
+            this.GetComponent<MeshRenderer>().enabled = true;
             var rootCoordinate = UniversalCoordinate.From(range.coord0, coordinatePlaneId);
             var root = CombinationTileMapManager.instance.PositionInRealWorld(rootCoordinate);
             var extentCoordinate = UniversalCoordinate.From(range.MaximumBound, coordinatePlaneId);
