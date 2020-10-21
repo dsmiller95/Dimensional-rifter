@@ -34,6 +34,8 @@ namespace Assets.Tiling.SquareCoords
         public int rows;
         public int cols;
 
+        public SquareCoordinate MaximumBound => coord0 + new SquareCoordinate(rows - 1, cols - 1);
+
         public static SquareCoordinateRange FromCoordsLargestExclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
         {
             EnsureCoordOrdering(ref startCoord, ref endCoord);

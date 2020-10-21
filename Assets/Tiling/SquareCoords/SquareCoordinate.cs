@@ -135,12 +135,4 @@ namespace Assets.Tiling.SquareCoords
             swapSpace[3] = UniversalCoordinate.From(this + RIGHT, planeID);
         }
     }
-
-
-    /// <summary>
-    /// Represents a coordinate system of squares of side length 1
-    /// </summary>
-    public class SquareCoordinateSystem
-    {
-    }
 }
