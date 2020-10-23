@@ -554,6 +554,7 @@ GameObject:
   - component: {fileID: 261729819}
   - component: {fileID: 261729818}
   - component: {fileID: 261729817}
+  - component: {fileID: 261729821}
   m_Layer: 5
   m_Name: Spawn crystalizer
   m_TagString: Untagged
@@ -652,14 +653,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-        m_TargetAssemblyTypeName: Assets.Scripts.Core.GenericVariable`1[[UnityEngine.ScriptableObject,
-          UnityEngine
-        m_MethodName: SetValue
-        m_Mode: 2
+      - m_Target: {fileID: 261729821}
+        m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
+          Assembly-CSharp
+        m_MethodName: SetToVariable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.ScriptableObject, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -703,6 +704,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261729815}
   m_CullTransparentMesh: 0
+--- !u!114 &261729821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261729815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df67fece68be7a24daf4806174e6bc1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
+  objectToAssign: {fileID: 0}
+  AssignOnInit: 0
 --- !u!1 &323712325
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,6 +2372,7 @@ GameObject:
   - component: {fileID: 1019613979}
   - component: {fileID: 1019613978}
   - component: {fileID: 1019613981}
+  - component: {fileID: 1019613982}
   m_Layer: 5
   m_Name: Spawn Wall
   m_TagString: Untagged
@@ -2438,14 +2455,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-        m_TargetAssemblyTypeName: Assets.Scripts.Core.GenericVariable`1[[UnityEngine.ScriptableObject,
-          UnityEngine
-        m_MethodName: SetValue
-        m_Mode: 2
+      - m_Target: {fileID: 1019613982}
+        m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
+          Assembly-CSharp
+        m_MethodName: SetToVariable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.ScriptableObject, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2505,6 +2522,21 @@ MonoBehaviour:
   parentObject: {fileID: 11400000, guid: 7bbdec2c90b07b64aa7c0ae9b2369856, type: 2}
   prefabToInstantiate: {fileID: 506530251402321468, guid: 29465b1bce103a242b07078334768294, type: 3}
   onlyIfNull: 1
+--- !u!114 &1019613982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019613976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df67fece68be7a24daf4806174e6bc1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
+  objectToAssign: {fileID: 0}
+  AssignOnInit: 0
 --- !u!1 &1087618048
 GameObject:
   m_ObjectHideFlags: 0
@@ -3591,6 +3623,7 @@ GameObject:
   - component: {fileID: 1671610723}
   - component: {fileID: 1671610722}
   - component: {fileID: 1671610721}
+  - component: {fileID: 1671610725}
   m_Layer: 5
   m_Name: spawn recharger
   m_TagString: Untagged
@@ -3689,14 +3722,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-        m_TargetAssemblyTypeName: Assets.Scripts.Core.GenericVariable`1[[UnityEngine.ScriptableObject,
-          UnityEngine
-        m_MethodName: SetValue
-        m_Mode: 2
+      - m_Target: {fileID: 1671610725}
+        m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
+          Assembly-CSharp
+        m_MethodName: SetToVariable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.ScriptableObject, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3740,6 +3773,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671610719}
   m_CullTransparentMesh: 0
+--- !u!114 &1671610725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671610719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df67fece68be7a24daf4806174e6bc1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
+  objectToAssign: {fileID: 0}
+  AssignOnInit: 0
 --- !u!1 &1763303830
 GameObject:
   m_ObjectHideFlags: 0
