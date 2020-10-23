@@ -24,6 +24,7 @@ namespace Assets.UI.Manipulators
         public override void OnClose()
         {
             range = default;
+            areaVisualizer.StopRenderRange();
         }
 
         private UniversalCoordinate firstCoordinate;

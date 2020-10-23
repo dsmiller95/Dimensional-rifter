@@ -1,28 +1,25 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Core;
+using UniRx;
+using UnityEngine;
 
 namespace Assets.UI.Manipulators
 {
     public class ManipulatorController : MonoBehaviour
     {
+        public ScriptableObjectVariable manipulatorVariable;
         public MapManipulator activeManipulator;
 
-        private void Start()
+        private void Awake()
         {
-            activeManipulator?.OnOpen(this);
-        }
-
-        public void SetActiveManipulator(MapManipulator nextActive)
-        {
-            activeManipulator?.OnClose();
-            activeManipulator = nextActive;
-        }
-
-        public void OnManipulatorClosed(MapManipulator manipulator)
-        {
-            if (manipulator == activeManipulator)
-            {
-                activeManipulator = null;
-            }
+            manipulatorVariable.Value
+                .TakeUntilDestroy(this)
+                .Subscribe((nextValue) =>
+                {
+                    activeManipulator?.OnClose();
+                    activeManipulator = nextValue as MapManipulator;
+                    activeManipulator?.OnOpen(this);
+                })
+                .AddTo(this);
         }
 
         private void Update()
