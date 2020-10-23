@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TradeModeling.Inventories;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Items
@@ -39,8 +38,8 @@ namespace Assets.WorldObjects.Members.Items
 
         private bool AddAmountIntoSelf(float extraAmount)
         {
-            var additionAllocation = this.resourceAmount.TryAllocateAddition(extraAmount);
-            if(additionAllocation == null)
+            var additionAllocation = resourceAmount.TryAllocateAddition(extraAmount);
+            if (additionAllocation == null)
             {
                 return false;
             }
@@ -71,11 +70,11 @@ namespace Assets.WorldObjects.Members.Items
 
         private bool AttemptToMergeWithOtherOnTile()
         {
-            var tilemember = this.GetComponent<TileMapMember>();
+            var tilemember = GetComponent<TileMapMember>();
             var otherItem = tilemember.bigManager.everyMember.GetMembersOnTile(tilemember.CoordinatePosition)
                 .Where(x => x != tilemember)
                 .Select(x => x.GetComponent<ItemController>())
-                .Where(x => x != null && x.resource == this.resource)
+                .Where(x => x != null && x.resource == resource)
                 .FirstOrDefault();
             if (otherItem != default && otherItem.AddAmountIntoSelf(resourceAmount.CurrentAmount))
             {

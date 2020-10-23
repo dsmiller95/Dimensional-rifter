@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 4021323601481749371}
   - component: {fileID: 4248669821745000984}
   - component: {fileID: 7341554821590097393}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HungryPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -442,9 +442,6 @@ GameObject:
   m_Component:
   - component: {fileID: 254543876}
   - component: {fileID: 254543875}
-  - component: {fileID: 254543877}
-  - component: {fileID: 254543879}
-  - component: {fileID: 254543878}
   m_Layer: 0
   m_Name: MapManipulator
   m_TagString: Untagged
@@ -476,71 +473,11 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5928159, y: -3.2363613, z: -403.3692}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 787387233}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &254543877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254543874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd4ceeab57f9b9d408fc01311238cfd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!23 &254543878
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254543874}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b0d7aa5763b1f1b468b59c7268953677, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &254543879
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254543874}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &261729815
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +490,6 @@ GameObject:
   - component: {fileID: 261729820}
   - component: {fileID: 261729819}
   - component: {fileID: 261729818}
-  - component: {fileID: 261729817}
   - component: {fileID: 261729821}
   m_Layer: 5
   m_Name: Spawn crystalizer
@@ -582,22 +518,6 @@ RectTransform:
   m_AnchoredPosition: {x: 93.8, y: 0}
   m_SizeDelta: {x: 133.40645, y: 30}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &261729817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261729815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0007d867dd9b6474ca983c2ff7592c7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToAssignTo: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
-  parentObject: {fileID: 11400000, guid: 7bbdec2c90b07b64aa7c0ae9b2369856, type: 2}
-  prefabToInstantiate: {fileID: 506530251402321468, guid: d9731ca7119e2a64b875bba0933d397c, type: 3}
-  onlyIfNull: 1
 --- !u!114 &261729818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,18 +561,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 261729817}
-        m_TargetAssemblyTypeName: InstantiateAndAssignTo, Assembly-CSharp
-        m_MethodName: InstantiateAndAssign
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 261729821}
         m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
           Assembly-CSharp
@@ -717,7 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-  objectToAssign: {fileID: 0}
+  objectToAssign: {fileID: 11400000, guid: c13b756231e84e64583b5c97ef9beb9e, type: 2}
   AssignOnInit: 0
 --- !u!1 &323712325
 GameObject:
@@ -1988,6 +1896,100 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &787387232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787387233}
+  - component: {fileID: 787387236}
+  - component: {fileID: 787387235}
+  - component: {fileID: 787387234}
+  m_Layer: 0
+  m_Name: SelectedAreaVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &787387233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787387232}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 254543876}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &787387234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787387232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4ceeab57f9b9d408fc01311238cfd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!23 &787387235
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787387232}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b0d7aa5763b1f1b468b59c7268953677, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &787387236
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787387232}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &855276527
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2373,6 @@ GameObject:
   - component: {fileID: 1019613980}
   - component: {fileID: 1019613979}
   - component: {fileID: 1019613978}
-  - component: {fileID: 1019613981}
   - component: {fileID: 1019613982}
   m_Layer: 5
   m_Name: Spawn Wall
@@ -2443,18 +2444,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1019613981}
-        m_TargetAssemblyTypeName: InstantiateAndAssignTo, Assembly-CSharp
-        m_MethodName: InstantiateAndAssign
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1019613982}
         m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
           Assembly-CSharp
@@ -2506,22 +2495,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1019613976}
   m_CullTransparentMesh: 0
---- !u!114 &1019613981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1019613976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0007d867dd9b6474ca983c2ff7592c7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToAssignTo: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
-  parentObject: {fileID: 11400000, guid: 7bbdec2c90b07b64aa7c0ae9b2369856, type: 2}
-  prefabToInstantiate: {fileID: 506530251402321468, guid: 29465b1bce103a242b07078334768294, type: 3}
-  onlyIfNull: 1
 --- !u!114 &1019613982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2535,7 +2508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-  objectToAssign: {fileID: 0}
+  objectToAssign: {fileID: 11400000, guid: 7b6e0d0f7db459245afc8639f134cfe3, type: 2}
   AssignOnInit: 0
 --- !u!1 &1087618048
 GameObject:
@@ -3622,7 +3595,6 @@ GameObject:
   - component: {fileID: 1671610724}
   - component: {fileID: 1671610723}
   - component: {fileID: 1671610722}
-  - component: {fileID: 1671610721}
   - component: {fileID: 1671610725}
   m_Layer: 5
   m_Name: spawn recharger
@@ -3651,22 +3623,6 @@ RectTransform:
   m_AnchoredPosition: {x: 250.5, y: 0}
   m_SizeDelta: {x: 133.40645, y: 30}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1671610721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671610719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0007d867dd9b6474ca983c2ff7592c7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToAssignTo: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
-  parentObject: {fileID: 11400000, guid: 7bbdec2c90b07b64aa7c0ae9b2369856, type: 2}
-  prefabToInstantiate: {fileID: 506530251402321468, guid: 559fc9fe7a1e7534fb2bfd9f86487441, type: 3}
-  onlyIfNull: 1
 --- !u!114 &1671610722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3710,18 +3666,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1671610721}
-        m_TargetAssemblyTypeName: InstantiateAndAssignTo, Assembly-CSharp
-        m_MethodName: InstantiateAndAssign
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1671610725}
         m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
           Assembly-CSharp
@@ -3786,7 +3730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-  objectToAssign: {fileID: 0}
+  objectToAssign: {fileID: 11400000, guid: 77b811dbc0ef5734b9c40b93486bc292, type: 2}
   AssignOnInit: 0
 --- !u!1 &1763303830
 GameObject:

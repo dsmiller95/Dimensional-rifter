@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8355115055219072569}
   - component: {fileID: 7410766369634196509}
   - component: {fileID: 2401588405534372548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SquareCrystalizer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

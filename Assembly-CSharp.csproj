@@ -119,6 +119,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
     <Compile Include="Assets\GettingStarted_ECS\LevelComponent.cs" />
     <Compile Include="Assets\Libraries\Utilities\EnumerableExtensions.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\BuildOrderPlacementManipulator.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TryToDieLeafFactory.cs" />
+    <Compile Include="Assets\Scripts\Core\ScriptableObjectVariable.cs" />
     <Compile Include="Assets\GettingStarted_ECS\LevelUpSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\CompositeFactoryGraph.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryNodeSaveData.cs" />
@@ -157,7 +159,7 @@
     <Compile Include="Assets\WorldObjects\Inventories\IItemSource.cs" />
     <Compile Include="Assets\UI\Buttery Toast\ToastController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\ExitSleepingStation.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\SelfTileMemberReplacer.cs" />
+    <Compile Include="Assets\WorldObjects\Members\SelfTileMemberReplacer.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryDirectSelector.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\EnsureAvailableResourceSupplyPair.cs" />
@@ -235,7 +237,6 @@
     <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\ErrandEnableSelectionManipulator.cs" />
-    <Compile Include="Assets\UI\Scripts\TilemapMouseTracker.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\Decorator.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\BooleanToggle.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\IsHungryGuardFactory.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileMapConfigurationData.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
+    <Compile Include="Assets\Scripts\VariableOperators\ScriptableObjectAssigner.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\OnBooleanEdgeEvent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\GatherOfTypeFactory.cs" />
     <Compile Include="Assets\WorldObjects\Resource.cs" />
@@ -291,8 +293,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Scripts\Core\ScriptableObjectVariable.cs" />
-    <Compile Include="Assets\Scripts\VariableOperators\ScriptableObjectAssigner.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

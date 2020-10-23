@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.WorldObjects.Members.Building
+namespace Assets.WorldObjects.Members
 {
     [RequireComponent(typeof(TileMapMember))]
     public class SelfTileMemberReplacer : MonoBehaviour

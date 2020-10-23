@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Assets.UI.Manipulators
 {
@@ -24,6 +25,10 @@ namespace Assets.UI.Manipulators
 
         private void Update()
         {
+            if (Input.GetMouseButtonDown((int)MouseButton.RightMouse))
+            {
+                manipulatorVariable.SetValue(null);
+            }
             activeManipulator?.OnUpdate();
         }
     }

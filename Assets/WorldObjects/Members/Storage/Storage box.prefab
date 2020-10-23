@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3320887735696179336}
   - component: {fileID: 1623191977960245352}
   - component: {fileID: 5104252145145604256}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Storage box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,5 +155,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   supplyClassification: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
   sourceClassification: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
-  inventoryCapacity: 20
+  defaultInventoryCapacity: 10
   storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}

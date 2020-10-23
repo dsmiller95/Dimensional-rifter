@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2219312331084413800}
   - component: {fileID: 7982143227113421838}
   - component: {fileID: 2519183179349032166}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RechargerSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,8 @@ MonoBehaviour:
     Variable: {fileID: 0}
     Instancer: {fileID: 7249950768649342519}
     NamePath: Occupied
-  occupier: {fileID: 0}
+  occupierClaimer: {fileID: 0}
+  IsClaimed: 0
 --- !u!95 &7982143227113421838
 Animator:
   serializedVersion: 3

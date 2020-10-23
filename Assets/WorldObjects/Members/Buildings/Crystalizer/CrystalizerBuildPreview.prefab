@@ -11,11 +11,7 @@ GameObject:
   - component: {fileID: 506530251402321467}
   - component: {fileID: 506530251402321464}
   - component: {fileID: 506530251402321470}
-  - component: {fileID: 3320887735696179336}
-  - component: {fileID: 753903031417975742}
-  - component: {fileID: 4366038420737455548}
-  - component: {fileID: 7057310579076420748}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CrystalizerBuildPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,99 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRegion: {fileID: 0}
+  RegionBitMask: 0
   membersScriptRegistry: {fileID: 0}
   memberType: {fileID: 0}
   orderingLayer: {fileID: 11400000, guid: 10050d4cf5c632d4c8599b41a2df0100, type: 2}
---- !u!61 &3320887735696179336
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.3333333}
-    oldSize: {x: 1, y: 1.5}
-    newSize: {x: 1, y: 1.375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &753903031417975742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8ac748b1c0a50d46b9dcb5ad77fafa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whenClicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4366038420737455548}
-        m_TargetAssemblyTypeName: Assets.Scripts.ObjectAssigner, Assembly-CSharp
-        m_MethodName: SetToVariable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7057310579076420748}
-        m_TargetAssemblyTypeName: Assets.WorldObjects.Members.Buildable, Assembly-CSharp
-        m_MethodName: InstantiateMemberAtCurrentLocation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4366038420737455548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c959edb31631d6c41842d5f9e0b2cbd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  variableToSet: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
-  objectToAssign: {fileID: 0}
---- !u!114 &7057310579076420748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506530251402321468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7b0a07c5ded3342bad5362d01c0c81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  memberPrefab: {fileID: 6082261357034508971, guid: 3e7e431e1a140c04d84d2605de5d65a7, type: 3}

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 30329175704740578}
   - component: {fileID: 30329175704740577}
-  - component: {fileID: 9041530265192463002}
   - component: {fileID: 3806863156771743869}
   - component: {fileID: 986374241429031136}
   m_Layer: 0
@@ -52,19 +51,6 @@ MonoBehaviour:
   connectivitySystem: {fileID: 11400000, guid: b07d1fcbc200e03448e45a6f2c7e5368, type: 2}
   everyMember: {fileID: 3806863156771743869}
   regionBehaviorPrefab: {fileID: 1750253564374762929, guid: f9891ad79ba804b49a0ab1e7b4221ad2, type: 3}
---- !u!114 &9041530265192463002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 30329175704740579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1ddaac41c382745a13087ddd0622a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToTrack: {fileID: 11400000, guid: 85a5a6890d712774c93d764e7f91ceef, type: 2}
 --- !u!114 &3806863156771743869
 MonoBehaviour:
   m_ObjectHideFlags: 0

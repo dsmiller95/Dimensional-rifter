@@ -18,7 +18,7 @@ namespace Assets.UI.Manipulators
             Debug.Log("opening manipulator");
             this.controller = controller;
             firstCoordinate = default;
-            areaVisualizer = controller.GetComponent<SelectedAreaVisualizer>();
+            areaVisualizer = controller.GetComponentInChildren<SelectedAreaVisualizer>();
         }
 
         public override void OnClose()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5619728940487949368}
   - component: {fileID: -5377919881584068312}
   - component: {fileID: 1941005429978862369}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Corpse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRegion: {fileID: 0}
+  RegionBitMask: 0
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: efc469d80fc3b5944b9ae31b6c5315ae, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}

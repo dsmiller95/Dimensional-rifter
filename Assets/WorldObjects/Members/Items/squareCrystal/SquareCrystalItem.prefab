@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4430772838501633667}
   - component: {fileID: 1883470060943119403}
   - component: {fileID: -1105052018730373616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SquareCrystalItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,6 +154,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: 15e70ca2150949041891aefea6472ce1, type: 2}
-  resourceAmount: 0
   SourceType: {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
   storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}

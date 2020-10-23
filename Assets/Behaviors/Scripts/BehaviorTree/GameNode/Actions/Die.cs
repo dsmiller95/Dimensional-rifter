@@ -1,5 +1,5 @@
 ﻿using Assets.WorldObjects;
-using Assets.WorldObjects.Members.Building;
+using Assets.WorldObjects.Members;
 using BehaviorTree.Nodes;
 using UnityEngine;
 
