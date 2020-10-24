@@ -1,4 +1,5 @@
-﻿using Assets.Tiling;
+﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.Tiling;
 using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
 using Assets.UI.Manipulators.Scripts;
@@ -12,6 +13,8 @@ namespace Assets.UI.Manipulators
     {
         private ManipulatorController controller;
         private SelectedAreaVisualizer areaVisualizer;
+
+        public ErrandType typeOfErrand;
 
         public override void OnOpen(ManipulatorController controller)
         {
