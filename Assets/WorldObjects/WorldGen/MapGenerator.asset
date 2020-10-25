@@ -20,7 +20,7 @@ MonoBehaviour:
       weight: 0.7
     - frequency: {x: 5, y: 5}
       weight: 2
-    cutoff: 0.5
+    cutoff: 0.3
     tileType:
       baseID: water
       shapeID: NO_BORDERS
@@ -38,6 +38,7 @@ MonoBehaviour:
     amount: 8
   - type: {fileID: 11400000, guid: 215c239955b61a24f947271f223f94c4, type: 2}
     amount: 5
+  memberClusterSizeAtCenter: 10
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
   baseMapSize: {x: 200, y: 200}
   seed: 9128287

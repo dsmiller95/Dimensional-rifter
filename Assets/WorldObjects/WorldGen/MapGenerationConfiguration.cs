@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.WorldGen
 {
-
     [Serializable]
     public struct NoiseOctave
     {
@@ -35,6 +34,8 @@ namespace Assets.WorldObjects.WorldGen
         public TileTypeInfo defaultTile;
 
         public TileMemberGeneration[] memberGenerationOptions;
+        [Tooltip("Temporary utility to force all the members to generate in a cluster roughly this wide")]
+        public float memberClusterSizeAtCenter = 10;
 
         public TileDefinitions tileDefinitions;
 

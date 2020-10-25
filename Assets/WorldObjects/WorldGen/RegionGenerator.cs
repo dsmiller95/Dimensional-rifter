@@ -81,16 +81,20 @@ namespace Assets.WorldObjects.WorldGen
 
         private IEnumerable<UniversalCoordinate> GetInfiniteHaltonGeneratedCoordinatesInsideRange(IUniversalCoordinateRange range)
         {
-            var boundingPoints = range.BoundingPolygon();
-            var minVect = new Vector2(float.MaxValue, float.MaxValue);
-            var maxVect = new Vector2(float.MinValue, float.MinValue);
-            foreach (var extremePoint in boundingPoints)
-            {
-                minVect.x = Mathf.Min(extremePoint.x, minVect.x);
-                minVect.y = Mathf.Min(extremePoint.y, minVect.y);
-                maxVect.x = Mathf.Max(extremePoint.x, maxVect.x);
-                maxVect.y = Mathf.Max(extremePoint.y, maxVect.y);
-            }
+            // TODO: do actual clustering, with a random cluster origin
+            //var boundingPoints = range.BoundingPolygon();
+            //var minVect = new Vector2(float.MaxValue, float.MaxValue);
+            //var maxVect = new Vector2(float.MinValue, float.MinValue);
+            //foreach (var extremePoint in boundingPoints)
+            //{
+            //    minVect.x = Mathf.Min(extremePoint.x, minVect.x);
+            //    minVect.y = Mathf.Min(extremePoint.y, minVect.y);
+            //    maxVect.x = Mathf.Max(extremePoint.x, maxVect.x);
+            //    maxVect.y = Mathf.Max(extremePoint.y, maxVect.y);
+            //}
+
+            var minVect = Vector2.one * -1 * mapGenConfig.memberClusterSizeAtCenter;
+            var maxVect = Vector2.one * 1 * mapGenConfig.memberClusterSizeAtCenter;
 
             var haltonGenerator = new HaltonSequenceGenerator(2, 3, randomGenerator.Next(), maxVect, minVect);
             var type = range.coordinateType;
