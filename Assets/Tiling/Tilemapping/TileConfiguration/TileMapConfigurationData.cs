@@ -14,6 +14,6 @@ namespace Assets.Tiling.Tilemapping
         public CoordinateType coordinateType;
         public TileSet tileSet;
         public AutomataSystem atomataSystem;
-        public Texture tileTexture;
+        public Material tileMaterial;
     }
 }

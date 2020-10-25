@@ -34,5 +34,10 @@ namespace Assets.Tiling.SquareCoords
         {
             return baseRange.Select(square => UniversalCoordinate.From(square, coordPlaneID));
         }
+
+        public int TotalCoordinateContents()
+        {
+            return baseRange.TotalCoordinateContents();
+        }
     }
 }

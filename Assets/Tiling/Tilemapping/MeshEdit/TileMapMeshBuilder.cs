@@ -6,9 +6,18 @@ using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.MeshEdit
 {
+    /// <summary>
+    /// UV data about a type of tile
+    /// </summary>
     public struct MultiVertTileConfig
     {
+        /// <summary>
+        /// unique tile type and shape identifier
+        /// </summary>
         public string ID;
+        /// <summary>
+        /// a list of the UVs used to map this tile to the texture
+        /// </summary>
         public Vector2[] uvs;
     }
 
@@ -70,6 +79,7 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
                 .ToDictionary(x => x.ID);
         }
 
+        [Obsolete("No longer used, nothing edits the tilemap. may not function correctly")]
         public void SetTileEnabled(UniversalCoordinate coordinate, bool enabled)
         {
             var isTileDisabled = disabledCoordinates.Contains(coordinate);
@@ -92,10 +102,12 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
             }
         }
 
+        [Obsolete("No longer used, nothing edits the tilemap. may not function correctly")]
         public IEnumerable<UniversalCoordinate> GetBakedTiles()
         {
             return coordinateCopyIndexes.Keys;
         }
+        [Obsolete("No longer used, nothing edits the tilemap. may not function correctly")]
         public void SetMeshForTileToType(UniversalCoordinate coordinate, TileTypeInfo tileID)
         {
             if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
