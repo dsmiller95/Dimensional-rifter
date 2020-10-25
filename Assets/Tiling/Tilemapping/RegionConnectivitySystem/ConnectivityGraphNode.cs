@@ -1,6 +1,4 @@
-﻿using Assets.WorldObjects;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Unity.Collections;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem

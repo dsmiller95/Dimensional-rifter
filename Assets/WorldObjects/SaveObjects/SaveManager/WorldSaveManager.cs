@@ -27,7 +27,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             var loadedData = SerializationManager.Load(SaveContext.instance.saveFile);
             if (loadedData != null && loadedData is WorldSaveObject worldSaveData)
             {
-                if(worldObject != null)
+                if (worldObject != null)
                 {
                     Destroy(worldObject);
                 }

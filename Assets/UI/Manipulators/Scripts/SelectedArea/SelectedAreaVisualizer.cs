@@ -10,17 +10,17 @@ namespace Assets.UI.Manipulators.Scripts
     {
         private void Awake()
         {
-            this.StopRenderRange();
+            StopRenderRange();
         }
 
         public void StopRenderRange()
         {
-            this.GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
         }
 
         public void RenderRange(SquareCoordinateRange range, short coordinatePlaneId)
         {
-            this.GetComponent<MeshRenderer>().enabled = true;
+            GetComponent<MeshRenderer>().enabled = true;
             var rootCoordinate = UniversalCoordinate.From(range.coord0, coordinatePlaneId);
             var root = CombinationTileMapManager.instance.PositionInRealWorld(rootCoordinate);
             var extentCoordinate = UniversalCoordinate.From(range.MaximumBound, coordinatePlaneId);

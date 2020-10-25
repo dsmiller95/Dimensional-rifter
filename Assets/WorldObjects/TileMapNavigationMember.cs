@@ -1,5 +1,4 @@
 ﻿using Assets.Tiling;
-using Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,9 +63,9 @@ namespace Assets.WorldObjects
 
             var timeSinceLastMove = Time.time - lastMove;
             var movementRatio = timeSinceLastMove / movementSpeed;
-            if(movementRatio <= 1)
+            if (movementRatio <= 1)
             {
-                this.InterplateFromCurrentTo(path.coordinatePath.First(), movementRatio);
+                InterplateFromCurrentTo(path.coordinatePath.First(), movementRatio);
                 return NavigationStatus.APPROACHING;
             }
             lastMove = Time.time;

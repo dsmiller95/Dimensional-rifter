@@ -21,7 +21,7 @@
 
         public bool Execute()
         {
-            return this.Execute(this.Amount);
+            return Execute(Amount);
         }
 
         /// <summary>

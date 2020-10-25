@@ -50,7 +50,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// </summary>
         public void TryUpdateConnectivity(Action<ConnectivityGraphBuilder> buildConnectivityGraph)
         {
-            if(secondsPerConnectivityUpdate < 0)
+            if (secondsPerConnectivityUpdate < 0)
             {
                 return;
             }
@@ -85,7 +85,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
                         foreach (var (coordinate, members) in memberDataFromRunningJob.GetMembersByCoordinate())
                         {
-                            if(coordinateIndexes.TryGetValue(coordinate, out var index))
+                            if (coordinateIndexes.TryGetValue(coordinate, out var index))
                             {
                                 var regionMask = resultGraphNodes[index].RegionMask;
                                 foreach (var member in members)

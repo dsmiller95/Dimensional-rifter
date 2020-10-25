@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core;
 using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Building

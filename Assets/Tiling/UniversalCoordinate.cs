@@ -245,9 +245,9 @@ namespace Assets.Tiling
 
         public override bool Equals(object obj)
         {
-            if(obj is UniversalCoordinate typedOther)
+            if (obj is UniversalCoordinate typedOther)
             {
-                return this.Equals(typedOther);
+                return Equals(typedOther);
             }
             return false;
         }

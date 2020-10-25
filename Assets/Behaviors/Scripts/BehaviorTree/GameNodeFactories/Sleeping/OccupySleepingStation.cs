@@ -1,5 +1,4 @@
 ﻿using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
-using Assets.WorldObjects;
 using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;

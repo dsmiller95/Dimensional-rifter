@@ -62,7 +62,7 @@ namespace Assets.WorldObjects
             var lerped = Vector3.Lerp(sourcePos, targetPos, t);
             lerped.z = transform.position.z;
             transform.position = lerped;
-            
+
         }
 
         protected virtual void Awake()

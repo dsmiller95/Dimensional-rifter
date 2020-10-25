@@ -60,7 +60,7 @@ namespace Assets.Tiling.Tilemapping
             Vector2 realPositionInPlane,
             TileMapRegionData data)
         {
-            var coord = this.GetCoordinateFromRealPosition(realPositionInPlane, data);
+            var coord = GetCoordinateFromRealPosition(realPositionInPlane, data);
             if (IsValidInThisPlane(coord, data))
             {
                 return coord;
