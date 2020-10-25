@@ -6,6 +6,7 @@ using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling
@@ -20,15 +21,22 @@ namespace Assets.Tiling
         public Action<UniversalCoordinate, TileTypeInfo> OnTileChanged;
         public TileDefinitions tileDefinitions;
 
-        private IDictionary<UniversalCoordinate, TileTypeInfo> tiles;
+        private NativeHashMap<UniversalCoordinate, int> tileTypes;
+        private TileTypeInfo[] infoByIndex;
+
         private IDictionary<UniversalCoordinate, IList<TileMapMember>> tileMembers;
         public IEnumerable<TileMapMember> allMembers => tileMembers.SelectMany(pair => pair.Value);
 
         public UniversalCoordinateSystemMembers()
         {
-            tiles = new Dictionary<UniversalCoordinate, TileTypeInfo>();
             tileMembers = new Dictionary<UniversalCoordinate, IList<TileMapMember>>();
         }
+
+        private void OnDestroy()
+        {
+            tileTypes.Dispose();
+        }
+
         public void RegisterInTileMap(TileMapMember member)
         {
             var coord = member.CoordinatePosition;
@@ -54,14 +62,30 @@ namespace Assets.Tiling
             }
         }
 
+        public IEnumerable<(UniversalCoordinate, IEnumerable<TileMapMember>)> GetMembersByCoordinate()
+        {
+            return tileMembers.Select(x => (x.Key, x.Value.AsEnumerable()));
+        }
 
         public void SetTile(UniversalCoordinate coordinate, TileTypeInfo tileID)
         {
-            if (tiles.TryGetValue(coordinate, out var currentID) && currentID.Equals(tileID))
+            if (tileTypes.TryGetValue(coordinate, out var currentID) && currentID.Equals(tileID))
             {
                 return;
             }
-            tiles[coordinate] = tileID;
+            int index;
+            for (index = 0; index < infoByIndex.Length; index++)
+            {
+                if (infoByIndex[index].Equals(tileID))
+                {
+                    break;
+                }
+            }
+            if (index == infoByIndex.Length)
+            {
+                infoByIndex = infoByIndex.Append(tileID).ToArray();
+            }
+            tileTypes[coordinate] = index;
             OnTileChanged?.Invoke(coordinate, tileID);
         }
 
@@ -74,9 +98,9 @@ namespace Assets.Tiling
 
         public TileTypeInfo GetTileType(UniversalCoordinate coordinate)
         {
-            if (tiles.TryGetValue(coordinate, out var value))
+            if (tileTypes.TryGetValue(coordinate, out var value))
             {
-                return value;
+                return infoByIndex[value];
             }
             return defaultTile;
         }
@@ -106,10 +130,10 @@ namespace Assets.Tiling
         {
             return new UniversalTileMembersSaveObject
             {
-                tiles = tiles.Select(pair => new TileMapDataTile
+                tiles = tileTypes.Select(pair => new TileMapDataTile
                 {
                     coordinate = pair.Key,
-                    tileType = pair.Value
+                    tileType = infoByIndex[pair.Value]
                 }).ToList(),
                 members = allMembers
                     .Where(member => member.memberType != null)
@@ -122,11 +146,38 @@ namespace Assets.Tiling
             };
         }
 
+        public NativeHashMap<UniversalCoordinate, int> GetTileTypesByCoordinateReadonlyCollection()
+        {
+            return tileTypes;
+        }
+
+        public TileProperties[] GetTileInfoByTypeIndex()
+        {
+            return infoByIndex.Select(x => tileDefinitions.GetTileProperties(x)).ToArray();
+        }
+
         public void SetupFromSaveObject(UniversalTileMembersSaveObject save)
         {
             defaultTile = save.defaultTile;
 
-            tiles = save.tiles.ToDictionary(tile => tile.coordinate, tile => tile.tileType);
+            tileTypes = new NativeHashMap<UniversalCoordinate, int>(save.tiles.Count, Allocator.Persistent);
+            var indexByInfo = new Dictionary<TileTypeInfo, int>();
+            var currentInfoIndex = 0;
+            foreach (var tileSaveData in save.tiles)
+            {
+                if (!indexByInfo.TryGetValue(tileSaveData.tileType, out var typeIndex))
+                {
+                    indexByInfo[tileSaveData.tileType] = currentInfoIndex;
+                    typeIndex = currentInfoIndex;
+                    currentInfoIndex++;
+                }
+                tileTypes[tileSaveData.coordinate] = typeIndex;
+            }
+            infoByIndex = new TileTypeInfo[currentInfoIndex];
+            foreach (var keyValuePair in indexByInfo)
+            {
+                infoByIndex[keyValuePair.Value] = keyValuePair.Key;
+            }
 
             foreach (var memberData in save.members)
             {

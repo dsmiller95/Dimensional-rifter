@@ -42,7 +42,7 @@ namespace Assets.Tiling.Tilemapping
         public static CombinationTileMapManager instance;
         private void Awake()
         {
-            if(instance != null)
+            if (instance != null)
             {
                 Debug.LogError("Instance already registered, combination tile map manager is singleton-y");
             }
@@ -58,21 +58,17 @@ namespace Assets.Tiling.Tilemapping
         private void Start()
         {
             connectivitySystem?.ResetState();
-            OnRegionPlaneDataChanged();
-            //SetPlaneIDs();
-            //regionBehaviors = allRegions.Select(x =>
-            //{
-            //    var region = Instantiate(regionBehaviorPrefab, transform);
-            //    var configData = ConfigDataDict[x.baseRange.coordinateType];
-            //    region.InitializeMeshBuilder(configData, everyMember);
-            //    return region;
-            //}).ToArray();
-            //BakeAllTileMapMeshes();
         }
 
         private void OnRegionPlaneDataChanged()
         {
             SetPlaneIDs();
+            if (regionBehaviors != null)
+                foreach (var region in regionBehaviors)
+                {
+                    Destroy(region.gameObject);
+                }
+
             regionBehaviors = allRegions.Select(x =>
             {
                 var region = Instantiate(regionBehaviorPrefab, transform);
@@ -102,7 +98,7 @@ namespace Assets.Tiling.Tilemapping
         private void OnDestroy()
         {
             connectivitySystem.StopEverything();
-            if(instance == this)
+            if (instance == this)
             {
                 instance = null;
             }
@@ -222,6 +218,9 @@ namespace Assets.Tiling.Tilemapping
 
         private void BuildConnectionGraph(ConnectivityGraphBuilder builder)
         {
+            var totalCoordiantes = allRegions.Select((data, index) => regionBehaviors[index].GreedyCordinateTotalEstimate(data)).Sum();
+            builder.InitBuildingWithCapacity(totalCoordiantes);
+            builder.ReadFromTileDataIn(everyMember);
             for (var i = 0; i < allRegions.Length; i++)
             {
                 regionBehaviors[i].AddConnectivityAndMemberData(allRegions[i], builder);

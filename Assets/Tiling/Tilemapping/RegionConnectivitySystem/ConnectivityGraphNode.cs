@@ -1,37 +1,64 @@
 ﻿using Assets.WorldObjects;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
     public class ConnectivityGraphBuilder
     {
-        private IList<ConnectivityGraphNodeCoordinate> allNodes = new List<ConnectivityGraphNodeCoordinate>();
-        public GraphMembers allMembers = new GraphMembers();
         public int totalNeighbors = 0;
 
-        public void AddNextNode(ConnectivityGraphNodeCoordinate nextNode, TileMapMember[] members)
+        private NativeArray<ConnectivityGraphNodeCoordinate> nodeArray;
+        private Allocator allocator;
+        private int currentNodeIndex = 0;
+
+        public UniversalCoordinateSystemMembers membersToReadFrom;
+
+        public ConnectivityGraphBuilder(Allocator allocator)
         {
-            totalNeighbors += nextNode.coordinate.NeighborCount();
-            allNodes.Add(nextNode);
-            if (members != null)
-            {
-                allMembers.allMembersByConnectivityID[CurrentNodeCount() - 1] = members;
-            }
-        }
-        public int CurrentNodeCount()
-        {
-            return allNodes.Count;
+            this.allocator = allocator;
         }
 
-        public void BuildGraph(out NativeArray<ConnectivityGraphNodeCoordinate> graphNodes, Allocator allocator)
+        public void ReadFromTileDataIn(UniversalCoordinateSystemMembers tileMemberDataHolder)
         {
-            graphNodes = new NativeArray<ConnectivityGraphNodeCoordinate>(CurrentNodeCount(), allocator);
+            membersToReadFrom = tileMemberDataHolder;
+        }
 
-            for (var nodeIndex = 0; nodeIndex < allNodes.Count; nodeIndex++)
+        public void InitBuildingWithCapacity(int maxNodeSpace)
+        {
+            nodeArray = new NativeArray<ConnectivityGraphNodeCoordinate>(maxNodeSpace, allocator);
+        }
+
+        public void NextNode(ConnectivityGraphNodeCoordinate node, int possibleNeighbors)
+        {
+            nodeArray[currentNodeIndex] = node;
+            totalNeighbors += possibleNeighbors;
+            currentNodeIndex++;
+        }
+
+        public void BuildGraph(
+            out NativeArray<ConnectivityGraphNodeCoordinate> graphNodes,
+            out NativeHashMap<UniversalCoordinate, int> tileTypeIDs,
+            out NativeHashSet<int> passableIDs)
+        {
+            graphNodes = nodeArray;
+
+            tileTypeIDs = membersToReadFrom.GetTileTypesByCoordinateReadonlyCollection();
+
+            var passableSet = membersToReadFrom.GetTileInfoByTypeIndex()
+                .Select((x, i) => new
+                {
+                    passable = x.isPassable,
+                    index = i
+                })
+                .Where(x => x.passable)
+                .Select(x => x.index)
+                .ToArray();
+            passableIDs = new NativeHashSet<int>(passableSet.Count(), allocator);
+            foreach (var id in passableSet)
             {
-                var nodeData = allNodes[nodeIndex];
-                graphNodes[nodeIndex] = nodeData;
+                passableIDs.Add(id);
             }
         }
     }
@@ -50,12 +77,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     public struct ConnectivityGraphNodeCoordinate
     {
         public UniversalCoordinate coordinate;
+        /// <summary>
+        /// set in the job based on tile config data
+        /// </summary>
         public bool passable;
-    }
-
-    public class GraphMembers
-    {
-        public Dictionary<int, TileMapMember[]> allMembersByConnectivityID = new Dictionary<int, TileMapMember[]>();
     }
 
     public struct IndexInArrayLookup

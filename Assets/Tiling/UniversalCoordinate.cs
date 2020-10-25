@@ -194,6 +194,10 @@ namespace Assets.Tiling
         }
         public int NeighborCount()
         {
+            return NeighborCount(type);
+        }
+        public static int NeighborCount(CoordinateType type)
+        {
             switch (type)
             {
                 case CoordinateType.TRIANGLE:
@@ -237,6 +241,15 @@ namespace Assets.Tiling
                 default:
                     return "Invalid coordinate";
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is UniversalCoordinate typedOther)
+            {
+                return this.Equals(typedOther);
+            }
+            return false;
         }
 
         public override int GetHashCode()

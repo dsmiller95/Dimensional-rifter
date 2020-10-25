@@ -5,26 +5,45 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
     public struct CoordinateListingToGraphDataJob : IJob
     {
-        public NativeArray<ConnectivityGraphNodeCoordinate> inputGraphCoordinates;
-        public NativeHashMap<UniversalCoordinate, int> coordinateIndexes;
+        [ReadOnly]
+        public NativeHashMap<UniversalCoordinate, int> inputTileTypeIdByCoordinate;
 
-        public NativeArray<UniversalCoordinate> neighborCoordinateWorkSpace;
+        [ReadOnly]
+        public NativeHashSet<int> inputPassableTileTypeIDs;
+
+        public NativeArray<ConnectivityGraphNodeCoordinate> inputAndWorkingGraphCoordinates;
+
+        public NativeHashMap<UniversalCoordinate, int> workingCoordinateIndexes;
+        public NativeArray<UniversalCoordinate> workingNeighborCoordinates;
 
         public NativeArray<ConnectivityGraphNode> outputGraphNodes;
         public NativeArray<int> outputNeighborData;
 
-
         public void Execute()
         {
-            for (var nodeIndex = 0; nodeIndex < inputGraphCoordinates.Length; nodeIndex++)
+            AssignCoordinateIndexesAndPassabilityBasedOnTileTypes();
+            AssignAllNeighborIndexesAndLookups();
+        }
+
+        private void AssignCoordinateIndexesAndPassabilityBasedOnTileTypes()
+        {
+            for (var nodeIndex = 0; nodeIndex < inputAndWorkingGraphCoordinates.Length; nodeIndex++)
             {
-                var coordinate = inputGraphCoordinates[nodeIndex];
-                coordinateIndexes[coordinate.coordinate] = nodeIndex;
+                var coordinate = inputAndWorkingGraphCoordinates[nodeIndex];
+                var typeID = inputTileTypeIdByCoordinate[coordinate.coordinate];
+                var isPassable = inputPassableTileTypeIDs.Contains(typeID);
+                coordinate.passable = isPassable;
+                inputAndWorkingGraphCoordinates[nodeIndex] = coordinate;
+                workingCoordinateIndexes[coordinate.coordinate] = nodeIndex;
             }
+        }
+
+        private void AssignAllNeighborIndexesAndLookups()
+        {
             var currentIndexInNeighborArray = 0;
-            for (var nodeIndex = 0; nodeIndex < inputGraphCoordinates.Length; nodeIndex++)
+            for (var nodeIndex = 0; nodeIndex < inputAndWorkingGraphCoordinates.Length; nodeIndex++)
             {
-                var coordinateNodeData = inputGraphCoordinates[nodeIndex];
+                var coordinateNodeData = inputAndWorkingGraphCoordinates[nodeIndex];
                 var coord = coordinateNodeData.coordinate;
 
                 var newGraphNode = new ConnectivityGraphNode
@@ -37,12 +56,12 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     RegionMask = 0
                 };
 
-                coord.SetNeighborsIntoSwapSpace(neighborCoordinateWorkSpace);
+                coord.SetNeighborsIntoSwapSpace(workingNeighborCoordinates);
                 var neighborCount = coord.NeighborCount();
                 for (int i = 0; i < neighborCount; i++)
                 {
-                    var neighborCoordinate = neighborCoordinateWorkSpace[i];
-                    if (coordinateIndexes.TryGetValue(neighborCoordinate, out int neighborIndexInMasterArray))
+                    var neighborCoordinate = workingNeighborCoordinates[i];
+                    if (workingCoordinateIndexes.TryGetValue(neighborCoordinate, out int neighborIndexInMasterArray))
                     {
                         outputNeighborData[currentIndexInNeighborArray] = neighborIndexInMasterArray;
                         currentIndexInNeighborArray++;

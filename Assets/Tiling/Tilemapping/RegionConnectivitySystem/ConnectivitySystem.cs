@@ -8,17 +8,16 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     [CreateAssetMenu(fileName = "ConnectivitySystem", menuName = "TileMap/ConnectivitySystem", order = 1)]
     public class ConnectivitySystem : ScriptableObject
     {
-        //public <ConnectivityGraphNode> CurrentConnectivity;
-
         [Tooltip("Set to -1 to disable updates completely")]
         public float secondsPerConnectivityUpdate = 1;
         private float nextConnectivityUpdate = 5;
 
         private bool isJobRunning = false;
         private JobHandle currentlyRunningConnectionUpdate;
-        private GraphMembers memberDataFromRunningJob;
+        private UniversalCoordinateSystemMembers memberDataFromRunningJob;
 
         private NativeArray<ConnectivityGraphNodeCoordinate> inputGraphNodes;
+        private NativeHashSet<int> passableTileTypes;
         private NativeHashMap<UniversalCoordinate, int> coordinateIndexes;
         private NativeArray<UniversalCoordinate> tmpNeighborCoordinateSwapSpace;
 
@@ -71,7 +70,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     jobHandle.Complete();
                     var fullIterationNumbers = fullArrayIterationCount[0];
-                    //Debug.Log($"[Connectivity] Updated. Number of times iterated through whole array: {fullIterationNumbers}");
+                    Debug.Log($"[Connectivity] Updated. Number of times iterated through whole array: {fullIterationNumbers}");
 
                     if (resultStatus[0] == ClassificationJobStatus.COMPLETED_TOO_MANY_REGIONS)
                     {
@@ -83,14 +82,16 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     }
                     else
                     {
-                        //Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
-
-                        foreach (var kvp in memberDataFromRunningJob.allMembersByConnectivityID)
+                        Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
+                        foreach (var (coordinate, members) in memberDataFromRunningJob.GetMembersByCoordinate())
                         {
-                            var regionMask = resultGraphNodes[kvp.Key].RegionMask;
-                            foreach (var member in kvp.Value)
+                            if(coordinateIndexes.TryGetValue(coordinate, out var index))
                             {
-                                member.RegionBitMask = regionMask;
+                                var regionMask = resultGraphNodes[index].RegionMask;
+                                foreach (var member in members)
+                                {
+                                    member.RegionBitMask = regionMask;
+                                }
                             }
                         }
                     }
@@ -104,9 +105,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             if (isJobRunning)
             {
-                isJobRunning = false;
+                Debug.Log("disposing everything");
                 memberDataFromRunningJob = null;
                 inputGraphNodes.Dispose();
+                passableTileTypes.Dispose();
                 coordinateIndexes.Dispose();
                 tmpNeighborCoordinateSwapSpace.Dispose();
 
@@ -117,30 +119,37 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 resultStatus.Dispose();
                 finalRegionIndexAccess.Dispose();
                 nodeStatuses.Dispose();
+                isJobRunning = false;
             }
         }
 
         private void CalculateConnectivityUpdate(Action<ConnectivityGraphBuilder> buildConnectivityGraph)
         {
-            var connectionGraphBuilder = new ConnectivityGraphBuilder();
+            var allocatorToUse = Allocator.Persistent;
+            var connectionGraphBuilder = new ConnectivityGraphBuilder(allocatorToUse);
             buildConnectivityGraph(connectionGraphBuilder);
 
-            var allocatorToUse = Allocator.Persistent;
             connectionGraphBuilder.BuildGraph(
                 out inputGraphNodes,
-                allocatorToUse);
-            memberDataFromRunningJob = connectionGraphBuilder.allMembers;
-            neighborData = new NativeArray<int>(connectionGraphBuilder.totalNeighbors, allocatorToUse);
-            resultGraphNodes = new NativeArray<ConnectivityGraphNode>(inputGraphNodes.Length, allocatorToUse);
+                out var readonlyTileTypeIDs,
+                out passableTileTypes);
+
+            memberDataFromRunningJob = connectionGraphBuilder.membersToReadFrom;
 
             coordinateIndexes = new NativeHashMap<UniversalCoordinate, int>(inputGraphNodes.Length, allocatorToUse);
             tmpNeighborCoordinateSwapSpace = new NativeArray<UniversalCoordinate>(UniversalCoordinate.MaxNeighborCount, allocatorToUse);
 
+            resultGraphNodes = new NativeArray<ConnectivityGraphNode>(inputGraphNodes.Length, allocatorToUse);
+            neighborData = new NativeArray<int>(connectionGraphBuilder.totalNeighbors, allocatorToUse);
+
             var neighborGraphingJob = new CoordinateListingToGraphDataJob
             {
-                inputGraphCoordinates = inputGraphNodes,
-                neighborCoordinateWorkSpace = tmpNeighborCoordinateSwapSpace,
-                coordinateIndexes = coordinateIndexes,
+                inputTileTypeIdByCoordinate = readonlyTileTypeIDs,
+                inputPassableTileTypeIDs = passableTileTypes,
+                inputAndWorkingGraphCoordinates = inputGraphNodes,
+
+                workingNeighborCoordinates = tmpNeighborCoordinateSwapSpace,
+                workingCoordinateIndexes = coordinateIndexes,
 
                 outputGraphNodes = resultGraphNodes,
                 outputNeighborData = neighborData

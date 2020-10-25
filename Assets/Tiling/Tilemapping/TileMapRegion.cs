@@ -195,6 +195,11 @@ namespace Assets.Tiling.Tilemapping
         }
 
 
+        public int GreedyCordinateTotalEstimate(TileMapRegionData data)
+        {
+            return data.baseRange.TotalCoordinateContents();
+        }
+
         public void AddConnectivityAndMemberData(
             TileMapRegionData data,
             ConnectivityGraphBuilder connectivityGraphBuilder)
@@ -203,15 +208,14 @@ namespace Assets.Tiling.Tilemapping
 
             var coordinatesInMap = data.baseRange.GetUniversalCoordinates(data.planeIDIndex)
                 .Where(coord => !runtimeData.disabledCoordinates.Contains(coord));
+            var neighborsPerCoord = UniversalCoordinate.NeighborCount(data.baseRange.coordinateType);
             foreach (var coordinate in coordinatesInMap)
             {
                 var nextNode = new ConnectivityGraphNodeCoordinate
                 {
                     coordinate = coordinate,
-                    passable = allMembers.IsPassable(coordinate)
                 };
-                var members = allMembers.GetMembersOnTile(coordinate);
-                connectivityGraphBuilder.AddNextNode(nextNode, (members == null || members.Count == 0) ? null : members.ToArray());
+                connectivityGraphBuilder.NextNode(nextNode, neighborsPerCoord);
             }
         }
     }
