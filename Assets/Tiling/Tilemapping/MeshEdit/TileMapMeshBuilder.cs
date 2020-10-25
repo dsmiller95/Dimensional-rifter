@@ -132,7 +132,7 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
             coordinateCopyIndexes = new Dictionary<UniversalCoordinate, int>();
 
             var targetMesh = new Mesh();
-            if (range.TotalCoordinateContents() * defaultVerts.Count < 65000)
+            if (range.TotalCoordinateContents() * defaultVerts.Count >= 65000)
             {
                 // TODO: optimize mesh building/rendering so we don't need this
                 targetMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
