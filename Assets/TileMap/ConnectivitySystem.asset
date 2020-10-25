@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb75e5b60e1fe3b4b8779c77966713a5, type: 3}
   m_Name: ConnectivitySystem
   m_EditorClassIdentifier: 
-  secondsPerConnectivityUpdate: 1
+  secondsPerConnectivityUpdate: -1
