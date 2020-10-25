@@ -77,7 +77,7 @@ namespace Assets.Tiling.Tilemapping
             {
                 var region = Instantiate(regionBehaviorPrefab, transform);
                 var configData = ConfigDataDict[x.baseRange.coordinateType];
-                region.InitializeMeshBuilder(configData, everyMember);
+                region.InitializeEntityBuilder(configData, everyMember);
 
                 return region;
             }).ToArray();
@@ -116,7 +116,7 @@ namespace Assets.Tiling.Tilemapping
                 var regionBehavior = regionBehaviors[regionIndex];
                 var regionData = allRegions[regionIndex];
 
-                regionBehavior.BakeTopologyAvoidingOthers(regionData, regionBehaviors.Take(regionIndex));
+                regionBehavior.GenerateAllEntitiesForRegion(regionData, regionBehaviors.Take(regionIndex));
 
                 regionBehavior.SetupBoundingCollider(regionData);
             }

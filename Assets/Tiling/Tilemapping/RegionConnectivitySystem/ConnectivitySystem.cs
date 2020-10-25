@@ -10,6 +10,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     {
         //public <ConnectivityGraphNode> CurrentConnectivity;
 
+        [Tooltip("Set to -1 to disable updates completely")]
         public float secondsPerConnectivityUpdate = 1;
         private float nextConnectivityUpdate = 5;
 
@@ -50,6 +51,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// </summary>
         public void TryUpdateConnectivity(Action<ConnectivityGraphBuilder> buildConnectivityGraph)
         {
+            if(secondsPerConnectivityUpdate < 0)
+            {
+                return;
+            }
             if (!isJobRunning)
             {
                 if (nextConnectivityUpdate < Time.time)

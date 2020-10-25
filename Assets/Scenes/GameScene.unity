@@ -1716,7 +1716,7 @@ MonoBehaviour:
   dragPanSensitivity: 1
   panSpeedPercent: 0.1
   minCameraSize: 3
-  maxCameraSize: 15
+  maxCameraSize: 30
 --- !u!1 &775085067
 GameObject:
   m_ObjectHideFlags: 0
