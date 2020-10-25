@@ -34,5 +34,10 @@ namespace Assets.Tiling.TriangleCoords
         {
             return baseRange.Select(tri => UniversalCoordinate.From(tri, coordPlaneID));
         }
+
+        public int TotalCoordinateContents()
+        {
+            return baseRange.TotalCoordinateContents();
+        }
     }
 }
