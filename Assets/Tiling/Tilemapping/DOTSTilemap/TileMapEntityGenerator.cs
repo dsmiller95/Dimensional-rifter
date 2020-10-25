@@ -3,8 +3,6 @@ using Assets.Tiling.Tilemapping.TileConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -31,7 +29,6 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
         }
 
         private IDictionary<string, MultiVertTileConfig> tileTypesDictionary;
-        private Dictionary<UniversalCoordinate, int> coordinateCopyIndexes;
 
         public void SetupTilesForOwnMaterial()
         {
@@ -102,8 +99,6 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
             NativeArray<Entity> newTiles = new NativeArray<Entity>(range.TotalCoordinateContents(), Allocator.Temp);
             manager.CreateEntity(tileArchetype, newTiles);
 
-            coordinateCopyIndexes = new Dictionary<UniversalCoordinate, int>();
-
             var currentTileIndex = 0;
             foreach (var coord in range.GetUniversalCoordinates())
             {
@@ -115,12 +110,13 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
 
                 string tileTypeId = coordinateMemebers.GetTileType(coord).ID;
 
-                if(!meshDataByTileType.TryGetValue(tileTypeId, out var tileMeshData))
+                if (!meshDataByTileType.TryGetValue(tileTypeId, out var tileMeshData))
                 {
                     if (!tileTypesDictionary.TryGetValue(tileTypeId, out var tileConfig))
                     {
                         throw new Exception("Missing tile configuration value, cannot continue building tilemap");
-                    }else
+                    }
+                    else
                     {
                         var newMesh = GenerateMeshFromConfig(tileConfig, defaultVerts, defaultTriangles);
                         var newMeshData = new MeshRendererCacheableData
@@ -146,18 +142,6 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                         material = tileMaterial,
                         mesh = tileMeshData.mesh
                     });
-                manager.SetComponentData(tileEntity,
-                    new RenderBounds
-                    {
-                        Value = tileMeshData.meshBounds
-                    });
-
-
-                //var vertexes = coord.GetVertexesAround().Select(x => (Vector3)x);
-                //var indexAdded = copier.NextCopy(tileLocation, UVOverride: uvs, vertexOverrides: vertexes);
-                //copier.CopySubmeshTrianglesToOffsetIndex(0, 0);
-
-                // coordinateCopyIndexes[coord] = indexAdded;
 
                 currentTileIndex++;
             }
