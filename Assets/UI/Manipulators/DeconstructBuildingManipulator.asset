@@ -10,5 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d510f9c28f6dc34e8e5ac8646e71b28, type: 3}
-  m_Name: ErrandEnableManipulator
+  m_Name: DeconstructBuildingManipulator
   m_EditorClassIdentifier: 
+  typeOfErrand: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}

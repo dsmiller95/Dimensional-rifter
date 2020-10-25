@@ -21,6 +21,8 @@ namespace Assets.Tiling
         bool ContainsCoordinate(UniversalCoordinate coordinate);
 
         IEnumerable<UniversalCoordinate> GetUniversalCoordinates(short coordPlaneID = 0);
+
+        int TotalCoordinateContents();
     }
 
     /// <summary>

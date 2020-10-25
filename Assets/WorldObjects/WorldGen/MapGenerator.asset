@@ -37,5 +37,5 @@ MonoBehaviour:
   - type: {fileID: 11400000, guid: 215c239955b61a24f947271f223f94c4, type: 2}
     amount: 5
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}
-  baseMapSize: {x: 20, y: 20}
-  seed: 222314
+  baseMapSize: {x: 200, y: 200}
+  seed: 9128287
