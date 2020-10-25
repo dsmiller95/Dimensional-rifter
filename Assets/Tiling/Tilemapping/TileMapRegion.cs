@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Utilities;
-using Assets.Tiling.Tilemapping.DOTSTilemap;
 using Assets.Tiling.Tilemapping.MeshEdit;
 using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using System;
@@ -39,7 +38,7 @@ namespace Assets.Tiling.Tilemapping
     {
         protected PolygonCollider2D BoundingBoxCollider;
         protected PolygonCollider2D IndividualCellCollider;
-        public TileMapEntityGenerator tileEntityBuilder;
+        public TileMapMeshBuilder meshBuilder;
 
         public TileMapRegionRuntimeData runtimeData;
         public CombinationTileMapManager BigManager => GetComponentInParent<CombinationTileMapManager>();
@@ -85,16 +84,15 @@ namespace Assets.Tiling.Tilemapping
             return !runtimeData.disabledCoordinates.Contains(coordinate);
         }
 
-        public void InitializeEntityBuilder(
+        public void InitializeMeshBuilder(
             TileMapConfigurationData tileConfiguration,
             UniversalCoordinateSystemMembers members)
         {
 
-            tileEntityBuilder = new TileMapEntityGenerator(
-                tileConfiguration.tileMaterial,
-                tileConfiguration.tileSet,
-                members);
-            tileEntityBuilder.SetupTilesForOwnMaterial();
+            meshBuilder = new TileMapMeshBuilder(tileConfiguration.tileSet, members);
+            var renderer = GetComponent<MeshRenderer>();
+            renderer.material = tileConfiguration.tileMaterial;
+            meshBuilder.SetupTilesForGivenTexture(renderer.material.mainTexture);
         }
 
         public PolygonCollider2D SetupBoundingCollider(TileMapRegionData data)
@@ -111,14 +109,14 @@ namespace Assets.Tiling.Tilemapping
             return IndividualCellCollider;
         }
 
-        public void GenerateAllEntitiesForRegion(
+        public void BakeTopologyAvoidingOthers(
             TileMapRegionData data,
             IEnumerable<TileMapRegion> otherRegionsToAvoid)
         {
             var colliderList = otherRegionsToAvoid.Select(x => x.BoundingBoxCollider).ToArray();
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
             runtimeData.disabledCoordinates = new HashSet<UniversalCoordinate>();
-            tileEntityBuilder.CreateAllEntitiesForTilemap(
+            var setupMesh = meshBuilder.BakeTilemapMesh(
                 data.baseRange,
                 (coord, position) =>
                 {
@@ -134,7 +132,9 @@ namespace Assets.Tiling.Tilemapping
                     return true;
                 });
 
-            Debug.Log("created the entities");
+            Debug.Log("assigning mesh");
+            var meshHolder = GetComponent<MeshFilter>();
+            meshHolder.mesh = setupMesh;
         }
         private bool GetCollidesWith(
             Matrix4x4 planeToWorldSpaceTransform,
