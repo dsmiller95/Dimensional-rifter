@@ -45,7 +45,7 @@ namespace Assets.UI.Manipulators
                     var hoveredOverCoord = CombinationTileMapManager.instance.GetCoordinateOnPlaneIDNoValidCheck(posInWorld, firstCoordinate);
                     var newRange = SquareCoordinateRange.FromCoordsInclusive(firstCoordinate.squareDataView, hoveredOverCoord.squareDataView);
 
-                    if (range == null || !range.Equals(newRange))
+                    if (range == null || range != newRange)
                     {
                         Debug.Log("Range changed");
                         range = newRange;

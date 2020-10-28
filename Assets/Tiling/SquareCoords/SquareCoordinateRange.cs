@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Tiling.SquareCoords
 {
     [Serializable]
-    public class SquareCoordinateRange : ICoordinateRangeNEW<SquareCoordinate>, IEquatable<SquareCoordinateRange>
+    public struct SquareCoordinateRange : ICoordinateRangeNEW<SquareCoordinate>, IEquatable<SquareCoordinateRange>
     {
         /// <summary>
         /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
@@ -102,6 +102,13 @@ namespace Assets.Tiling.SquareCoords
                 (diff.row >= 0 && diff.row < rows);
         }
 
+        public SquareCoordinate GetRandomCoordinate(ref Unity.Mathematics.Random randomSource)
+        {
+            var row = randomSource.NextInt(0, this.rows);
+            var col = randomSource.NextInt(0, this.cols);
+            return new SquareCoordinate(row, col) + this.coord0;
+        }
+
         public override string ToString()
         {
             return $"({coord0})-({rows} rows, {cols} columns)";
@@ -115,6 +122,28 @@ namespace Assets.Tiling.SquareCoords
         public bool Equals(SquareCoordinateRange other)
         {
             return coord0.Equals(other.coord0) && rows == other.rows && cols == other.cols;
+        }
+        public override bool Equals(object obj)
+        {
+            if(obj is SquareCoordinateRange typed)
+            {
+                return typed == this;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return rows << 16 + cols;
+        }
+
+        public static bool operator ==(SquareCoordinateRange a, SquareCoordinateRange b)
+        {
+            return a.Equals(b);
+        }
+        public static bool operator !=(SquareCoordinateRange a, SquareCoordinateRange b)
+        {
+            return !a.Equals(b);
         }
     }
 }

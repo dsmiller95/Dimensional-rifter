@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.DOTSTilemap
 {
+    [Obsolete("This approach is significantly slower than building a single large mesh")]
     public class TileMapEntityGenerator
     {
         private TileSet tileSet;

@@ -70,7 +70,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     jobHandle.Complete();
                     var fullIterationNumbers = fullArrayIterationCount[0];
-                    Debug.Log($"[Connectivity] Updated. Number of times iterated through whole array: {fullIterationNumbers}");
+                    // Debug.Log($"[Connectivity] Updated. Number of times iterated through whole array: {fullIterationNumbers}");
 
                     if (resultStatus[0] == ClassificationJobStatus.COMPLETED_TOO_MANY_REGIONS)
                     {
@@ -82,7 +82,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     }
                     else
                     {
-                        Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
+                        // Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
                         foreach (var (coordinate, members) in memberDataFromRunningJob.GetMembersByCoordinate())
                         {
                             if (coordinateIndexes.TryGetValue(coordinate, out var index))
@@ -105,7 +105,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             if (isJobRunning)
             {
-                Debug.Log("disposing everything");
                 memberDataFromRunningJob = null;
                 inputGraphNodes.Dispose();
                 passableTileTypes.Dispose();
