@@ -1460,9 +1460,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 481992102}
+  - component: {fileID: 481992100}
   - component: {fileID: 481992101}
   - component: {fileID: 481992103}
-  - component: {fileID: 481992100}
   - component: {fileID: 481992104}
   m_Layer: 0
   m_Name: test spawner
@@ -1513,7 +1513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481992099}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 857.90027, y: 456.6259, z: -1212.5892}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
