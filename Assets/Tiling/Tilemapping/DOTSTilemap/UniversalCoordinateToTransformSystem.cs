@@ -7,6 +7,8 @@ using Unity.Transforms;
 
 namespace Assets.Tiling.Tilemapping.DOTSTilemap
 {
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [UpdateBefore(typeof(TransformSystemGroup))]
     public class UniversalCoordinateToTransformSystem : SystemBase
     {
         protected override void OnUpdate()
@@ -15,21 +17,12 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                 .WithChangeFilter<UniversalCoordinatePosition>()
                 .ForEach((ref Translation translation, ref UniversalCoordinatePosition positionCoordinate) =>
             {
+                var position = positionCoordinate.coordinate.ToPositionInPlane();
+
                 translation = new Translation
                 {
-                    Value = translation.Value + new float3(1, 0, 0)
+                    Value = new float3(position, translation.Value.z)
                 };
-                // todo: use blob data of the current coordinates to update??
-
-                //translation.Value.y += moveSpeedComponent.moveSpeed * Time.DeltaTime;
-                //if (translation.Value.y > 5f)
-                //{
-                //    moveSpeedComponent.moveSpeed = -math.abs(moveSpeedComponent.moveSpeed);
-                //}
-                //if (translation.Value.y < -5f)
-                //{
-                //    moveSpeedComponent.moveSpeed = +math.abs(moveSpeedComponent.moveSpeed);
-                //}
             }).Run();
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -18,16 +19,16 @@ namespace Assets.Tiling.TriangleCoords
         [FieldOffset(8)]
         public bool R;
 
-        public static readonly Vector2 uBasis = new Vector2(1, 0);
-        public static readonly Vector2 vBasis = new Vector2(0.5f, Mathf.Sqrt(3) / 2f);
+        public static readonly float2 uBasis = new float2(1, 0);
+        public static readonly float2 vBasis = new float2(0.5f, Mathf.Sqrt(3) / 2f);
 
         /// <summary>
         /// inverse matrix of u and v basis, first coord being u. Used to transform from x - y space to u - v space
         /// </summary>
-        private static readonly Vector2 xBasis = new Vector2(1, 0);
-        private static readonly Vector2 yBasis = new Vector2(-1f / Mathf.Sqrt(3), 2f / Mathf.Sqrt(3));
+        private static readonly float2 xBasis = new float2(1, 0);
+        private static readonly float2 yBasis = new float2(-1f / Mathf.Sqrt(3), 2f / Mathf.Sqrt(3));
 
-        public static readonly Vector2 rBasis = new Vector2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
+        public static readonly float2 rBasis = new float2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
 
         public TriangleCoordinateStructSystem(int u, int v, bool R)
         {
@@ -52,7 +53,7 @@ namespace Assets.Tiling.TriangleCoords
 
             return roundedPoint;
         }
-        public Vector2 ToPositionInPlane()
+        public float2 ToPositionInPlane()
         {
             var uComponent = u * uBasis;
             var vComponent = v * vBasis;
@@ -124,7 +125,7 @@ namespace Assets.Tiling.TriangleCoords
 
         public static float HeuristicDistance(TriangleCoordinateStructSystem origin, TriangleCoordinateStructSystem destination)
         {
-            return (origin.ToPositionInPlane() - destination.ToPositionInPlane()).sqrMagnitude;
+            return Vector2.SqrMagnitude(origin.ToPositionInPlane() - destination.ToPositionInPlane());
         }
 
         public static readonly Vector2[] triangleVerts = new Vector2[] {
@@ -153,7 +154,7 @@ namespace Assets.Tiling.TriangleCoords
         private static Vector3 BoundBoxSizeEstimate = Vector3.one * 2f / Mathf.Sqrt(3);
         public Bounds GetRawBounds(float sideLength, Matrix4x4 systemTransform)
         {
-            var position = systemTransform.MultiplyPoint3x4(ToPositionInPlane());
+            var position = systemTransform.MultiplyPoint3x4((Vector2)ToPositionInPlane());
             return new Bounds(position, BoundBoxSizeEstimate * sideLength);
         }
         public static int[] GetTileTriangleIDs()

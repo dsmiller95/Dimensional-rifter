@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Tiling
@@ -67,7 +68,7 @@ namespace Assets.Tiling
             };
         }
 
-        public Vector2 ToPositionInPlane()
+        public float2 ToPositionInPlane()
         {
             switch (type)
             {
@@ -79,6 +80,7 @@ namespace Assets.Tiling
                     return default;
             }
         }
+
         public static UniversalCoordinate FromPositionInPlane(Vector2 pos, CoordinateType type, short coordinatePlaneID)
         {
             switch (type)

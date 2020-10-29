@@ -134,7 +134,7 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                 manager.SetComponentData(tileEntity,
                     new Translation
                     {
-                        Value = (Vector3)tileLocation
+                        Value = new float3(tileLocation, 0)
                     });
 
                 manager.SetSharedComponentData(tileEntity,

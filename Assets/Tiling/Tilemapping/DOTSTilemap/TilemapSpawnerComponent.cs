@@ -8,7 +8,7 @@ namespace Assets.WorldObjects.DOTSMembers
     public struct TilemapSpawnerComponent : IComponentData
     {
         public SquareCoordinateRange spawningRange;
-        public short planeIndex;
+        public Entity spawnedParent;
         public float timePerSpawn;
         public float nextSpawnTime;
     }

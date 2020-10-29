@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Tiling.SquareCoords
@@ -54,9 +55,9 @@ namespace Assets.Tiling.SquareCoords
             var col = Mathf.RoundToInt(positionInPlane.x);
             return new SquareCoordinate(row, col);
         }
-        public Vector2 ToPositionInPlane()
+        public float2 ToPositionInPlane()
         {
-            return new Vector2(column, row);
+            return new float2(column, row);
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace Assets.Tiling.SquareCoords
         /// <returns>an IEnumerable of 4 vertextes representing the square, rotating clockwise around the center</returns>
         public IEnumerable<Vector2> GetSquareVertsAround()
         {
-            var myPos = ToPositionInPlane();
+            Vector2 myPos = ToPositionInPlane();
             return squareVerts.Select(x => x + myPos);
         }
 
@@ -82,7 +83,7 @@ namespace Assets.Tiling.SquareCoords
         }
         public Bounds GetRawBounds(float sideLength, Matrix4x4 systemTransform)
         {
-            var position = systemTransform.MultiplyPoint3x4(ToPositionInPlane());
+            var position = systemTransform.MultiplyPoint3x4((Vector2)ToPositionInPlane());
             return new Bounds(position, Vector3.one * sideLength);
         }
 

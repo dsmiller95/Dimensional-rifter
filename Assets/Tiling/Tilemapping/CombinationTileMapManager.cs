@@ -135,7 +135,7 @@ namespace Assets.Tiling.Tilemapping
         public Vector2 PositionInRealWorld(UniversalCoordinate coordinate)
         {
             var planeData = allRegions[coordinate.CoordinatePlaneID];
-            return planeData.coordinateTransform.MultiplyPoint3x4(coordinate.ToPositionInPlane());
+            return planeData.coordinateTransform.MultiplyPoint3x4((Vector2)coordinate.ToPositionInPlane());
         }
 
         public bool ValidCoordinateInOwnPlane(UniversalCoordinate coordinate)

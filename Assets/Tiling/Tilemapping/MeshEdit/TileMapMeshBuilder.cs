@@ -173,7 +173,7 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
                 Vector2[] uvs = tileConfig.uvs;
 
                 var vertexes = coord.GetVertexesAround().Select(x => (Vector3)x);
-                var indexAdded = copier.NextCopy(tileLocation, UVOverride: uvs, vertexOverrides: vertexes);
+                var indexAdded = copier.NextCopy((Vector2)tileLocation, UVOverride: uvs, vertexOverrides: vertexes);
                 copier.CopySubmeshTrianglesToOffsetIndex(0, 0);
 
                 coordinateCopyIndexes[coord] = indexAdded;

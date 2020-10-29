@@ -2,18 +2,19 @@
 using Assets.WorldObjects.DOTSMembers;
 using System.Linq;
 using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.DOTSTilemap
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class RandomTilemapEntitySpawner : SystemBase
+    public class TilemapSpawningSystem : SystemBase
     {
-        EntityCommandBufferSystem barrier => World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem spawningCommandSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
 
         protected override void OnUpdate()
         {
-            var commandBuffer = barrier.CreateCommandBuffer().AsParallelWriter();
+            var commandBuffer = spawningCommandSystem.CreateCommandBuffer().AsParallelWriter();
             var time = UnityEngine.Time.time;
 
             Entities
@@ -26,7 +27,8 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                     {
                         spawner.nextSpawnTime = time + spawner.timePerSpawn;
                         var randCoord = spawner.spawningRange.GetRandomCoordinate(ref randomProvider.value);
-                        var newCoordinate = UniversalCoordinate.From(randCoord, spawner.planeIndex);
+                        var newCoordinate = UniversalCoordinate.From(randCoord, -1);
+
 
                         var newEntity = commandBuffer.Instantiate(entityInQueryIndex, entityPrefab.prefab);
 
@@ -34,11 +36,18 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                         {
                             coordinate = newCoordinate
                         });
+
+                        commandBuffer.AddComponent(entityInQueryIndex, newEntity, new LocalToParent());
+
+                        commandBuffer.AddComponent(entityInQueryIndex, newEntity, new Parent
+                        {
+                            Value = spawner.spawnedParent
+                        });
                     }
                 })
                 .WithName("SpawnTilemapMembers")
                 .ScheduleParallel();
-            barrier.AddJobHandleForProducer(Dependency);
+            spawningCommandSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }

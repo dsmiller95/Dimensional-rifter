@@ -63,7 +63,7 @@ namespace Assets.Tiling.TriangleCoords
 
             var nextCoord = new TriangleCoordinateStructSystem(coord0.u, coord1.v - 1, false);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
+            yield return (Vector2)nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
 
             nextCoord = new TriangleCoordinateStructSystem(coord1.u - 1, coord1.v - 1, true);
             nextPos = nextCoord.ToPositionInPlane();
@@ -71,7 +71,7 @@ namespace Assets.Tiling.TriangleCoords
 
             nextCoord = new TriangleCoordinateStructSystem(coord1.u - 1, coord0.v, true);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return nextPos - Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
+            yield return (Vector2)nextPos - Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
         }
 
         public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinate)

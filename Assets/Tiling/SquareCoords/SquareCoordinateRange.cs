@@ -80,19 +80,19 @@ namespace Assets.Tiling.SquareCoords
             var halfScale = 1 / 2;
 
             var nextPos = coord0.ToPositionInPlane();
-            yield return nextPos - Vector2.one * halfScale;
+            yield return (Vector2)nextPos - Vector2.one * halfScale;
 
             var nextCoord = new SquareCoordinate(coord0.row + rows, coord0.column);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return nextPos + new Vector2(-1, 1) * halfScale;
+            yield return (Vector2)nextPos + new Vector2(-1, 1) * halfScale;
 
             nextCoord = new SquareCoordinate(coord0.row + rows, coord0.column + cols);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return nextPos + Vector2.one * halfScale;
+            yield return (Vector2)nextPos + Vector2.one * halfScale;
 
             nextCoord = new SquareCoordinate(coord0.row, coord0.column + cols);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return nextPos + new Vector2(1, -1) * halfScale;
+            yield return (Vector2)nextPos + new Vector2(1, -1) * halfScale;
         }
 
         public bool ContainsCoordinate(SquareCoordinate coordinate)

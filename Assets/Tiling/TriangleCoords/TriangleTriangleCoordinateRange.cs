@@ -25,11 +25,11 @@ namespace Assets.Tiling.TriangleCoords
 
             var topCoord = new TriangleCoordinateStructSystem(root.u, root.v + triangleSideLength - 1, false);
             nextPos = topCoord.ToPositionInPlane();
-            yield return nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scale;
+            yield return (Vector2)nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scale;
 
             var rightcoord = new TriangleCoordinateStructSystem(root.u + triangleSideLength - 1, root.v, false);
             nextPos = rightcoord.ToPositionInPlane();
-            yield return nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinateStructSystem.rBasis * scale);
+            yield return (Vector2)nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinateStructSystem.rBasis * scale);
         }
 
 
