@@ -14,6 +14,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
 
 
         private EntityQuery errandTargetQuery;
+        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         private void Awake()
         {
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
@@ -67,7 +68,8 @@ namespace Assets.WorldObjects.Members.Food.DOTS
         public void ErrandAborted(HarvestEntityErrand errand)
         {
             Debug.LogError("[ERRANDS] Entity harvest errand aborted");
-            World.DefaultGameObjectInjectionWorld.EntityManager.SetComponentData(errand.targetEntity, new ErrandClaimComponent
+            var commandbuffer = commandbufferSystem.CreateCommandBuffer();
+            commandbuffer.SetComponent(errand.targetEntity, new ErrandClaimComponent
             {
                 Claimed = false
             });
@@ -76,7 +78,8 @@ namespace Assets.WorldObjects.Members.Food.DOTS
         public void ErrandCompleted(HarvestEntityErrand errand)
         {
             Debug.Log("[ERRANDS] Entity harvest errand completed");
-            World.DefaultGameObjectInjectionWorld.EntityManager.RemoveComponent<ErrandClaimComponent>(errand.targetEntity);
+            var commandbuffer = commandbufferSystem.CreateCommandBuffer();
+            commandbuffer.RemoveComponent<ErrandClaimComponent>(errand.targetEntity);
         }
 
     }

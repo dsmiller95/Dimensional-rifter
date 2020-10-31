@@ -21,7 +21,6 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                 }).Schedule(Dependency);
 
 
-
             var allRenderMeshes = new List<AnimationRenderMesh>();
             EntityManager.GetAllUniqueSharedComponentData(allRenderMeshes);
             var commandBuffer = errandAvailabilityCommandSystem.CreateCommandBuffer().AsParallelWriter();
@@ -50,7 +49,6 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                         }
                     }).Schedule(Dependency);
             }
-
 
             errandAvailabilityCommandSystem.AddJobHandleForProducer(Dependency);
         }
