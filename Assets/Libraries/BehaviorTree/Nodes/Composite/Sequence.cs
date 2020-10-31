@@ -16,6 +16,11 @@ namespace BehaviorTree.Nodes
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
+            if (childIndex >= children.Length)
+            {
+                return NodeStatus.SUCCESS;
+            }
+
             var status = children[childIndex].Evaluate(blackboard);
 
             while (status == NodeStatus.SUCCESS)

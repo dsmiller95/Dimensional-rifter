@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGrowth: 0
   growthPerSecond: 3
-  finalGrowthAmount: 100
+  finalGrowthAmount: 40
   Grown: 0
 --- !u!114 &2709178220890433278
 MonoBehaviour:

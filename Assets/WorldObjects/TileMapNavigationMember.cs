@@ -128,11 +128,11 @@ namespace Assets.WorldObjects
             };
         }
 
-        public NavigationPath? GetPathTo(TileMapMember target, bool navigateToAdjacent = true)
+        public NavigationPath? GetPathTo(UniversalCoordinate target, bool navigateToAdjacent = true)
         {
             var path = PathfinderUtils.PathBetween(
                 CoordinatePosition,
-                target.CoordinatePosition,
+                target,
                 bigManager,
                 (coord, properties) => bigManager.everyMember.IsPassable(coord),
                 navigateToAdjacent
@@ -143,9 +143,20 @@ namespace Assets.WorldObjects
             }
             return new NavigationPath
             {
-                coordinatePath = path.ToList(),
-                targetMember = target
+                coordinatePath = path.ToList()
             };
+        }
+
+        public NavigationPath? GetPathTo(TileMapMember target, bool navigateToAdjacent = true)
+        {
+            var path = GetPathTo(target.CoordinatePosition, navigateToAdjacent);
+            if (path.HasValue)
+            {
+                var returnVal = path.Value;
+                returnVal.targetMember = target;
+                return returnVal;
+            }
+            return path;
         }
 
         private IEnumerable<(List<UniversalCoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)

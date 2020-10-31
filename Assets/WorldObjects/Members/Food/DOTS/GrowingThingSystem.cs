@@ -1,32 +1,58 @@
 ﻿using ECS_SpriteSheetAnimation;
+using System.Collections.Generic;
 using Unity.Entities;
-
+using Unity.Jobs;
 
 namespace Assets.WorldObjects.Members.Food.DOTS
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class GrowingThingSystem : SystemBase
     {
+        EntityCommandBufferSystem errandAvailabilityCommandSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
             var deltaTime = Time.DeltaTime;
-            // TODO: optimize to run parallel over all AnimationRenderMesh
-            // https://github.com/needle-mirror/com.unity.rendering.hybrid/blob/e63fc8f20bba348f886ecd78bd1ff34483adc5b9/Unity.Rendering.Hybrid/RenderMeshSystemV2.cs#L201
-            Entities
-                .ForEach((ref GrowingThingComponent growingThing, ref AnimationIndexComponent animationIndex, in AnimationRenderMesh renderMesh) =>
-            {
-                var newGrowth = deltaTime * growingThing.growthPerSecond + growingThing.currentGrowth;
-                growingThing.SetGrownAmount(newGrowth);
+            Dependency = Entities
+                    .WithNone<ErrandClaimComponent>()
+                .ForEach((int entityInQueryIndex, Entity self, ref GrowingThingComponent growingThing) =>
+                {
+                    var newGrowth = deltaTime * growingThing.growthPerSecond + growingThing.currentGrowth;
+                    growingThing.SetGrownAmount(newGrowth);
+                }).Schedule(Dependency);
 
-                if (growingThing.Grown)
-                {
-                    animationIndex.Value = renderMesh.totalFrames - 1;
-                }
-                else
-                {
-                    animationIndex.SetPageAsFloatInRange(growingThing.currentGrowth, growingThing.finalGrowthAmount, renderMesh.totalFrames - 1);
-                }
-            }).WithoutBurst().Run();
+
+
+            var allRenderMeshes = new List<AnimationRenderMesh>();
+            EntityManager.GetAllUniqueSharedComponentData(allRenderMeshes);
+            var commandBuffer = errandAvailabilityCommandSystem.CreateCommandBuffer().AsParallelWriter();
+
+            for (var index = 0; index < allRenderMeshes.Count; index++)
+            {
+                var animationRenderMesh = allRenderMeshes[index];
+
+                var totalFramesInMesh = animationRenderMesh.totalFrames;
+                Dependency = Entities
+                    .WithNone<ErrandClaimComponent>()
+                    .WithSharedComponentFilter(animationRenderMesh)
+                .ForEach((int entityInQueryIndex, Entity self, ref AnimationIndexComponent animationIndex, in GrowingThingComponent growingThing) =>
+                    {
+                        if (growingThing.Grown)
+                        {
+                            animationIndex.Value = totalFramesInMesh - 1;
+                            commandBuffer.AddComponent(entityInQueryIndex, self, new ErrandClaimComponent
+                            {
+                                Claimed = false
+                            });
+                        }
+                        else
+                        {
+                            animationIndex.SetPageAsFloatInRange(growingThing.currentGrowth, growingThing.finalGrowthAmount, totalFramesInMesh - 1);
+                        }
+                    }).Schedule(Dependency);
+            }
+
+
+            errandAvailabilityCommandSystem.AddJobHandleForProducer(Dependency);
         }
 
     }

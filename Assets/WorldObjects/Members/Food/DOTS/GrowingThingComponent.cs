@@ -10,20 +10,26 @@ namespace Assets.WorldObjects.Members.Food.DOTS
         public float finalGrowthAmount;
         public bool Grown;
 
-        public void SetGrownAmount(float grownAmount)
+        public bool SetGrownAmount(float grownAmount)
         {
             currentGrowth = grownAmount;
             if (currentGrowth >= finalGrowthAmount)
             {
                 currentGrowth = finalGrowthAmount;
                 Grown = true;
-                //errandBoard.RegisterErrandSource(this);
             }
             else
             {
                 Grown = false;
-                //GetComponent<SpriteRenderer>().sprite = growingSprites[growthSpriteID];
             }
+            return Grown;
+        }
+
+        public bool AfterHarvested()
+        {
+            var result = Grown;
+            SetGrownAmount(0);
+            return result;
         }
     }
 }
