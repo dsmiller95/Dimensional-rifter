@@ -1,5 +1,4 @@
 ﻿using Assets.WorldObjects.DOTSMembers;
-using System;
 
 using Unity.Entities;
 using Unity.Mathematics;

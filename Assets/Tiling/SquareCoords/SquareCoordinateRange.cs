@@ -104,9 +104,9 @@ namespace Assets.Tiling.SquareCoords
 
         public SquareCoordinate GetRandomCoordinate(ref Unity.Mathematics.Random randomSource)
         {
-            var row = randomSource.NextInt(0, this.rows);
-            var col = randomSource.NextInt(0, this.cols);
-            return new SquareCoordinate(row, col) + this.coord0;
+            var row = randomSource.NextInt(0, rows);
+            var col = randomSource.NextInt(0, cols);
+            return new SquareCoordinate(row, col) + coord0;
         }
 
         public override string ToString()
@@ -125,7 +125,7 @@ namespace Assets.Tiling.SquareCoords
         }
         public override bool Equals(object obj)
         {
-            if(obj is SquareCoordinateRange typed)
+            if (obj is SquareCoordinateRange typed)
             {
                 return typed == this;
             }

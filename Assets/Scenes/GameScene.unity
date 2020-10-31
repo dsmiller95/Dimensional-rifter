@@ -1503,7 +1503,7 @@ MonoBehaviour:
     rows: 10
     cols: 10
   spawnedParent: {fileID: 1469075019}
-  timePerSpawn: 0.2
+  timePerSpawn: 2
   nextSpawnTime: 0
 --- !u!4 &481992102
 Transform:

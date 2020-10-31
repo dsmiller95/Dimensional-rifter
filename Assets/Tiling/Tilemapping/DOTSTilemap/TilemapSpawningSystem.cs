@@ -1,9 +1,6 @@
-﻿using Assets.Tiling.SquareCoords;
-using Assets.WorldObjects.DOTSMembers;
-using System.Linq;
+﻿using Assets.WorldObjects.DOTSMembers;
 using Unity.Entities;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.DOTSTilemap
 {

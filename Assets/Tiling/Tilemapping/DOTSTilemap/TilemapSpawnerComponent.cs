@@ -1,5 +1,4 @@
-﻿using Assets.Tiling;
-using Assets.Tiling.SquareCoords;
+﻿using Assets.Tiling.SquareCoords;
 using Unity.Entities;
 
 namespace Assets.WorldObjects.DOTSMembers

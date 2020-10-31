@@ -1,9 +1,11 @@
 ﻿using Assets.Tiling;
 using Assets.Tiling.Tilemapping;
+using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.SaveObjects;
 using System;
 using System.Linq;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.WorldObjects
@@ -13,7 +15,7 @@ namespace Assets.WorldObjects
     ///     stores information about the current location in the tileMap
     ///     
     /// </summary>
-    public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo
+    public class TileMapMember : MonoBehaviour, ISaveable<TileMemberData>, IInterestingInfo, IConvertGameObjectToEntity
     {
         [NonSerialized] // grabbed from object heirarchy
         public CombinationTileMapManager bigManager;
@@ -122,7 +124,16 @@ namespace Assets.WorldObjects
         public string GetCurrentInfo()
         {
             return $"Type: {memberType.name}\n" +
-                $"Region: {Convert.ToString((long)RegionBitMask, 2).PadLeft(10, '0')}\n";
+                $"Region: {System.Convert.ToString((long)RegionBitMask, 2).PadLeft(10, '0')}\n";
+        }
+
+        public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+        {
+            UniversalCoordinatePosition position = new UniversalCoordinatePosition
+            {
+                coordinate = coordinatePosition
+            };
+            dstManager.AddComponentData(entity, position);
         }
     }
 }
