@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: BuildingSuppliableType
   m_EditorClassIdentifier: 
   DeveloperDescription: Supply for building
+  ID: 0

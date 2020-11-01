@@ -1,37 +1,79 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging;
 using Assets.WorldObjects.SaveObjects.SaveManager;
 using BehaviorTree.Nodes;
 using System;
+using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage.DOTS
 {
-    public class StorageEntityErrandSource : MonoBehaviour, IErrandSource<EntityStoreErrand>, IErrandCompletionReciever<EntityStoreErrand>
+    [Serializable]
+    public class StorageErrandEntitySourceSlice : IErrandSource<EntityStoreErrand>
     {
         public StoreErrandType errandType;
-        public ErrandBoard errandBoard;
+        public ItemSourceType[] validSources;
+        public SuppliableType supplyTypeTarget;
 
         public ErrandType ErrandType => errandType;
-        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        private StorageEntityErrandSource baseErrandSource;
+        private uint validSourceFlags;
+        private uint validSupplyFlags;
 
-        public EntityArchetype errandRequestArchetype;
+        public void Init(StorageEntityErrandSource errandSource)
+        {
+            baseErrandSource = errandSource;
+            validSourceFlags = 0;
+            foreach (var source in validSources)
+            {
+                validSourceFlags |= ((uint)1) << source.ID;
+            }
+            validSupplyFlags = ((uint)1) << supplyTypeTarget.ID;
+        }
+
+        public IErrandSourceNode<EntityStoreErrand> GetErrand(GameObject errandExecutor)
+        {
+            var request = new StorageSupplyErrandRequestComponent
+            {
+                SupplyTargetType = validSupplyFlags,
+                ItemSourceTypeFlags = validSourceFlags
+            };
+            return baseErrandSource.GetErrand(errandExecutor, request);
+        }
+    }
+
+    public class StorageEntityErrandSource : MonoBehaviour, IErrandCompletionReciever<EntityStoreErrand>
+    {
+        public ErrandBoard errandBoard;
+        public StorageErrandEntitySourceSlice[] StorageErrandTypes;
+
+        private EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        private EntityArchetype errandRequestArchetype;
 
         public void Awake()
         {
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             errandRequestArchetype = entityManager.CreateArchetype(
                 typeof(StorageSupplyErrandRequestComponent));
+
+            foreach (var errandSource in StorageErrandTypes)
+            {
+                errandSource.Init(this);
+            }
             SaveSystemHooks.Instance.PostLoad += RegisterSelfAsErrandSource;
         }
 
         private void RegisterSelfAsErrandSource()
         {
-            errandBoard.RegisterErrandSource(this);
+            foreach (var errandSource in StorageErrandTypes)
+            {
+                errandBoard.RegisterErrandSource(errandSource);
+            }
         }
 
-        public IErrandSourceNode<EntityStoreErrand> GetErrand(GameObject errandExecutor)
+        public IErrandSourceNode<EntityStoreErrand> GetErrand(GameObject errandExecutor, StorageSupplyErrandRequestComponent storageRequest)
         {
             var commandbuffer = commandbufferSystem.CreateCommandBuffer();
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
@@ -40,7 +82,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
 #if UNITY_EDITOR
             entityManager.SetName(entity, "StorageErrandRequest");
 #endif
-            commandbuffer.SetComponent(entity, new StorageSupplyErrandRequestComponent());
+            storageRequest.DataIsSet = true;
+            commandbuffer.SetComponent(entity, storageRequest);
             return new StorageEntityErrandResultListener(
                 this,
                 entity,
@@ -49,12 +92,12 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
 
         public void ErrandCompleted(EntityStoreErrand errand)
         {
-            Debug.Log("[ERRANDS] Entity storage errand completed");
+            Debug.Log("[ERRANDS] [STORAGE] Entity errand completed");
         }
 
         public void ErrandAborted(EntityStoreErrand errand)
         {
-            Debug.LogError("[ERRANDS] Entity storage errand aborted");
+            Debug.LogError("[ERRANDS] [STORAGE] Entity errand aborted");
         }
 
         class StorageEntityErrandResultListener : ErrandSourceNode<EntityStoreErrand>
@@ -82,6 +125,12 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
                     return ErrandResult == null ? NodeStatus.FAILURE : NodeStatus.SUCCESS;
                 }
                 var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+                if (!entityManager.Exists(errandRequestEntity))
+                {
+                    Debug.Log("[ERRANDS] [STORAGE] No valid storage errand found");
+                    gotResult = true;
+                    return NodeStatus.FAILURE;
+                }
                 if (!entityManager.HasComponent<StorageSupplyErrandResultComponent>(errandRequestEntity))
                 {
                     return NodeStatus.RUNNING;
@@ -103,6 +152,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
             }
             public override void Reset(Blackboard blackboard)
             {
+                // TODO: make sure the entity gets cleaned up if the errand gets aborted early
+                //   I.E. due to death
                 throw new NotImplementedException();
             }
         }

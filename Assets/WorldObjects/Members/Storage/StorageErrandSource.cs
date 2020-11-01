@@ -65,8 +65,8 @@ namespace Assets.WorldObjects.Members.Storage
             itemSources = new HashSet<IItemSource>();
             supplyTargets = new HashSet<ISuppliable>();
 
-            SaveSystemHooks.Instance.PreLoad += ClearItemSourcesAndSupplies;
-            SaveSystemHooks.Instance.PostLoad += RegisterStorageErrandSources;
+            //SaveSystemHooks.Instance.PreLoad += ClearItemSourcesAndSupplies;
+            //SaveSystemHooks.Instance.PostLoad += RegisterStorageErrandSources;
         }
 
         private void ClearItemSourcesAndSupplies()

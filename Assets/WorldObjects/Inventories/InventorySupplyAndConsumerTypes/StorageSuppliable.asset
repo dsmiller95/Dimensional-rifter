@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: StorageSuppliable
   m_EditorClassIdentifier: 
   DeveloperDescription: An with some sort of storage which can be supplied to
+  ID: 1

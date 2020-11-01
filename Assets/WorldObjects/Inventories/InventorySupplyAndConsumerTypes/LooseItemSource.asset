@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: LooseItemSource
   m_EditorClassIdentifier: 
   DeveloperDescription: An item on the ground, just laying around
+  ID: 1

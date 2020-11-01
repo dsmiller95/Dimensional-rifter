@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9fb12db8770cc748b102dbcfac10c6e, type: 3}
-  m_Name: GrowthItemSource
+  m_Script: {fileID: 11500000, guid: 4b97c6f141200754cbbc16ad4e5d0ccf, type: 3}
+  m_Name: SuppliableTypeRegistry
   m_EditorClassIdentifier: 
-  DeveloperDescription: A source of items which produces some sort of product to
-    be gathered
-  ID: 0
+  allObjects:
+  - {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
+  - {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}

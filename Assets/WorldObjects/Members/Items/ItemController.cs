@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.ResourceManagement;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
-using Assets.WorldObjects.Members.Food.DOTS;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage;
@@ -182,9 +181,9 @@ namespace Assets.WorldObjects.Members.Items
         {
             dstManager.AddComponentData(entity, new ItemAmountComponent
             {
-                maxCapacity = this.resourceAmount.MaxCapacity,
-                resourceAmount = this.resourceAmount.CurrentAmount,
-                resourceType = this.resource.resourceType
+                maxCapacity = resourceAmount.MaxCapacity,
+                resourceAmount = resourceAmount.CurrentAmount,
+                resourceType = resource.resourceType
             });
             dstManager.AddComponentData(entity, new LooseItemFlagComponent());
             dstManager.AddComponentData(entity, new ItemAdditionClaimsComponent
@@ -194,6 +193,11 @@ namespace Assets.WorldObjects.Members.Items
             dstManager.AddComponentData(entity, new ItemSubtractClaimComponent
             {
                 TotalAllocatedSubtractions = 0f
+            });
+
+            dstManager.AddComponentData(entity, new ItemSourceTypeComponent
+            {
+                SourceTypeFlag = ((uint)1) << ItemSourceType.ID
             });
         }
     }

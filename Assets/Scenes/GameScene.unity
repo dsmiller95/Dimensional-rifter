@@ -152,8 +152,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a422904be9c3f2d47b083cf8128a10df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  errandType: {fileID: 11400000, guid: aa4ecbb43b1667a488828d42d1d2097d, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  StorageErrandTypes:
+  - errandType: {fileID: 11400000, guid: aa4ecbb43b1667a488828d42d1d2097d, type: 2}
+    validSources:
+    - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
+    - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
+    supplyTypeTarget: {fileID: 11400000, guid: 2ac676a2b35e79243b1389cc3b58c1bf, type: 2}
+  - errandType: {fileID: 11400000, guid: 1be86b14015750e41970cb4eefe62228, type: 2}
+    validSources:
+    - {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
+    - {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
+    - {fileID: 11400000, guid: 624dcac723f65ed4289abe5bb4dda812, type: 2}
+    supplyTypeTarget: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
 --- !u!4 &70454123
 Transform:
   m_ObjectHideFlags: 0

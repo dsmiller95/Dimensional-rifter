@@ -2,6 +2,7 @@
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
+using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using System;
 using System.Collections.Generic;
@@ -192,6 +193,15 @@ namespace Assets.WorldObjects.Members.Storage
                     TotalSubtractionClaims = itemData.Item3
                 });
             }
+
+            dstManager.AddComponentData(entity, new ItemSourceTypeComponent
+            {
+                SourceTypeFlag = ((uint)1) << ItemSourceType.ID
+            });
+            dstManager.AddComponentData(entity, new SupplyTypeComponent
+            {
+                SupplyTypeFlag = ((uint)1) << SuppliableClassification.ID
+            });
         }
     }
 }
