@@ -60,6 +60,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingEntityErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityGraphNode.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Assets\Scripts\Utilities\UniqueObjectRegistry.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetAnimatorAuthoringComponent.cs" />
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\StorageDataComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateStructSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapRegionRoot.cs" />
@@ -109,8 +111,10 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\SleepUntilAwakeEnough.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
     <Compile Include="Assets\ToggleObjectActive.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemAdditionClaimsComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawnerComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemSubtractClaimsComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
@@ -126,6 +130,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
     <Compile Include="Assets\GettingStarted_ECS\LevelComponent.cs" />
     <Compile Include="Assets\Libraries\Utilities\EnumerableExtensions.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountClaimBufferData.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\BuildOrderPlacementManipulator.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
@@ -199,6 +204,7 @@
     <Compile Include="Assets\Scripts\AnimateSprite.cs" />
     <Compile Include="Assets\Scripts\Core\FloatState.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\LimitedResourcePool.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandRequestComponent.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\ManipulatorController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
@@ -227,7 +233,9 @@
     <Compile Include="Assets\UI\Priorities\PriorityButton.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Leaf.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\MeshCopier.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandSourceNode.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\StorageEntityErrandSource.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\GlobalReferencePassthroughFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSourceOwner.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\HarvestErrandType.cs" />
@@ -236,6 +244,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryGraphNodeAttribute.cs" />
     <Compile Include="Assets\Scripts\Clickable.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandResultComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\RandomProviderComponent.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationRenderMesh.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizer.cs" />
@@ -267,6 +276,8 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\EntityStoreErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\HarvestingErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
@@ -314,12 +325,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemSubtractClaimsComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemAdditionClaimsComponent.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\StorageDataComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountClaimBufferData.cs" />
-    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandSourceNode.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

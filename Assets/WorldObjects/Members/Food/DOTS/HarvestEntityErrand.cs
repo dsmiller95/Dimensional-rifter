@@ -62,7 +62,6 @@ namespace Assets.WorldObjects.Members.Food
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log($"Gather behavior completed for {gatheringWorker.name}");
                     var growingData = manager.GetComponentData<GrowingThingComponent>(targetEntity);
                     var result = growingData.AfterHarvested();
                     manager.SetComponentData(targetEntity, growingData);

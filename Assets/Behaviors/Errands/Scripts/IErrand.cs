@@ -4,7 +4,6 @@ namespace Assets.Behaviors.Errands.Scripts
 {
     public interface IErrand
     {
-        ErrandType ErrandType { get; }
         /// <summary>
         /// method to check if the errand is still open. Should be pretty quick, if any pathing has to happen
         ///     do that on a different scedule

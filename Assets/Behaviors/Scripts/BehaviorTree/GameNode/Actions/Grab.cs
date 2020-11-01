@@ -73,7 +73,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 );
         }
 
-        private static BehaviorNode WrapWithAnimation(
+        public static BehaviorNode WrapWithAnimation(
             BehaviorNode grabNode,
             string targetObjectBlackboard,
             GameObject target)

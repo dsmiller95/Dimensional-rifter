@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Assets.Tiling;
+using Unity.Entities;
+using Unity.Transforms;
+using UnityEngine;
 
 namespace Assets.UI.ItemTransferAnimations
 {
@@ -19,22 +22,43 @@ namespace Assets.UI.ItemTransferAnimations
         public float ItemTransferAnimationTime = 0.4f;
         public GameObject itemTransferParticleSystemPrefab;
 
-        private void SpawnItemTransferAdmin(GameObject source, GameObject target)
+        private void SpawnItemTransferAnim(Vector3 source, Vector3 target, Transform parent = null)
         {
-            var newParticleSystem = GameObject.Instantiate(itemTransferParticleSystemPrefab, target.transform.parent);
+            GameObject newParticleSystem;
+            if(parent == null)
+            {
+                newParticleSystem = GameObject.Instantiate(itemTransferParticleSystemPrefab);
+            }
+            else
+            {
+                newParticleSystem = GameObject.Instantiate(itemTransferParticleSystemPrefab, parent);
+            }
             newParticleSystem.transform.position = new Vector3(
-                    source.transform.position.x,
-                    source.transform.position.y,
+                    source.x,
+                    source.y,
                     newParticleSystem.transform.position.z);
 
             newParticleSystem.transform.LookAt(
-                new Vector3(target.transform.position.x, target.transform.position.y, newParticleSystem.transform.position.z),
+                new Vector3(target.x, target.y, newParticleSystem.transform.position.z),
                 Vector3.forward);
         }
 
+
         public static void ShowItemTransferAnimation(GameObject itemSource, GameObject itemTarget)
         {
-            Instance.SpawnItemTransferAdmin(itemSource, itemTarget);
+            Instance.SpawnItemTransferAnim(itemSource.transform.position, itemTarget.transform.position, itemTarget.transform.parent);
+        }
+        public static void ShowItemTransferAnimation(GameObject itemSource, Translation itemTarget)
+        {
+            Instance.SpawnItemTransferAnim(itemSource.transform.position, itemTarget.Value, itemSource.transform.parent);
+        }
+        public static void ShowItemTransferAnimation(Translation itemSource, GameObject itemTarget)
+        {
+            Instance.SpawnItemTransferAnim(itemSource.Value, itemTarget.transform.position, itemTarget.transform.parent);
+        }
+        public static void ShowItemTransferAnimation(Translation itemSource, Translation itemTarget)
+        {
+            Instance.SpawnItemTransferAnim(itemSource.Value, itemTarget.Value);
         }
     }
 }

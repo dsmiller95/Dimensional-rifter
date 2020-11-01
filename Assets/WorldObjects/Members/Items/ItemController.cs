@@ -189,7 +189,7 @@ namespace Assets.WorldObjects.Members.Items
             dstManager.AddComponentData(entity, new LooseItemFlagComponent());
             dstManager.AddComponentData(entity, new ItemAdditionClaimsComponent
             {
-                TotalAdditionSubtractions = 0f
+                TotalAllocatedAdditions = 0f
             });
             dstManager.AddComponentData(entity, new ItemSubtractClaimComponent
             {
