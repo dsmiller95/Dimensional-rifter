@@ -179,7 +179,7 @@ namespace Assets.WorldObjects.Members.Buildings
 
         private bool BuildErrandActive;
 
-        public BuildingErrand GetErrand(GameObject errandExecutor)
+        public IErrandSourceNode<BuildingErrand> GetErrand(GameObject errandExecutor)
         {
             if (!IsBuildable())
             {
@@ -198,10 +198,11 @@ namespace Assets.WorldObjects.Members.Buildings
             }
 
             BuildErrandActive = true;
-            return new BuildingErrand(
+            var errand = new BuildingErrand(
                 buildErrandType,
                 this,
                 errandExecutor);
+            return new ImmediateErrandSourceNode<BuildingErrand>(errand);
         }
 
         public void ErrandCompleted(BuildingErrand errand)

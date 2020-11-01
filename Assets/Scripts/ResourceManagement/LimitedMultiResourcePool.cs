@@ -22,7 +22,7 @@ namespace Assets.Scripts.ResourceManagement
 
     public class LimitedMultiResourcePool
     {
-        private float maxCapacity;
+        public float maxCapacity { get; private set; }
         private IDictionary<Resource, float> itemAmounts;
         private IDictionary<Resource, float> totalAllocatedSubtractions;
 
@@ -57,6 +57,15 @@ namespace Assets.Scripts.ResourceManagement
                     type = x.Key
                 }).ToList()
             };
+        }
+
+        public IEnumerable<(Resource, float, float)> GetResourceAmountThenAllocatedSubtracts()
+        {
+            foreach (var itemPair in itemAmounts)
+            {
+                this.totalAllocatedSubtractions.TryGetValue(itemPair.Key, out float allocatedSubtraction);
+                yield return (itemPair.Key, itemPair.Value, allocatedSubtraction);
+            }
         }
 
         public float totalFullSpace => itemAmounts.Sum(x => x.Value);

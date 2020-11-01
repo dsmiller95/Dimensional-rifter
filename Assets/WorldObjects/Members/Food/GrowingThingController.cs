@@ -137,7 +137,7 @@ namespace Assets.WorldObjects.Members.Food
         #region Errands
         private bool ErrandActive;
 
-        public HarvestingErrand GetErrand(GameObject errandExecutor)
+        public IErrandSourceNode<HarvestingErrand> GetErrand(GameObject errandExecutor)
         {
             if (!HarvestReady())
             {
@@ -155,10 +155,11 @@ namespace Assets.WorldObjects.Members.Food
                 return null;
             }
             ErrandActive = true;
-            return new HarvestingErrand(
+            var errand = new HarvestingErrand(
                 gatheringErrandType,
                 this,
                 errandExecutor);
+            return new ImmediateErrandSourceNode<HarvestingErrand>(errand);
         }
 
         public void ErrandCompleted(HarvestingErrand errand)

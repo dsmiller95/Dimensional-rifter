@@ -13,8 +13,8 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
         protected override void OnUpdate()
         {
             Entities
-                .WithChangeFilter<UniversalCoordinatePosition>()
-                .ForEach((ref Translation translation, ref UniversalCoordinatePosition positionCoordinate) =>
+                .WithChangeFilter<UniversalCoordinatePositionComponent>()
+                .ForEach((ref Translation translation, ref UniversalCoordinatePositionComponent positionCoordinate) =>
             {
                 var position = positionCoordinate.coordinate.ToPositionInPlane();
 

@@ -1,12 +1,15 @@
 ﻿using Assets.Scripts.ResourceManagement;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
+using Assets.WorldObjects.Members.Food.DOTS;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
+using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Items
@@ -19,7 +22,7 @@ namespace Assets.WorldObjects.Members.Items
     }
 
     [DisallowMultipleComponent]
-    public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable, IInterestingInfo
+    public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable, IInterestingInfo, IConvertGameObjectToEntity
     {
         public static readonly float ItemMaxCapacity = 100;
         public static readonly string SaveDataIndentifier = "Item";
@@ -174,5 +177,24 @@ namespace Assets.WorldObjects.Members.Items
                 resourceAmount.ToString();
         }
         #endregion
+
+        public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+        {
+            dstManager.AddComponentData(entity, new ItemAmountComponent
+            {
+                maxCapacity = this.resourceAmount.MaxCapacity,
+                resourceAmount = this.resourceAmount.CurrentAmount,
+                resourceType = this.resource.resourceType
+            });
+            dstManager.AddComponentData(entity, new LooseItemFlagComponent());
+            dstManager.AddComponentData(entity, new ItemAdditionClaimsComponent
+            {
+                TotalAdditionSubtractions = 0f
+            });
+            dstManager.AddComponentData(entity, new ItemSubtractClaimComponent
+            {
+                TotalAllocatedSubtractions = 0f
+            });
+        }
     }
 }

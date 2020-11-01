@@ -2,9 +2,11 @@
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
+using Assets.WorldObjects.Members.Storage.DOTS;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
@@ -18,7 +20,8 @@ namespace Assets.WorldObjects.Members.Storage
     [DisallowMultipleComponent]
     public class StorageController : MonoBehaviour,
         ISuppliable, IItemSource,
-        IMemberSaveable, IInterestingInfo
+        IMemberSaveable, IInterestingInfo,
+        IConvertGameObjectToEntity
     {
         public SuppliableType supplyClassification;
         public SuppliableType SuppliableClassification => supplyClassification;
@@ -170,5 +173,25 @@ namespace Assets.WorldObjects.Members.Storage
         }
         #endregion
 
+        public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+        {
+            dstManager.AddComponentData(entity, new StorageDataComponent
+            {
+                MaxCapacity = this.myInventory.maxCapacity,
+                TotalAdditionClaims = 0f
+            });
+
+            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(entity);
+
+            foreach (var itemData in this.myInventory.GetResourceAmountThenAllocatedSubtracts())
+            {
+                itemAmounts.Add(new ItemAmountClaimBufferData
+                {
+                    Type = itemData.Item1,
+                    Amount = itemData.Item2,
+                    TotalSubtractionClaims = itemData.Item3
+                });
+            }
+        }
     }
 }

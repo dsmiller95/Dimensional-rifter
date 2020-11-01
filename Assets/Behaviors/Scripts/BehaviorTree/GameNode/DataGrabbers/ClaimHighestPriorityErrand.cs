@@ -14,6 +14,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         private ErrandBoard errandBoard;
         private PrioritySetToErrandConfiguration prioritySetToErrands;
 
+        private ErrandBoard.ErrandClaimingNode[] ClaimingNodes;
+
         public ClaimHighestPriorityErrand(
             GameObject target,
             ErrandBoard errandBoard,
@@ -32,6 +34,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 errand.OnReset();
                 blackboard.ClearValue(errandPathInBlackboard);
             }
+            ClaimingNodes = null;
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
@@ -42,11 +45,25 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 return NodeStatus.SUCCESS;
             }
 
+            if(ClaimingNodes != null)
+            {
+                return SelectThroughErrandNodes(blackboard);
+            }
+
+            if (!GetClaimingErrandNodes())
+            {
+                return NodeStatus.FAILURE;
+            }
+            return SelectThroughErrandNodes(blackboard);
+        }
+
+        private bool GetClaimingErrandNodes()
+        {
             var priorities = componentValue.myPriorities.priorities;
             var errandTypes = prioritySetToErrands.errandTypesToSetPrioritiesFor;
             if (priorities.Length != errandTypes.Length)
             {
-                return NodeStatus.FAILURE;
+                return false;
             }
             var ErrandsByPriority = new List<(ErrandType, int)>(priorities.Length);
 
@@ -56,17 +73,36 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
             }
             ErrandsByPriority.Sort((a, b) => b.Item2 - a.Item2);
 
-            var newErrand = ErrandsByPriority
+            ClaimingNodes = ErrandsByPriority
                 .Select(x => errandBoard.AttemptClaimAnyErrandOfType(x.Item1, componentValue.gameObject))
-                .FirstOrDefault(x => x != null);
+                .ToArray();
+            return true;
+        }
 
-            if (newErrand == null)
+        private NodeStatus SelectThroughErrandNodes(Blackboard blackboard)
+        {
+            foreach (var node in ClaimingNodes)
             {
-                return NodeStatus.FAILURE;
+                var nodeResult = node.Evaluate(blackboard);
+                switch (nodeResult)
+                {
+                    case NodeStatus.SUCCESS:
+                        SetErrandToBlackboard(blackboard, node.resultingErrand);
+                        return NodeStatus.SUCCESS;
+                    case NodeStatus.RUNNING:
+                        return NodeStatus.RUNNING;
+                    case NodeStatus.FAILURE:
+                        break;
+                    default:
+                        break;
+                }
             }
+            return NodeStatus.FAILURE;
+        }
 
-            blackboard.SetValue(errandPathInBlackboard, newErrand);
-            return NodeStatus.SUCCESS;
+        private void SetErrandToBlackboard(Blackboard blackboard, IErrand errand)
+        {
+            blackboard.SetValue(errandPathInBlackboard, errand);
         }
     }
 }

@@ -25,18 +25,19 @@ namespace Assets.WorldObjects.Members.Storage
             validSourceSet = new HashSet<ItemSourceType>(validSources);
         }
 
-        public StoreErrand GetErrand(GameObject errandExecutor)
+        public IErrandSourceNode<StoreErrand> GetErrand(GameObject errandExecutor)
         {
             var executorNavigator = errandExecutor.GetComponent<TileMapNavigationMember>();
             var validSources = baseErrandSource.itemSources
                 .Where(source => validSourceSet.Contains(source.ItemSourceType) && FilterIfReachable(source, executorNavigator));
             var validTargets = baseErrandSource.supplyTargets
                 .Where(supply => supply.SuppliableClassification == supplyTypeTarget && FilterIfReachable(supply, executorNavigator));
-            return baseErrandSource.GetErrand(
+            var errand = baseErrandSource.GetErrand(
                 errandExecutor,
                 errandType,
                 validSources,
                 validTargets);
+            return new ImmediateErrandSourceNode<StoreErrand>(errand);
         }
         private bool FilterIfReachable(object componentMember, TileMapNavigationMember navigator)
         {
@@ -147,7 +148,6 @@ namespace Assets.WorldObjects.Members.Storage
             return null;
         }
 
-
         #region Errands
         public StoreErrand GetErrand(
             GameObject errandExecutor,
@@ -169,16 +169,6 @@ namespace Assets.WorldObjects.Members.Storage
                 float.MaxValue,
                 errandExecutor,
                 this);
-        }
-
-        private bool FilterIfReachable(object componentMember, TileMapNavigationMember navigator)
-        {
-            if (componentMember is Component component)
-            {
-                var member = component.GetComponent<TileMapMember>();
-                return navigator.IsReachable(member);
-            }
-            return false;
         }
 
 

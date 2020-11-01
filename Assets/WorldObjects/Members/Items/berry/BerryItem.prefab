@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6082261357034508972}
   - component: {fileID: 6082261357034508971}
   - component: {fileID: 4430772838501633667}
-  - component: {fileID: 1883470060943119403}
   - component: {fileID: -1105052018730373616}
+  - component: {fileID: 6234173217463635425}
   m_Layer: 9
   m_Name: BerryItem
   m_TagString: Untagged
@@ -128,19 +128,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.37, y: 0.63}
   m_EdgeRadius: 0
---- !u!114 &1883470060943119403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f6f02d3d1f51742a9bebee14233301, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  variableToSet: {fileID: 11400000, guid: 9ce946433307fae47ba1e21776ea8345, type: 2}
 --- !u!114 &-1105052018730373616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +143,16 @@ MonoBehaviour:
   resource: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
   SourceType: {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
   storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}
+--- !u!114 &6234173217463635425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0

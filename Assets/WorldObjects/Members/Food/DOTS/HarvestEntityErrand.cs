@@ -42,7 +42,7 @@ namespace Assets.WorldObjects.Members.Food
         private void SetupBehavior()
         {
             var manager = entityWorld.EntityManager;
-            var position = manager.GetComponentData<UniversalCoordinatePosition>(targetEntity);
+            var position = manager.GetComponentData<UniversalCoordinatePositionComponent>(targetEntity);
             ErrandBehaviorTreeRoot =
             new Sequence(
                 new FindPathToCoordinate(

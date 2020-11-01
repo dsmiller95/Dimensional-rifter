@@ -21,7 +21,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
             errandTargetQuery = entityManager.CreateEntityQuery(
                 typeof(ErrandClaimComponent),
                 ComponentType.ReadOnly<GrowingThingComponent>(),
-                ComponentType.ReadOnly<UniversalCoordinatePosition>());
+                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>());
 
             SaveSystemHooks.Instance.PostLoad += RegisterSelfAsErrandSource;
         }
@@ -31,7 +31,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
             errandBoard.RegisterErrandSource(this);
         }
 
-        public HarvestEntityErrand GetErrand(GameObject errandExecutor)
+        public IErrandSourceNode<HarvestEntityErrand> GetErrand(GameObject errandExecutor)
         {
             Entity targetEntity = Entity.Null;
             HarvestEntityErrand resultErrand = null;
@@ -62,7 +62,8 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                     Claimed = true
                 });
             }
-            return resultErrand;
+
+            return new ImmediateErrandSourceNode<HarvestEntityErrand>(resultErrand);
         }
 
         public void ErrandAborted(HarvestEntityErrand errand)

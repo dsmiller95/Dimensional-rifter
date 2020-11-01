@@ -10,6 +10,9 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
         private string errandPathInBlackboard;
         private ErrandBoard errandBoard;
         private ErrandType errandType;
+
+        private ErrandBoard.ErrandClaimingNode sourceNode;
+
         public ClaimErrandOfType(
             GameObject target,
             ErrandBoard errandBoard,
@@ -29,6 +32,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 errand.OnReset();
                 blackboard.ClearValue(errandPathInBlackboard);
             }
+            sourceNode = null;
         }
 
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
@@ -38,15 +42,41 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 // only grab an errand if there is none already -- this node must be reset in order to grab another
                 return NodeStatus.SUCCESS;
             }
+            if(sourceNode != null)
+            {
+                return EvaluateErrandSourceNode(blackboard);
+            }
 
-            var newErrand = errandBoard.AttemptClaimAnyErrandOfType(errandType, target);
-            if (newErrand == null)
+            sourceNode = errandBoard.AttemptClaimAnyErrandOfType(errandType, target);
+            if (sourceNode == null)
             {
                 return NodeStatus.FAILURE;
             }
+            return EvaluateErrandSourceNode(blackboard);
+        }
 
-            blackboard.SetValue(errandPathInBlackboard, newErrand);
-            return NodeStatus.SUCCESS;
+        private NodeStatus EvaluateErrandSourceNode(Blackboard blackboard)
+        {
+            var result = sourceNode.Evaluate(blackboard);
+            switch (result)
+            {
+                case NodeStatus.FAILURE:
+                    // this will cause this node to try to find another errand on the next evaluate
+                    sourceNode = null;
+                    return NodeStatus.FAILURE;
+                case NodeStatus.SUCCESS:
+                    SetErrandToBlackboard(blackboard, sourceNode.resultingErrand);
+                    return NodeStatus.SUCCESS;
+                case NodeStatus.RUNNING:
+                    return NodeStatus.RUNNING;
+                default:
+                    return NodeStatus.FAILURE;
+            }
+        }
+
+        private void SetErrandToBlackboard(Blackboard blackboard, IErrand errand)
+        {
+            blackboard.SetValue(errandPathInBlackboard, errand);
         }
     }
 }

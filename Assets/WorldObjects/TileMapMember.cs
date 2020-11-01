@@ -129,11 +129,17 @@ namespace Assets.WorldObjects
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            UniversalCoordinatePosition position = new UniversalCoordinatePosition
+            UniversalCoordinatePositionComponent position = new UniversalCoordinatePositionComponent
             {
                 coordinate = coordinatePosition
             };
             dstManager.AddComponentData(entity, position);
+
+            // TODO: move the connectivity system over into DOTS
+            dstManager.AddComponentData(entity, new ReachabilityFlagComponent
+            {
+                RegionBitMask = ulong.MaxValue - 1
+            });
         }
     }
 }

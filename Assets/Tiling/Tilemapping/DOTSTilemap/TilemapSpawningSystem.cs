@@ -29,7 +29,7 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
 
                         var newEntity = commandBuffer.Instantiate(entityInQueryIndex, entityPrefab.prefab);
 
-                        commandBuffer.SetComponent(entityInQueryIndex, newEntity, new UniversalCoordinatePosition
+                        commandBuffer.SetComponent(entityInQueryIndex, newEntity, new UniversalCoordinatePositionComponent
                         {
                             coordinate = newCoordinate
                         });

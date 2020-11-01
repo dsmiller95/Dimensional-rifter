@@ -1,4 +1,5 @@
 ﻿using Assets.WorldObjects.SaveObjects.SaveManager;
+using BehaviorTree.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,13 +34,78 @@ namespace Assets.Behaviors.Errands.Scripts
         /// <param name="type"></param>
         /// <param name="claimer"></param>
         /// <returns>Errand if any found, otherwise null</returns>
-        public IErrand AttemptClaimAnyErrandOfType(ErrandType type, GameObject claimer)
+        public ErrandClaimingNode AttemptClaimAnyErrandOfType(ErrandType type, GameObject claimer)
         {
             var errandIndex = type.uniqueID;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
-            return ErrandSourcesByErrandTypeID[errandIndex]
-                .Select(source => source.GetErrand(claimer))
-                .FirstOrDefault(errand => errand != null);
+            return new ErrandClaimingNode(
+                claimer,
+                ErrandSourcesByErrandTypeID[errandIndex].ToArray());
+        }
+
+        public class ErrandClaimingNode : BehaviorNode
+        {
+            public IErrand resultingErrand;
+            private IErrandSource<IErrand>[] sources;
+            private int currentSourceIndex = 0;
+            private IErrandSourceNode<IErrand> currentNode = null;
+
+            private GameObject targetObj;
+            public ErrandClaimingNode(
+                GameObject targetObj,
+                IErrandSource<IErrand>[] sources)
+            {
+                this.targetObj = targetObj;
+                this.sources = sources;
+            }
+
+            protected override NodeStatus OnEvaluate(Blackboard blackboard)
+            {
+                if (resultingErrand != null)
+                {
+                    return NodeStatus.SUCCESS;
+                }
+                if(sources.Length <= 0)
+                {
+                    return NodeStatus.FAILURE;
+                }
+                if (currentNode == null && currentSourceIndex == 0)
+                {
+                    currentNode = sources[0].GetErrand(targetObj);
+                }
+                while (currentSourceIndex < sources.Length)
+                {
+                    var result = currentNode.Evaluate(blackboard);
+                    switch (result)
+                    {
+                        case NodeStatus.SUCCESS:
+                            resultingErrand = currentNode.ErrandResult;
+                            return NodeStatus.SUCCESS;
+                        case NodeStatus.FAILURE:
+                            currentSourceIndex++;
+                            if (currentSourceIndex < sources.Length)
+                            {
+                                currentNode = sources[currentSourceIndex].GetErrand(targetObj);
+                            }
+                            else
+                            {
+                                return NodeStatus.FAILURE;
+                            }
+                            break;
+                        case NodeStatus.RUNNING:
+                            return NodeStatus.RUNNING;
+                        default:
+                            break;
+                    }
+                }
+                return NodeStatus.FAILURE;
+            }
+
+            public override void Reset(Blackboard blackboard)
+            {
+                throw new System.NotImplementedException();
+            }
+
         }
 
         public bool DeRegisterErrandSource(IErrandSource<IErrand> errandSource)

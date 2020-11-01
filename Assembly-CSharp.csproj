@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetCalories.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingEntityErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityGraphNode.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetResourceFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\ErrandClaimComponent.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\GettingStarted_ECS\MoverSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
@@ -128,7 +130,6 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\TimeBasedTaskSelector.cs" />
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
-    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandSourceObject.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\ExecuteErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSource.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryDirectSelector.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\EnsureAvailableResourceSupplyPair.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemAmountComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetTimeZoneClassificationLeaf.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\CompositeNode.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingSystem.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetRendererSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Scripts\Core\GenericState.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\NodeFactory.cs" />
@@ -244,6 +247,7 @@
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingComponent.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemFlagComponent.cs" />
     <Compile Include="Assets\UI\Priorities\SinglePriorityHolder.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinateSystemMembers.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
@@ -284,12 +288,13 @@
     <Compile Include="Assets\Scripts\VariableOperators\ScriptableObjectAssigner.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawningSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\OnBooleanEdgeEvent.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinatePosition.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinatePositionComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\GatherOfTypeFactory.cs" />
     <Compile Include="Assets\WorldObjects\Resource.cs" />
     <Compile Include="Assets\WorldObjects\TileMapNavigationMember.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableType.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedTile.cs" />
+    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToCoordinate.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\CombinationTileMapManager.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Triangle\TriangleShapeRule.cs" />
@@ -300,6 +305,7 @@
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityHolderSet.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\HarvestEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\GameTimeOwner.cs" />
     <Compile Include="Assets\WorldObjects\GameTime.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
@@ -308,11 +314,12 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetRendererSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingEntityErrandSource.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\HarvestEntityErrand.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToCoordinate.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\ErrandClaimComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemSubtractClaimsComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Items\DOTS\ItemAdditionClaimsComponent.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\StorageDataComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountClaimBufferData.cs" />
+    <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandSourceNode.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
