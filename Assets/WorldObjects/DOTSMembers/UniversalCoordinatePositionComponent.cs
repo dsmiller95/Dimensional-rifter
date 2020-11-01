@@ -4,7 +4,7 @@ using Unity.Entities;
 namespace Assets.WorldObjects.DOTSMembers
 {
     [GenerateAuthoringComponent]
-    public struct UniversalCoordinatePosition : IComponentData
+    public struct UniversalCoordinatePositionComponent : IComponentData
     {
         public UniversalCoordinate coordinate;
     }
