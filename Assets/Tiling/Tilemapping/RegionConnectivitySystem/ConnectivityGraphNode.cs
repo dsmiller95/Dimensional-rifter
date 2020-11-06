@@ -44,6 +44,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
             tileTypeIDs = membersToReadFrom.GetTileTypesByCoordinateReadonlyCollection();
 
+            // TODO: figure out how to let the connectivity system know about walls and other blocking members
             var passableSet = membersToReadFrom.GetTileInfoByTypeIndex()
                 .Select((x, i) => new
                 {

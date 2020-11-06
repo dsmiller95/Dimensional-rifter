@@ -204,8 +204,6 @@ namespace Assets.Tiling.Tilemapping
             TileMapRegionData data,
             ConnectivityGraphBuilder connectivityGraphBuilder)
         {
-            var allMembers = BigManager.everyMember;
-
             var coordinatesInMap = data.baseRange.GetUniversalCoordinates(data.planeIDIndex)
                 .Where(coord => !runtimeData.disabledCoordinates.Contains(coord));
             var neighborsPerCoord = UniversalCoordinate.NeighborCount(data.baseRange.coordinateType);
