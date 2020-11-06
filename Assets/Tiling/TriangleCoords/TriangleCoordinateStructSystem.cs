@@ -128,10 +128,10 @@ namespace Assets.Tiling.TriangleCoords
             return Vector2.SqrMagnitude(origin.ToPositionInPlane() - destination.ToPositionInPlane());
         }
 
-        public static readonly Vector2[] triangleVerts = new Vector2[] {
-                new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
-                new Vector3(  0f, 1/Mathf.Sqrt(3)),
-                new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
+        //private static readonly Vector2[] triangleVerts = new Vector2[] {
+        //        new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
+        //        new Vector3(  0f, 1/Mathf.Sqrt(3)),
+        //        new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
 
 
         /// <summary>
@@ -142,7 +142,10 @@ namespace Assets.Tiling.TriangleCoords
         /// <returns>an enumerable of all the vertexes</returns>
         public IEnumerable<Vector2> GetTriangleVertextesAround()
         {
-            IEnumerable<Vector2> verts = triangleVerts;
+            IEnumerable<Vector2> verts = new Vector2[] {
+                new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
+                new Vector3(  0f, 1/Mathf.Sqrt(3)),
+                new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
             if (R)
             {
                 var rotation = Quaternion.Euler(0, 0, -60);
@@ -151,11 +154,11 @@ namespace Assets.Tiling.TriangleCoords
             return verts;
         }
 
-        private static Vector3 BoundBoxSizeEstimate = Vector3.one * 2f / Mathf.Sqrt(3);
         public Bounds GetRawBounds(float sideLength, Matrix4x4 systemTransform)
         {
             var position = systemTransform.MultiplyPoint3x4((Vector2)ToPositionInPlane());
-            return new Bounds(position, BoundBoxSizeEstimate * sideLength);
+            var boundingBoxSizeEstimate = Vector3.one * 2f / Mathf.Sqrt(3);
+            return new Bounds(position, boundingBoxSizeEstimate * sideLength);
         }
         public static int[] GetTileTriangleIDs()
         {

@@ -18,8 +18,9 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
         public static float TotalAmounts(this DynamicBuffer<ItemAmountClaimBufferData> claimBuffer)
         {
             var totalAmounts = 0f;
-            foreach (var resourceAmount in claimBuffer)
+            for(var i = 0; i < claimBuffer.Length; i++)
             {
+                var resourceAmount = claimBuffer[i];
                 totalAmounts += resourceAmount.Amount;
             }
             return totalAmounts;

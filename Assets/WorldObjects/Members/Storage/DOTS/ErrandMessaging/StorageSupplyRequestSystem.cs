@@ -117,27 +117,31 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             return;
                         }
 
-                        foreach (var resourceTypeAmount in availableResourceTargets)
+                        var resourceTargets = availableResourceTargets.GetEnumerator();
+
+                        while (resourceTargets.MoveNext())
                         {
+                            var resourceTypeAmount = resourceTargets.Current;
                             var resourceType = resourceTypeAmount.Key;
-                            if (availableResourceTargets.TryGetValue(resourceType, out var itemEntity))
+                            var itemEntity = resourceTypeAmount.Value;
+
+                            var itemData = GetComponent<ItemAmountComponent>(itemEntity);
+                            var itemSubtract = GetComponent<ItemSubtractClaimComponent>(itemEntity);
+                            var availableAmount = itemData.resourceAmount - itemSubtract.TotalAllocatedSubtractions;
+
+                            var amountToTransfer = math.min(availableAmount, remainingSpace);
+
+                            var result = new StorageSupplyErrandResultComponent
                             {
-                                var itemData = GetComponent<ItemAmountComponent>(itemEntity);
-                                var itemSubtract = GetComponent<ItemSubtractClaimComponent>(itemEntity);
-                                var availableAmount = itemData.resourceAmount - itemSubtract.TotalAllocatedSubtractions;
-
-                                var amountToTransfer = math.min(availableAmount, remainingSpace);
-
-                                var result = new StorageSupplyErrandResultComponent
-                                {
-                                    itemSource = itemEntity,
-                                    supplyTarget = self,
-                                    resourceTransferType = (Resource)resourceType,
-                                    amountToTransfer = amountToTransfer
-                                };
-                                possibleResults.Add(result);
-                            }
+                                itemSource = itemEntity,
+                                supplyTarget = self,
+                                resourceTransferType = (Resource)resourceType,
+                                amountToTransfer = amountToTransfer
+                            };
+                            possibleResults.Add(result);
                         }
+                        resourceTargets.Dispose();
+
                     }).Run();//.Schedule(tempDependency);
                 availableResourceTargets.Dispose();
                 var didSetResult = false;
