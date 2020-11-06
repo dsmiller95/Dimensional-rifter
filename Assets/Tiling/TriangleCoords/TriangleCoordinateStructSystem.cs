@@ -128,11 +128,6 @@ namespace Assets.Tiling.TriangleCoords
             return Vector2.SqrMagnitude(origin.ToPositionInPlane() - destination.ToPositionInPlane());
         }
 
-        //private static readonly Vector2[] triangleVerts = new Vector2[] {
-        //        new Vector3(-.5f,-1/(Mathf.Sqrt(3) * 2)),
-        //        new Vector3(  0f, 1/Mathf.Sqrt(3)),
-        //        new Vector3( .5f, -1/(Mathf.Sqrt(3) * 2)) };
-
 
         /// <summary>
         /// Get a list of vertexes representing the triangle around this coordinate,

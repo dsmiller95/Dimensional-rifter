@@ -19,8 +19,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
             LooseItems = GetEntityQuery(
                 ComponentType.ReadOnly<ItemSourceTypeComponent>(),
                 ComponentType.ReadOnly<ItemAmountComponent>(),
-                ComponentType.ReadOnly<LooseItemFlagComponent>(),
-                ComponentType.ReadOnly<ItemSubtractClaimComponent>());
+                ComponentType.ReadOnly<LooseItemFlagComponent>());
 
             StorageSites = GetEntityQuery(
                 ComponentType.ReadOnly<SupplyTypeComponent>(),
@@ -82,15 +81,14 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                     .WithAll<LooseItemFlagComponent>()
                     .ForEach((int entityInQueryIndex, Entity self,
                         in ItemSourceTypeComponent itemType,
-                        in ItemAmountComponent amount,
-                        in ItemSubtractClaimComponent subtractClaim) =>
+                        in ItemAmountComponent amount) =>
                     {
                         if ((itemType.SourceTypeFlag & supplyRequest.ItemSourceTypeFlags) == 0)
                         {
                             return;
                         }
                         var resourceType = (int)amount.resourceType; // todo: check if there's a subtractable amount
-                        var resourceAmount = amount.resourceAmount - subtractClaim.TotalAllocatedSubtractions;
+                        var resourceAmount = amount.resourceAmount - amount.TotalAllocatedSubtractions;
 
                         if (resourceAmount <= 0 || availableResourceTargets.ContainsKey(resourceType))
                         {
@@ -126,8 +124,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             var itemEntity = resourceTypeAmount.Value;
 
                             var itemData = GetComponent<ItemAmountComponent>(itemEntity);
-                            var itemSubtract = GetComponent<ItemSubtractClaimComponent>(itemEntity);
-                            var availableAmount = itemData.resourceAmount - itemSubtract.TotalAllocatedSubtractions;
+                            var availableAmount = itemData.resourceAmount - itemData.TotalAllocatedSubtractions;
 
                             var amountToTransfer = math.min(availableAmount, remainingSpace);
 
@@ -154,8 +151,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                     // all this code is to check if modifications were made to these values?
                     //      ideally the whole job should exclusively lock these items
                     var amount = GetComponent<ItemAmountComponent>(action.itemSource);
-                    var subtract = GetComponent<ItemSubtractClaimComponent>(action.itemSource);
-                    var remainingAmount = amount.resourceAmount - subtract.TotalAllocatedSubtractions;
+                    var remainingAmount = amount.resourceAmount - amount.TotalAllocatedSubtractions;
                     if (remainingAmount <= 0)
                     {
                         continue;
@@ -171,8 +167,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                     }
 
                     var amountToTransfer = math.min(action.amountToTransfer, math.min(remainingAmount, remainingSpace));
-                    subtract.TotalAllocatedSubtractions += amountToTransfer;
-                    SetComponent(action.itemSource, subtract);
+                    amount.TotalAllocatedSubtractions += amountToTransfer;
+                    SetComponent(action.itemSource, amount);
 
                     storage.TotalAdditionClaims += amountToTransfer;
                     SetComponent(action.supplyTarget, storage);

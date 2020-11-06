@@ -183,16 +183,13 @@ namespace Assets.WorldObjects.Members.Items
             {
                 maxCapacity = resourceAmount.MaxCapacity,
                 resourceAmount = resourceAmount.CurrentAmount,
-                resourceType = resource.resourceType
+                resourceType = resource.resourceType,
+                TotalAllocatedSubtractions = 0f
             });
             dstManager.AddComponentData(entity, new LooseItemFlagComponent());
             dstManager.AddComponentData(entity, new ItemAdditionClaimsComponent
             {
                 TotalAllocatedAdditions = 0f
-            });
-            dstManager.AddComponentData(entity, new ItemSubtractClaimComponent
-            {
-                TotalAllocatedSubtractions = 0f
             });
 
             dstManager.AddComponentData(entity, new ItemSourceTypeComponent

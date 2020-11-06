@@ -13,7 +13,15 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
         public GenericSelector<IInventory<Resource>> inventoryTarget;
         public VariableInstantiator stateHolder;
 
-
+        public float GrabUnclaimedItemIntoSelf(
+            Resource itemType,
+            float amount)
+        {
+            var inventory = inventoryTarget.GetCurrentValue(stateHolder);
+            var added = inventory.Add(itemType, amount);
+            added.Execute();
+            return added.info;
+        }
 
         public float GrabItemIntoSelf(
             Resource itemType,
@@ -39,6 +47,15 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
         }
 
 
+        public float PullUnclaimedItemFromSelf(
+            Resource itemType,
+            float amount)
+        {
+            var inventory = inventoryTarget.GetCurrentValue(stateHolder);
+            var added = inventory.Consume(itemType, amount);
+            added.Execute();
+            return added.info;
+        }
 
         public float PullItemFromSelf(
             Resource itemType,

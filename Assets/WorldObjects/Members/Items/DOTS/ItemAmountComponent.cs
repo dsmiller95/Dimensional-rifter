@@ -9,10 +9,11 @@ namespace Assets.WorldObjects.Members.Items.DOTS
 
         public Resource resourceType;
         public float resourceAmount;
+        public float TotalAllocatedSubtractions;
 
-        public bool HasAvailableAmount(ItemSubtractClaimComponent subtractClaim)
+        public bool HasAvailableAmount()
         {
-            return (resourceAmount - subtractClaim.TotalAllocatedSubtractions) > 0;
+            return (resourceAmount - TotalAllocatedSubtractions) > 0;
         }
     }
 }
