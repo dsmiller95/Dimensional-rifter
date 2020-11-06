@@ -99,7 +99,6 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                         availableResourceTargets.Add(resourceType, self);
                     }).Run();//.Schedule(tempDependency);
                 NativeList<StorageSupplyErrandResultComponent> possibleResults = new NativeList<StorageSupplyErrandResultComponent>(1, Allocator.TempJob);
-                var availableKeys = availableResourceTargets.GetKeyArray(Allocator.TempJob);
                 Entities
                     .WithDisposeOnCompletion(availableResourceTargets)
                     .ForEach((int entityInQueryIndex, Entity self,
@@ -118,8 +117,9 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             return;
                         }
 
-                        foreach (var resourceType in availableKeys)
+                        foreach (var resourceTypeAmount in availableResourceTargets)
                         {
+                            var resourceType = resourceTypeAmount.Key;
                             if (availableResourceTargets.TryGetValue(resourceType, out var itemEntity))
                             {
                                 var itemData = GetComponent<ItemAmountComponent>(itemEntity);
@@ -139,9 +139,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             }
                         }
                     }).Run();//.Schedule(tempDependency);
-                //tempDependency.Complete();
                 availableResourceTargets.Dispose();
-                availableKeys.Dispose();
                 var didSetResult = false;
                 foreach (var action in possibleResults)
                 {
