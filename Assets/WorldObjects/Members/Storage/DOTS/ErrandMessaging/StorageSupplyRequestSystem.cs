@@ -1,6 +1,4 @@
 ﻿using Assets.WorldObjects.Members.Items.DOTS;
-using ECS_SpriteSheetAnimation;
-using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -14,6 +12,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
         private EntityQuery LooseItems;
         private EntityQuery StorageSites;
 
+        private EntityQuery SupplyErrandRequests;
+
         protected override void OnCreate()
         {
             LooseItems = GetEntityQuery(
@@ -25,99 +25,169 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
             StorageSites = GetEntityQuery(
                 ComponentType.ReadOnly<SupplyTypeComponent>(),
                 ComponentType.ReadOnly<StorageDataComponent>(),
-                ComponentType.ReadOnly<ItemAmountClaimBufferData>());
+                ComponentType.ReadOnly<ItemAmountClaimBufferData>()
+                );
+
+            SupplyErrandRequests = GetEntityQuery(
+                ComponentType.ReadOnly<StorageSupplyErrandRequestComponent>(),
+                ComponentType.Exclude<StorageSupplyErrandResultComponent>()
+                );
         }
 
         EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
+            //var itemAmountType = GetComponentTypeHandle<ItemAmountComponent>();
+            //var looseFlag = GetComponentTypeHandle<LooseItemFlagComponent>();
+            //var itemSourceType = GetComponentTypeHandle<ItemSourceTypeComponent>();
+            //var itemSubtraction = GetComponentTypeHandle<ItemSubtractClaimComponent>();
 
-            var itemAmountType = GetComponentTypeHandle<ItemAmountComponent>();
-            var looseFlag = GetComponentTypeHandle<LooseItemFlagComponent>();
-            var itemSourceType = GetComponentTypeHandle<ItemSourceTypeComponent>();
-            var itemSubtraction = GetComponentTypeHandle<ItemSubtractClaimComponent>();
+            //var storageData = GetComponentTypeHandle<StorageDataComponent>();
+            //var supplyType = GetComponentTypeHandle<SupplyTypeComponent>();
+            //var storageAmountClaim = GetBufferTypeHandle<ItemAmountClaimBufferData>();
 
-            var storageData = GetComponentTypeHandle<StorageDataComponent>();
-            var supplyType = GetComponentTypeHandle<SupplyTypeComponent>();
-            var storageAmountClaim = GetBufferTypeHandle<ItemAmountClaimBufferData>();
+            //var entity = GetEntityTypeHandle();
 
-            var entity = GetEntityTypeHandle();
+            var supplyErrandEntities = SupplyErrandRequests.ToEntityArrayAsync(Allocator.TempJob, out var supplyEntityJob);
+            var supplyErrandRequests = SupplyErrandRequests.ToComponentDataArrayAsync<StorageSupplyErrandRequestComponent>(Allocator.TempJob, out var supplyErrandJob);
+            var dataGrab = JobHandle.CombineDependencies(supplyErrandJob, supplyEntityJob);
+            dataGrab.Complete();
 
-            var itemChunks = LooseItems.CreateArchetypeChunkArray(Allocator.TempJob);
-            var storageChunks = StorageSites.CreateArchetypeChunkArray(Allocator.TempJob);
+            if (supplyErrandRequests.Length <= 0)
+            {
+                supplyErrandEntities.Dispose();
+                supplyErrandRequests.Dispose();
+                return;
+            }
 
-            var commandBuffer = finishedRequestBufferSystem.CreateCommandBuffer().AsParallelWriter();
+            //JobHandle tempDependency = default;
 
-            var random = new Random((uint)(Time.ElapsedTime * 10000));
+            //var sourceChunks = LooseItems.CreateArchetypeChunkArrayAsync(Allocator.TempJob, out var itemJob);
+            //var targetChunks = StorageSites.CreateArchetypeChunkArrayAsync(Allocator.TempJob, out var storageJob);
+            //this.Dependency = JobHandle.CombineDependencies(Dependency, itemJob, storageJob);
 
-            Entities
-                .WithNone<StorageSupplyErrandResultComponent>()
-                .WithReadOnly(entity)
-                // These are only necessary when using these types to query for their actual data inside the lambda
-                //.WithReadOnly(itemAmountType).WithReadOnly(looseFlag).WithReadOnly(itemSubtraction)
-                //.WithReadOnly(storageData).WithReadOnly(storageAmountClaim)
-                // todo: do I have to say I'm reading and writing to itemSubtraction and storageAmountClaim?. for now I just write to a buffer
-                // but there must be some way to make sure multiple conflicting modifications don't get written to the buffer
-                .WithReadOnly(itemSourceType).WithReadOnly(supplyType)
-                .WithDisposeOnCompletion(itemChunks).WithDisposeOnCompletion(storageChunks)
-                .ForEach((int entityInQueryIndex, Entity self, in StorageSupplyErrandRequestComponent storageRequest) =>
+            //NativeHashMap<int, Entity> availableSupplyTargets = new NativeHashMap<int, Entity>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
+
+            var commandBuffer = finishedRequestBufferSystem.CreateCommandBuffer();
+
+            for (var supplyIndex = 0; supplyIndex < supplyErrandRequests.Length; supplyIndex++)
+            {
+                var supplyRequest = supplyErrandRequests[supplyIndex];
+                if (!supplyRequest.DataIsSet)
                 {
-                    if (!storageRequest.DataIsSet)
+                    continue;
+                }
+                NativeHashMap<int, Entity> availableResourceTargets = new NativeHashMap<int, Entity>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
+                Entities
+                    .WithAll<LooseItemFlagComponent>()
+                    .ForEach((int entityInQueryIndex, Entity self,
+                        in ItemSourceTypeComponent itemType,
+                        in ItemAmountComponent amount,
+                        in ItemSubtractClaimComponent subtractClaim) =>
                     {
-                        return;
-                    }
-                    StorageSupplyErrandResultComponent result = new StorageSupplyErrandResultComponent
-                    {
-                        amountToTransfer = random.NextInt(0, 3),
-                        resourceTransferType = Resource.FOOD
-                    };
-
-                    bool foundItemSource = false;
-                    for (int itemChunkIndex = 0; itemChunkIndex < itemChunks.Length && !foundItemSource; itemChunkIndex++)
-                    {
-                        var chunk = itemChunks[itemChunkIndex];
-                        var itemSourceTypeData = chunk.GetNativeArray(itemSourceType);
-                        var itemEntities = chunk.GetNativeArray(entity);
-                        for (int indexInChunk = 0; indexInChunk < itemSourceTypeData.Length && !foundItemSource; indexInChunk++)
+                        if ((itemType.SourceTypeFlag & supplyRequest.ItemSourceTypeFlags) == 0)
                         {
-                            var sourceTypeDatum = itemSourceTypeData[indexInChunk];
-                            if((sourceTypeDatum.SourceTypeFlag & storageRequest.ItemSourceTypeFlags) != 0)
+                            return;
+                        }
+                        var resourceType = (int)amount.resourceType; // todo: check if there's a subtractable amount
+                        var resourceAmount = amount.resourceAmount - subtractClaim.TotalAllocatedSubtractions;
+
+                        if (resourceAmount <= 0 || availableResourceTargets.ContainsKey(resourceType))
+                        {
+                            return;
+                        }
+                        availableResourceTargets.Add(resourceType, self);
+                    }).Run();//.Schedule(tempDependency);
+                NativeList<StorageSupplyErrandResultComponent> possibleResults = new NativeList<StorageSupplyErrandResultComponent>(1, Allocator.TempJob);
+                var availableKeys = availableResourceTargets.GetKeyArray(Allocator.TempJob);
+                Entities
+                    .WithDisposeOnCompletion(availableResourceTargets)
+                    .ForEach((int entityInQueryIndex, Entity self,
+                        in SupplyTypeComponent storageType,
+                        in StorageDataComponent storageInfo,
+                        in DynamicBuffer<ItemAmountClaimBufferData> storageAmounts) =>
+                    {
+                        if ((storageType.SupplyTypeFlag & supplyRequest.SupplyTargetType) == 0)
+                        {
+                            return;
+                        }
+                        var totalAmounts = storageAmounts.TotalAmounts();
+                        var remainingSpace = storageInfo.MaxCapacity - totalAmounts - storageInfo.TotalAdditionClaims;
+                        if (remainingSpace <= 0)
+                        {
+                            return;
+                        }
+
+                        foreach (var resourceType in availableKeys)
+                        {
+                            if (availableResourceTargets.TryGetValue(resourceType, out var itemEntity))
                             {
-                                result.itemSource = itemEntities[indexInChunk];
-                                foundItemSource = true;
+                                var itemData = GetComponent<ItemAmountComponent>(itemEntity);
+                                var itemSubtract = GetComponent<ItemSubtractClaimComponent>(itemEntity);
+                                var availableAmount = itemData.resourceAmount - itemSubtract.TotalAllocatedSubtractions;
+
+                                var amountToTransfer = math.min(availableAmount, remainingSpace);
+
+                                var result = new StorageSupplyErrandResultComponent
+                                {
+                                    itemSource = itemEntity,
+                                    supplyTarget = self,
+                                    resourceTransferType = (Resource)resourceType,
+                                    amountToTransfer = amountToTransfer
+                                };
+                                possibleResults.Add(result);
                             }
                         }
-                    }
-                    if (!foundItemSource)
+                    }).Run();//.Schedule(tempDependency);
+                //tempDependency.Complete();
+                availableResourceTargets.Dispose();
+                availableKeys.Dispose();
+                var didSetResult = false;
+                foreach (var action in possibleResults)
+                {
+                    if (action.amountToTransfer <= 0)
                     {
-                        commandBuffer.DestroyEntity(entityInQueryIndex, self);
-                        return;
+                        continue;
+                    }
+                    // all this code is to check if modifications were made to these values?
+                    //      ideally the whole job should exclusively lock these items
+                    var amount = GetComponent<ItemAmountComponent>(action.itemSource);
+                    var subtract = GetComponent<ItemSubtractClaimComponent>(action.itemSource);
+                    var remainingAmount = amount.resourceAmount - subtract.TotalAllocatedSubtractions;
+                    if (remainingAmount <= 0)
+                    {
+                        continue;
                     }
 
-                    bool foundSuppliable = false;
-                    for (int itemChunkIndex = 0; itemChunkIndex < storageChunks.Length && !foundSuppliable; itemChunkIndex++)
-                    {
-                        var chunk = storageChunks[itemChunkIndex];
-                        var supplyTypeData = chunk.GetNativeArray(supplyType);
-                        var itemEntities = chunk.GetNativeArray(entity);
-                        for (int indexInChunk = 0; indexInChunk < supplyTypeData.Length && !foundSuppliable; indexInChunk++)
-                        {
-                            var supplyTypeDatum = supplyTypeData[indexInChunk];
-                            if ((supplyTypeDatum.SupplyTypeFlag & storageRequest.SupplyTargetType) != 0)
-                            {
-                                result.supplyTarget = itemEntities[indexInChunk];
-                                foundSuppliable = true;
-                            }
-                        }
-                    }
-                    if (!foundSuppliable)
-                    {
-                        commandBuffer.DestroyEntity(entityInQueryIndex, self);
-                        return;
-                    }
-                    commandBuffer.AddComponent(entityInQueryIndex, self, result);
-                }).Schedule();
+                    var storage = GetComponent<StorageDataComponent>(action.supplyTarget);
+                    var storageItems = GetBuffer<ItemAmountClaimBufferData>(action.supplyTarget);
 
+                    var remainingSpace = storage.MaxCapacity - storageItems.TotalAmounts() - storage.TotalAdditionClaims;
+                    if (remainingSpace <= 0)
+                    {
+                        continue;
+                    }
+
+                    var amountToTransfer = math.min(action.amountToTransfer, math.min(remainingAmount, remainingSpace));
+                    subtract.TotalAllocatedSubtractions += amountToTransfer;
+                    SetComponent(action.itemSource, subtract);
+
+                    storage.TotalAdditionClaims += amountToTransfer;
+                    SetComponent(action.supplyTarget, storage);
+
+                    commandBuffer.AddComponent(supplyErrandEntities[supplyIndex], action);
+                    didSetResult = true;
+                    break;
+                }
+                if (!didSetResult)
+                {
+                    commandBuffer.DestroyEntity(supplyErrandEntities[supplyIndex]);
+                }
+                possibleResults.Dispose();
+
+            }
+            supplyErrandEntities.Dispose();
+            supplyErrandRequests.Dispose();
 
             finishedRequestBufferSystem.AddJobHandleForProducer(Dependency);
         }

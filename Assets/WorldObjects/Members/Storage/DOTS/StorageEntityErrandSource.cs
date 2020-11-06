@@ -140,7 +140,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
                 gotResult = true;
 
                 var commandbuffer = errandSourceInstance.commandbufferSystem.CreateCommandBuffer();
-                commandbuffer.DestroyEntity(errandRequestEntity);
+                // TODO: this keeps all the requests in the entities. remove it later
+                //commandbuffer.DestroyEntity(errandRequestEntity);
 
                 if (resultData.itemSource == Entity.Null || resultData.supplyTarget == Entity.Null)
                 {
