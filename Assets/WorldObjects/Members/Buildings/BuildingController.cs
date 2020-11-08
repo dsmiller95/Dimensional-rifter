@@ -222,7 +222,7 @@ namespace Assets.WorldObjects.Members.Buildings
         #endregion
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            dstManager.AddComponentData(entity, new IsBuildingFlag());
+            dstManager.AddComponentData(entity, new IsNotBuiltFlag());
 
             dstManager.AddComponentData(entity, new ItemAmountsDataComponent
             {
