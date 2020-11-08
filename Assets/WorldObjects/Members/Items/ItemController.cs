@@ -4,6 +4,7 @@ using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage;
+using Assets.WorldObjects.Members.Storage.DOTS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,18 +180,22 @@ namespace Assets.WorldObjects.Members.Items
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            dstManager.AddComponentData(entity, new ItemAmountComponent
+            dstManager.AddComponentData(entity, new ItemAmountsDataComponent
             {
-                maxCapacity = resourceAmount.MaxCapacity,
-                resourceAmount = resourceAmount.CurrentAmount,
-                resourceType = resource.resourceType,
-                TotalAllocatedSubtractions = 0f
+                MaxCapacity = resourceAmount.MaxCapacity,
+                TotalAdditionClaims = 0f,
+                LockItemDataBufferTypes = true
             });
+
+            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(entity);
+            itemAmounts.Add(new ItemAmountClaimBufferData
+            {
+                Type = resource.resourceType,
+                Amount = resourceAmount.CurrentAmount,
+                TotalSubtractionClaims = 0f
+            });
+
             dstManager.AddComponentData(entity, new LooseItemFlagComponent());
-            dstManager.AddComponentData(entity, new ItemAdditionClaimsComponent
-            {
-                TotalAllocatedAdditions = 0f
-            });
 
             dstManager.AddComponentData(entity, new ItemSourceTypeComponent
             {

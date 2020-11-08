@@ -1,9 +1,10 @@
-﻿using Unity.Entities;
+﻿using Assets.WorldObjects.Members.Storage.DOTS;
+using Unity.Entities;
 
 namespace Assets.WorldObjects.Members.Items.DOTS
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
-    public class EmptyItemDespaynSystem : SystemBase
+    public class EmptyItemDespawnSystem : SystemBase
     {
         EntityCommandBufferSystem despawnCommandBuffer => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
@@ -12,9 +13,9 @@ namespace Assets.WorldObjects.Members.Items.DOTS
 
             Entities
                 .WithAll<LooseItemFlagComponent>()
-                .ForEach((int entityInQueryIndex, Entity self, ref ItemAmountComponent amount) =>
+                .ForEach((int entityInQueryIndex, Entity self, in DynamicBuffer<ItemAmountClaimBufferData> amountBuffer) =>
             {
-                if (amount.resourceAmount <= 0)
+                if(amountBuffer.TotalAmounts() <= 0)
                 {
                     commandBuffer.DestroyEntity(entityInQueryIndex, self);
                 }

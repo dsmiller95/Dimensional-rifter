@@ -86,11 +86,18 @@ namespace Assets.WorldObjects.Members.Storage
                             var actionEntityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
                             ClearItemSourceClaim(actionEntityManager);
 
-                            var itemAmount = actionEntityManager.GetComponentData<ItemAmountComponent>(errandResult.itemSource);
+                            var itemAmountBuffer = actionEntityManager.GetBuffer<ItemAmountClaimBufferData>(errandResult.itemSource);
+                            var itemIndex = itemAmountBuffer.IndexOfType(errandResult.resourceTransferType);
+                            if(itemIndex < 0)
+                            {
+                                Debug.LogError("Item to grab not found in the item source");
+                                return NodeStatus.FAILURE;
+                            }
                             actualTransferAmount = actorsInventory.GrabUnclaimedItemIntoSelf(errandResult.resourceTransferType, actualTransferAmount);
 
-                            itemAmount.resourceAmount -= actualTransferAmount;
-                            actionEntityManager.SetComponentData(errandResult.itemSource, itemAmount);
+                            var itemAmount = itemAmountBuffer[itemIndex];
+                            itemAmount.Amount -= actualTransferAmount;
+                            itemAmountBuffer[itemIndex] = itemAmount;
 
                             return NodeStatus.SUCCESS;
                         })
@@ -180,7 +187,7 @@ namespace Assets.WorldObjects.Members.Storage
 
         private void ClearStorageClaim(EntityManager entityManager)
         {
-            var storageComponent = entityManager.GetComponentData<StorageDataComponent>(errandResult.supplyTarget);
+            var storageComponent = entityManager.GetComponentData<ItemAmountsDataComponent>(errandResult.supplyTarget);
 
             // be sure to de-allocate based on the original subtraction claim, not the modified amount
             storageComponent.TotalAdditionClaims -= errandResult.amountToTransfer;
@@ -188,11 +195,19 @@ namespace Assets.WorldObjects.Members.Storage
         }
         private void ClearItemSourceClaim(EntityManager entityManager)
         {
-            var itemAmount = entityManager.GetComponentData<ItemAmountComponent>(errandResult.itemSource);
+            var itemAmountBuffer = entityManager.GetBuffer<ItemAmountClaimBufferData>(errandResult.itemSource);
+            //TODO: finding this index multiple times. reduce calls?
+            var itemIndex = itemAmountBuffer.IndexOfType(errandResult.resourceTransferType);
+            if (itemIndex < 0)
+            {
+                Debug.LogError("Item to grab not found in the item source");
+            }
+
+            var itemAmount = itemAmountBuffer[itemIndex];
 
             // be sure to de-allocate based on the original subtraction claim, not the modified amount
-            itemAmount.TotalAllocatedSubtractions -= errandResult.amountToTransfer;
-            entityManager.SetComponentData(errandResult.itemSource, itemAmount);
+            itemAmount.TotalSubtractionClaims -= errandResult.amountToTransfer;
+            itemAmountBuffer[itemIndex] = itemAmount;
         }
 
         private void ClearAllClaims()

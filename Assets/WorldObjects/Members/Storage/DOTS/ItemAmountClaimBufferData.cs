@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using UnityEditor.Il2Cpp;
 
 namespace Assets.WorldObjects.Members.Storage.DOTS
 {
@@ -24,6 +25,19 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
                 totalAmounts += resourceAmount.Amount;
             }
             return totalAmounts;
+        }
+
+        public static int IndexOfType(this DynamicBuffer<ItemAmountClaimBufferData> claimBuffer, Resource type)
+        {
+            for (var i = 0; i < claimBuffer.Length; i++)
+            {
+                var resourceAmount = claimBuffer[i];
+                if(resourceAmount.Type == type)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

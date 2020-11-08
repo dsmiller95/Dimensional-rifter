@@ -176,7 +176,7 @@ namespace Assets.WorldObjects.Members.Storage
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            dstManager.AddComponentData(entity, new StorageDataComponent
+            dstManager.AddComponentData(entity, new ItemAmountsDataComponent
             {
                 MaxCapacity = this.myInventory.maxCapacity,
                 TotalAdditionClaims = 0f

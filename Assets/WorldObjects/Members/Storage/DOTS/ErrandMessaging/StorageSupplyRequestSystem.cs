@@ -6,27 +6,20 @@ using Unity.Mathematics;
 
 namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
 {
+    struct ItemAmountSourceRepresentation
+    {
+        public Entity itemEntity;
+        public float itemAmount;
+        public int indexInItemAmountBuffer;
+    }
+
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class StorageSupplyRequestSystem : SystemBase
     {
-        private EntityQuery LooseItems;
-        private EntityQuery StorageSites;
-
         private EntityQuery SupplyErrandRequests;
 
         protected override void OnCreate()
         {
-            LooseItems = GetEntityQuery(
-                ComponentType.ReadOnly<ItemSourceTypeComponent>(),
-                ComponentType.ReadOnly<ItemAmountComponent>(),
-                ComponentType.ReadOnly<LooseItemFlagComponent>());
-
-            StorageSites = GetEntityQuery(
-                ComponentType.ReadOnly<SupplyTypeComponent>(),
-                ComponentType.ReadOnly<StorageDataComponent>(),
-                ComponentType.ReadOnly<ItemAmountClaimBufferData>()
-                );
-
             SupplyErrandRequests = GetEntityQuery(
                 ComponentType.ReadOnly<StorageSupplyErrandRequestComponent>(),
                 ComponentType.Exclude<StorageSupplyErrandResultComponent>()
@@ -36,16 +29,6 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
         EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
-            //var itemAmountType = GetComponentTypeHandle<ItemAmountComponent>();
-            //var looseFlag = GetComponentTypeHandle<LooseItemFlagComponent>();
-            //var itemSourceType = GetComponentTypeHandle<ItemSourceTypeComponent>();
-            //var itemSubtraction = GetComponentTypeHandle<ItemSubtractClaimComponent>();
-
-            //var storageData = GetComponentTypeHandle<StorageDataComponent>();
-            //var supplyType = GetComponentTypeHandle<SupplyTypeComponent>();
-            //var storageAmountClaim = GetBufferTypeHandle<ItemAmountClaimBufferData>();
-
-            //var entity = GetEntityTypeHandle();
 
             var supplyErrandEntities = SupplyErrandRequests.ToEntityArrayAsync(Allocator.TempJob, out var supplyEntityJob);
             var supplyErrandRequests = SupplyErrandRequests.ToComponentDataArrayAsync<StorageSupplyErrandRequestComponent>(Allocator.TempJob, out var supplyErrandJob);
@@ -61,10 +44,6 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
 
             //JobHandle tempDependency = default;
 
-            //var sourceChunks = LooseItems.CreateArchetypeChunkArrayAsync(Allocator.TempJob, out var itemJob);
-            //var targetChunks = StorageSites.CreateArchetypeChunkArrayAsync(Allocator.TempJob, out var storageJob);
-            //this.Dependency = JobHandle.CombineDependencies(Dependency, itemJob, storageJob);
-
             //NativeHashMap<int, Entity> availableSupplyTargets = new NativeHashMap<int, Entity>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
 
             var commandBuffer = finishedRequestBufferSystem.CreateCommandBuffer();
@@ -76,70 +55,89 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 {
                     continue;
                 }
-                NativeHashMap<int, Entity> availableResourceTargets = new NativeHashMap<int, Entity>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
+                NativeHashMap<int, ItemAmountSourceRepresentation> availableResourceTargets = new NativeHashMap<int, ItemAmountSourceRepresentation>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
                 Entities
-                    .WithAll<LooseItemFlagComponent>()
+                    .WithAll<LooseItemFlagComponent>() // TODO: don't need this always, other things could be item sources?
                     .ForEach((int entityInQueryIndex, Entity self,
                         in ItemSourceTypeComponent itemType,
-                        in ItemAmountComponent amount) =>
+                        in ItemAmountsDataComponent amount,
+                        in DynamicBuffer<ItemAmountClaimBufferData> itemAmountBuffer) =>
                     {
                         if ((itemType.SourceTypeFlag & supplyRequest.ItemSourceTypeFlags) == 0)
                         {
                             return;
                         }
-                        var resourceType = (int)amount.resourceType; // todo: check if there's a subtractable amount
-                        var resourceAmount = amount.resourceAmount - amount.TotalAllocatedSubtractions;
 
-                        if (resourceAmount <= 0 || availableResourceTargets.ContainsKey(resourceType))
+                        for (var itemAmountIndex = 0; itemAmountIndex < itemAmountBuffer.Length; itemAmountIndex++)
                         {
-                            return;
+                            var itemAmount = itemAmountBuffer[itemAmountIndex];
+                            var resourceTypeID = (int)itemAmount.Type;
+                            var totalClaimableAmount = itemAmount.Amount - itemAmount.TotalSubtractionClaims;
+                            if(totalClaimableAmount <= 0 || availableResourceTargets.ContainsKey(resourceTypeID))
+                            {
+                                return;
+                            }
+
+                            availableResourceTargets.Add(resourceTypeID, new ItemAmountSourceRepresentation
+                            {
+                                itemEntity = self,
+                                itemAmount = itemAmount.Amount,
+                                indexInItemAmountBuffer = itemAmountIndex
+                            });
                         }
-                        availableResourceTargets.Add(resourceType, self);
                     }).Run();//.Schedule(tempDependency);
                 NativeList<StorageSupplyErrandResultComponent> possibleResults = new NativeList<StorageSupplyErrandResultComponent>(1, Allocator.TempJob);
+
                 Entities
-                    .WithDisposeOnCompletion(availableResourceTargets)
                     .ForEach((int entityInQueryIndex, Entity self,
                         in SupplyTypeComponent storageType,
-                        in StorageDataComponent storageInfo,
-                        in DynamicBuffer<ItemAmountClaimBufferData> storageAmounts) =>
+                        in ItemAmountsDataComponent itemAmountInSupplyTarget,
+                        in DynamicBuffer<ItemAmountClaimBufferData> itemSupplyAmounts) =>
                     {
                         if ((storageType.SupplyTypeFlag & supplyRequest.SupplyTargetType) == 0)
                         {
                             return;
                         }
-                        var totalAmounts = storageAmounts.TotalAmounts();
-                        var remainingSpace = storageInfo.MaxCapacity - totalAmounts - storageInfo.TotalAdditionClaims;
+                        var totalAmounts = itemSupplyAmounts.TotalAmounts();
+                        var remainingSpace = itemAmountInSupplyTarget.MaxCapacity - totalAmounts - itemAmountInSupplyTarget.TotalAdditionClaims;
                         if (remainingSpace <= 0)
                         {
                             return;
                         }
 
-                        var resourceTargets = availableResourceTargets.GetEnumerator();
-
-                        while (resourceTargets.MoveNext())
+                        if (itemAmountInSupplyTarget.LockItemDataBufferTypes)
                         {
-                            var resourceTypeAmount = resourceTargets.Current;
-                            var resourceType = resourceTypeAmount.Key;
-                            var itemEntity = resourceTypeAmount.Value;
-
-                            var itemData = GetComponent<ItemAmountComponent>(itemEntity);
-                            var availableAmount = itemData.resourceAmount - itemData.TotalAllocatedSubtractions;
-
-                            var amountToTransfer = math.min(availableAmount, remainingSpace);
-
-                            var result = new StorageSupplyErrandResultComponent
+                            for (int indexInSupplyType = 0; indexInSupplyType < itemSupplyAmounts.Length; indexInSupplyType++)
                             {
-                                itemSource = itemEntity,
-                                supplyTarget = self,
-                                resourceTransferType = (Resource)resourceType,
-                                amountToTransfer = amountToTransfer
-                            };
-                            possibleResults.Add(result);
-                        }
-                        resourceTargets.Dispose();
+                                var supplyAmountTypeID = (int)itemSupplyAmounts[indexInSupplyType].Type;
+                                if(availableResourceTargets.TryGetValue(supplyAmountTypeID, out var resourceTypeAmount))
+                                {
+                                    var possibleResult = GetSupplyErrandResult(
+                                        supplyAmountTypeID,
+                                        resourceTypeAmount,
+                                        remainingSpace,
+                                        self);
+                                    possibleResults.Add(possibleResult);
+                                }
+                            }
+                        }else
+                        {
+                            var resourceTargets = availableResourceTargets.GetEnumerator();
 
+                            while (resourceTargets.MoveNext())
+                            {
+                                var resourceTypeAmount = resourceTargets.Current;
+                                var possibleResult = GetSupplyErrandResult(
+                                    resourceTypeAmount.Key,
+                                    resourceTypeAmount.Value,
+                                    remainingSpace,
+                                    self);
+                                possibleResults.Add(possibleResult);
+                            }
+                            resourceTargets.Dispose();
+                        }
                     }).Run();//.Schedule(tempDependency);
+
                 availableResourceTargets.Dispose();
                 var didSetResult = false;
                 foreach (var action in possibleResults)
@@ -150,14 +148,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                     }
                     // all this code is to check if modifications were made to these values?
                     //      ideally the whole job should exclusively lock these items
-                    var amount = GetComponent<ItemAmountComponent>(action.itemSource);
-                    var remainingAmount = amount.resourceAmount - amount.TotalAllocatedSubtractions;
-                    if (remainingAmount <= 0)
-                    {
-                        continue;
-                    }
 
-                    var storage = GetComponent<StorageDataComponent>(action.supplyTarget);
+                    var storage = GetComponent<ItemAmountsDataComponent>(action.supplyTarget);
                     var storageItems = GetBuffer<ItemAmountClaimBufferData>(action.supplyTarget);
 
                     var remainingSpace = storage.MaxCapacity - storageItems.TotalAmounts() - storage.TotalAdditionClaims;
@@ -166,9 +158,17 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                         continue;
                     }
 
-                    var amountToTransfer = math.min(action.amountToTransfer, math.min(remainingAmount, remainingSpace));
-                    amount.TotalAllocatedSubtractions += amountToTransfer;
-                    SetComponent(action.itemSource, amount);
+                    var amountToTransfer = math.min(action.amountToTransfer, remainingSpace);
+
+                    var itemAmountBuffer = GetBuffer<ItemAmountClaimBufferData>(action.itemSource);
+                    var itemIndex = itemAmountBuffer.IndexOfType(action.resourceTransferType);
+                    if(itemIndex < 0)
+                    {
+                        continue;
+                    }
+                    var amount = itemAmountBuffer[itemIndex];
+                    amount.TotalSubtractionClaims += amountToTransfer;
+                    itemAmountBuffer[itemIndex] = amount;
 
                     storage.TotalAdditionClaims += amountToTransfer;
                     SetComponent(action.supplyTarget, storage);
@@ -182,12 +182,30 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                     commandBuffer.DestroyEntity(supplyErrandEntities[supplyIndex]);
                 }
                 possibleResults.Dispose();
-
             }
             supplyErrandEntities.Dispose();
             supplyErrandRequests.Dispose();
 
             finishedRequestBufferSystem.AddJobHandleForProducer(Dependency);
+        }
+
+        private static StorageSupplyErrandResultComponent GetSupplyErrandResult(
+            int resourceTypeId, 
+            ItemAmountSourceRepresentation resourceSourceInfo,
+            float remainingSpace,
+            Entity supplyTarget)
+        {
+            var availableAmount = resourceSourceInfo.itemAmount;
+
+            var amountToTransfer = math.min(availableAmount, remainingSpace);
+
+            return new StorageSupplyErrandResultComponent
+            {
+                itemSource = resourceSourceInfo.itemEntity,
+                supplyTarget = supplyTarget,
+                resourceTransferType = (Resource)resourceTypeId,
+                amountToTransfer = amountToTransfer
+            };
         }
 
     }

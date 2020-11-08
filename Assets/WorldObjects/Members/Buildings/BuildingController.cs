@@ -6,10 +6,14 @@ using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.InteractionInterfaces;
 using Assets.WorldObjects.Members.Items;
+using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage;
+using Assets.WorldObjects.Members.Storage.DOTS;
+using Assets.WorldObjects.Members.Wall.DOTS;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings
@@ -22,7 +26,8 @@ namespace Assets.WorldObjects.Members.Buildings
     [DisallowMultipleComponent]
     public class BuildingController : MonoBehaviour,
         IBuildable, ISuppliable, IMemberSaveable,
-        IErrandSource<BuildingErrand>, IErrandCompletionReciever<BuildingErrand>
+        IErrandSource<BuildingErrand>, IErrandCompletionReciever<BuildingErrand>,
+        IConvertGameObjectToEntity
     {
         public ResourceItemType ItemTypeRequriement;
         public float defaultResourceRequiredAmount;
@@ -213,6 +218,29 @@ namespace Assets.WorldObjects.Members.Buildings
         {
             BuildErrandActive = false;
         }
+
         #endregion
+        public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+        {
+            dstManager.AddComponentData(entity, new IsBuildingFlag());
+
+            dstManager.AddComponentData(entity, new ItemAmountsDataComponent
+            {
+                MaxCapacity = builtAmountPool.MaxCapacity,
+                TotalAdditionClaims = 0f,
+                LockItemDataBufferTypes = true
+            });
+            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(entity);
+            itemAmounts.Add(new ItemAmountClaimBufferData
+            {
+                Type = ItemTypeRequriement.resourceType,
+                Amount = builtAmountPool.CurrentAmount,
+                TotalSubtractionClaims = 0f
+            });
+            dstManager.AddComponentData(entity, new SupplyTypeComponent
+            {
+                SupplyTypeFlag = ((uint)1) << SuppliableClassification.ID
+            });
+        }
     }
 }
