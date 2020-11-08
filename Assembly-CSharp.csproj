@@ -334,6 +334,7 @@
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingParentComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingChildComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingAuthoring.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
