@@ -2,6 +2,7 @@
 using Assets.Scripts.Core;
 using Assets.Scripts.ResourceManagement;
 using Assets.UI.Buttery_Toast;
+using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.InteractionInterfaces;
@@ -222,24 +223,43 @@ namespace Assets.WorldObjects.Members.Buildings
         #endregion
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            dstManager.AddComponentData(entity, new IsNotBuiltFlag());
+            var parentCoordinatePosition = dstManager.GetComponentData<UniversalCoordinatePositionComponent>(entity);
 
-            dstManager.AddComponentData(entity, new ItemAmountsDataComponent
+            var buildingEntity = dstManager.CreateEntity(
+                typeof(UniversalCoordinatePositionComponent),
+                typeof(IsNotBuiltFlag),
+                typeof(ItemAmountsDataComponent),
+                typeof(ItemAmountClaimBufferData),
+                typeof(SupplyTypeComponent),
+                typeof(BuildingChildComponent));
+
+            dstManager.SetComponentData(buildingEntity, parentCoordinatePosition);
+
+            dstManager.SetComponentData(buildingEntity, new ItemAmountsDataComponent
             {
                 MaxCapacity = builtAmountPool.MaxCapacity,
                 TotalAdditionClaims = 0f,
                 LockItemDataBufferTypes = true
             });
-            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(entity);
+            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.GetBuffer<ItemAmountClaimBufferData>(buildingEntity);
             itemAmounts.Add(new ItemAmountClaimBufferData
             {
                 Type = ItemTypeRequriement.resourceType,
                 Amount = builtAmountPool.CurrentAmount,
                 TotalSubtractionClaims = 0f
             });
-            dstManager.AddComponentData(entity, new SupplyTypeComponent
+            dstManager.SetComponentData(buildingEntity, new SupplyTypeComponent
             {
                 SupplyTypeFlag = ((uint)1) << SuppliableClassification.ID
+            });
+
+            dstManager.SetComponentData(buildingEntity, new BuildingChildComponent
+            {
+                controllerComponent = entity
+            });
+            dstManager.AddComponentData(entity, new BuildingParentComponent
+            {
+                buildingEntity = buildingEntity
             });
         }
     }

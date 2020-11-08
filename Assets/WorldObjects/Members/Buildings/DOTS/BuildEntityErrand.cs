@@ -2,6 +2,7 @@
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Food.DOTS;
+using Assets.WorldObjects.Members.Wall.DOTS;
 using BehaviorTree.Nodes;
 using Unity.Entities;
 using UnityEngine;
@@ -11,10 +12,10 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
     public class BuildEntityErrand : IErrand
     {
         private BuildingErrandType errandType;
-        public Entity targetEntity;
+        public Entity toBeBuilt;
         public ErrandType ErrandType => errandType;
 
-        public GameObject gatheringWorker;
+        public GameObject buildingWorker;
 
         private World entityWorld;
 
@@ -25,13 +26,13 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             World entityWorld,
             BuildingErrandType errandType,
             Entity toBeBuilt,
-            GameObject gatheringWorker,
+            GameObject buildingWorker,
             IErrandCompletionReciever<BuildEntityErrand> completionReciever)
         {
             this.entityWorld = entityWorld;
             this.errandType = errandType;
-            targetEntity = toBeBuilt;
-            this.gatheringWorker = gatheringWorker;
+            this.toBeBuilt = toBeBuilt;
+            this.buildingWorker = buildingWorker;
             this.completionReciever = completionReciever;
 
             SetupBehavior();
@@ -39,19 +40,20 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
 
         private BehaviorNode ErrandBehaviorTreeRoot;
 
+        private EntityCommandBufferSystem commandbufferSystem => entityWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
         private void SetupBehavior()
         {
             var manager = entityWorld.EntityManager;
-            var position = manager.GetComponentData<UniversalCoordinatePositionComponent>(targetEntity);
+            var position = manager.GetComponentData<UniversalCoordinatePositionComponent>(toBeBuilt);
             ErrandBehaviorTreeRoot =
             new Sequence(
                 new FindPathToCoordinate(
-                    gatheringWorker,
+                    buildingWorker,
                     position.coordinate,
                     "Path",
                     true),
                 new NavigateToTarget(
-                    gatheringWorker,
+                    buildingWorker,
                     "Path",
                     "target",
                     false),
@@ -62,9 +64,12 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
-                    var growingData = manager.GetComponentData<GrowingThingComponent>(targetEntity);
+                    var commandbuffer = commandbufferSystem.CreateCommandBuffer();
+                    commandbuffer.RemoveComponent<IsNotBuiltFlag>(toBeBuilt);
+                    commandbuffer.RemoveComponent<BuildErrandTargetComponent>(toBeBuilt);
+                    var growingData = manager.GetComponentData<GrowingThingComponent>(toBeBuilt);
                     var result = growingData.AfterHarvested();
-                    manager.SetComponentData(targetEntity, growingData);
+                    manager.SetComponentData(toBeBuilt, growingData);
 
                     // TODO: trigger the other side effects of harvest, like creating a new items
 

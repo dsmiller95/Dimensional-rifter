@@ -51,8 +51,13 @@ namespace Assets.WorldObjects.Members.Storage
             var sourceCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(errandResult.itemSource).coordinate;
             var sourcePosition = entityManager.GetComponentData<Translation>(errandResult.itemSource);
 
-            var targetCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(errandResult.supplyTarget).coordinate;
-            var targetPosition = entityManager.GetComponentData<Translation>(errandResult.supplyTarget);
+            var targetObject = errandResult.supplyTarget;
+            if (entityManager.HasComponent<BuildingChildComponent>(targetObject))
+            {
+                targetObject = entityManager.GetComponentData<BuildingChildComponent>(targetObject).controllerComponent;
+            }
+            var targetCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(targetObject).coordinate;
+            var targetPosition = entityManager.GetComponentData<Translation>(targetObject);
 
             var actorsInventory = storingWorker.GetComponent<InventoryHoldingController>();
 

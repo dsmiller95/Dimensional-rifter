@@ -72,7 +72,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
         {
             Debug.LogError("[ERRANDS] Entity harvest errand aborted");
             var commandbuffer = commandbufferSystem.CreateCommandBuffer();
-            commandbuffer.SetComponent(errand.targetEntity, new ErrandClaimComponent
+            commandbuffer.SetComponent(errand.toBeBuilt, new ErrandClaimComponent
             {
                 Claimed = false
             });
@@ -82,7 +82,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
         {
             Debug.Log("[ERRANDS] Entity harvest errand completed");
             var commandbuffer = commandbufferSystem.CreateCommandBuffer();
-            commandbuffer.RemoveComponent<ErrandClaimComponent>(errand.targetEntity);
+            commandbuffer.RemoveComponent<ErrandClaimComponent>(errand.toBeBuilt);
         }
 
     }
