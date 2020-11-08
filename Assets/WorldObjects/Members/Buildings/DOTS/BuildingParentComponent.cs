@@ -15,5 +15,11 @@ namespace Assets.WorldObjects.Members.Items.DOTS
         ///     SupplyTypeComponent
         /// </summary>
         public Entity buildingEntity;
+
+        /// <summary>
+        /// this gets updated based on errand performed on the building component
+        ///     via the parent-link in the child component
+        /// </summary>
+        public bool isBuilt;
     }
 }

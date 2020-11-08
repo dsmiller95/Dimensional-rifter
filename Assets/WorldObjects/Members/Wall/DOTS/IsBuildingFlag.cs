@@ -8,8 +8,4 @@ namespace Assets.WorldObjects.Members.Wall.DOTS
     public struct IsNotBuiltFlag: IComponentData
     {
     }
-
-    public struct BuildErrandTargetComponent: IComponentData
-    {
-    }
 }

@@ -1,7 +1,8 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Food.DOTS;
+using Assets.WorldObjects.Members.Items.DOTS;
+using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using BehaviorTree.Nodes;
 using Unity.Entities;
@@ -66,16 +67,16 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 {
                     var commandbuffer = commandbufferSystem.CreateCommandBuffer();
                     commandbuffer.RemoveComponent<IsNotBuiltFlag>(toBeBuilt);
-                    commandbuffer.RemoveComponent<BuildErrandTargetComponent>(toBeBuilt);
-                    var growingData = manager.GetComponentData<GrowingThingComponent>(toBeBuilt);
-                    var result = growingData.AfterHarvested();
-                    manager.SetComponentData(toBeBuilt, growingData);
+                    commandbuffer.RemoveComponent<SupplyTypeComponent>(toBeBuilt);
 
-                    // TODO: trigger the other side effects of harvest, like creating a new items
+                    var buildingChildData = manager.GetComponentData<BuildingChildComponent>(toBeBuilt);
+                    var parentController = manager.GetComponentData<BuildingParentComponent>(buildingChildData.controllerComponent);
+                    parentController.isBuilt = true;
+                    commandbuffer.SetComponent(buildingChildData.controllerComponent, parentController);
 
                     BehaviorCompleted = true;
                     completionReciever.ErrandCompleted(this);
-                    return result ? NodeStatus.SUCCESS : NodeStatus.FAILURE;
+                    return NodeStatus.SUCCESS;
                 })
             );
         }

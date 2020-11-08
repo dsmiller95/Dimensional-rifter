@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS
 {
-    public class buildGhostEntityErrandSource : MonoBehaviour, IErrandSource<BuildEntityErrand>, IErrandCompletionReciever<BuildEntityErrand>
+    public class BuildGhostEntityErrandSource : MonoBehaviour, IErrandSource<BuildEntityErrand>, IErrandCompletionReciever<BuildEntityErrand>
     {
         public BuildingErrandType buildingErrandType;
         public ErrandType ErrandType => buildingErrandType;
