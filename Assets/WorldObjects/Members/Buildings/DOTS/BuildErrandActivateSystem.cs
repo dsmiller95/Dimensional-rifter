@@ -1,8 +1,9 @@
-﻿using Assets.WorldObjects.Members.Storage.DOTS;
+﻿using Assets.WorldObjects.Members.Food.DOTS;
+using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using Unity.Entities;
 
-namespace Assets.WorldObjects.Members.Items.DOTS
+namespace Assets.WorldObjects.Members.Buildings.DOTS
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class BuildErrandActivateSystem : SystemBase
@@ -14,7 +15,7 @@ namespace Assets.WorldObjects.Members.Items.DOTS
 
             Entities
                 .WithAll<IsNotBuiltFlag>()
-                .WithNone<BuildErrandTargetComponent>()
+                .WithNone<ErrandClaimComponent>()
                 .ForEach((
                     int entityInQueryIndex,
                     Entity self,
@@ -23,7 +24,10 @@ namespace Assets.WorldObjects.Members.Items.DOTS
             {
                 if(amountBuffer.TotalAmounts() >= itemAmountData.MaxCapacity)
                 {
-                    commandBuffer.AddComponent<BuildErrandTargetComponent>(entityInQueryIndex, self);
+                    commandBuffer.AddComponent(entityInQueryIndex, self, new ErrandClaimComponent
+                    {
+                        Claimed = false
+                    });
                 }
             }).ScheduleParallel();
             despawnCommandBuffer.AddJobHandleForProducer(Dependency);

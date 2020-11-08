@@ -58,13 +58,15 @@
   <ItemGroup>
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetCalories.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildGhostEntityErrandSource.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingEntityErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityGraphNode.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Wall\DOTS\BuildErrandActivateSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrandActivateSystem.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\GettingStarted_ECS\Testing.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabComponent.cs" />
