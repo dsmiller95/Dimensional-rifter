@@ -3,8 +3,8 @@ using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
-using System.Collections.Generic;
 using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS
@@ -17,16 +17,16 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
         public float defaultResourceRequiredAmount;
         public SuppliableType supplyClassification;
 
-        public GameObject controllerGameObject;
-
         public void Convert(Entity buildingEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
             // assuming that the parent gameobject has already been converted
-            var controllerEntity = conversionSystem.GetPrimaryEntity(this.transform.parent.gameObject);
+            var controllerEntity = conversionSystem.GetPrimaryEntity(transform.parent.gameObject);
 
             var parentCoordinatePosition = dstManager.GetComponentData<UniversalCoordinatePositionComponent>(controllerEntity);
+            var parentOffset = dstManager.GetComponentData<OffsetFromCoordinatePositionComponent>(controllerEntity);
 
             dstManager.AddComponentData(buildingEntity, parentCoordinatePosition);
+            dstManager.AddComponentData(buildingEntity, parentOffset);
             dstManager.AddComponentData(buildingEntity, new IsNotBuiltFlag());
 
             dstManager.AddComponentData(buildingEntity, new ItemAmountsDataComponent
@@ -56,6 +56,12 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 buildingEntity = buildingEntity
             });
             dstManager.AddComponent<Disabled>(controllerEntity);
+
+            //remove parent-child link, we don't need it. and it actually prevents the transform system from working correctly
+            dstManager.RemoveComponent<Parent>(buildingEntity);
+            dstManager.RemoveComponent<PreviousParent>(buildingEntity);
+            dstManager.RemoveComponent<LocalToParent>(buildingEntity);
+            dstManager.RemoveComponent<Child>(controllerEntity);
         }
     }
 }

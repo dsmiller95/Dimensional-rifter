@@ -48,13 +48,16 @@ namespace Assets.WorldObjects
 
         public void SetPosition(UniversalCoordinate position)
         {
-            bigManager.everyMember.DeRegisterInTileMap(this);
+            if(this != null)
+                bigManager?.everyMember.DeRegisterInTileMap(this);
 
             coordinatePosition = position;
-            var newPosition = bigManager.PositionInRealWorld(coordinatePosition);
-            transform.position = orderingLayer.ApplyPositionInOrderingLayer(newPosition);
+            var newPosition = bigManager?.PositionInRealWorld(coordinatePosition);
+            if(newPosition.HasValue)
+                transform.position = orderingLayer.ApplyPositionInOrderingLayer(newPosition.Value);
 
-            bigManager.everyMember.RegisterInTileMap(this);
+            if (this != null)
+                bigManager?.everyMember.RegisterInTileMap(this);
         }
 
         protected void InterplateFromCurrentTo(UniversalCoordinate target, float t)

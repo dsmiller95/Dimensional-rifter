@@ -8,7 +8,6 @@ using BehaviorTree.Nodes;
 using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS
@@ -89,14 +88,13 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 typeof(IsNotBuiltFlag),
                 typeof(SupplyTypeComponent),
                 typeof(UniversalCoordinatePositionComponent),
+                typeof(OffsetFromCoordinatePositionComponent),
                 typeof(RenderMesh),
 
-                typeof(Parent),
-                typeof(PreviousParent),
-                typeof(LocalToParent),
                 typeof(LocalToWorld),
                 typeof(Rotation),
                 typeof(Translation),
+                typeof(NonUniformScale),
                 typeof(WorldRenderBounds),
                 typeof(PerInstanceCullingTag)
                 });
@@ -107,7 +105,6 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             parentController.isBuilt = true;
             commandBuffer.SetComponent(buildingChildData.controllerComponent, parentController);
 
-            commandBuffer.RemoveComponent<Child>(buildingChildData.controllerComponent);
             commandBuffer.RemoveComponent<Disabled>(buildingChildData.controllerComponent);
         }
 
