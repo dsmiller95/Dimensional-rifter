@@ -3,6 +3,7 @@ using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
+using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
@@ -16,46 +17,45 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
         public float defaultResourceRequiredAmount;
         public SuppliableType supplyClassification;
 
-        public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+        public GameObject controllerGameObject;
+
+        public void Convert(Entity buildingEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
-            var parentCoordinatePosition = dstManager.GetComponentData<UniversalCoordinatePositionComponent>(entity);
+            // assuming that the parent gameobject has already been converted
+            var controllerEntity = conversionSystem.GetPrimaryEntity(this.transform.parent.gameObject);
 
-            var buildingEntity = dstManager.CreateEntity(
-                typeof(UniversalCoordinatePositionComponent),
-                typeof(IsNotBuiltFlag),
-                typeof(ItemAmountsDataComponent),
-                typeof(ItemAmountClaimBufferData),
-                typeof(SupplyTypeComponent),
-                typeof(BuildingChildComponent));
+            var parentCoordinatePosition = dstManager.GetComponentData<UniversalCoordinatePositionComponent>(controllerEntity);
 
-            dstManager.SetComponentData(buildingEntity, parentCoordinatePosition);
+            dstManager.AddComponentData(buildingEntity, parentCoordinatePosition);
+            dstManager.AddComponentData(buildingEntity, new IsNotBuiltFlag());
 
-            dstManager.SetComponentData(buildingEntity, new ItemAmountsDataComponent
+            dstManager.AddComponentData(buildingEntity, new ItemAmountsDataComponent
             {
                 MaxCapacity = defaultResourceRequiredAmount,
                 TotalAdditionClaims = 0f,
                 LockItemDataBufferTypes = true
             });
-            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.GetBuffer<ItemAmountClaimBufferData>(buildingEntity);
+            DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(buildingEntity);
             itemAmounts.Add(new ItemAmountClaimBufferData
             {
                 Type = ItemTypeRequriement,
                 Amount = 0f,
                 TotalSubtractionClaims = 0f
             });
-            dstManager.SetComponentData(buildingEntity, new SupplyTypeComponent
+            dstManager.AddComponentData(buildingEntity, new SupplyTypeComponent
             {
                 SupplyTypeFlag = ((uint)1) << supplyClassification.ID
             });
 
-            dstManager.SetComponentData(buildingEntity, new BuildingChildComponent
+            dstManager.AddComponentData(buildingEntity, new BuildingChildComponent
             {
-                controllerComponent = entity
+                controllerComponent = controllerEntity
             });
-            dstManager.AddComponentData(entity, new BuildingParentComponent
+            dstManager.AddComponentData(controllerEntity, new BuildingParentComponent
             {
                 buildingEntity = buildingEntity
             });
+            dstManager.AddComponent<Disabled>(controllerEntity);
         }
     }
 }

@@ -170,6 +170,7 @@
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandTypeRegistry.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareRangeUniversalContainer.cs" />
     <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingAuthoring.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivitySystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryGraphNodeAttribute.cs" />
     <Compile Include="Assets\Scripts\Clickable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingParentComponent.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandResultComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\RandomProviderComponent.cs" />
@@ -282,6 +284,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\BehaviorNode.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingChildComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\EntityStoreErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\HarvestingErrand.cs" />
@@ -332,9 +335,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingParentComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingChildComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingAuthoring.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

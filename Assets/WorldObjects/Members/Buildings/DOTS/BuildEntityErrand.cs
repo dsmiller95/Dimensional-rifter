@@ -6,6 +6,9 @@ using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using BehaviorTree.Nodes;
 using Unity.Entities;
+using Unity.Rendering;
+using Unity.Transforms;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS
@@ -41,7 +44,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
 
         private BehaviorNode ErrandBehaviorTreeRoot;
 
-        private EntityCommandBufferSystem commandbufferSystem => entityWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        private EntityCommandBufferSystem commandBufferSystem => entityWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         private void SetupBehavior()
         {
             var manager = entityWorld.EntityManager;
@@ -65,20 +68,47 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
-                    var commandbuffer = commandbufferSystem.CreateCommandBuffer();
-                    commandbuffer.RemoveComponent<IsNotBuiltFlag>(toBeBuilt);
-                    commandbuffer.RemoveComponent<SupplyTypeComponent>(toBeBuilt);
+                    var commandbuffer = commandBufferSystem.CreateCommandBuffer();
 
-                    var buildingChildData = manager.GetComponentData<BuildingChildComponent>(toBeBuilt);
-                    var parentController = manager.GetComponentData<BuildingParentComponent>(buildingChildData.controllerComponent);
-                    parentController.isBuilt = true;
-                    commandbuffer.SetComponent(buildingChildData.controllerComponent, parentController);
+                    SetComponentToBuild(toBeBuilt, manager, commandbuffer);
 
                     BehaviorCompleted = true;
                     completionReciever.ErrandCompleted(this);
                     return NodeStatus.SUCCESS;
                 })
             );
+        }
+
+        private static void SetComponentToBuild(Entity buildingComponent, EntityManager manager, EntityCommandBuffer commandBuffer)
+        {
+            manager.RemoveChunkComponent<ChunkWorldRenderBounds>(buildingComponent);
+            manager.RemoveComponent<RenderBounds>(buildingComponent);
+
+            // remove all rendering and transform data from the building component. turn it into a data container
+            var componentsToRemoveFromBuildingBuffer = new ComponentTypes(new ComponentType[] {
+                typeof(IsNotBuiltFlag),
+                typeof(SupplyTypeComponent),
+                typeof(UniversalCoordinatePositionComponent),
+                typeof(RenderMesh),
+
+                typeof(Parent),
+                typeof(PreviousParent),
+                typeof(LocalToParent),
+                typeof(LocalToWorld),
+                typeof(Rotation),
+                typeof(Translation),
+                typeof(WorldRenderBounds),
+                typeof(PerInstanceCullingTag)
+                });
+            commandBuffer.RemoveComponent(buildingComponent, componentsToRemoveFromBuildingBuffer);
+
+            var buildingChildData = manager.GetComponentData<BuildingChildComponent>(buildingComponent);
+            var parentController = manager.GetComponentData<BuildingParentComponent>(buildingChildData.controllerComponent);
+            parentController.isBuilt = true;
+            commandBuffer.SetComponent(buildingChildData.controllerComponent, parentController);
+
+            commandBuffer.RemoveComponent<Child>(buildingChildData.controllerComponent);
+            commandBuffer.RemoveComponent<Disabled>(buildingChildData.controllerComponent);
         }
 
         public NodeStatus Execute(Blackboard blackboard)
