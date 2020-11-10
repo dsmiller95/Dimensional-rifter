@@ -89,6 +89,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 typeof(SupplyTypeComponent),
                 typeof(UniversalCoordinatePositionComponent),
                 typeof(OffsetFromCoordinatePositionComponent),
+                typeof(OffsetLayerComponent),
                 typeof(RenderMesh),
 
                 typeof(LocalToWorld),

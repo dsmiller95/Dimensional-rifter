@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 8663929139612594221}
   - component: {fileID: 4304569148908041604}
   - component: {fileID: 8009475194150073842}
+  - component: {fileID: 4075997297305362460}
   - component: {fileID: 2662099131645443498}
   m_Layer: 8
   m_Name: Building
@@ -246,6 +247,20 @@ MonoBehaviour:
   ItemTypeRequriement: 0
   defaultResourceRequiredAmount: 1
   supplyClassification: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
+--- !u!114 &4075997297305362460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178778127827050272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2e5d608431c7b458317486e4201ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zOffsetPlaneSlope: 0.01
+  netZOffset: -100
 --- !u!114 &2662099131645443498
 MonoBehaviour:
   m_ObjectHideFlags: 0
