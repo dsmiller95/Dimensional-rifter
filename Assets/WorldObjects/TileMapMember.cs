@@ -143,6 +143,7 @@ namespace Assets.WorldObjects
             {
                 RegionBitMask = ulong.MaxValue - 1
             });
+            dstManager.AddComponentData(entity, orderingLayer.ToECSComponent());
         }
     }
 }

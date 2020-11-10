@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7142e866c17abf64a8d0b37c262a1ada, type: 3}
   m_Name: DefaultOrderingLayer
   m_EditorClassIdentifier: 
-  zOffsetPerY: 0.01
-  netZOffset: -10
+  zOffsetPerY: 1
+  netZOffset: -50

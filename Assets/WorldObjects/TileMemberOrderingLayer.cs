@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.WorldObjects.DOTSMembers;
+using UnityEngine;
 
 namespace Assets.WorldObjects
 {
@@ -11,6 +12,15 @@ namespace Assets.WorldObjects
         public Vector3 ApplyPositionInOrderingLayer(Vector2 worldPosition)
         {
             return new Vector3(worldPosition.x, worldPosition.y, worldPosition.y * zOffsetPerY + netZOffset);
+        }
+
+        public OffsetLayerComponent ToECSComponent()
+        {
+            return new OffsetLayerComponent
+            {
+                zOffsetPlaneSlope = zOffsetPerY,
+                netZOffset = netZOffset
+            };
         }
     }
 }
