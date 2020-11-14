@@ -45,7 +45,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 return NodeStatus.SUCCESS;
             }
 
-            if(ClaimingNodes != null)
+            if (ClaimingNodes != null)
             {
                 return SelectThroughErrandNodes(blackboard);
             }

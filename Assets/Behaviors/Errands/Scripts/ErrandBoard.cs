@@ -65,7 +65,7 @@ namespace Assets.Behaviors.Errands.Scripts
                 {
                     return NodeStatus.SUCCESS;
                 }
-                if(sources.Length <= 0)
+                if (sources.Length <= 0)
                 {
                     return NodeStatus.FAILURE;
                 }

@@ -58,7 +58,7 @@ namespace Assets.Tiling.SquareCoords
 
         public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)
         {
-            if(universalCoordinate.type != CoordinateType.SQUARE)
+            if (universalCoordinate.type != CoordinateType.SQUARE)
             {
                 return false;
             }

@@ -22,7 +22,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                     in ItemAmountsDataComponent itemAmountData,
                     in DynamicBuffer<ItemAmountClaimBufferData> amountBuffer) =>
             {
-                if(amountBuffer.TotalAmounts() >= itemAmountData.MaxCapacity)
+                if (amountBuffer.TotalAmounts() >= itemAmountData.MaxCapacity)
                 {
                     commandBuffer.AddComponent(entityInQueryIndex, self, new ErrandClaimComponent
                     {

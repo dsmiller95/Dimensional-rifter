@@ -178,13 +178,13 @@ namespace Assets.WorldObjects.Members.Storage
         {
             dstManager.AddComponentData(entity, new ItemAmountsDataComponent
             {
-                MaxCapacity = this.myInventory.maxCapacity,
+                MaxCapacity = myInventory.maxCapacity,
                 TotalAdditionClaims = 0f
             });
 
             DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(entity);
 
-            foreach (var itemData in this.myInventory.GetResourceAmountThenAllocatedSubtracts())
+            foreach (var itemData in myInventory.GetResourceAmountThenAllocatedSubtracts())
             {
                 itemAmounts.Add(new ItemAmountClaimBufferData
                 {

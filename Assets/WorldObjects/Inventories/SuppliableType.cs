@@ -15,7 +15,7 @@ namespace Assets.WorldObjects.Inventories
 
         public override void AssignId(int myNewID)
         {
-            this.ID = myNewID;
+            ID = myNewID;
         }
     }
 }

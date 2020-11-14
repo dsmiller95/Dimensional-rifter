@@ -72,7 +72,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             var itemAmount = itemAmountBuffer[itemAmountIndex];
                             var resourceTypeID = (int)itemAmount.Type;
                             var totalClaimableAmount = itemAmount.Amount - itemAmount.TotalSubtractionClaims;
-                            if(totalClaimableAmount <= 0 || availableResourceTargets.ContainsKey(resourceTypeID))
+                            if (totalClaimableAmount <= 0 || availableResourceTargets.ContainsKey(resourceTypeID))
                             {
                                 return;
                             }
@@ -109,7 +109,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             for (int indexInSupplyType = 0; indexInSupplyType < itemSupplyAmounts.Length; indexInSupplyType++)
                             {
                                 var supplyAmountTypeID = (int)itemSupplyAmounts[indexInSupplyType].Type;
-                                if(availableResourceTargets.TryGetValue(supplyAmountTypeID, out var resourceTypeAmount))
+                                if (availableResourceTargets.TryGetValue(supplyAmountTypeID, out var resourceTypeAmount))
                                 {
                                     var possibleResult = GetSupplyErrandResult(
                                         supplyAmountTypeID,
@@ -119,7 +119,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                                     possibleResults.Add(possibleResult);
                                 }
                             }
-                        }else
+                        }
+                        else
                         {
                             var resourceTargets = availableResourceTargets.GetEnumerator();
 
@@ -161,7 +162,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
 
                     var itemAmountBuffer = GetBuffer<ItemAmountClaimBufferData>(action.itemSource);
                     var itemIndex = itemAmountBuffer.IndexOfType(action.resourceTransferType);
-                    if(itemIndex < 0)
+                    if (itemIndex < 0)
                     {
                         continue;
                     }
@@ -189,7 +190,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
         }
 
         private static StorageSupplyErrandResultComponent GetSupplyErrandResult(
-            int resourceTypeId, 
+            int resourceTypeId,
             ItemAmountSourceRepresentation resourceSourceInfo,
             float remainingSpace,
             Entity supplyTarget)

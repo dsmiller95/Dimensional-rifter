@@ -1,5 +1,4 @@
 ﻿using Unity.Entities;
-using UnityEditor.Il2Cpp;
 
 namespace Assets.WorldObjects.Members.Storage.DOTS
 {
@@ -19,7 +18,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
         public static float TotalAmounts(this DynamicBuffer<ItemAmountClaimBufferData> claimBuffer)
         {
             var totalAmounts = 0f;
-            for(var i = 0; i < claimBuffer.Length; i++)
+            for (var i = 0; i < claimBuffer.Length; i++)
             {
                 var resourceAmount = claimBuffer[i];
                 totalAmounts += resourceAmount.Amount;
@@ -32,7 +31,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
             for (var i = 0; i < claimBuffer.Length; i++)
             {
                 var resourceAmount = claimBuffer[i];
-                if(resourceAmount.Type == type)
+                if (resourceAmount.Type == type)
                 {
                     return i;
                 }

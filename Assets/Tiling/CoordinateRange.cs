@@ -73,7 +73,7 @@ namespace Assets.Tiling
 
         public bool Equals(UniversalCoordinateRange other)
         {
-            if(other.rangeType != rangeType)
+            if (other.rangeType != rangeType)
             {
                 return false;
             }

@@ -1,6 +1,4 @@
-﻿using Assets.Tiling;
-using Unity.Entities;
-using Unity.Transforms;
+﻿using Unity.Transforms;
 using UnityEngine;
 
 namespace Assets.UI.ItemTransferAnimations
@@ -25,7 +23,7 @@ namespace Assets.UI.ItemTransferAnimations
         private void SpawnItemTransferAnim(Vector3 source, Vector3 target, Transform parent = null)
         {
             GameObject newParticleSystem;
-            if(parent == null)
+            if (parent == null)
             {
                 newParticleSystem = GameObject.Instantiate(itemTransferParticleSystemPrefab);
             }

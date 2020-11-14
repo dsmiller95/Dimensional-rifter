@@ -93,7 +93,7 @@ namespace Assets.WorldObjects.Members.Storage
 
                             var itemAmountBuffer = actionEntityManager.GetBuffer<ItemAmountClaimBufferData>(errandResult.itemSource);
                             var itemIndex = itemAmountBuffer.IndexOfType(errandResult.resourceTransferType);
-                            if(itemIndex < 0)
+                            if (itemIndex < 0)
                             {
                                 Debug.LogError("Item to grab not found in the item source");
                                 return NodeStatus.FAILURE;

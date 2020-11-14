@@ -63,7 +63,7 @@ namespace Assets.Scripts.ResourceManagement
         {
             foreach (var itemPair in itemAmounts)
             {
-                this.totalAllocatedSubtractions.TryGetValue(itemPair.Key, out float allocatedSubtraction);
+                totalAllocatedSubtractions.TryGetValue(itemPair.Key, out float allocatedSubtraction);
                 yield return (itemPair.Key, itemPair.Value, allocatedSubtraction);
             }
         }

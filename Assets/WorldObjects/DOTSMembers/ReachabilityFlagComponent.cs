@@ -1,5 +1,4 @@
-﻿using Assets.Tiling;
-using Unity.Entities;
+﻿using Unity.Entities;
 
 namespace Assets.WorldObjects.DOTSMembers
 {

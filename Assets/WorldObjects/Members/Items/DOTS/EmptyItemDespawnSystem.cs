@@ -15,7 +15,7 @@ namespace Assets.WorldObjects.Members.Items.DOTS
                 .WithAll<LooseItemFlagComponent>()
                 .ForEach((int entityInQueryIndex, Entity self, in DynamicBuffer<ItemAmountClaimBufferData> amountBuffer) =>
             {
-                if(amountBuffer.TotalAmounts() <= 0)
+                if (amountBuffer.TotalAmounts() <= 0)
                 {
                     commandBuffer.DestroyEntity(entityInQueryIndex, self);
                 }

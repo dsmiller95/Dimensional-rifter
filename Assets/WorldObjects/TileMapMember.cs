@@ -48,12 +48,12 @@ namespace Assets.WorldObjects
 
         public void SetPosition(UniversalCoordinate position)
         {
-            if(this != null)
+            if (this != null)
                 bigManager?.everyMember.DeRegisterInTileMap(this);
 
             coordinatePosition = position;
             var newPosition = bigManager?.PositionInRealWorld(coordinatePosition);
-            if(newPosition.HasValue)
+            if (newPosition.HasValue)
                 transform.position = orderingLayer.ApplyPositionInOrderingLayer(newPosition.Value);
 
             if (this != null)

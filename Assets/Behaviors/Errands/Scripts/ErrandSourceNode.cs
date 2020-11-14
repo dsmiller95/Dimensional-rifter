@@ -1,14 +1,13 @@
 ﻿using BehaviorTree.Nodes;
-using UnityEngine;
 
 namespace Assets.Behaviors.Errands.Scripts
 {
-    public interface IErrandSourceNode<out T> where T: IErrand
+    public interface IErrandSourceNode<out T> where T : IErrand
     {
         T ErrandResult { get; }
         NodeStatus Evaluate(Blackboard blackboard);
     }
-    public abstract class ErrandSourceNode<T>: BehaviorNode, IErrandSourceNode<T> where T : IErrand
+    public abstract class ErrandSourceNode<T> : BehaviorNode, IErrandSourceNode<T> where T : IErrand
     {
         public T ErrandResult { get; protected set; }
     }
@@ -17,7 +16,7 @@ namespace Assets.Behaviors.Errands.Scripts
     {
         public ImmediateErrandSourceNode(T result)
         {
-            this.ErrandResult = result;
+            ErrandResult = result;
         }
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {

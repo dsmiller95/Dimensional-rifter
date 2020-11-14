@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Core;
-using System;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Wall

@@ -42,7 +42,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
                 // only grab an errand if there is none already -- this node must be reset in order to grab another
                 return NodeStatus.SUCCESS;
             }
-            if(sourceNode != null)
+            if (sourceNode != null)
             {
                 return EvaluateErrandSourceNode(blackboard);
             }
