@@ -15,9 +15,9 @@ MonoBehaviour:
   dayLength: 100
   timezones:
   - zone: 2
-    startTime: 0.9
+    startTime: 0.95
   - zone: 1
-    startTime: 0.7
+    startTime: 0.9
   - zone: 0
     startTime: 0
-  currentTime: 0.15746331
+  currentTime: 0.21481062

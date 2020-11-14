@@ -57,7 +57,6 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 }
                 NativeHashMap<int, ItemAmountSourceRepresentation> availableResourceTargets = new NativeHashMap<int, ItemAmountSourceRepresentation>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
                 Entities
-                    .WithAll<LooseItemFlagComponent>() // TODO: don't need this always, other things could be item sources?
                     .ForEach((int entityInQueryIndex, Entity self,
                         in ItemSourceTypeComponent itemType,
                         in ItemAmountsDataComponent amount,
