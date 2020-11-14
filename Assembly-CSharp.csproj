@@ -120,6 +120,7 @@
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
     <Compile Include="Assets\ToggleObjectActive.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawnerComponent.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeCollectionHotSwap.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectKeysFromHashMapJob.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
@@ -296,6 +298,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\ResourceAllocation.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrand.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateRangeToRegionMapJob.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
@@ -333,9 +336,7 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateRangeToRegionMapJob.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectKeysFromHashMapJob.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeCollectionHotSwap.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\BlockingDataCopierJob.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
