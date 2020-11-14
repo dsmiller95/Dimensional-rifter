@@ -47,13 +47,14 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             for (int seedIndex = 0; seedIndex < seedPoints.Length; seedIndex++)
             {
                 var seedPoint = seedPoints[seedIndex];
-                if(!coordinateRangeToIterate.ContainsCoordinate(seedPoint)){
+                if (!coordinateRangeToIterate.ContainsCoordinate(seedPoint))
+                {
                     // the seed is on a different range, or out of bounds. ignore it
                     continue;
                 }
-                if(outputRegionBitMasks.TryGetValue(seedPoint, out var seedRegion))
+                if (outputRegionBitMasks.TryGetValue(seedPoint, out var seedRegion))
                 {
-                    if(seedRegion != 0)
+                    if (seedRegion != 0)
                     {
                         // this seed has already been visited, skip it
                         continue;
@@ -65,7 +66,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 outputRegionBitMasks[seedPoint] = seedRegion;
                 workingFringe.Enqueue(seedPoint);
 
-                this.BreadthFirstAssignFromQueue();
+                BreadthFirstAssignFromQueue();
             }
         }
 
@@ -74,7 +75,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             while (workingFringe.TryDequeue(out var nextNode))
             {
                 var currentRegionBitMask = outputRegionBitMasks[nextNode];
-                
+
                 nextNode.SetNeighborsIntoSwapSpace(workingNeighborCoordinatesSwapSpace);
                 var neighborCount = nextNode.NeighborCount();
                 for (int i = 0; i < neighborCount; i++)
@@ -87,7 +88,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
                     outputRegionBitMasks.TryGetValue(neighborCoordinate, out var originalNeighborRegionMask);
                     outputRegionBitMasks[neighborCoordinate] = originalNeighborRegionMask | currentRegionBitMask;
-                    
+
                     if (originalNeighborRegionMask == 0 && !impassableTiles.Contains(neighborCoordinate))
                     {
                         workingFringe.Enqueue(neighborCoordinate);

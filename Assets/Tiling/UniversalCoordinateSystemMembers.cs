@@ -3,7 +3,6 @@ using Assets.WorldObjects;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.Members.Wall;
 using Assets.WorldObjects.SaveObjects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;

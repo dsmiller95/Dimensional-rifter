@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.Collections;
+﻿using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -54,7 +49,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     regionClassificationFalse.Value.Dispose();
                 }
                 regionClassificationFalse = pendingRegion;
-            }else
+            }
+            else
             {
                 Debug.Log("Assigning pending to regionTrue");
                 if (regionClassificationTrue.HasValue)
