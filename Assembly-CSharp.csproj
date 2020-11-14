@@ -335,6 +335,7 @@
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateRangeToRegionMapJob.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectKeysFromHashMapJob.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeCollectionHotSwap.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
