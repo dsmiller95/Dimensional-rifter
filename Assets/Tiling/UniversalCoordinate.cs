@@ -254,6 +254,7 @@ namespace Assets.Tiling
             return false;
         }
 
+        // TODO: structure the hash code to get better packing
         public override int GetHashCode()
         {
             int hash = 17;

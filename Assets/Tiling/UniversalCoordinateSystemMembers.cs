@@ -18,7 +18,6 @@ namespace Assets.Tiling
 
         public MembersRegistry memberPrefabRegistry;
 
-        public Action<UniversalCoordinate, TileTypeInfo> OnTileChanged;
         public TileDefinitions tileDefinitions;
 
         private NativeHashMap<UniversalCoordinate, int> tileTypes;
@@ -86,7 +85,6 @@ namespace Assets.Tiling
                 infoByIndex = infoByIndex.Append(tileID).ToArray();
             }
             tileTypes[coordinate] = index;
-            OnTileChanged?.Invoke(coordinate, tileID);
         }
 
         public TileProperties TilePropertiesAt(UniversalCoordinate coordinate)

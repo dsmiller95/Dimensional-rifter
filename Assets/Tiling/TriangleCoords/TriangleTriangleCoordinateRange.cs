@@ -62,11 +62,11 @@ namespace Assets.Tiling.TriangleCoords
             }
             return ContainsCoordinate(universalCoordinate.triangleDataView);
         }
-        public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinat)
+        public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinate)
         {
-            var uConst = coordinat.u - root.u;
-            var vConst = coordinat.v - root.v;
-            var constConst = uConst + vConst + (coordinat.R ? 0 : -1);
+            var uConst = coordinate.u - root.u;
+            var vConst = coordinate.v - root.v;
+            var constConst = uConst + vConst + (coordinate.R ? 0 : -1);
             return uConst >= 0 && vConst >= 0 && constConst < triangleSideLength;
         }
 
