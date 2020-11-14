@@ -134,7 +134,7 @@ namespace Assets.WorldObjects
         {
             UniversalCoordinatePositionComponent position = new UniversalCoordinatePositionComponent
             {
-                coordinate = coordinatePosition
+                Value = coordinatePosition
             };
             dstManager.AddComponentData(entity, position);
 

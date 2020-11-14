@@ -31,7 +31,7 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
 
                         commandBuffer.SetComponent(entityInQueryIndex, newEntity, new UniversalCoordinatePositionComponent
                         {
-                            coordinate = newCoordinate
+                            Value = newCoordinate
                         });
 
                         commandBuffer.AddComponent(entityInQueryIndex, newEntity, new LocalToParent());

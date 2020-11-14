@@ -64,6 +64,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityGraphNode.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponent.cs" />
     <Compile Include="Assets\GettingStarted_ECS\Testing.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
     <Compile Include="Assets\Scripts\Utilities\DestroyAfterDelay.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityEntitySystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IHarvestable.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
@@ -168,7 +170,6 @@
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandTypeRegistry.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareRangeUniversalContainer.cs" />
     <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingAuthoring.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
@@ -219,7 +220,6 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\ResourceItemType.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfStatus.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\SquareCoordinateRangeObject.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleRhomboidCoordinateRange.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TimeBasedSelectorFactory.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\SelectOne.cs" />
@@ -233,7 +233,6 @@
     <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
     <Compile Include="Assets\Scripts\Core\VariableInstantiator.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\MapManipulator.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\TriangleCoordinateRangeObject.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\WorldSaveObject.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Wait.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityButton.cs" />
@@ -259,7 +258,6 @@
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\RestingTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSourceType.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleRangeUniversalContainer.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
     <Compile Include="Assets\Tiling\CoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
@@ -269,7 +267,6 @@
     <Compile Include="Assets\UI\Priorities\SinglePriorityHolder.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinateSystemMembers.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\TriangleRhomboidCoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\ErrandEnableSelectionManipulator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
@@ -336,7 +333,6 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

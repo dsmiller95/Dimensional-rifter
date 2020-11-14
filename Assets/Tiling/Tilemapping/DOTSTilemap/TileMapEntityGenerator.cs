@@ -76,7 +76,7 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
         }
 
         public void CreateAllEntitiesForTilemap(
-            IUniversalCoordinateRange range,
+            UniversalCoordinateRange range,
             Func<UniversalCoordinate, Vector2, bool> tileFilter)
         {
             var meshDataByTileType = new Dictionary<string, MeshRendererCacheableData>();
@@ -90,12 +90,12 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                 );
 
 
-            var defaultCoord = UniversalCoordinate.GetDefault(range.coordinateType);
+            var defaultCoord = UniversalCoordinate.GetDefault(range.CoordinateType);
             var defaultVerts = defaultCoord.GetVertexesAround()
                 .Select(x => (Vector3)x)
                 .ToArray();
 
-            var defaultTriangles = UniversalCoordinate.GetTileTriangleIDs(range.coordinateType);
+            var defaultTriangles = UniversalCoordinate.GetTileTriangleIDs(range.CoordinateType);
 
             NativeArray<Entity> newTiles = new NativeArray<Entity>(range.TotalCoordinateContents(), Allocator.Temp);
             manager.CreateEntity(tileArchetype, newTiles);

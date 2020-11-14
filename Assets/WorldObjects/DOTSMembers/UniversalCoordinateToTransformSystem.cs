@@ -17,7 +17,7 @@ namespace Assets.WorldObjects.DOTSMembers
                 .WithNone<OffsetLayerComponent>()
                 .ForEach((ref Translation translation, in UniversalCoordinatePositionComponent positionCoordinate) =>
             {
-                var position = positionCoordinate.coordinate.ToPositionInPlane();
+                var position = positionCoordinate.Value.ToPositionInPlane();
                 translation = new Translation
                 {
                     Value = new float3(position, translation.Value.z)
@@ -30,7 +30,7 @@ namespace Assets.WorldObjects.DOTSMembers
                 .WithAll<OffsetLayerComponent>()
                 .ForEach((ref Translation translation, in UniversalCoordinatePositionComponent positionCoordinate, in OffsetLayerComponent offsetLayer) =>
                 {
-                    var position = positionCoordinate.coordinate.ToPositionInPlane();
+                    var position = positionCoordinate.Value.ToPositionInPlane();
                     translation = new Translation
                     {
                         Value = offsetLayer.ApplyPositionInOrderingLayer(position)
@@ -44,7 +44,7 @@ namespace Assets.WorldObjects.DOTSMembers
                 .WithNone<OffsetLayerComponent>()
                 .ForEach((ref Translation translation, in UniversalCoordinatePositionComponent positionCoordinate, in OffsetFromCoordinatePositionComponent offset) =>
                 {
-                    var position = positionCoordinate.coordinate.ToPositionInPlane() + offset.Value;
+                    var position = positionCoordinate.Value.ToPositionInPlane() + offset.Value;
                     translation = new Translation
                     {
                         Value = new float3(position, translation.Value.z)
@@ -57,7 +57,7 @@ namespace Assets.WorldObjects.DOTSMembers
                 .WithAll<OffsetLayerComponent>()
                 .ForEach((ref Translation translation, in UniversalCoordinatePositionComponent positionCoordinate, in OffsetFromCoordinatePositionComponent offset, in OffsetLayerComponent offsetLayer) =>
                 {
-                    var position = positionCoordinate.coordinate.ToPositionInPlane() + offset.Value;
+                    var position = positionCoordinate.Value.ToPositionInPlane() + offset.Value;
                     translation = new Translation
                     {
                         Value = offsetLayer.ApplyPositionInOrderingLayer(position)

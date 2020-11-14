@@ -19,7 +19,7 @@ namespace Assets.WorldObjects.WorldGen
         private short layerID;
 
         public RegionGenerator(
-            IUniversalCoordinateRange size,
+            UniversalCoordinateRange size,
             short layerID,
             MapGenerationConfiguration config)
         {
@@ -79,7 +79,7 @@ namespace Assets.WorldObjects.WorldGen
                     );
         }
 
-        private IEnumerable<UniversalCoordinate> GetInfiniteHaltonGeneratedCoordinatesInsideRange(IUniversalCoordinateRange range)
+        private IEnumerable<UniversalCoordinate> GetInfiniteHaltonGeneratedCoordinatesInsideRange(UniversalCoordinateRange range)
         {
             // TODO: do actual clustering, with a random cluster origin
             //var boundingPoints = range.BoundingPolygon();
@@ -97,7 +97,7 @@ namespace Assets.WorldObjects.WorldGen
             var maxVect = Vector2.one * 1 * mapGenConfig.memberClusterSizeAtCenter;
 
             var haltonGenerator = new HaltonSequenceGenerator(2, 3, randomGenerator.Next(), maxVect, minVect);
-            var type = range.coordinateType;
+            var type = range.CoordinateType;
             return haltonGenerator.InfiniteSample()
                 .Select(x => UniversalCoordinate.FromPositionInPlane(x, type, layerID))
                 .Where(coord => range.ContainsCoordinate(coord));

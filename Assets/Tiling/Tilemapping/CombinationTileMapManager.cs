@@ -72,7 +72,7 @@ namespace Assets.Tiling.Tilemapping
             regionBehaviors = allRegions.Select(x =>
             {
                 var region = Instantiate(regionBehaviorPrefab, transform);
-                var configData = ConfigDataDict[x.baseRange.coordinateType];
+                var configData = ConfigDataDict[x.baseRange.CoordinateType];
                 region.InitializeMeshBuilder(configData, everyMember);
 
                 return region;
@@ -80,7 +80,7 @@ namespace Assets.Tiling.Tilemapping
 
             for (short i = 0; i < allRegions.Length; i++)
             {
-                var configData = ConfigDataDict[allRegions[i].baseRange.coordinateType];
+                var configData = ConfigDataDict[allRegions[i].baseRange.CoordinateType];
                 configData.atomataSystem.ExecuteOnRegion(this, i);
             }
 
@@ -219,7 +219,7 @@ namespace Assets.Tiling.Tilemapping
         private void BuildConnectionGraph(ConnectivityGraphBuilder builder)
         {
             var totalCoordiantes = allRegions.Select((data, index) => regionBehaviors[index].GreedyCordinateTotalEstimate(data)).Sum();
-            builder.InitBuildingWithCapacity(totalCoordiantes);
+            builder.InitNodeBuilderArrayWithCapacity(totalCoordiantes);
             builder.ReadFromTileDataIn(everyMember);
             for (var i = 0; i < allRegions.Length; i++)
             {

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -11,10 +13,11 @@ namespace Assets.Tiling.TriangleCoords
     ///     both R=false and R=true coords for each rhombus
     /// </summary>
     [System.Serializable]
-    public class TriangleTriangleCoordinateRange : ICoordinateRangeNEW<TriangleCoordinateStructSystem>
+    [StructLayout(LayoutKind.Explicit)] // total size: 16 bytes
+    public struct TriangleTriangleCoordinateRange : ICoordinateRange<TriangleCoordinateStructSystem>, IEquatable<TriangleTriangleCoordinateRange>
     {
-        public TriangleCoordinateStructSystem root;
-        public int triangleSideLength;
+        [FieldOffset(0)] public TriangleCoordinateStructSystem root;
+        [FieldOffset(12)] public int triangleSideLength;
 
         public IEnumerable<Vector2> BoundingPolygon()
         {
@@ -51,6 +54,14 @@ namespace Assets.Tiling.TriangleCoords
                 }
             }
         }
+        public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)
+        {
+            if (universalCoordinate.type != CoordinateType.TRIANGLE)
+            {
+                return false;
+            }
+            return ContainsCoordinate(universalCoordinate.triangleDataView);
+        }
         public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinat)
         {
             var uConst = coordinat.u - root.u;
@@ -67,6 +78,11 @@ namespace Assets.Tiling.TriangleCoords
         public int TotalCoordinateContents()
         {
             return triangleSideLength * triangleSideLength;
+        }
+
+        public bool Equals(TriangleTriangleCoordinateRange other)
+        {
+            return root.Equals(other.root) && triangleSideLength == other.triangleSideLength;
         }
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Assets.Tiling.SquareCoords
 {
     [Serializable]
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Explicit)] // total size: 8bytes
     public struct SquareCoordinate : IBaseCoordinateType, IEquatable<SquareCoordinate>
     {
         public SquareCoordinate(int row, int col)

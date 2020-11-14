@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Assets.Tiling.TriangleCoords
@@ -11,7 +12,8 @@ namespace Assets.Tiling.TriangleCoords
     ///     both R=false and R=true coords for each rhombus
     /// </summary>
     [Serializable]
-    public class TriangleRhomboidCoordinateRange : ICoordinateRangeNEW<TriangleCoordinateStructSystem>
+    [StructLayout(LayoutKind.Explicit)] // total size: 24 bytes
+    public struct TriangleRhomboidCoordinateRange : ICoordinateRange<TriangleCoordinateStructSystem>, IEquatable<TriangleRhomboidCoordinateRange>
     {
         /// <summary>
         /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
@@ -32,8 +34,8 @@ namespace Assets.Tiling.TriangleCoords
             }
         }
 
-        public TriangleCoordinateStructSystem coord0;
-        public TriangleCoordinateStructSystem coord1;
+        [FieldOffset(0)] public TriangleCoordinateStructSystem coord0;
+        [FieldOffset(12)] public TriangleCoordinateStructSystem coord1;
 
         IEnumerator<TriangleCoordinateStructSystem> IEnumerable<TriangleCoordinateStructSystem>.GetEnumerator()
         {
@@ -74,6 +76,14 @@ namespace Assets.Tiling.TriangleCoords
             yield return (Vector2)nextPos - Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
         }
 
+        public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)
+        {
+            if (universalCoordinate.type != CoordinateType.TRIANGLE)
+            {
+                return false;
+            }
+            return ContainsCoordinate(universalCoordinate.triangleDataView);
+        }
         public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinate)
         {
             return (coordinate.u >= coord0.u && coordinate.u < coord1.u) &&
@@ -83,6 +93,11 @@ namespace Assets.Tiling.TriangleCoords
         {
             EnsureCoordOrdering();
             return (coord1.u - coord0.u) * (coord1.v - coord0.v) * 2;
+        }
+
+        public bool Equals(TriangleRhomboidCoordinateRange other)
+        {
+            return coord0.Equals(other.coord0) && coord1.Equals(other.coord1);
         }
     }
 }

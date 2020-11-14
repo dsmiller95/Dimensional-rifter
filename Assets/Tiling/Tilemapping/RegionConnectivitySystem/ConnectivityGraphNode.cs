@@ -23,7 +23,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             membersToReadFrom = tileMemberDataHolder;
         }
 
-        public void InitBuildingWithCapacity(int maxNodeSpace)
+        public void InitNodeBuilderArrayWithCapacity(int maxNodeSpace)
         {
             nodeArray = new NativeArray<ConnectivityGraphNodeCoordinate>(maxNodeSpace, allocator);
         }

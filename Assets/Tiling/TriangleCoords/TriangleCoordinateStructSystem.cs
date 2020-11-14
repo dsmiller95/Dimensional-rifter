@@ -9,15 +9,12 @@ using UnityEngine;
 namespace Assets.Tiling.TriangleCoords
 {
     [Serializable]
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Explicit)] // total size: 12bytes
     public struct TriangleCoordinateStructSystem : IBaseCoordinateType, IEquatable<TriangleCoordinateStructSystem>
     {
-        [FieldOffset(0)]
-        public int u;
-        [FieldOffset(4)]
-        public int v;
-        [FieldOffset(8)]
-        public bool R;
+        [FieldOffset(0)] public int u;
+        [FieldOffset(4)] public int v;
+        [FieldOffset(8)] public bool R;
 
         public static readonly float2 uBasis = new float2(1, 0);
         public static readonly float2 vBasis = new float2(0.5f, Mathf.Sqrt(3) / 2f);

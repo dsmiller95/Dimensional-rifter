@@ -24,7 +24,7 @@ namespace Assets.Tiling
     }
 
     [Serializable]
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Explicit)] // total size: 16bytes
     public struct UniversalCoordinate : ISerializable, IEquatable<UniversalCoordinate>
     {
         public static int MaxNeighborCount = 6;

@@ -16,14 +16,13 @@ namespace Assets.Tiling.Tilemapping
     {
         public Matrix4x4 coordinateTransform;
         public short planeIDIndex;
-        public IUniversalCoordinateRange baseRange;
+        public UniversalCoordinateRange baseRange;
     }
     [Serializable]
     public class TileRegionSaveObject
     {
         public SerializableMatrix4x4 matrixSerialized;
-        //public Matrix4x4 planeTransformation;
-        public IUniversalCoordinateRange range;
+        public UniversalCoordinateRange range;
     }
 
     public class TileMapRegionRuntimeData
@@ -72,7 +71,7 @@ namespace Assets.Tiling.Tilemapping
             TileMapRegionData data)
         {
             Vector2 pointInPlane = data.coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
-            return UniversalCoordinate.FromPositionInPlane(pointInPlane, data.baseRange.coordinateType, data.planeIDIndex);
+            return UniversalCoordinate.FromPositionInPlane(pointInPlane, data.baseRange.CoordinateType, data.planeIDIndex);
         }
 
         public bool IsValidInThisPlane(UniversalCoordinate coordinate, TileMapRegionData data)
@@ -206,7 +205,7 @@ namespace Assets.Tiling.Tilemapping
         {
             var coordinatesInMap = data.baseRange.GetUniversalCoordinates(data.planeIDIndex)
                 .Where(coord => !runtimeData.disabledCoordinates.Contains(coord));
-            var neighborsPerCoord = UniversalCoordinate.NeighborCount(data.baseRange.coordinateType);
+            var neighborsPerCoord = UniversalCoordinate.NeighborCount(data.baseRange.CoordinateType);
             foreach (var coordinate in coordinatesInMap)
             {
                 var nextNode = new ConnectivityGraphNodeCoordinate

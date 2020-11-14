@@ -1,63 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Assets.Tiling.SquareCoords
 {
     [Serializable]
-    public struct SquareCoordinateRange : ICoordinateRangeNEW<SquareCoordinate>, IEquatable<SquareCoordinateRange>
+    [StructLayout(LayoutKind.Explicit)] // total size: 16 bytes
+    public struct SquareCoordinateRange : ICoordinateRange<SquareCoordinate>, IEquatable<SquareCoordinateRange>
     {
-        /// <summary>
-        /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
-        /// </summary>
-        private static void EnsureCoordOrdering(ref SquareCoordinate smallCoord, ref SquareCoordinate largerCoord)
-        {
-            if (smallCoord.column > largerCoord.column)
-            {
-                var swapSpace = smallCoord.column;
-                smallCoord.column = largerCoord.column;
-                largerCoord.column = swapSpace;
-            }
-            if (smallCoord.row > largerCoord.row)
-            {
-                var swapSpace = smallCoord.row;
-                smallCoord.row = largerCoord.row;
-                largerCoord.row = swapSpace;
-            }
-        }
-
         /// <summary>
         /// beginning of the range (inclusive)
         /// </summary>
-        public SquareCoordinate coord0;
-        public int rows;
-        public int cols;
+        [FieldOffset(0)] public SquareCoordinate coord0;
+        [FieldOffset(8)] public int rows;
+        [FieldOffset(12)] public int cols;
 
         public SquareCoordinate MaximumBound => coord0 + new SquareCoordinate(rows - 1, cols - 1);
 
-        public static SquareCoordinateRange FromCoordsLargestExclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
-        {
-            EnsureCoordOrdering(ref startCoord, ref endCoord);
-            var diff = endCoord - startCoord;
-            return new SquareCoordinateRange()
-            {
-                coord0 = startCoord,
-                rows = diff.row,
-                cols = diff.column
-            };
-        }
-        public static SquareCoordinateRange FromCoordsInclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
-        {
-            EnsureCoordOrdering(ref startCoord, ref endCoord);
-            var diff = endCoord - startCoord;
-            return new SquareCoordinateRange()
-            {
-                coord0 = startCoord,
-                rows = diff.row + 1,
-                cols = diff.column + 1
-            };
-        }
 
         public IEnumerator<SquareCoordinate> GetEnumerator()
         {
@@ -93,6 +54,15 @@ namespace Assets.Tiling.SquareCoords
             nextCoord = new SquareCoordinate(coord0.row, coord0.column + cols);
             nextPos = nextCoord.ToPositionInPlane();
             yield return (Vector2)nextPos + new Vector2(1, -1) * halfScale;
+        }
+
+        public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)
+        {
+            if(universalCoordinate.type != CoordinateType.SQUARE)
+            {
+                return false;
+            }
+            return ContainsCoordinate(universalCoordinate.squareDataView);
         }
 
         public bool ContainsCoordinate(SquareCoordinate coordinate)
@@ -144,6 +114,47 @@ namespace Assets.Tiling.SquareCoords
         public static bool operator !=(SquareCoordinateRange a, SquareCoordinateRange b)
         {
             return !a.Equals(b);
+        }
+        public static SquareCoordinateRange FromCoordsLargestExclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
+        {
+            EnsureCoordOrdering(ref startCoord, ref endCoord);
+            var diff = endCoord - startCoord;
+            return new SquareCoordinateRange()
+            {
+                coord0 = startCoord,
+                rows = diff.row,
+                cols = diff.column
+            };
+        }
+        public static SquareCoordinateRange FromCoordsInclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
+        {
+            EnsureCoordOrdering(ref startCoord, ref endCoord);
+            var diff = endCoord - startCoord;
+            return new SquareCoordinateRange()
+            {
+                coord0 = startCoord,
+                rows = diff.row + 1,
+                cols = diff.column + 1
+            };
+        }
+
+        /// <summary>
+        /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
+        /// </summary>
+        private static void EnsureCoordOrdering(ref SquareCoordinate smallCoord, ref SquareCoordinate largerCoord)
+        {
+            if (smallCoord.column > largerCoord.column)
+            {
+                var swapSpace = smallCoord.column;
+                smallCoord.column = largerCoord.column;
+                largerCoord.column = swapSpace;
+            }
+            if (smallCoord.row > largerCoord.row)
+            {
+                var swapSpace = smallCoord.row;
+                smallCoord.row = largerCoord.row;
+                largerCoord.row = swapSpace;
+            }
         }
     }
 }

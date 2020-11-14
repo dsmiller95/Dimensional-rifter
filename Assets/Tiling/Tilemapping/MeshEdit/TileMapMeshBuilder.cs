@@ -124,12 +124,12 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
         private ISet<UniversalCoordinate> disabledCoordinates;
 
         public Mesh BakeTilemapMesh(
-            IUniversalCoordinateRange range,
+            UniversalCoordinateRange range,
             Func<UniversalCoordinate, Vector2, bool> tileFilter)
         {
             Mesh sourceMesh = new Mesh();
             sourceMesh.subMeshCount = 1;
-            var defaultCoord = UniversalCoordinate.GetDefault(range.coordinateType);
+            var defaultCoord = UniversalCoordinate.GetDefault(range.CoordinateType);
             var defaultVerts = defaultCoord.GetVertexesAround()
                 .Select(x => (Vector3)x)
                 .ToList();
@@ -137,7 +137,7 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
                 defaultVerts
               );
             sourceMesh.SetColors(defaultVerts.Select(x => Color.white).ToList());
-            sourceMesh.SetTriangles(UniversalCoordinate.GetTileTriangleIDs(range.coordinateType), 0);
+            sourceMesh.SetTriangles(UniversalCoordinate.GetTileTriangleIDs(range.CoordinateType), 0);
             // uvs don't matter -- we'll be overwriting all of these
             sourceMesh.SetUVs(0, defaultVerts.Select(x => default(Vector2)).ToList());
 

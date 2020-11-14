@@ -52,7 +52,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             new Sequence(
                 new FindPathToCoordinate(
                     buildingWorker,
-                    position.coordinate,
+                    position.Value,
                     "Path",
                     true),
                 new NavigateToTarget(

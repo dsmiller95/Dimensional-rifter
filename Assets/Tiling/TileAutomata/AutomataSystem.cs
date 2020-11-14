@@ -14,7 +14,7 @@ namespace Assets.Tiling.TileAutomata
             ExecuteAutomataStep(regionData.baseRange, manager.everyMember);
         }
 
-        public void ExecuteAutomataStep(IUniversalCoordinateRange coordinates, UniversalCoordinateSystemMembers tileMemebers)
+        public void ExecuteAutomataStep(UniversalCoordinateRange coordinates, UniversalCoordinateSystemMembers tileMemebers)
         {
             foreach (var coordinate in coordinates.GetUniversalCoordinates())
             {

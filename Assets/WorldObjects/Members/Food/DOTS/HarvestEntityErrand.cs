@@ -47,7 +47,7 @@ namespace Assets.WorldObjects.Members.Food
             new Sequence(
                 new FindPathToCoordinate(
                     gatheringWorker,
-                    position.coordinate,
+                    position.Value,
                     "Path",
                     true),
                 new NavigateToTarget(

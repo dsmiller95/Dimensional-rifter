@@ -1,4 +1,5 @@
-﻿using Assets.Tiling.SquareCoords;
+﻿using Assets.Tiling;
+using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
 using Assets.WorldObjects.SaveObjects;
 using Assets.WorldObjects.SaveObjects.SaveManager;
@@ -30,7 +31,7 @@ namespace Assets.WorldObjects.WorldGen
                 rootCoord,
                 -rootCoord);
             var baseRegion = new RegionGenerator(
-                new SquareRangeUniversalContainer(mapSize),
+                UniversalCoordinateRange.From(mapSize),
                 0,
                 mapGenerationConfiguration);
 

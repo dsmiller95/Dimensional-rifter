@@ -48,7 +48,7 @@ namespace Assets.WorldObjects.Members.Storage
 
             var toastMessage = $"{actualTransferAmount} {Enum.GetName(typeof(Resource), errandResult.resourceTransferType)}";
 
-            var sourceCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(errandResult.itemSource).coordinate;
+            var sourceCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(errandResult.itemSource).Value;
             var sourcePosition = entityManager.GetComponentData<Translation>(errandResult.itemSource);
 
             var targetObject = errandResult.supplyTarget;
@@ -56,7 +56,7 @@ namespace Assets.WorldObjects.Members.Storage
             {
                 targetObject = entityManager.GetComponentData<BuildingChildComponent>(targetObject).controllerComponent;
             }
-            var targetCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(targetObject).coordinate;
+            var targetCoordinate = entityManager.GetComponentData<UniversalCoordinatePositionComponent>(targetObject).Value;
             var targetPosition = entityManager.GetComponentData<Translation>(targetObject);
 
             var actorsInventory = storingWorker.GetComponent<InventoryHoldingController>();

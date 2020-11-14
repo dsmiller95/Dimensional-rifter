@@ -6,6 +6,6 @@ namespace Assets.WorldObjects.DOTSMembers
     [GenerateAuthoringComponent]
     public struct UniversalCoordinatePositionComponent : IComponentData
     {
-        public UniversalCoordinate coordinate;
+        public UniversalCoordinate Value;
     }
 }
