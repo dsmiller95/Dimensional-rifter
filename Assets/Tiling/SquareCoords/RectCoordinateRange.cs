@@ -8,7 +8,7 @@ namespace Assets.Tiling.SquareCoords
 {
     [Serializable]
     [StructLayout(LayoutKind.Explicit)] // total size: 16 bytes
-    public struct SquareCoordinateRange : ICoordinateRange<SquareCoordinate>, IEquatable<SquareCoordinateRange>
+    public struct RectCoordinateRange : ICoordinateRange<SquareCoordinate>, IEquatable<RectCoordinateRange>
     {
         /// <summary>
         /// beginning of the range (inclusive)
@@ -96,13 +96,13 @@ namespace Assets.Tiling.SquareCoords
             return rows * cols;
         }
 
-        public bool Equals(SquareCoordinateRange other)
+        public bool Equals(RectCoordinateRange other)
         {
             return coord0.Equals(other.coord0) && rows == other.rows && cols == other.cols;
         }
         public override bool Equals(object obj)
         {
-            if (obj is SquareCoordinateRange typed)
+            if (obj is RectCoordinateRange typed)
             {
                 return typed == this;
             }
@@ -114,30 +114,30 @@ namespace Assets.Tiling.SquareCoords
             return rows << 16 + cols;
         }
 
-        public static bool operator ==(SquareCoordinateRange a, SquareCoordinateRange b)
+        public static bool operator ==(RectCoordinateRange a, RectCoordinateRange b)
         {
             return a.Equals(b);
         }
-        public static bool operator !=(SquareCoordinateRange a, SquareCoordinateRange b)
+        public static bool operator !=(RectCoordinateRange a, RectCoordinateRange b)
         {
             return !a.Equals(b);
         }
-        public static SquareCoordinateRange FromCoordsLargestExclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
+        public static RectCoordinateRange FromCoordsLargestExclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
         {
             EnsureCoordOrdering(ref startCoord, ref endCoord);
             var diff = endCoord - startCoord;
-            return new SquareCoordinateRange()
+            return new RectCoordinateRange()
             {
                 coord0 = startCoord,
                 rows = diff.row,
                 cols = diff.column
             };
         }
-        public static SquareCoordinateRange FromCoordsInclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
+        public static RectCoordinateRange FromCoordsInclusive(SquareCoordinate startCoord, SquareCoordinate endCoord)
         {
             EnsureCoordOrdering(ref startCoord, ref endCoord);
             var diff = endCoord - startCoord;
-            return new SquareCoordinateRange()
+            return new RectCoordinateRange()
             {
                 coord0 = startCoord,
                 rows = diff.row + 1,

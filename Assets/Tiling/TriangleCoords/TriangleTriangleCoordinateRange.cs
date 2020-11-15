@@ -15,9 +15,9 @@ namespace Assets.Tiling.TriangleCoords
     /// </summary>
     [System.Serializable]
     [StructLayout(LayoutKind.Explicit)] // total size: 16 bytes
-    public struct TriangleTriangleCoordinateRange : ICoordinateRange<TriangleCoordinateStructSystem>, IEquatable<TriangleTriangleCoordinateRange>
+    public struct TriangleTriangleCoordinateRange : ICoordinateRange<TriangleCoordinate>, IEquatable<TriangleTriangleCoordinateRange>
     {
-        [FieldOffset(0)] public TriangleCoordinateStructSystem root;
+        [FieldOffset(0)] public TriangleCoordinate root;
         [FieldOffset(12)] public int triangleSideLength;
 
         public IEnumerable<Vector2> BoundingPolygon()
@@ -25,19 +25,19 @@ namespace Assets.Tiling.TriangleCoords
             var scale = 2;
 
             var nextPos = root.ToPositionInPlane();
-            yield return nextPos - (TriangleCoordinateStructSystem.rBasis * scale);
+            yield return nextPos - (TriangleCoordinate.rBasis * scale);
 
-            var topCoord = new TriangleCoordinateStructSystem(root.u, root.v + triangleSideLength - 1, false);
+            var topCoord = new TriangleCoordinate(root.u, root.v + triangleSideLength - 1, false);
             nextPos = topCoord.ToPositionInPlane();
-            yield return (Vector2)nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scale;
+            yield return (Vector2)nextPos + Vector2.up * TriangleCoordinate.rBasis.y * 2 * scale;
 
-            var rightcoord = new TriangleCoordinateStructSystem(root.u + triangleSideLength - 1, root.v, false);
+            var rightcoord = new TriangleCoordinate(root.u + triangleSideLength - 1, root.v, false);
             nextPos = rightcoord.ToPositionInPlane();
-            yield return (Vector2)nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinateStructSystem.rBasis * scale);
+            yield return (Vector2)nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinate.rBasis * scale);
         }
 
 
-        IEnumerator<TriangleCoordinateStructSystem> IEnumerable<TriangleCoordinateStructSystem>.GetEnumerator()
+        IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
         {
             for (var u = 0; u < triangleSideLength; u++)
             {
@@ -45,12 +45,12 @@ namespace Assets.Tiling.TriangleCoords
                 {
                     if (v < u)
                     {
-                        yield return new TriangleCoordinateStructSystem(u + root.u, v + root.v, false);
-                        yield return new TriangleCoordinateStructSystem(u + root.u, v + root.v, true);
+                        yield return new TriangleCoordinate(u + root.u, v + root.v, false);
+                        yield return new TriangleCoordinate(u + root.u, v + root.v, true);
                     }
                     else if (v == u)
                     {
-                        yield return new TriangleCoordinateStructSystem(u + root.u, v + root.v, false);
+                        yield return new TriangleCoordinate(u + root.u, v + root.v, false);
                     }
                 }
             }
@@ -62,9 +62,9 @@ namespace Assets.Tiling.TriangleCoords
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public TriangleCoordinateStructSystem AtIndex(int index)
+        public TriangleCoordinate AtIndex(int index)
         {
-            var resultStruct = new TriangleCoordinateStructSystem();
+            var resultStruct = new TriangleCoordinate();
             resultStruct.u = (int)math.floor(math.sqrt(index));
             var indexInU = index - resultStruct.u;
             resultStruct.R = (indexInU % 2) == 1;
@@ -83,7 +83,7 @@ namespace Assets.Tiling.TriangleCoords
             }
             return ContainsCoordinate(universalCoordinate.triangleDataView);
         }
-        public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinate)
+        public bool ContainsCoordinate(TriangleCoordinate coordinate)
         {
             var uConst = coordinate.u - root.u;
             var vConst = coordinate.v - root.v;
@@ -93,7 +93,7 @@ namespace Assets.Tiling.TriangleCoords
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (this as IEnumerable<TriangleCoordinateStructSystem>).GetEnumerator();
+            return (this as IEnumerable<TriangleCoordinate>).GetEnumerator();
         }
 
         public int TotalCoordinateContents()

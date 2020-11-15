@@ -94,7 +94,6 @@
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountsDataComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinateStructSystem.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableTypeRegistry.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapRegionRoot.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnTargetComponentLeaf.cs" />
@@ -226,7 +225,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\SelectOne.cs" />
     <Compile Include="Assets\Scripts\Core\GenericSelector.cs" />
     <Compile Include="Assets\WorldObjects\Pathfinder.cs" />
-    <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinateRange.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\FindRandomWalkPathFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\NavigateToTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Blackboard.cs" />
@@ -336,6 +334,8 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectFromCoordinateRangeJob.cs" />
+    <Compile Include="Assets\Tiling\SquareCoords\RectCoordinateRange.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinate.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

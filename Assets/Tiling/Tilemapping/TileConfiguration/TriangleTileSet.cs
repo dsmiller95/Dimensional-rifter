@@ -22,14 +22,14 @@ namespace Assets.Tiling.Tilemapping.TileConfiguration
     [Serializable]
     public struct TriangleTileMapTile
     {
-        public TriangleCoordinateStructSystem coords0;
+        public TriangleCoordinate coords0;
         public string baseID;
     }
 
     [Serializable]
     public struct TriangleTileShapeOffset
     {
-        public TriangleCoordinateStructSystem coords0;
+        public TriangleCoordinate coords0;
         public TriangleTileShapes shape;
     }
 

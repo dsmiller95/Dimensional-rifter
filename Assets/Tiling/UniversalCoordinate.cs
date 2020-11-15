@@ -37,7 +37,7 @@ namespace Assets.Tiling
         /// <summary>
         /// view of coordinate data as a triangle coordinate. Only use after checking that <see cref="type"/> is of type Triangle
         /// </summary>
-        [FieldOffset(0)] public TriangleCoordinateStructSystem triangleDataView;
+        [FieldOffset(0)] public TriangleCoordinate triangleDataView;
         [FieldOffset(0)] public SquareCoordinate squareDataView;
 
 
@@ -49,7 +49,7 @@ namespace Assets.Tiling
         [FieldOffset(12)] public CoordinateType type;
         [FieldOffset(14)] public short CoordinatePlaneID;
 
-        public static UniversalCoordinate From(TriangleCoordinateStructSystem b, short CoordinatePlaneID)
+        public static UniversalCoordinate From(TriangleCoordinate b, short CoordinatePlaneID)
         {
             return new UniversalCoordinate
             {
@@ -86,7 +86,7 @@ namespace Assets.Tiling
             switch (type)
             {
                 case CoordinateType.TRIANGLE:
-                    return From(TriangleCoordinateStructSystem.FromPositionInPlane(pos), coordinatePlaneID);
+                    return From(TriangleCoordinate.FromPositionInPlane(pos), coordinatePlaneID);
                 case CoordinateType.SQUARE:
                     return From(SquareCoordinate.FromPositionInPlane(pos), coordinatePlaneID);
                 default:
@@ -123,7 +123,7 @@ namespace Assets.Tiling
             switch (coordType)
             {
                 case CoordinateType.TRIANGLE:
-                    return From(TriangleCoordinateStructSystem.AtOrigin(), 0);
+                    return From(TriangleCoordinate.AtOrigin(), 0);
                 case CoordinateType.SQUARE:
                     return From(SquareCoordinate.AtOrigin(), 0);
                 default:
@@ -136,7 +136,7 @@ namespace Assets.Tiling
             switch (coordType)
             {
                 case CoordinateType.TRIANGLE:
-                    return TriangleCoordinateStructSystem.GetTileTriangleIDs();
+                    return TriangleCoordinate.GetTileTriangleIDs();
                 case CoordinateType.SQUARE:
                     return SquareCoordinate.GetTileTriangleIDs();
                 default:
@@ -156,7 +156,7 @@ namespace Assets.Tiling
                 switch (type)
                 {
                     case CoordinateType.TRIANGLE:
-                        return TriangleCoordinateStructSystem.HeuristicDistance(triangleDataView, other.triangleDataView);
+                        return TriangleCoordinate.HeuristicDistance(triangleDataView, other.triangleDataView);
                     case CoordinateType.SQUARE:
                         return SquareCoordinate.HeuristicDistance(squareDataView, other.squareDataView);
                     default:

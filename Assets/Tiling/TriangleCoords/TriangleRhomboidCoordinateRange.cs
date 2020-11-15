@@ -13,12 +13,12 @@ namespace Assets.Tiling.TriangleCoords
     /// </summary>
     [Serializable]
     [StructLayout(LayoutKind.Explicit)] // total size: 20 bytes
-    public struct TriangleRhomboidCoordinateRange : ICoordinateRange<TriangleCoordinateStructSystem>, IEquatable<TriangleRhomboidCoordinateRange>
+    public struct TriangleRhomboidCoordinateRange : ICoordinateRange<TriangleCoordinate>, IEquatable<TriangleRhomboidCoordinateRange>
     {
         /// <summary>
         /// swap the column and row values of the coords to ensure that coord0 <= coord1 on both axis
         /// </summary>
-        private static void EnsureCoordOrdering(ref TriangleCoordinateStructSystem smallCoord, ref TriangleCoordinateStructSystem largerCoord)
+        private static void EnsureCoordOrdering(ref TriangleCoordinate smallCoord, ref TriangleCoordinate largerCoord)
         {
             if (smallCoord.u > largerCoord.u)
             {
@@ -33,7 +33,7 @@ namespace Assets.Tiling.TriangleCoords
                 largerCoord.v = swapSpace;
             }
         }
-        public static TriangleRhomboidCoordinateRange FromCoordsLargestExclusive(TriangleCoordinateStructSystem startCoord, TriangleCoordinateStructSystem endCoord)
+        public static TriangleRhomboidCoordinateRange FromCoordsLargestExclusive(TriangleCoordinate startCoord, TriangleCoordinate endCoord)
         {
             EnsureCoordOrdering(ref startCoord, ref endCoord);
             return new TriangleRhomboidCoordinateRange()
@@ -44,25 +44,25 @@ namespace Assets.Tiling.TriangleCoords
             };
         }
 
-        [FieldOffset(0)] public TriangleCoordinateStructSystem coord0;
+        [FieldOffset(0)] public TriangleCoordinate coord0;
         [FieldOffset(12)] public int uSize;
         [FieldOffset(16)] public int vSize;
 
-        IEnumerator<TriangleCoordinateStructSystem> IEnumerable<TriangleCoordinateStructSystem>.GetEnumerator()
+        IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
         {
             for (var u = 0; u < uSize; u++)
             {
                 for (var v = 0; v < vSize; v++)
                 {
-                    yield return new TriangleCoordinateStructSystem(u + coord0.u, v + coord0.v, false);
-                    yield return new TriangleCoordinateStructSystem(u + coord0.u, v + coord0.v, true);
+                    yield return new TriangleCoordinate(u + coord0.u, v + coord0.v, false);
+                    yield return new TriangleCoordinate(u + coord0.u, v + coord0.v, true);
                 }
             }
         }
 
-        public TriangleCoordinateStructSystem AtIndex(int index)
+        public TriangleCoordinate AtIndex(int index)
         {
-            var resultStruct = new TriangleCoordinateStructSystem();
+            var resultStruct = new TriangleCoordinate();
             resultStruct.R = index % 2 == 1;
             var halfIndex = index / 2;
             resultStruct.u = (halfIndex / vSize);
@@ -75,7 +75,7 @@ namespace Assets.Tiling.TriangleCoords
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (this as IEnumerable<TriangleCoordinateStructSystem>).GetEnumerator();
+            return (this as IEnumerable<TriangleCoordinate>).GetEnumerator();
         }
 
         public IEnumerable<Vector2> BoundingPolygon()
@@ -83,19 +83,19 @@ namespace Assets.Tiling.TriangleCoords
             var scaling = 2;// individualScale *= 2;
 
             var nextPos = coord0.ToPositionInPlane();
-            yield return nextPos - (TriangleCoordinateStructSystem.rBasis * scaling);
+            yield return nextPos - (TriangleCoordinate.rBasis * scaling);
 
-            var nextCoord = new TriangleCoordinateStructSystem(coord0.u, coord0.v + vSize - 1, false);
+            var nextCoord = new TriangleCoordinate(coord0.u, coord0.v + vSize - 1, false);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return (Vector2)nextPos + Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
+            yield return (Vector2)nextPos + Vector2.up * TriangleCoordinate.rBasis.y * 2 * scaling;
 
-            nextCoord = new TriangleCoordinateStructSystem(coord0.u + uSize - 1, coord0.v + vSize - 1, true);
+            nextCoord = new TriangleCoordinate(coord0.u + uSize - 1, coord0.v + vSize - 1, true);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return nextPos + (TriangleCoordinateStructSystem.rBasis * scaling);
+            yield return nextPos + (TriangleCoordinate.rBasis * scaling);
 
-            nextCoord = new TriangleCoordinateStructSystem(coord0.u + uSize - 1, coord0.v, true);
+            nextCoord = new TriangleCoordinate(coord0.u + uSize - 1, coord0.v, true);
             nextPos = nextCoord.ToPositionInPlane();
-            yield return (Vector2)nextPos - Vector2.up * TriangleCoordinateStructSystem.rBasis.y * 2 * scaling;
+            yield return (Vector2)nextPos - Vector2.up * TriangleCoordinate.rBasis.y * 2 * scaling;
         }
 
         public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)
@@ -106,7 +106,7 @@ namespace Assets.Tiling.TriangleCoords
             }
             return ContainsCoordinate(universalCoordinate.triangleDataView);
         }
-        public bool ContainsCoordinate(TriangleCoordinateStructSystem coordinate)
+        public bool ContainsCoordinate(TriangleCoordinate coordinate)
         {
             var uDiff = coordinate.u - coord0.u;
             if(!(uDiff >= 0 && uDiff < uSize))

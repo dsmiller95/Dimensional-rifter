@@ -18,7 +18,7 @@ namespace Assets.UI.Manipulators.Scripts
             GetComponent<MeshRenderer>().enabled = false;
         }
 
-        public void RenderRange(SquareCoordinateRange range, short coordinatePlaneId)
+        public void RenderRange(RectCoordinateRange range, short coordinatePlaneId)
         {
             GetComponent<MeshRenderer>().enabled = true;
             var rootCoordinate = UniversalCoordinate.From(range.coord0, coordinatePlaneId);

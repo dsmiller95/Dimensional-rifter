@@ -32,7 +32,7 @@ namespace Assets.UI.Manipulators
 
         private UniversalCoordinate firstCoordinate;
 
-        private SquareCoordinateRange range;
+        private RectCoordinateRange range;
 
         public override void OnUpdate()
         {
@@ -43,7 +43,7 @@ namespace Assets.UI.Manipulators
                     // dragging
                     var posInWorld = MyUtilities.GetMousePos2D();
                     var hoveredOverCoord = CombinationTileMapManager.instance.GetCoordinateOnPlaneIDNoValidCheck(posInWorld, firstCoordinate);
-                    var newRange = SquareCoordinateRange.FromCoordsInclusive(firstCoordinate.squareDataView, hoveredOverCoord.squareDataView);
+                    var newRange = RectCoordinateRange.FromCoordsInclusive(firstCoordinate.squareDataView, hoveredOverCoord.squareDataView);
 
                     if (range == null || range != newRange)
                     {

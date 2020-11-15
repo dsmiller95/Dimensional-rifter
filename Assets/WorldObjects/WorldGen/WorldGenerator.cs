@@ -27,7 +27,7 @@ namespace Assets.WorldObjects.WorldGen
             world.regions = new List<TileRegionSaveObject>();
 
             var rootCoord = new SquareCoordinate(-mapGenerationConfiguration.baseMapSize.y / 2, -mapGenerationConfiguration.baseMapSize.x / 2);
-            var mapSize = SquareCoordinateRange.FromCoordsLargestExclusive(
+            var mapSize = RectCoordinateRange.FromCoordsLargestExclusive(
                 rootCoord,
                 -rootCoord);
             var baseRegion = new RegionGenerator(

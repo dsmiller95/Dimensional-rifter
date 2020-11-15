@@ -50,7 +50,7 @@ namespace Assets.Tiling
 
         [FieldOffset(0)] public TriangleTriangleCoordinateRange triangleDataView;
         [FieldOffset(0)] public TriangleRhomboidCoordinateRange triangeRhomboidDataView;
-        [FieldOffset(0)] public SquareCoordinateRange rectangleDataView;
+        [FieldOffset(0)] public RectCoordinateRange rectangleDataView;
 
         [FieldOffset(24)] public CoordinateRangeType rangeType;
 
@@ -182,7 +182,7 @@ namespace Assets.Tiling
                 rangeType = CoordinateRangeType.TRIANGLE_RHOMBOID
             };
         }
-        public static UniversalCoordinateRange From(SquareCoordinateRange b)
+        public static UniversalCoordinateRange From(RectCoordinateRange b)
         {
             return new UniversalCoordinateRange
             {

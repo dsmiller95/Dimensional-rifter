@@ -6,7 +6,7 @@ namespace Assets.WorldObjects.DOTSMembers
     [GenerateAuthoringComponent]
     public struct TilemapSpawnerComponent : IComponentData
     {
-        public SquareCoordinateRange spawningRange;
+        public RectCoordinateRange spawningRange;
         public Entity spawnedParent;
         public float timePerSpawn;
         public float nextSpawnTime;

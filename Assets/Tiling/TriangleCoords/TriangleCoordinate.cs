@@ -10,7 +10,7 @@ namespace Assets.Tiling.TriangleCoords
 {
     [Serializable]
     [StructLayout(LayoutKind.Explicit)] // total size: 12bytes
-    public struct TriangleCoordinateStructSystem : IBaseCoordinateType, IEquatable<TriangleCoordinateStructSystem>
+    public struct TriangleCoordinate : IBaseCoordinateType, IEquatable<TriangleCoordinate>
     {
         [FieldOffset(0)] public int u;
         [FieldOffset(4)] public int v;
@@ -27,19 +27,19 @@ namespace Assets.Tiling.TriangleCoords
 
         public static readonly float2 rBasis = new float2(0.5f, 1 / (Mathf.Sqrt(3) * 2f)) / 2;
 
-        public TriangleCoordinateStructSystem(int u, int v, bool R)
+        public TriangleCoordinate(int u, int v, bool R)
         {
             this.u = u;
             this.v = v;
             this.R = R;
         }
 
-        public static TriangleCoordinateStructSystem FromPositionInPlane(Vector2 positionInPlane)
+        public static TriangleCoordinate FromPositionInPlane(Vector2 positionInPlane)
         {
             var xComponent = positionInPlane.x * xBasis;
             var yComponent = positionInPlane.y * yBasis;
             var coordCenter = xComponent + yComponent;
-            var roundedPoint = new TriangleCoordinateStructSystem(
+            var roundedPoint = new TriangleCoordinate(
                 Mathf.RoundToInt(coordCenter.x),
                 Mathf.RoundToInt(coordCenter.y),
                 false);
@@ -59,38 +59,38 @@ namespace Assets.Tiling.TriangleCoords
             return realCoord;
         }
 
-        public IEnumerable<TriangleCoordinateStructSystem> Neighbors()
+        public IEnumerable<TriangleCoordinate> Neighbors()
         {
             if (R)
             {
-                yield return new TriangleCoordinateStructSystem(u + 1, v, false);
-                yield return new TriangleCoordinateStructSystem(u, v, false);
-                yield return new TriangleCoordinateStructSystem(u, v + 1, false);
+                yield return new TriangleCoordinate(u + 1, v, false);
+                yield return new TriangleCoordinate(u, v, false);
+                yield return new TriangleCoordinate(u, v + 1, false);
             }
             else
             {
-                yield return new TriangleCoordinateStructSystem(u, v, true);
-                yield return new TriangleCoordinateStructSystem(u, v - 1, true);
-                yield return new TriangleCoordinateStructSystem(u - 1, v, true);
+                yield return new TriangleCoordinate(u, v, true);
+                yield return new TriangleCoordinate(u, v - 1, true);
+                yield return new TriangleCoordinate(u - 1, v, true);
             }
         }
         public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
         {
             if (R)
             {
-                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinate
                 {
                     u = u + 1,
                     v = v,
                     R = false
                 }, planeID);
-                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinate
                 {
                     u = u,
                     v = v,
                     R = false
                 }, planeID);
-                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinate
                 {
                     u = u,
                     v = v + 1,
@@ -99,19 +99,19 @@ namespace Assets.Tiling.TriangleCoords
             }
             else
             {
-                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinate
                 {
                     u = u,
                     v = v,
                     R = true
                 }, planeID);
-                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinate
                 {
                     u = u,
                     v = v - 1,
                     R = true
                 }, planeID);
-                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinateStructSystem
+                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinate
                 {
                     u = u - 1,
                     v = v,
@@ -120,7 +120,7 @@ namespace Assets.Tiling.TriangleCoords
             }
         }
 
-        public static float HeuristicDistance(TriangleCoordinateStructSystem origin, TriangleCoordinateStructSystem destination)
+        public static float HeuristicDistance(TriangleCoordinate origin, TriangleCoordinate destination)
         {
             return Vector2.SqrMagnitude(origin.ToPositionInPlane() - destination.ToPositionInPlane());
         }
@@ -160,14 +160,14 @@ namespace Assets.Tiling.TriangleCoords
             };
         }
 
-        public static TriangleCoordinateStructSystem AtOrigin()
+        public static TriangleCoordinate AtOrigin()
         {
-            return new TriangleCoordinateStructSystem(0, 0, false);
+            return new TriangleCoordinate(0, 0, false);
         }
 
-        public static TriangleCoordinateStructSystem operator +(TriangleCoordinateStructSystem a, TriangleCoordinateStructSystem b)
+        public static TriangleCoordinate operator +(TriangleCoordinate a, TriangleCoordinate b)
         {
-            return new TriangleCoordinateStructSystem(a.u + b.u, a.v + b.v, a.R || b.R);
+            return new TriangleCoordinate(a.u + b.u, a.v + b.v, a.R || b.R);
         }
 
         public override int GetHashCode()
@@ -186,13 +186,13 @@ namespace Assets.Tiling.TriangleCoords
 
         public override bool Equals(object obj)
         {
-            if (obj is TriangleCoordinateStructSystem coord)
+            if (obj is TriangleCoordinate coord)
             {
                 return Equals(coord);
             }
             return false;
         }
-        public bool Equals(TriangleCoordinateStructSystem coord)
+        public bool Equals(TriangleCoordinate coord)
         {
             return coord.R == R && coord.u == u && coord.v == v;
         }
