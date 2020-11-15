@@ -44,7 +44,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             HasPending = true;
             if (CurrentActiveRegionClassification)
             {
-                Debug.Log("Assigning pending to regionFalse");
                 if (regionClassificationFalse.HasValue)
                 {
                     regionClassificationFalse.Value.Dispose();
@@ -53,7 +52,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             }
             else
             {
-                Debug.Log("Assigning pending to regionTrue");
                 if (regionClassificationTrue.HasValue)
                 {
                     regionClassificationTrue.Value.Dispose();

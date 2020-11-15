@@ -132,7 +132,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectKeysFromHashMapJob.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
@@ -336,6 +335,7 @@
     <Compile Include="Assets\WorldObjects\Members\BuildingMemberType.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectFromCoordinateRangeJob.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

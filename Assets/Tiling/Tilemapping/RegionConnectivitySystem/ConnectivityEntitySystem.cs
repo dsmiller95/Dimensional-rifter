@@ -8,33 +8,30 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
-
     [AlwaysUpdateSystem]
     public class ConnectivityEntitySystem : SystemBase
     {
-        /// <summary>
-        /// an estimate of what fraction of tiles will be blocking; used in memory allocation
-        /// </summary>
-        private static readonly float BlockingTilesRatioEstimate = 0.2f;
         private static readonly int TileTypesToImpassibleQueryBatchSize = 128;
         private static readonly float TimeBetweenConnectivityUpdates = 1;
 
         private NativeCollectionHotSwap regionConnectivityClassification;
 
-        private EntityQuery BlockingEntities;
+        /// <summary>
+        /// an estimate of what fraction of tiles will be blocking; used in memory allocation
+        /// </summary>
+        private float BlockingTilesRatioEstimate = 0.2f;
+        private NativeHashSet<UniversalCoordinate> pendingBlockedPositionIndexed;
+        private int lastTotalTiles;
 
         /// <summary>
         /// Set when the job is scheduled
         ///     set to null when the job is completed and the system has handled the completion
         /// </summary>
         private JobHandle? regionConnectivityDep = null;
-        /// <summary>
-        /// used to ensure early-completion of the short-running jobs which pull data into the long-running job
-        /// </summary>
-        private JobHandle? dataQueryDep = null;
         private double lastRegionConnectivityJob = 0;
 
         protected override void OnCreate()
@@ -50,18 +47,16 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 TryScheduleJob();
                 return;
             }
-            
-            if(dataQueryDep.HasValue && dataQueryDep.Value.IsCompleted)
-            {
-                dataQueryDep.Value.Complete();
-                dataQueryDep = null;
-            }
             if (regionConnectivityDep.Value.IsCompleted)
             {
                 regionConnectivityDep.Value.Complete();
+                // update the estimate based on past results
+                var totalBlockedPositions = pendingBlockedPositionIndexed.Count();
+                BlockingTilesRatioEstimate = ((float)totalBlockedPositions) / lastTotalTiles;
+
                 DisposeAllWorkingData();
                 regionConnectivityClassification.HotSwapToPending();
-                Debug.Log($"Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points");
+                Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking");
                 regionConnectivityDep = null;
             }
         }
@@ -77,13 +72,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             regionConnectivityClassification.Dispose();
         }
 
-
-
         private void TryScheduleJob()
         {
             if (Time.ElapsedTime - lastRegionConnectivityJob > TimeBetweenConnectivityUpdates)
             {
-                Debug.Log("Scheduling new job");
                 lastRegionConnectivityJob = Time.ElapsedTime;
                 ScheduleNewConnectivityJob();
             }
@@ -92,44 +84,38 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private void ScheduleNewConnectivityJob()
         {
             var ranges = new NativeArray<UniversalCoordinateRange>(CombinationTileMapManager.instance.allRegions.Select(data => data.baseRange).ToArray(), Allocator.Persistent);
+            longRunningDisposables.Add(ranges);
 
-            var totalCoordinates = ranges.Sum(x => x.TotalCoordinateContents());
-            var blockingTilesSizeEstimate = (int)(totalCoordinates * BlockingTilesRatioEstimate);
-
-            var blockedPositionsIndexed = new NativeHashSet<UniversalCoordinate>(blockingTilesSizeEstimate, Allocator.Persistent);
+            lastTotalTiles = ranges.Sum(x => x.TotalCoordinateContents());
+            var blockingTilesSizeEstimate = (int)(lastTotalTiles * BlockingTilesRatioEstimate * 1.1);
+            Profiler.BeginSample("Populate blocking set");
+            pendingBlockedPositionIndexed = new NativeHashSet<UniversalCoordinate>(blockingTilesSizeEstimate, Allocator.Persistent);
+            longRunningDisposables.Add(pendingBlockedPositionIndexed);
 
             // ------data queries------
-            var concurrentWriter = blockedPositionsIndexed.AsParallelWriter();
-            var entityBlockingJob = Entities
-                .WithStoreEntityQueryInField(ref BlockingEntities)
-                .ForEach((int entityInQueryIndex, Entity self, in TileBlockingComponent blocking, in UniversalCoordinatePositionComponent position) =>
-                {
-                    if (blocking.CurrentlyBlocking)
-                    {
-                        concurrentWriter.Add(position.Value);
-                    }
-                }).ScheduleParallel(Dependency);
-
+            var concurrentWriter = pendingBlockedPositionIndexed.AsParallelWriter();
             // only pass through the job which queries the entities
             //  all other jobs will run long
-            Dependency = entityBlockingJob;
+            Dependency = ScheduleEntityBlockingJob(concurrentWriter, Dependency);
+            var dataQueryDep = ScheduleTileMapBlockingJob(ranges, concurrentWriter, Dependency);
+            Profiler.EndSample();
 
-            var tileTypes = CombinationTileMapManager.instance.everyMember.GetTileTypesByCoordinateReadonlyCollection().GetKeyValueArrays(Allocator.Persistent);
-            var impassibleIDs = GetImpassibleIDSet(Allocator.Persistent);
 
-            var tileTypesToImpassibleJob = new SelectKeysfromHashMapJob<UniversalCoordinate, int>
-            {
-                hashMapToFilter = tileTypes,
-                ValuesToSelectFor = impassibleIDs,
-                HashSetWriter = concurrentWriter
-            };
-            var tileImpassibleJob = tileTypesToImpassibleJob.Schedule(tileTypes.Length, TileTypesToImpassibleQueryBatchSize, entityBlockingJob);
-            tileImpassibleJob = JobHandle.CombineDependencies(
-                tileTypes.Dispose(tileImpassibleJob),
-                impassibleIDs.Dispose(tileImpassibleJob));
+            // -----region classification-----
+            var outputRegionClassification = new NativeHashMap<UniversalCoordinate, uint>(lastTotalTiles, Allocator.Persistent);
+            regionConnectivityClassification.AssignPending(outputRegionClassification);
 
-            dataQueryDep = tileImpassibleJob;
+            // keep track of the full dep, don't schedule more until this is complete
+            regionConnectivityDep = ScheduleRegionClassificationJobs(ranges, pendingBlockedPositionIndexed, outputRegionClassification, dataQueryDep);
+        }
 
+        private JobHandle ScheduleRegionClassificationJobs(
+            NativeArray<UniversalCoordinateRange> ranges,
+            NativeHashSet<UniversalCoordinate> impassibleCoordiantes,
+            NativeHashMap<UniversalCoordinate, uint> outputRegionMasks,
+            JobHandle dependency = default)
+        {
+            Profiler.BeginSample("Schedule: region classification");
             /** seed regions with all members that have a navigation member
              *  assumptions:
              *    only gameObjects care about reachability
@@ -140,39 +126,40 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             var seedPoints = new NativeArray<UniversalCoordinate>(
                 allActors.Select(x => x.CoordinatePosition).ToArray(),
                 Allocator.Persistent);
-
-            // -----region classification-----
-
-            var allRegionConnectivityClassifications = tileImpassibleJob;
-
-            var outputRegionClassification = new NativeHashMap<UniversalCoordinate, uint>(totalCoordinates, Allocator.Persistent);
-            regionConnectivityClassification.AssignPending(outputRegionClassification);
-
-
+            longRunningDisposables.Add(seedPoints);
             foreach (var coordinateRange in ranges)
             {
                 // inputs have to be persistent, this job is long-running
                 var regionClassifierJob = new CoordinateRangeToRegionMapJob
                 {
                     coordinateRangeToIterate = coordinateRange,
-                    impassableTiles = blockedPositionsIndexed,
+                    impassableTiles = impassibleCoordiantes,
                     seedPoints = seedPoints,
-                    outputRegionBitMasks = outputRegionClassification,
+                    outputRegionBitMasks = outputRegionMasks,
                     workingFringe = new NativeQueue<UniversalCoordinate>(Allocator.Persistent),
                     workingNeighborCoordinatesSwapSpace = new NativeArray<UniversalCoordinate>(UniversalCoordinate.MaxNeighborCount, Allocator.Persistent)
                 };
 
-                allRegionConnectivityClassifications = regionClassifierJob.Schedule(allRegionConnectivityClassifications);
+                dependency = regionClassifierJob.Schedule(dependency);
                 longRunningDisposables.Add(regionClassifierJob.workingFringe);
             }
-            longRunningDisposables.Add(blockedPositionsIndexed);
-            longRunningDisposables.Add(ranges);
-            longRunningDisposables.Add(seedPoints);
+            Profiler.EndSample();
+            return dependency;
+        }
 
-
-
-            // keep track of the full dep, don't schedule more until this is complete
-            regionConnectivityDep = allRegionConnectivityClassifications;
+        private JobHandle ScheduleEntityBlockingJob(NativeHashSet<UniversalCoordinate>.ParallelWriter concurrentWriter, JobHandle dependency = default)
+        {
+            Profiler.BeginSample("Schedule: entity blocking");
+            var resultJob = Entities
+                .ForEach((int entityInQueryIndex, Entity self, in TileBlockingComponent blocking, in UniversalCoordinatePositionComponent position) =>
+                {
+                    if (blocking.CurrentlyBlocking)
+                    {
+                        concurrentWriter.Add(position.Value);
+                    }
+                }).ScheduleParallel(dependency);
+            Profiler.EndSample();
+            return resultJob;
         }
 
         private IList<IDisposable> longRunningDisposables;
@@ -183,6 +170,36 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 disposable.Dispose();
             }
             longRunningDisposables.Clear();
+        }
+
+        private JobHandle ScheduleTileMapBlockingJob(
+            NativeArray<UniversalCoordinateRange> ranges,
+            NativeHashSet<UniversalCoordinate>.ParallelWriter concurrentWriter,
+            JobHandle dependency = default)
+        {
+            Profiler.BeginSample("Schedule: tile Map blocking");
+            var tileTypeDict = CombinationTileMapManager.instance.everyMember.GetTileTypesByCoordinateReadonlyCollection();
+            var impassibleIDs = GetImpassibleIDSet(Allocator.TempJob);
+
+            foreach (var range in ranges)
+            {
+                var nextRangeJob = new SelectFromCoordinateRangeJob<int>
+                {
+                    range = range,
+                    hashMapToFilter = tileTypeDict,
+                    ValuesToSelectFor = impassibleIDs,
+                    HashSetWriter = concurrentWriter
+                };
+                var totalCoordinates = range.TotalCoordinateContents();
+                dependency = nextRangeJob.Schedule(
+                    totalCoordinates,
+                    TileTypesToImpassibleQueryBatchSize,
+                    dependency);
+            }
+
+            dependency = impassibleIDs.Dispose(dependency);
+            Profiler.EndSample();
+            return dependency;
         }
 
         private NativeHashSet<int> GetImpassibleIDSet(Allocator allocator)

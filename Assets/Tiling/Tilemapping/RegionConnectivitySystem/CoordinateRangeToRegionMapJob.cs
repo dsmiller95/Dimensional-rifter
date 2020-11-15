@@ -40,7 +40,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
          *                  add to the fringe
          */
 
-
         public void Execute()
         {
             currentRegionIndex = 0;
