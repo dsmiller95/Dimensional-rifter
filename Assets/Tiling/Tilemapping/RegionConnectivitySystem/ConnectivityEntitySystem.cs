@@ -1,6 +1,8 @@
 ﻿using Assets.WorldObjects;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Wall.DOTS;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
@@ -37,6 +39,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         protected override void OnCreate()
         {
+            longRunningDisposables = new List<IDisposable>();
             regionConnectivityClassification = new NativeCollectionHotSwap();
             BlockingEntities = GetEntityQuery(
                 ComponentType.ReadOnly<TileBlockingComponent>(),
@@ -60,11 +63,25 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             if (regionConnectivityDep.Value.IsCompleted)
             {
                 regionConnectivityDep.Value.Complete();
+                DisposeAllWorkingData();
                 regionConnectivityClassification.HotSwapToPending();
                 Debug.Log($"Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points");
                 regionConnectivityDep = null;
             }
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (regionConnectivityDep.HasValue)
+            {
+                regionConnectivityDep.Value.Complete();
+                DisposeAllWorkingData();
+            }
+            regionConnectivityClassification.Dispose();
+        }
+
+
 
         private void TryScheduleJob()
         {
@@ -140,7 +157,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
              *    only gameObjects with a NavigationMember move
              *    only gameObjects with a NavigationMember care about reachability
              */
-            var allActors = Object.FindObjectsOfType<TileMapNavigationMember>();
+            var allActors = UnityEngine.Object.FindObjectsOfType<TileMapNavigationMember>();
             var seedPoints = new NativeArray<UniversalCoordinate>(
                 allActors.Select(x => x.CoordinatePosition).ToArray(),
                 Allocator.Persistent);
@@ -167,21 +184,26 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 };
 
                 allRegionConnectivityClassifications = regionClassifierJob.Schedule(allRegionConnectivityClassifications);
-
-                allRegionConnectivityClassifications = JobHandle.CombineDependencies(
-                        regionClassifierJob.workingFringe.Dispose(allRegionConnectivityClassifications),
-                        regionClassifierJob.workingNeighborCoordinatesSwapSpace.Dispose(allRegionConnectivityClassifications)
-                        );
+                longRunningDisposables.Add(regionClassifierJob.workingFringe);
             }
+            longRunningDisposables.Add(blockedPositionsIndexed);
+            longRunningDisposables.Add(ranges);
+            longRunningDisposables.Add(seedPoints);
 
-            allRegionConnectivityClassifications = JobHandle.CombineDependencies(
-                blockedPositionsIndexed.Dispose(allRegionConnectivityClassifications),
-                ranges.Dispose(allRegionConnectivityClassifications),
-                seedPoints.Dispose(allRegionConnectivityClassifications));
 
 
             // keep track of the full dep, don't schedule more until this is complete
             regionConnectivityDep = allRegionConnectivityClassifications;
+        }
+
+        private IList<IDisposable> longRunningDisposables;
+        private void DisposeAllWorkingData()
+        {
+            foreach (var disposable in longRunningDisposables)
+            {
+                disposable.Dispose();
+            }
+            longRunningDisposables.Clear();
         }
 
         private NativeHashSet<int> GetImpassibleIDSet(Allocator allocator)

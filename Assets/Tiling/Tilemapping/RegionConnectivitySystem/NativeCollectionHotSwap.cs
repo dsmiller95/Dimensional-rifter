@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -7,7 +8,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     /// Used to manage data which is generated as part of a long-running job,
     ///     but also needs to be cached for other systems to access while the job is running
     /// </summary>
-    public class NativeCollectionHotSwap
+    public class NativeCollectionHotSwap : IDisposable
     {
         private bool CurrentActiveRegionClassification;
         private NativeHashMap<UniversalCoordinate, uint>? regionClassificationFalse = null;
@@ -61,5 +62,16 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             }
         }
 
+        public void Dispose()
+        {
+            if (regionClassificationTrue.HasValue)
+            {
+                regionClassificationTrue.Value.Dispose();
+            }
+            if (regionClassificationFalse.HasValue)
+            {
+                regionClassificationFalse.Value.Dispose();
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// Used to store all points on the fringe of the current region iteration
         /// </summary>
         public NativeQueue<UniversalCoordinate> workingFringe;
-        public NativeArray<UniversalCoordinate> workingNeighborCoordinatesSwapSpace;
+        [DeallocateOnJobCompletion] public NativeArray<UniversalCoordinate> workingNeighborCoordinatesSwapSpace;
 
         private int currentRegionIndex;
 
