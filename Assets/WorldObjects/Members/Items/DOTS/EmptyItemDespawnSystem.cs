@@ -6,7 +6,7 @@ namespace Assets.WorldObjects.Members.Items.DOTS
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class EmptyItemDespawnSystem : SystemBase
     {
-        EntityCommandBufferSystem despawnCommandBuffer => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem despawnCommandBuffer => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
             var commandBuffer = despawnCommandBuffer.CreateCommandBuffer().AsParallelWriter();

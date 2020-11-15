@@ -26,7 +26,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 );
         }
 
-        EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
 

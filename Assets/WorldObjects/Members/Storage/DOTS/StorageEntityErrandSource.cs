@@ -48,7 +48,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
         public ErrandBoard errandBoard;
         public StorageErrandEntitySourceSlice[] StorageErrandTypes;
 
-        private EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        private EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         private EntityArchetype errandRequestArchetype;
 
         public void Awake()

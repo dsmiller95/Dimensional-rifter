@@ -8,7 +8,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class BuildErrandActivateSystem : SystemBase
     {
-        EntityCommandBufferSystem despawnCommandBuffer => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem despawnCommandBuffer => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
             var commandBuffer = despawnCommandBuffer.CreateCommandBuffer().AsParallelWriter();

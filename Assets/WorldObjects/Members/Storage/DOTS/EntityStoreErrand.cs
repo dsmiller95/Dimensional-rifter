@@ -25,7 +25,7 @@ namespace Assets.WorldObjects.Members.Storage
         private bool BehaviorCompleted = false;
 
         private StorageSupplyErrandResultComponent errandResult;
-        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
 
         public EntityStoreErrand(
             StorageSupplyErrandResultComponent storageSupplyErrandResult,

@@ -7,7 +7,7 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class TilemapSpawningSystem : SystemBase
     {
-        EntityCommandBufferSystem spawningCommandSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem spawningCommandSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
 
         protected override void OnUpdate()
         {

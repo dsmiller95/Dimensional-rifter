@@ -16,7 +16,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
 
 
         private EntityQuery errandTargetQuery;
-        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         private void Awake()
         {
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;

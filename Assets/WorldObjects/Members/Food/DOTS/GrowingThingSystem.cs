@@ -8,7 +8,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class GrowingThingSystem : SystemBase
     {
-        EntityCommandBufferSystem errandAvailabilityCommandSystem => World.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem errandAvailabilityCommandSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
             var deltaTime = Time.DeltaTime;

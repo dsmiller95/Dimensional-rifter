@@ -14,7 +14,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
 
 
         private EntityQuery errandTargetQuery;
-        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<EndInitializationEntityCommandBufferSystem>();
+        EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         private void Awake()
         {
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
