@@ -19,7 +19,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// an estimate of what fraction of tiles will be blocking; used in memory allocation
         /// </summary>
         private static readonly float BlockingTilesRatioEstimate = 0.2f;
-        private static readonly int TileTypesToImpassibleQueryBatchSize = 64;
+        private static readonly int TileTypesToImpassibleQueryBatchSize = 128;
         private static readonly float TimeBetweenConnectivityUpdates = 1;
 
         private NativeCollectionHotSwap regionConnectivityClassification;
@@ -41,10 +41,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             longRunningDisposables = new List<IDisposable>();
             regionConnectivityClassification = new NativeCollectionHotSwap();
-            BlockingEntities = GetEntityQuery(
-                ComponentType.ReadOnly<TileBlockingComponent>(),
-                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>()
-                );
         }
 
         protected override void OnUpdate()
@@ -54,8 +50,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 TryScheduleJob();
                 return;
             }
-
-            if (dataQueryDep.HasValue && dataQueryDep.Value.IsCompleted)
+            
+            if(dataQueryDep.HasValue && dataQueryDep.Value.IsCompleted)
             {
                 dataQueryDep.Value.Complete();
                 dataQueryDep = null;
@@ -104,32 +100,15 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
             // ------data queries------
             var concurrentWriter = blockedPositionsIndexed.AsParallelWriter();
-
-            var blockingData = BlockingEntities.ToComponentDataArrayAsync<TileBlockingComponent>(Allocator.Persistent, out var blockingJob);
-            var postionData = BlockingEntities.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.Persistent, out var positionJob);
-
-            var blockingDataJob = new BlockingDataCopier
-            {
-                HashSetWriter = concurrentWriter,
-                isBlocking = blockingData,
-                positions = postionData
-            };
-
-            var entityBlockingJob = blockingDataJob.Schedule(blockingData.Length, 64, JobHandle.CombineDependencies(blockingJob, positionJob));
-            entityBlockingJob = JobHandle.CombineDependencies(
-                blockingData.Dispose(entityBlockingJob),
-                postionData.Dispose(entityBlockingJob)
-                );
-
-            //var entityBlockingJob = Entities
-            //    .WithStoreEntityQueryInField(ref BlockingEntities)
-            //    .ForEach((int entityInQueryIndex, Entity self, in TileBlockingComponent blocking, in UniversalCoordinatePositionComponent position) =>
-            //    {
-            //        if (blocking.CurrentlyBlocking)
-            //        {
-            //            concurrentWriter.Add(position.Value);
-            //        }
-            //    }).ScheduleParallel(Dependency);
+            var entityBlockingJob = Entities
+                .WithStoreEntityQueryInField(ref BlockingEntities)
+                .ForEach((int entityInQueryIndex, Entity self, in TileBlockingComponent blocking, in UniversalCoordinatePositionComponent position) =>
+                {
+                    if (blocking.CurrentlyBlocking)
+                    {
+                        concurrentWriter.Add(position.Value);
+                    }
+                }).ScheduleParallel(Dependency);
 
             // only pass through the job which queries the entities
             //  all other jobs will run long
