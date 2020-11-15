@@ -21,7 +21,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         public void Execute(int index)
         {
             var coordinate = range.AtIndex(index);
-            if(hashMapToFilter.TryGetValue(coordinate, out var value))
+            if (hashMapToFilter.TryGetValue(coordinate, out var value))
             {
                 if (ValuesToSelectFor.Contains(value))
                 {

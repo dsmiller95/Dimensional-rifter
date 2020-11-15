@@ -109,7 +109,7 @@ namespace Assets.Tiling.TriangleCoords
         public bool ContainsCoordinate(TriangleCoordinate coordinate)
         {
             var uDiff = coordinate.u - coord0.u;
-            if(!(uDiff >= 0 && uDiff < uSize))
+            if (!(uDiff >= 0 && uDiff < uSize))
             {
                 return false;
             }
