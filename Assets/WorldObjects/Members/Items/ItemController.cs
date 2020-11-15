@@ -180,18 +180,22 @@ namespace Assets.WorldObjects.Members.Items
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
+            var capacity = resourceAmount?.MaxCapacity ?? ItemMaxCapacity;
+
             dstManager.AddComponentData(entity, new ItemAmountsDataComponent
             {
-                MaxCapacity = resourceAmount.MaxCapacity,
+                MaxCapacity = capacity,
                 TotalAdditionClaims = 0f,
                 LockItemDataBufferTypes = true
             });
 
             DynamicBuffer<ItemAmountClaimBufferData> itemAmounts = dstManager.AddBuffer<ItemAmountClaimBufferData>(entity);
+            var amount = resourceAmount?.CurrentAmount ?? 0f;
+            var type = resource.resourceType;
             itemAmounts.Add(new ItemAmountClaimBufferData
             {
-                Type = resource.resourceType,
-                Amount = resourceAmount.CurrentAmount,
+                Type = type,
+                Amount = amount,
                 TotalSubtractionClaims = 0f
             });
 

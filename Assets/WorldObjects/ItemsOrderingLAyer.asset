@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ItemsOrderingLAyer
   m_EditorClassIdentifier: 
   zOffsetPerY: 0.01
-  netZOffset: -15
+  netZOffset: -40

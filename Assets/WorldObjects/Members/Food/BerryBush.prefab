@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4430772838501633667}
   - component: {fileID: 4937728411797083454}
   - component: {fileID: 8015628037170737364}
+  - component: {fileID: 1487727042493597035}
   - component: {fileID: 2709178220890433278}
   m_Layer: 12
   m_Name: BerryBush
@@ -106,6 +107,20 @@ MonoBehaviour:
   growthPerSecond: 3
   finalGrowthAmount: 40
   Grown: 0
+--- !u!114 &1487727042493597035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef67ff7da9ae945bb8873da1723dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grownResource: 0
+  resourceAmount: 1
 --- !u!114 &2709178220890433278
 MonoBehaviour:
   m_ObjectHideFlags: 0

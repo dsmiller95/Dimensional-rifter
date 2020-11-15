@@ -2,6 +2,7 @@
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Food.DOTS;
+using Assets.WorldObjects.Members.Items.DOTS;
 using BehaviorTree.Nodes;
 using Unity.Entities;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace Assets.WorldObjects.Members.Food
         public GameObject gatheringWorker;
 
         private World entityWorld;
+        private EntityCommandBufferSystem commandBufferSystem => entityWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+        private LooseItemSpawnSystem itemSpawnSystem => entityWorld.GetOrCreateSystem<LooseItemSpawnSystem>();
 
         private IErrandCompletionReciever<HarvestEntityErrand> completionReciever;
         private bool BehaviorCompleted = false;
@@ -62,9 +65,12 @@ namespace Assets.WorldObjects.Members.Food
                 new Wait(1),
                 new LabmdaLeaf(blackboard =>
                 {
+                    var commandbuffer = commandBufferSystem.CreateCommandBuffer();
                     var growingData = manager.GetComponentData<GrowingThingComponent>(targetEntity);
                     var result = growingData.AfterHarvested();
-                    manager.SetComponentData(targetEntity, growingData);
+                    commandbuffer.SetComponent(targetEntity, growingData);
+                    var growthData = manager.GetComponentData<GrowthProductComponent>(targetEntity);
+                    itemSpawnSystem.SpawnLooseItem(position.Value, growthData, commandbuffer);
 
                     // TODO: trigger the other side effects of harvest, like creating a new items
 
