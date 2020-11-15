@@ -31,6 +31,13 @@ namespace Assets.Tiling.SquareCoords
             }
         }
 
+        public SquareCoordinate AtIndex(int index)
+        {
+            var column = index / rows;
+            var row = index % rows;
+            return new SquareCoordinate(coord0.row + row, coord0.column + column);
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return (this as IEnumerable<SquareCoordinate>).GetEnumerator();

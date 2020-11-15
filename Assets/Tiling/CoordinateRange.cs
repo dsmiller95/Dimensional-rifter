@@ -29,6 +29,7 @@ namespace Assets.Tiling
         bool ContainsCoordinate(T coordinate);
 
         int TotalCoordinateContents();
+        T AtIndex(int index);
     }
     public enum CoordinateRangeType : short
     {
@@ -149,6 +150,22 @@ namespace Assets.Tiling
                     return null;
             }
         }
+
+        public UniversalCoordinate AtIndex(int index, short coordPlaneID = 0)
+        {
+            switch (rangeType)
+            {
+                case CoordinateRangeType.TRIANGLE:
+                    return UniversalCoordinate.From(triangleDataView.AtIndex(index), coordPlaneID);
+                case CoordinateRangeType.TRIANGLE_RHOMBOID:
+                    return UniversalCoordinate.From(triangeRhomboidDataView.AtIndex(index), coordPlaneID);
+                case CoordinateRangeType.RECTANGLE:
+                    return UniversalCoordinate.From(rectangleDataView.AtIndex(index), coordPlaneID);
+                default:
+                    return default;
+            }
+        }
+
         public static UniversalCoordinateRange From(TriangleTriangleCoordinateRange b)
         {
             return new UniversalCoordinateRange
