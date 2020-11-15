@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.Collections;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -8,15 +7,15 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     /// Used to manage data which is generated as part of a long-running job,
     ///     but also needs to be cached for other systems to access while the job is running
     /// </summary>
-    public class NativeCollectionHotSwap : IDisposable
+    public class NativeDisposableHotSwap<T> : IDisposable where T : struct, IDisposable
     {
         private bool CurrentActiveRegionClassification;
-        private NativeHashMap<UniversalCoordinate, uint>? regionClassificationFalse = null;
-        private NativeHashMap<UniversalCoordinate, uint>? regionClassificationTrue = null;
+        private T? regionClassificationFalse = null;
+        private T? regionClassificationTrue = null;
 
         private bool HasPending;
 
-        public NativeHashMap<UniversalCoordinate, uint>? ActiveData => CurrentActiveRegionClassification ? regionClassificationTrue : regionClassificationFalse;
+        public T? ActiveData => CurrentActiveRegionClassification ? regionClassificationTrue : regionClassificationFalse;
 
         /// <summary>
         /// hot swaps to the pending data. Will only do anything if AssignPending was called at some point
@@ -35,7 +34,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         ///     if it exists
         /// </summary>
         /// <param name="pendingRegion"></param>
-        public void AssignPending(NativeHashMap<UniversalCoordinate, uint> pendingRegion)
+        public void AssignPending(T pendingRegion)
         {
             if (HasPending)
             {

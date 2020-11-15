@@ -18,7 +18,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private static readonly int TileTypesToImpassibleQueryBatchSize = 128;
         private static readonly float TimeBetweenConnectivityUpdates = 1;
 
-        private NativeCollectionHotSwap regionConnectivityClassification;
+        private NativeDisposableHotSwap<NativeHashMap<UniversalCoordinate, uint>> regionConnectivityClassification;
 
         /// <summary>
         /// an estimate of what fraction of tiles will be blocking; used in memory allocation
@@ -37,7 +37,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         protected override void OnCreate()
         {
             longRunningDisposables = new List<IDisposable>();
-            regionConnectivityClassification = new NativeCollectionHotSwap();
+            regionConnectivityClassification = new NativeDisposableHotSwap<NativeHashMap<UniversalCoordinate, uint>>();
         }
 
         protected override void OnUpdate()
@@ -107,6 +107,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
             // keep track of the full dep, don't schedule more until this is complete
             regionConnectivityDep = ScheduleRegionClassificationJobs(ranges, pendingBlockedPositionIndexed, outputRegionClassification, dataQueryDep);
+            // TODO: add support here for links between like map ranges, to merge into one range
         }
 
         private JobHandle ScheduleRegionClassificationJobs(

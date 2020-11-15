@@ -119,7 +119,7 @@
     <Compile Include="Assets\WorldObjects\WorldGen\HaltonSequenceGenerator.cs" />
     <Compile Include="Assets\ToggleObjectActive.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawnerComponent.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeCollectionHotSwap.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeDisposableHotSwap.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
