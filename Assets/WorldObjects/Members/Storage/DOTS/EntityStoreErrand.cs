@@ -179,7 +179,6 @@ namespace Assets.WorldObjects.Members.Storage
                 ),
                 new LabmdaLeaf(blackboard =>
                 {
-                    Debug.Log("storage errand encountered an error. Ensure it has aborted correctly");
                     return NodeStatus.FAILURE;
                 })
             );
@@ -226,7 +225,6 @@ namespace Assets.WorldObjects.Members.Storage
         {
             if (!BehaviorCompleted)
             {
-                // TODO: can we test that this works?
                 ClearAllClaims();
                 notifier.ErrandAborted(this);
             }

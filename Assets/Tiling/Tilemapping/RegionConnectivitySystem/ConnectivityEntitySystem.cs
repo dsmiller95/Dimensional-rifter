@@ -19,12 +19,16 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private static readonly float TimeBetweenConnectivityUpdates = 1;
 
         private NativeDisposableHotSwap<NativeHashMap<UniversalCoordinate, uint>> regionConnectivityClassification;
+        private NativeDisposableHotSwap<NativeHashSet<UniversalCoordinate>> blockedCoordinates;
+
+        public bool HasRegionMaps => regionConnectivityClassification.ActiveData.HasValue && blockedCoordinates.ActiveData.HasValue;
+        public NativeHashSet<UniversalCoordinate> BlockedCoordinates => blockedCoordinates.ActiveData.Value;
+        public NativeHashMap<UniversalCoordinate, uint> Regions => regionConnectivityClassification.ActiveData.Value;
 
         /// <summary>
         /// an estimate of what fraction of tiles will be blocking; used in memory allocation
         /// </summary>
         private float BlockingTilesRatioEstimate = 0.2f;
-        private NativeHashSet<UniversalCoordinate> pendingBlockedPositionIndexed;
         private int lastTotalTiles;
 
         /// <summary>
@@ -36,8 +40,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         protected override void OnCreate()
         {
+            lastRegionConnectivityJob = TimeBetweenConnectivityUpdates * -10;
             longRunningDisposables = new List<IDisposable>();
             regionConnectivityClassification = new NativeDisposableHotSwap<NativeHashMap<UniversalCoordinate, uint>>();
+            blockedCoordinates = new NativeDisposableHotSwap<NativeHashSet<UniversalCoordinate>>();
         }
 
         protected override void OnUpdate()
@@ -49,13 +55,15 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             }
             if (regionConnectivityDep.Value.IsCompleted)
             {
+                regionConnectivityClassification.HotSwapToPending();
+                blockedCoordinates.HotSwapToPending();
+
                 regionConnectivityDep.Value.Complete();
                 // update the estimate based on past results
-                var totalBlockedPositions = pendingBlockedPositionIndexed.Count();
+                var totalBlockedPositions = blockedCoordinates.ActiveData?.Count() ?? -1;
                 BlockingTilesRatioEstimate = ((float)totalBlockedPositions) / lastTotalTiles;
 
                 DisposeAllWorkingData();
-                regionConnectivityClassification.HotSwapToPending();
                 Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking");
                 regionConnectivityDep = null;
             }
@@ -70,6 +78,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 DisposeAllWorkingData();
             }
             regionConnectivityClassification.Dispose();
+            blockedCoordinates.Dispose();
         }
 
         private void TryScheduleJob()
@@ -89,8 +98,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             lastTotalTiles = ranges.Sum(x => x.TotalCoordinateContents());
             var blockingTilesSizeEstimate = (int)(lastTotalTiles * BlockingTilesRatioEstimate * 1.1);
             Profiler.BeginSample("Populate blocking set");
-            pendingBlockedPositionIndexed = new NativeHashSet<UniversalCoordinate>(blockingTilesSizeEstimate, Allocator.Persistent);
-            longRunningDisposables.Add(pendingBlockedPositionIndexed);
+            var pendingBlockedPositionIndexed = new NativeHashSet<UniversalCoordinate>(blockingTilesSizeEstimate, Allocator.Persistent);
+            blockedCoordinates.AssignPending(pendingBlockedPositionIndexed);
 
             // ------data queries------
             var concurrentWriter = pendingBlockedPositionIndexed.AsParallelWriter();

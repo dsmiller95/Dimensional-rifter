@@ -65,14 +65,12 @@
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponent.cs" />
-    <Compile Include="Assets\GettingStarted_ECS\Testing.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetResourceFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Wall\DOTS\IsBuildingFlag.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\ErrandClaimComponent.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
-    <Compile Include="Assets\GettingStarted_ECS\MoverSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\IInterestingInfo.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityRowEditController.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
@@ -135,7 +133,6 @@
     <Compile Include="Assets\Tiling\SquareCoords\RectCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
-    <Compile Include="Assets\GettingStarted_ECS\LevelComponent.cs" />
     <Compile Include="Assets\Libraries\Utilities\EnumerableExtensions.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountClaimBufferData.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\BuildOrderPlacementManipulator.cs" />
@@ -154,7 +151,6 @@
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TryToDieLeafFactory.cs" />
     <Compile Include="Assets\Scripts\Core\ScriptableObjectVariable.cs" />
-    <Compile Include="Assets\GettingStarted_ECS\LevelUpSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\CompositeFactoryGraph.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryNodeSaveData.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanVariable.cs" />
@@ -307,7 +303,6 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareShapeRule.cs" />
-    <Compile Include="Assets\GettingStarted_ECS\MoveSpeedComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\IsHungryGuardFactory.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileMapConfigurationData.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />

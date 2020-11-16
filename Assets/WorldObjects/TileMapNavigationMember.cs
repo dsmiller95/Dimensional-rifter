@@ -1,7 +1,9 @@
 ﻿using Assets.Tiling;
+using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.WorldObjects
@@ -37,15 +39,10 @@ namespace Assets.WorldObjects
         {
             lastMove = Time.time;
         }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-        }
-
         public float movementSpeed = .5f;
         private float lastMove;
+
+        ConnectivityEntitySystem ConnectivityEntitySystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ConnectivityEntitySystem>();
 
         /// <summary>
         /// Attempt to advance the member along the given path. Will return INVALID_TARGET if there is no set target, or if 
@@ -56,6 +53,7 @@ namespace Assets.WorldObjects
         /// <returns></returns>
         public NavigationStatus AttemptAdvanceAlongPath(NavigationPath path)
         {
+            // TODO: check for interruptions along path
             if (path.coordinatePath.Count <= 0)
             {
                 return NavigationStatus.ARRIVED;
@@ -80,11 +78,17 @@ namespace Assets.WorldObjects
 
         public NavigationPath? GetRandomPathOfLength(int steps)
         {
+            var connectionSystem = ConnectivityEntitySystem;
+            if (!connectionSystem.HasRegionMaps)
+            {
+                return null;
+            }
+
             var path = PathfinderUtils.RandomWalkOfLength(
-                        coordinatePosition,
-                        steps,
-                        bigManager,
-                        (coord, properties) => bigManager.everyMember.IsPassable(coord));
+                coordinatePosition,
+                steps,
+                bigManager,
+                (coord, properties) => !connectionSystem.BlockedCoordinates.Contains(coord));
 
             return new NavigationPath
             {
@@ -99,6 +103,7 @@ namespace Assets.WorldObjects
         /// <param name="filter"></param>
         /// <param name="navigateToAdjacent">If the path should only go to an adjacent tile, without trying to overlap with the target member</param>
         /// <returns>null if there is no member. otherwise a navigationPath with the target member and the path to it</returns>
+        [Obsolete("use entities")]
         public NavigationPath? GetClosestOfTypeWithPath(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
             var paths = AllPossiblePaths(filter, navigateToAdjacent);
@@ -130,11 +135,16 @@ namespace Assets.WorldObjects
 
         public NavigationPath? GetPathTo(UniversalCoordinate target, bool navigateToAdjacent = true)
         {
+            var connectionSystem = ConnectivityEntitySystem;
+            if (!connectionSystem.HasRegionMaps)
+            {
+                return null;
+            }
             var path = PathfinderUtils.PathBetween(
                 CoordinatePosition,
                 target,
                 bigManager,
-                (coord, properties) => bigManager.everyMember.IsPassable(coord),
+                (coord, properties) => !connectionSystem.BlockedCoordinates.Contains(coord),
                 navigateToAdjacent
             );
             if (path == null)
@@ -159,6 +169,7 @@ namespace Assets.WorldObjects
             return path;
         }
 
+        [Obsolete("Use entites")]
         private IEnumerable<(List<UniversalCoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
             var myRegionID = RegionBitMask;
@@ -180,6 +191,7 @@ namespace Assets.WorldObjects
                 .Where(x => x.Item1 != null);
         }
 
+        [Obsolete("Use entities")]
         public bool IsReachable(TileMapMember member)
         {
             return (member.RegionBitMask & RegionBitMask) != 0;
