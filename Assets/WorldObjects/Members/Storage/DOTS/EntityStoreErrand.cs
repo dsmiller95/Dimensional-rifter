@@ -191,6 +191,11 @@ namespace Assets.WorldObjects.Members.Storage
 
         private void ClearStorageClaim(EntityManager entityManager)
         {
+            if (!entityManager.Exists(errandResult.supplyTarget))
+            {
+                // The errand could have aborted because the supply target no longer exists
+                return;
+            }
             var storageComponent = entityManager.GetComponentData<ItemAmountsDataComponent>(errandResult.supplyTarget);
 
             // be sure to de-allocate based on the original subtraction claim, not the modified amount
@@ -199,6 +204,12 @@ namespace Assets.WorldObjects.Members.Storage
         }
         private void ClearItemSourceClaim(EntityManager entityManager)
         {
+            if (!entityManager.Exists(errandResult.itemSource))
+            {
+                // The errand could have aborted after picking up the item source,
+                // if it was a loose item the entity may not exist anymore
+                return;
+            }
             var itemAmountBuffer = entityManager.GetBuffer<ItemAmountClaimBufferData>(errandResult.itemSource);
             //TODO: finding this index multiple times. reduce calls?
             var itemIndex = itemAmountBuffer.IndexOfType(errandResult.resourceTransferType);

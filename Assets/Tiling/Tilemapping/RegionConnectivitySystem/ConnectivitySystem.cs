@@ -83,17 +83,17 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     else
                     {
                         // Debug.Log($"[Connectivity] Found {finalRegionIndexAccess[0] + 1} seperate regions");
-                        foreach (var (coordinate, members) in memberDataFromRunningJob.GetMembersByCoordinate())
-                        {
-                            if (coordinateIndexes.TryGetValue(coordinate, out var index))
-                            {
-                                var regionMask = resultGraphNodes[index].RegionMask;
-                                foreach (var member in members)
-                                {
-                                    member.RegionBitMask = regionMask;
-                                }
-                            }
-                        }
+                        //foreach (var (coordinate, members) in memberDataFromRunningJob.GetMembersByCoordinate())
+                        //{
+                        //    if (coordinateIndexes.TryGetValue(coordinate, out var index))
+                        //    {
+                        //        var regionMask = resultGraphNodes[index].RegionMask;
+                        //        foreach (var member in members)
+                        //        {
+                        //            member.RegionBitMask = regionMask;
+                        //        }
+                        //    }
+                        //}
                     }
 
                     DisposeAllAndEnsureJobStopped();

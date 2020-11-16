@@ -19,6 +19,7 @@ namespace Assets.WorldObjects
     {
         [NonSerialized] // grabbed from object heirarchy
         public CombinationTileMapManager bigManager;
+        [Obsolete]
         /// <summary>
         /// a bit mask indicating which regions this member belongs to
         /// </summary>
