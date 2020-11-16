@@ -10,6 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 
     [CreateAssetMenu(fileName = "GetResource", menuName = "Behaviors/Actions/GetResource", order = 10)]
     [FactoryGraphNode("Leaf/GetResource", "GetResource", 0)]
+    [System.Obsolete("Use Entities")]
     public class GetResourceFactory : LeafFactory
     {
         public Resource resourceType;

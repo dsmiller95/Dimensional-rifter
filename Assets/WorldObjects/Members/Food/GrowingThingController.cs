@@ -20,6 +20,7 @@ namespace Assets.WorldObjects.Members.Food
 
     // can't have multiple on same component due to saveObject tag being constant
     [DisallowMultipleComponent]
+    [Obsolete("Use Entities")]
     public class GrowingThingController : MonoBehaviour,
         IHarvestable, IMemberSaveable,
         IErrandSource<HarvestingErrand>, IErrandCompletionReciever<HarvestingErrand>

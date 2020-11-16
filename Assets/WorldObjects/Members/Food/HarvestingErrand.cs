@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food
 {
+    [System.Obsolete("Use Entities")]
     public class HarvestingErrand : IErrand
     {
         private HarvestErrandType errandType;

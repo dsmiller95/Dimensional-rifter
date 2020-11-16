@@ -10,6 +10,7 @@ namespace Assets.WorldObjects.Members.Items
         public Resource resourceType;
         public float MapSpawnAmount;
 
+        [System.Obsolete("Use Entities")]
         public override InMemberObjectData[] InstantiateNewSaveObject()
         {
             var baseArray = base.InstantiateNewSaveObject();

@@ -1,10 +1,12 @@
 ﻿using Assets.WorldObjects;
 using Assets.WorldObjects.Members.Building;
 using BehaviorTree.Nodes;
+using System;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
+    [Obsolete("Use Entities")]
     public class FindAndClaimSleepStation : FindTargetPath
     {
         public FindAndClaimSleepStation(

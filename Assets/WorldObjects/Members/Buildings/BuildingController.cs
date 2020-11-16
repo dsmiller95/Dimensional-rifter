@@ -25,6 +25,7 @@ namespace Assets.WorldObjects.Members.Buildings
         public LimitedResourcePoolSaveObject builtResourceAmount;
     }
     [DisallowMultipleComponent]
+    [Obsolete("Use Entities")]
     public class BuildingController : MonoBehaviour,
         IBuildable, ISuppliable, IMemberSaveable,
         IErrandSource<BuildingErrand>, IErrandCompletionReciever<BuildingErrand>,

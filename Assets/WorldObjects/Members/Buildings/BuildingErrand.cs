@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Assets.WorldObjects.Members.Buildings
 {
     ///TODO: abstract some of this out based on commanalities with <see cref="GatheringErrand"/>
+    [System.Obsolete("Use Entities")]
     public class BuildingErrand : IErrand
     {
         private BuildingErrandType errandType;

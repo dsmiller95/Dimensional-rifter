@@ -9,6 +9,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// Finds a target which can be navigated to, and cache the path to that target if found
     ///     in the navigation object attached to the tile member owned by this object
     /// </summary>
+    [Obsolete("Use Entities")]
     public class FindTarget : ComponentMemberLeaf<TileMapNavigationMember>
     {
         private Func<TileMapMember, object, bool> targetFilter;

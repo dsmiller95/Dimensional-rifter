@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
+    [System.Obsolete("Use Entities")]
     public static class GatherOfTypeFactory
     {
         public static BehaviorNode GatherResourceOfType(

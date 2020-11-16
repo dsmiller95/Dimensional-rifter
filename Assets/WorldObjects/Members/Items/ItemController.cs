@@ -22,6 +22,7 @@ namespace Assets.WorldObjects.Members.Items
     }
 
     [DisallowMultipleComponent]
+    [System.Obsolete("Use Entities")]
     public class ItemController : MonoBehaviour, IItemSource, IMemberSaveable, IInterestingInfo, IConvertGameObjectToEntity
     {
         public static readonly float ItemMaxCapacity = 100;

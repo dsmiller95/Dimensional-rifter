@@ -19,6 +19,7 @@ namespace Assets.WorldObjects.Members.Storage
     }
 
     [DisallowMultipleComponent]
+    [System.Obsolete("Use Entities")]
     public class StorageController : MonoBehaviour,
         ISuppliable, IItemSource,
         IMemberSaveable, IInterestingInfo,

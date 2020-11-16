@@ -1,6 +1,7 @@
 ﻿using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
     /// Finds a pair of one <see cref="IItemSource"/> and one <see cref="ISuppliable"/> which can be provided to by that source
     ///     Stores the resource type for which a valid supply pair exists
     /// </summary>
+    [Obsolete("Use Entities")]
     public class EnsureAvailableResourceSupplyPair : ComponentMemberLeaf<TileMapNavigationMember>
     {
         private string resourceTypeProperty;

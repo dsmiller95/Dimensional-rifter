@@ -2,12 +2,14 @@
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
+using System;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [CreateAssetMenu(fileName = "FindTargetByName", menuName = "Behaviors/Actions/FindTargetByName", order = 10)]
     [FactoryGraphNode("Leaf/FindTargetByName", "FindTargetByName", 0)]
+    [Obsolete("Use Entities")]
     public class FindTargetByNameLeafFactory : LeafFactory
     {
         public string targetGameObjectNamePart;

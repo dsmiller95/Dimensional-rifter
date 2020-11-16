@@ -2,11 +2,13 @@
 using Assets.WorldObjects;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Nodes;
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNode
 {
+    [Obsolete("Use Entities")]
     public class FindItemSourceTarget : FindTargetPath
     {
         private Resource resourceToGrab;

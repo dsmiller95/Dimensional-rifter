@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [FactoryGraphNode("Leaf/GetFoodToEat", "GetFoodToEat", 0)]
+    [System.Obsolete("Needs conversion to entities")]
     public class GetFoodToEatFactory : LeafFactory
     {
         public float targetCalories;

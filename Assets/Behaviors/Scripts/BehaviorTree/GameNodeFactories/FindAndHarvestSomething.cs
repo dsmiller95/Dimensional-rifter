@@ -2,11 +2,13 @@
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
+using System;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
     [FactoryGraphNode("Leaf/FindAndHarvest", "FindAndHarvest", 0)]
+    [Obsolete("Use Entities")]
     public class FindAndHarvestSomething : LeafFactory
     {
         public string harvestTargetInBlackboard = "Target";

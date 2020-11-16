@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Assets.WorldObjects.Members.Storage
 {
     [Serializable]
+    [Obsolete("Use Entities")]
     public class StorageErrandSourceSlice : IErrandSource<StoreErrand>
     {
         public StoreErrandType errandType;
@@ -50,6 +51,7 @@ namespace Assets.WorldObjects.Members.Storage
     }
 
     [CreateAssetMenu(fileName = "StorageErrandSource", menuName = "Behaviors/Errands/StorageErrandSource", order = 10)]
+    [Obsolete("Use Entities")]
     public class StorageErrandSource : ScriptableObject, IErrandCompletionReciever<StoreErrand>
     {
         public ErrandBoard board;
