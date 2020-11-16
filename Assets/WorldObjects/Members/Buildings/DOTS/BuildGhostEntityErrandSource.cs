@@ -40,20 +40,20 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             var connectionSystem = ConnectivitySystem;
             if (!connectionSystem.HasRegionMaps)
             {
-                return new ImmediateErrandSourceNode<BuildEntityErrand>(null);
+                return null;
             }
             var regionMap = connectionSystem.Regions;
             var tileMem = errandExecutor.GetComponent<TileMapNavigationMember>();
             if (tileMem == null)
             {
                 Debug.LogError("Build ghost errand executor has no navigation member. Needed to discern position of actor");
-                return new ImmediateErrandSourceNode<BuildEntityErrand>(null);
+                return null;
             }
             var actorPos = tileMem.CoordinatePosition;
             if (!regionMap.TryGetValue(actorPos, out var actorRegion))
             {
                 Debug.LogError("actor not included in region map");
-                return new ImmediateErrandSourceNode<BuildEntityErrand>(null);
+                return null;
             }
 
             Entity targetEntity = Entity.Null;

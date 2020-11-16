@@ -75,7 +75,7 @@ namespace Assets.Behaviors.Errands.Scripts
                 }
                 while (currentSourceIndex < sources.Length)
                 {
-                    var result = currentNode.Evaluate(blackboard);
+                    var result = currentNode?.Evaluate(blackboard) ?? NodeStatus.FAILURE;
                     switch (result)
                     {
                         case NodeStatus.SUCCESS:

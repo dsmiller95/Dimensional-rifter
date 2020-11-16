@@ -80,7 +80,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
             if(tileMem == null)
             {
                 Debug.LogError("Storage errand executor has no navigation member. Needed to discern position of actor");
-                return new ImmediateErrandSourceNode<EntityStoreErrand>(null);
+                return null;
             }
             var actorPos = tileMem.CoordinatePosition;
 

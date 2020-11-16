@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
   m_Name: Sleep On Ground
   m_EditorClassIdentifier: 
-  restSpeed: 2
+  restSpeed: 20
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
   awakefullnessMinimumRequiredForExit: 70
   sleepingAnimationTrigger: StartSleeping
@@ -209,11 +209,6 @@ MonoBehaviour:
     factory: {fileID: 7770556017436500047}
     position: {x: 441, y: 177}
     ConnectedChildrenGuids: []
-  - Guid: 4af9b73c-9098-440c-af82-85dd794b285b
-    Title: Sleep On Ground
-    factory: {fileID: -9202344163753328988}
-    position: {x: 101, y: 312}
-    ConnectedChildrenGuids: []
   - Guid: 5ff60ca3-750b-4cb9-b827-8428a6f92eed
     Title: StickySelector
     factory: {fileID: -2120107842614436554}
@@ -222,6 +217,11 @@ MonoBehaviour:
     - dc67f8b6-2821-4406-bb7f-65c1471bd80c
     - 1192cbb5-198b-4599-9331-2e1e95ed9fb9
     - 
+  - Guid: 4af9b73c-9098-440c-af82-85dd794b285b
+    Title: Sleep On Ground
+    factory: {fileID: -9202344163753328988}
+    position: {x: 101, y: 312}
+    ConnectedChildrenGuids: []
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
   - {fileID: -2120107842614436554}
