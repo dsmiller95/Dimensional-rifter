@@ -1,4 +1,6 @@
-﻿using Assets.WorldObjects.Members.Items.DOTS;
+﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
+using Assets.WorldObjects.DOTSMembers;
+using Assets.WorldObjects.Members.Items.DOTS;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -22,31 +24,32 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
         {
             SupplyErrandRequests = GetEntityQuery(
                 ComponentType.ReadOnly<StorageSupplyErrandRequestComponent>(),
+                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
                 ComponentType.Exclude<StorageSupplyErrandResultComponent>()
                 );
         }
 
         EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+        ConnectivityEntitySystem ConnectivitySystem => World.GetOrCreateSystem<ConnectivityEntitySystem>();
         protected override void OnUpdate()
         {
-
-            var supplyErrandEntities = SupplyErrandRequests.ToEntityArrayAsync(Allocator.TempJob, out var supplyEntityJob);
-            var supplyErrandRequests = SupplyErrandRequests.ToComponentDataArrayAsync<StorageSupplyErrandRequestComponent>(Allocator.TempJob, out var supplyErrandJob);
-            var dataGrab = JobHandle.CombineDependencies(supplyErrandJob, supplyEntityJob);
-            dataGrab.Complete();
-
-            if (supplyErrandRequests.Length <= 0)
+            var connectionSystem = ConnectivitySystem;
+            if (SupplyErrandRequests.IsEmpty || !connectionSystem.HasRegionMaps)
             {
-                supplyErrandEntities.Dispose();
-                supplyErrandRequests.Dispose();
                 return;
             }
+            var supplyErrandEntities = SupplyErrandRequests.ToEntityArrayAsync(Allocator.TempJob, out var supplyEntityJob);
+            var supplyErrandRequests = SupplyErrandRequests.ToComponentDataArrayAsync<StorageSupplyErrandRequestComponent>(Allocator.TempJob, out var supplyErrandJob);
+            var supplyErrandPositions = SupplyErrandRequests.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.TempJob, out var supplyOriginPositionJob);
+            var dataGrab = JobHandle.CombineDependencies(supplyEntityJob, supplyErrandJob, supplyOriginPositionJob);
+            dataGrab.Complete();
 
             //JobHandle tempDependency = default;
 
             //NativeHashMap<int, Entity> availableSupplyTargets = new NativeHashMap<int, Entity>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
 
             var commandBuffer = finishedRequestBufferSystem.CreateCommandBuffer();
+            var regionMap = connectionSystem.Regions;
 
             for (var supplyIndex = 0; supplyIndex < supplyErrandRequests.Length; supplyIndex++)
             {
@@ -55,14 +58,23 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 {
                     continue;
                 }
+                if(!regionMap.TryGetValue(supplyErrandPositions[supplyIndex].Value, out var supplyRequestRegion))
+                {
+                    continue;
+                }
                 NativeHashMap<int, ItemAmountSourceRepresentation> availableResourceTargets = new NativeHashMap<int, ItemAmountSourceRepresentation>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
                 Entities
                     .ForEach((int entityInQueryIndex, Entity self,
+                        in UniversalCoordinatePositionComponent position,
                         in ItemSourceTypeComponent itemType,
                         in ItemAmountsDataComponent amount,
                         in DynamicBuffer<ItemAmountClaimBufferData> itemAmountBuffer) =>
                     {
                         if ((itemType.SourceTypeFlag & supplyRequest.ItemSourceTypeFlags) == 0)
+                        {
+                            return;
+                        }
+                        if(!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & supplyRequestRegion) == 0)
                         {
                             return;
                         }
@@ -89,6 +101,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
 
                 Entities
                     .ForEach((int entityInQueryIndex, Entity self,
+                        in UniversalCoordinatePositionComponent position,
                         in SupplyTypeComponent storageType,
                         in ItemAmountsDataComponent itemAmountInSupplyTarget,
                         in DynamicBuffer<ItemAmountClaimBufferData> itemSupplyAmounts) =>
@@ -97,6 +110,11 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                         {
                             return;
                         }
+                        if (!regionMap.TryGetValue(position.Value, out var supplyTargetRegion) || (supplyTargetRegion & supplyRequestRegion) == 0)
+                        {
+                            return;
+                        }
+
                         var totalAmounts = itemSupplyAmounts.TotalAmounts();
                         var remainingSpace = itemAmountInSupplyTarget.MaxCapacity - totalAmounts - itemAmountInSupplyTarget.TotalAdditionClaims;
                         if (remainingSpace <= 0)
@@ -183,6 +201,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 }
                 possibleResults.Dispose();
             }
+            supplyErrandPositions.Dispose();
             supplyErrandEntities.Dispose();
             supplyErrandRequests.Dispose();
 

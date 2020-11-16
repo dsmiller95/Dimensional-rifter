@@ -33,8 +33,7 @@ namespace Assets.WorldObjects.Members.Items.DOTS
         EntityCommandBufferSystem commandBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
-            var commands = SpawnCommandsQuery.CalculateEntityCount();
-            if(commands <= 0)
+            if(SpawnCommandsQuery.IsEmpty)
             {
                 return;
             }

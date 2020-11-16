@@ -1,4 +1,5 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging;
 using Assets.WorldObjects.SaveObjects.SaveManager;
@@ -55,7 +56,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
         {
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             errandRequestArchetype = entityManager.CreateArchetype(
-                typeof(StorageSupplyErrandRequestComponent));
+                typeof(StorageSupplyErrandRequestComponent),
+                typeof(UniversalCoordinatePositionComponent));
 
             foreach (var errandSource in StorageErrandTypes)
             {
@@ -74,6 +76,14 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
 
         public IErrandSourceNode<EntityStoreErrand> GetErrand(GameObject errandExecutor, StorageSupplyErrandRequestComponent storageRequest)
         {
+            var tileMem = errandExecutor.GetComponent<TileMapNavigationMember>();
+            if(tileMem == null)
+            {
+                Debug.LogError("Storage errand executor has no navigation member. Needed to discern position of actor");
+                return new ImmediateErrandSourceNode<EntityStoreErrand>(null);
+            }
+            var actorPos = tileMem.CoordinatePosition;
+
             var commandbuffer = commandbufferSystem.CreateCommandBuffer();
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
@@ -83,6 +93,10 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
 #endif
             storageRequest.DataIsSet = true;
             commandbuffer.SetComponent(entity, storageRequest);
+            commandbuffer.SetComponent(entity, new UniversalCoordinatePositionComponent
+            {
+                Value = actorPos
+            });
             return new StorageEntityErrandResultListener(
                 this,
                 entity,
