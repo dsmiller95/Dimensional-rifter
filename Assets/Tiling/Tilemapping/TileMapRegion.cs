@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Utilities;
 using Assets.Tiling.Tilemapping.MeshEdit;
-using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,27 +192,9 @@ namespace Assets.Tiling.Tilemapping
             return false;
         }
 
-
         public int GreedyCordinateTotalEstimate(TileMapRegionData data)
         {
             return data.baseRange.TotalCoordinateContents();
-        }
-
-        public void AddConnectivityAndMemberData(
-            TileMapRegionData data,
-            ConnectivityGraphBuilder connectivityGraphBuilder)
-        {
-            var coordinatesInMap = data.baseRange.GetUniversalCoordinates(data.planeIDIndex)
-                .Where(coord => !runtimeData.disabledCoordinates.Contains(coord));
-            var neighborsPerCoord = UniversalCoordinate.NeighborCount(data.baseRange.CoordinateType);
-            foreach (var coordinate in coordinatesInMap)
-            {
-                var nextNode = new ConnectivityGraphNodeCoordinate
-                {
-                    coordinate = coordinate,
-                };
-                connectivityGraphBuilder.NextNode(nextNode, neighborsPerCoord);
-            }
         }
     }
 }

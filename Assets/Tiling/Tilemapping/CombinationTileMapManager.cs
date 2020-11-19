@@ -1,5 +1,4 @@
-﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
-using Assets.WorldObjects.SaveObjects;
+﻿using Assets.WorldObjects.SaveObjects;
 using Assets.WorldObjects.SaveObjects.SaveManager;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +33,6 @@ namespace Assets.Tiling.Tilemapping
         public TileMapRegionData[] allRegions;
         private TileMapRegion[] regionBehaviors;
 
-        public ConnectivitySystem connectivitySystem;
         public UniversalCoordinateSystemMembers everyMember;
 
         public TileMapRegion regionBehaviorPrefab;
@@ -53,11 +51,6 @@ namespace Assets.Tiling.Tilemapping
         private void ClearInstance()
         {
             instance = null;
-        }
-
-        private void Start()
-        {
-            connectivitySystem?.ResetState();
         }
 
         private void OnRegionPlaneDataChanged()
@@ -97,7 +90,6 @@ namespace Assets.Tiling.Tilemapping
 
         private void OnDestroy()
         {
-            connectivitySystem.StopEverything();
             if (instance == this)
             {
                 instance = null;
@@ -212,20 +204,8 @@ namespace Assets.Tiling.Tilemapping
             //    tileMapToMove.transform.position += (Vector3)(mouseDelta);
             //    UpdateTileMapsBelow(tileMapToMove);
             //}
-
-            connectivitySystem?.TryUpdateConnectivity(BuildConnectionGraph);
         }
 
-        private void BuildConnectionGraph(ConnectivityGraphBuilder builder)
-        {
-            var totalCoordiantes = allRegions.Select((data, index) => regionBehaviors[index].GreedyCordinateTotalEstimate(data)).Sum();
-            builder.InitNodeBuilderArrayWithCapacity(totalCoordiantes);
-            builder.ReadFromTileDataIn(everyMember);
-            for (var i = 0; i < allRegions.Length; i++)
-            {
-                regionBehaviors[i].AddConnectivityAndMemberData(allRegions[i], builder);
-            }
-        }
         public UniversalCoordinate? GetPositionOnActiveTileMapsFromWorldPosition(Vector2 worldPosition)
         {
             for (short planeID = 0; planeID < allRegions.Length; planeID++)

@@ -61,7 +61,6 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityGraphNode.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponent.cs" />
@@ -163,7 +162,6 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationIndexComponent.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateListingToGraphDataJob.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindAndClaimSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
     <Compile Include="Assets\WorldObjects\TileMemberOrderingLayer.cs" />
@@ -171,7 +169,6 @@
     <Compile Include="Assets\Scripts\AnimatorParameterBinding.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingAuthoring.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\BehaviorTreeMachine.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivitySystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemSpawnSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
@@ -183,7 +180,6 @@
     <Compile Include="Assets\WorldObjects\Members\SelfTileMemberReplacer.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryDirectSelector.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\RegionGenerator.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\EnsureAvailableResourceSupplyPair.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetTimeZoneClassificationLeaf.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\CompositeNode.cs" />
     <Compile Include="Assets\Tiling\HexCoords\OffsetCoordinate.cs" />

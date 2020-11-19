@@ -19,11 +19,6 @@ namespace Assets.WorldObjects
     {
         [NonSerialized] // grabbed from object heirarchy
         public CombinationTileMapManager bigManager;
-        [Obsolete]
-        /// <summary>
-        /// a bit mask indicating which regions this member belongs to
-        /// </summary>
-        public ulong RegionBitMask;
 
         [Tooltip("Used to load the memberType on save load")]
         public MembersRegistry membersScriptRegistry;
@@ -127,8 +122,7 @@ namespace Assets.WorldObjects
 
         public string GetCurrentInfo()
         {
-            return $"Type: {memberType.name}\n" +
-                $"Region: {System.Convert.ToString((long)RegionBitMask, 2).PadLeft(10, '0')}\n";
+            return $"Type: {memberType.name}\n";
         }
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)

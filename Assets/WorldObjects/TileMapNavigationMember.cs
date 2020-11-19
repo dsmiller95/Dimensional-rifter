@@ -172,11 +172,9 @@ namespace Assets.WorldObjects
         [Obsolete("Use entites")]
         private IEnumerable<(List<UniversalCoordinate>, TileMapMember)> AllPossiblePaths(Func<TileMapMember, bool> filter, bool navigateToAdjacent = true)
         {
-            var myRegionID = RegionBitMask;
             var myMembershipData = CoordinatePosition.CoordinateMembershipData;
             var possibleSelections = bigManager.everyMember.allMembers
-                .Where(member => member.CoordinatePosition.CoordinateMembershipData == myMembershipData &&
-                    (member.RegionBitMask & myRegionID) != 0)
+                .Where(member => member.CoordinatePosition.CoordinateMembershipData == myMembershipData)
                 .Where(filter);
             return possibleSelections.Select(member =>
                 {
@@ -194,7 +192,7 @@ namespace Assets.WorldObjects
         [Obsolete("Use entities")]
         public bool IsReachable(TileMapMember member)
         {
-            return (member.RegionBitMask & RegionBitMask) != 0;
+            return true;
         }
     }
 }
