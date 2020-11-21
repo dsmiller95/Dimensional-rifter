@@ -189,8 +189,14 @@ namespace Assets.WorldObjects.Members.Storage
             return ErrandBehaviorTreeRoot?.Evaluate(blackboard) ?? NodeStatus.FAILURE;
         }
 
+        private bool storageClaimCleared = false;
         private void ClearStorageClaim(EntityManager entityManager)
         {
+            if (storageClaimCleared)
+            {
+                return;
+            }
+            storageClaimCleared = true;
             if (!entityManager.Exists(errandResult.supplyTarget))
             {
                 // The errand could have aborted because the supply target no longer exists
@@ -202,8 +208,14 @@ namespace Assets.WorldObjects.Members.Storage
             storageComponent.TotalAdditionClaims -= errandResult.amountToTransfer;
             entityManager.SetComponentData(errandResult.supplyTarget, storageComponent);
         }
+        private bool itemSourceClaimCleared = false;
         private void ClearItemSourceClaim(EntityManager entityManager)
         {
+            if (itemSourceClaimCleared)
+            {
+                return;
+            }
+            itemSourceClaimCleared = true;
             if (!entityManager.Exists(errandResult.itemSource))
             {
                 // The errand could have aborted after picking up the item source,
@@ -215,7 +227,8 @@ namespace Assets.WorldObjects.Members.Storage
             var itemIndex = itemAmountBuffer.IndexOfType(errandResult.resourceTransferType);
             if (itemIndex < 0)
             {
-                Debug.LogError("Item to grab not found in the item source");
+                Debug.LogError("[ERRANDS][STORAGE]Item to grab not found in the item source");
+                return;
             }
 
             var itemAmount = itemAmountBuffer[itemIndex];

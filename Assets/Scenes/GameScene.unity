@@ -2736,6 +2736,51 @@ MonoBehaviour:
   variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
   objectToAssign: {fileID: 11400000, guid: 7b6e0d0f7db459245afc8639f134cfe3, type: 2}
   AssignOnInit: 0
+--- !u!1 &1063286457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1063286459}
+  - component: {fileID: 1063286458}
+  m_Layer: 0
+  m_Name: Eating Errand Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1063286458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063286457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb2c8a2872280a4a9f93a63f6456eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatingErrandType: {fileID: 11400000, guid: 43568c3970b7cef489661d014a6c21ac, type: 2}
+  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+--- !u!4 &1063286459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063286457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1, y: 1.25, z: -19.99}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1087618048
 GameObject:
   m_ObjectHideFlags: 0

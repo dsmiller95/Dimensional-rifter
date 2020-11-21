@@ -10,7 +10,7 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
     [FactoryGraphNode("Leaf/ClaimAndDoErrand", "ClaimAndDoErrand", 0)]
     public class ClaimAndDoErrandFactory : LeafFactory
     {
-        public string errandPathInBlackboard;
+        public string tmpErrandPathInBlackboard;
         public ErrandBoard errandBoard;
         public ErrandType errandType;
 
@@ -21,8 +21,8 @@ namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
                     target,
                     errandBoard,
                     errandType,
-                    errandPathInBlackboard),
-                new ExecuteErrand(errandPathInBlackboard)
+                    tmpErrandPathInBlackboard),
+                new ExecuteErrand(tmpErrandPathInBlackboard)
             );
         }
     }

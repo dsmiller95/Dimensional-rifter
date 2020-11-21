@@ -115,12 +115,12 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
 
         public void ErrandCompleted(EntityStoreErrand errand)
         {
-            Debug.Log("[ERRANDS] [STORAGE] Entity errand completed");
+            Debug.Log("[ERRANDS][STORAGE] Entity errand completed");
         }
 
         public void ErrandAborted(EntityStoreErrand errand)
         {
-            Debug.LogError("[ERRANDS] [STORAGE] Entity errand aborted");
+            Debug.LogError("[ERRANDS][STORAGE] Entity errand aborted");
         }
     }
 }

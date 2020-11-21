@@ -101,6 +101,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTarget.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\LambdaLeaf.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityHolderObjectSet.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\EatingErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\WorldGenerator.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrandType.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\CacheFirstResolution.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingChildComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\EntityStoreErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\EatingEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\HarvestingErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
@@ -332,6 +334,8 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\SpecificResourceConsumeErrandRequestSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\WaitForECSResponse.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

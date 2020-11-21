@@ -86,7 +86,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                             var totalClaimableAmount = itemAmount.Amount - itemAmount.TotalSubtractionClaims;
                             if (totalClaimableAmount <= 0 || availableResourceTargets.ContainsKey(resourceTypeID))
                             {
-                                return;
+                                continue;
                             }
 
                             availableResourceTargets.Add(resourceTypeID, new ItemAmountSourceRepresentation

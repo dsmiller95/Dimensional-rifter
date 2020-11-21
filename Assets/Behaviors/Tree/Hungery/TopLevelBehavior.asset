@@ -26,7 +26,7 @@ MonoBehaviour:
   m_Name: Selector
   m_EditorClassIdentifier: 
   children:
-  - {fileID: 0}
+  - {fileID: 4874855547398272385}
   - {fileID: 3785855174079633242}
   - {fileID: -1231797936248276870}
 --- !u!114 &-1231797936248276870
@@ -74,7 +74,7 @@ MonoBehaviour:
     factory: {fileID: -6716353589384755995}
     position: {x: -365, y: -29}
     ConnectedChildrenGuids:
-    - 
+    - de24c03d-2df3-48d9-b8b0-4006d8311082
     - aa3ab410-a2ee-4cbf-8a6d-e96bc4ae84da
     - 70966ebc-a6b7-4fc7-bda2-cf543ca0708c
   - Guid: de24c03d-2df3-48d9-b8b0-4006d8311082
