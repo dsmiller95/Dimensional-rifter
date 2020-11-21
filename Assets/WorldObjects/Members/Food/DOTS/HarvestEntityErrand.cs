@@ -11,9 +11,7 @@ namespace Assets.WorldObjects.Members.Food
 {
     public class HarvestEntityErrand : IErrand
     {
-        private HarvestErrandType errandType;
         public Entity targetEntity;
-        public ErrandType ErrandType => errandType;
 
         public GameObject gatheringWorker;
 
@@ -32,7 +30,6 @@ namespace Assets.WorldObjects.Members.Food
             IErrandCompletionReciever<HarvestEntityErrand> completionReciever)
         {
             this.entityWorld = entityWorld;
-            this.errandType = errandType;
             targetEntity = toBeBuilt;
             this.gatheringWorker = gatheringWorker;
             this.completionReciever = completionReciever;

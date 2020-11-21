@@ -85,7 +85,8 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
             var actorPos = tileMem.CoordinatePosition;
 
             var commandbuffer = commandbufferSystem.CreateCommandBuffer();
-            var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            var worldToUse = World.DefaultGameObjectInjectionWorld;
+            var entityManager = worldToUse.EntityManager;
 
             var entity = entityManager.CreateEntity(errandRequestArchetype);
 #if UNITY_EDITOR
@@ -97,10 +98,19 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
             {
                 Value = actorPos
             });
-            return new StorageEntityErrandResultListener(
-                this,
-                entity,
-                errandExecutor);
+
+            return new ErrandFromBlackboardDataNode<EntityStoreErrand>(
+                    new WaitForECSResponse<StorageSupplyErrandResultComponent, BeginInitializationEntityCommandBufferSystem>(
+                        entity,
+                        worldToUse,
+                        "storageErrandData"
+                        ),
+                    Blackboard =>
+                    {
+                        Blackboard.TryGetValueOfType("storageErrandData", out StorageSupplyErrandResultComponent errandResult);
+                        return new EntityStoreErrand(errandResult, errandExecutor, this);
+                    }
+                );
         }
 
         public void ErrandCompleted(EntityStoreErrand errand)
@@ -111,65 +121,6 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
         public void ErrandAborted(EntityStoreErrand errand)
         {
             Debug.LogError("[ERRANDS] [STORAGE] Entity errand aborted");
-        }
-
-        class StorageEntityErrandResultListener : ErrandSourceNode<EntityStoreErrand>
-        {
-            private StorageEntityErrandSource errandSourceInstance;
-            private Entity errandRequestEntity;
-            private GameObject targetActor;
-
-            private bool gotResult;
-
-            public StorageEntityErrandResultListener(
-                StorageEntityErrandSource errandSourceInstance,
-                Entity requestEntity,
-                GameObject targetActor)
-            {
-                this.errandSourceInstance = errandSourceInstance;
-                errandRequestEntity = requestEntity;
-                this.targetActor = targetActor;
-            }
-
-            protected override NodeStatus OnEvaluate(Blackboard blackboard)
-            {
-                if (gotResult)
-                {
-                    return ErrandResult == null ? NodeStatus.FAILURE : NodeStatus.SUCCESS;
-                }
-                var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-                if (!entityManager.Exists(errandRequestEntity))
-                {
-                    Debug.Log("[ERRANDS] [STORAGE] No valid storage errand found");
-                    gotResult = true;
-                    return NodeStatus.FAILURE;
-                }
-                if (!entityManager.HasComponent<StorageSupplyErrandResultComponent>(errandRequestEntity))
-                {
-                    return NodeStatus.RUNNING;
-                }
-
-                var resultData = entityManager.GetComponentData<StorageSupplyErrandResultComponent>(errandRequestEntity);
-                gotResult = true;
-
-                var commandbuffer = errandSourceInstance.commandbufferSystem.CreateCommandBuffer();
-                // TODO: this keeps all the requests in the entities. remove it later
-                //commandbuffer.DestroyEntity(errandRequestEntity);
-
-                if (resultData.itemSource == Entity.Null || resultData.supplyTarget == Entity.Null)
-                {
-                    return NodeStatus.FAILURE;
-                }
-
-                ErrandResult = new EntityStoreErrand(resultData, targetActor, errandSourceInstance);
-                return NodeStatus.SUCCESS;
-            }
-            public override void Reset(Blackboard blackboard)
-            {
-                // TODO: make sure the entity gets cleaned up if the errand gets aborted early
-                //   I.E. due to death
-                throw new NotImplementedException();
-            }
         }
     }
 }
