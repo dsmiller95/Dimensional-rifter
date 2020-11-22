@@ -119,6 +119,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawnerComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeDisposableHotSwap.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Assets\UI\Manipulators\Scripts\ManipulatorController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\StickySelector.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComparisonFromBlackboard.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\WaitForECSResponse.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToBakedTarget.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="Assets\WorldObjects\Pathfinder.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\FindRandomWalkPathFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\NavigateToTarget.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\SpecificResourceConsumeErrandRequestSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Blackboard.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComponentMemberLeaf.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
@@ -334,8 +337,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\SpecificResourceConsumeErrandRequestSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\WaitForECSResponse.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponentAuthoring.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

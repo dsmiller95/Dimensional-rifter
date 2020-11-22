@@ -9,6 +9,16 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS
 {
+    /// <summary>
+    /// Building component. Authoring workflow works like this:
+    ///     In the prefab, the top-level gameobject is what will exist when the building is completed
+    ///     As a child of that gameObject, create another gameObject to represent what will exist as the building preview
+    ///     The top-level gameObject will be disabled when it is converted to entities; only enabled again when the Building Entity is built
+    ///     the building entity will be trimmed down to only inventory information when it is built, throwing away all rendering and position data.
+    ///     The building entity can be used as a reference for what was used to build the building once it was built.
+    /// The child building component will copy the <see cref="UniversalCoordinatePositionComponent"/> and <see cref="OffsetFromCoordinatePositionComponent"/> from the parent entity
+    ///     it will also break the Transform system's Parent-child linkage, each entity will be translated independently by the <see cref="UniversalCoordinateToTransformSystem"/>
+    /// </summary>
     [DisallowMultipleComponent]
     public class BuildingAuthoring : MonoBehaviour,
         IConvertGameObjectToEntity

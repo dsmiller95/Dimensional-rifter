@@ -3,7 +3,6 @@ using Unity.Mathematics;
 
 namespace Assets.WorldObjects.DOTSMembers
 {
-    [GenerateAuthoringComponent]
     public struct OffsetLayerComponent : IComponentData
     {
         /// <summary>

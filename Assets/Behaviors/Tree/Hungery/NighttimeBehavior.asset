@@ -152,11 +152,6 @@ MonoBehaviour:
     ConnectedChildrenGuids:
     - 7fc4917b-104f-4348-8736-80ae7b979139
     - 4af9b73c-9098-440c-af82-85dd794b285b
-  - Guid: 7676891e-fb48-4a61-bc7e-7e02abca1498
-    Title: OccupySleepingStation
-    factory: {fileID: -2744652390835094031}
-    position: {x: 406, y: -22}
-    ConnectedChildrenGuids: []
   - Guid: 759863e7-57e8-4c7c-83e0-381aef6b5baa
     Title: Sleep In Station
     factory: {fileID: 3221346926286148552}
@@ -180,6 +175,16 @@ MonoBehaviour:
     factory: {fileID: -9202344163753328988}
     position: {x: 101, y: 312}
     ConnectedChildrenGuids: []
+  - Guid: b8b2823e-bed3-41a4-89fb-800e4400d5ca
+    Title: IsHungryGuard
+    factory: {fileID: 1286606240274092962}
+    position: {x: -58, y: -356}
+    ConnectedChildrenGuids: []
+  - Guid: 20cb6cff-019e-4049-98c6-da9b9e22b2e8
+    Title: EatErrand
+    factory: {fileID: 1656178432790447497}
+    position: {x: -55, y: -264}
+    ConnectedChildrenGuids: []
   - Guid: dc67f8b6-2821-4406-bb7f-65c1471bd80c
     Title: Try to eat
     factory: {fileID: 6317420608426703131}
@@ -188,15 +193,10 @@ MonoBehaviour:
     - b8b2823e-bed3-41a4-89fb-800e4400d5ca
     - 20cb6cff-019e-4049-98c6-da9b9e22b2e8
     - 
-  - Guid: 20cb6cff-019e-4049-98c6-da9b9e22b2e8
-    Title: EatErrand
-    factory: {fileID: 1656178432790447497}
-    position: {x: -55, y: -264}
-    ConnectedChildrenGuids: []
-  - Guid: b8b2823e-bed3-41a4-89fb-800e4400d5ca
-    Title: IsHungryGuard
-    factory: {fileID: 1286606240274092962}
-    position: {x: -58, y: -356}
+  - Guid: 7676891e-fb48-4a61-bc7e-7e02abca1498
+    Title: OccupySleepingStation
+    factory: {fileID: -2744652390835094031}
+    position: {x: 406, y: -22}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
