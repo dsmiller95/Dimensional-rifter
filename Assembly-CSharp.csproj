@@ -342,6 +342,12 @@
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\OnResetFactory.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyEnableAnimationSystem.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorEnabledComponent.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorComponent.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookWhenDisabledIndexComponent.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorAuthoring.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

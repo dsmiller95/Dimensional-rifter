@@ -1,8 +1,7 @@
-﻿using ECS_SpriteSheetAnimation;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 
-namespace Assets.Libraries.ECS_SpriteSheetAnimation
+namespace ECS_SpriteSheetAnimation
 {
     public class SpriteSheetAnimatorAuthoringComponent : MonoBehaviour, IConvertGameObjectToEntity
     {
@@ -13,7 +12,7 @@ namespace Assets.Libraries.ECS_SpriteSheetAnimation
         public int totalSprites;
         public int startingSpriteIndex;
 
-        public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+        public virtual void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
             AnimationRenderMesh renderMesh = new AnimationRenderMesh
             {
@@ -29,7 +28,6 @@ namespace Assets.Libraries.ECS_SpriteSheetAnimation
             {
                 Value = startingSpriteIndex
             });
-
 
             dstManager.AddComponentData(entity, new AnimationUVComponent());
         }

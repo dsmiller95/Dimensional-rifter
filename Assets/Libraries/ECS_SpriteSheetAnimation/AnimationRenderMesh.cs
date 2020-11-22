@@ -30,10 +30,14 @@ namespace ECS_SpriteSheetAnimation
             return hash.Value.GetHashCode();
         }
 
+        /// <summary>
+        /// Animation index is 0 at top-left, increases left-to-right, top-to-bottom
+        /// </summary>
         public UnityEngine.Vector4 GetUVAtIndex(int index)
         {
             var indexX = index % frameCountX;
-            var indexY = index / frameCountX;
+            // index progresses top-to-bottom
+            var indexY = (frameCountY - 1) - (index / frameCountX);
             float uvPerX = 1f / frameCountX;
             float uvPerY = 1f / frameCountY;
             return new UnityEngine.Vector4(

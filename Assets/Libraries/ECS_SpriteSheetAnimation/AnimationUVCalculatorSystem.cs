@@ -18,7 +18,5 @@ namespace ECS_SpriteSheetAnimation
                     animationUV.Value = spriteSheetAnimationData.GetUVAtIndex(index.Value);
                 }).WithoutBurst().Run();
         }
-
     }
-
 }
