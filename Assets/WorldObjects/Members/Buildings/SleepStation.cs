@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.WorldObjects.Members.Building
+namespace Assets.WorldObjects.Members.Buildings
 {
     [Serializable]
     public class SleepStationSaveData

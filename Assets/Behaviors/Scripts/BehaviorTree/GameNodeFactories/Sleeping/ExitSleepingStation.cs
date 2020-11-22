@@ -1,24 +1,39 @@
-﻿using Assets.WorldObjects.Members.Building;
+﻿using Assets.WorldObjects.Members.Buildings.DOTS.SleepStation;
 using BehaviorTree.Factories;
 using BehaviorTree.Factories.FactoryGraph;
 using BehaviorTree.Nodes;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.Behaviors.Scripts.BehaviorTree.GameNodeFactories
 {
-    [CreateAssetMenu(fileName = "ExitSleepingStation", menuName = "Behaviors/Actions/ExitSleepingStation", order = 10)]
     [FactoryGraphNode("Leaf/ExitSleepingStation", "ExitSleepingStation", 0)]
     public class ExitSleepingStation : LeafFactory
     {
-        public string sleepStationBlackboard = "SleepingBed";
-
         protected override BehaviorNode OnCreateNode(GameObject target)
         {
             return
-                new ActionOnComponentInBlackboardLeaf<SleepStation>(
-                    sleepStationBlackboard,
-                    (station) => station.ExitStation(target) ? NodeStatus.SUCCESS : NodeStatus.FAILURE
-                );
+                new LabmdaLeaf(blackboard =>
+                {
+                    if (!blackboard.TryGetValueOfType(SleepStationOccupyErrand.FOUND_SLEEP_STATION_PATH, out Entity sleepEntity))
+                    {
+                        return NodeStatus.FAILURE;
+                    }
+                    var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+                    if (!entityManager.Exists(sleepEntity))
+                    {
+                        return NodeStatus.FAILURE;
+                    }
+                    var buffer = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>().CreateCommandBuffer();
+                    buffer.SetComponent(sleepEntity, new SleepStationOccupiedComponent
+                    {
+                        Occupied = false
+                    });
+
+                    blackboard.ClearValue(SleepStationOccupyErrand.FOUND_SLEEP_STATION_PATH);
+
+                    return NodeStatus.SUCCESS;
+                });
         }
     }
 }

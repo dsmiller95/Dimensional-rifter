@@ -45,7 +45,8 @@ namespace Assets.WorldObjects.Members.Items.DOTS
                 Dependency);
 
             var commandBuffer = commandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-
+            // TODO: this is throwing an error when multiple spawn commands come through. why?
+            //  System.IndexOutOfRangeException: Index {0} is out of restricted IJobParallelFor range [{1}...{2}] in ReadWriteBuffer.
             Dependency = Entities
                 .WithDisposeOnCompletion(spawnCommandEntities)
                 .WithDisposeOnCompletion(spawnCommands)

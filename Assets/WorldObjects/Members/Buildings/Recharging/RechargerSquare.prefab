@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8733971507081072050}
   - component: {fileID: 6082261357034508971}
   - component: {fileID: 5695419314638934902}
+  - component: {fileID: 6914672389429800212}
   - component: {fileID: 6631360537401146393}
   m_Layer: 8
   m_Name: RechargerSquare
@@ -128,6 +129,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68868a3a520b8742b88e0cbc0c5e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Occupied: 0
+--- !u!114 &6914672389429800212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bea29082f62bf48b1698e5ba5e067b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Claimed: 0
 --- !u!114 &6631360537401146393
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
   m_Name: Sleep On Ground
   m_EditorClassIdentifier: 
-  restSpeed: 20
+  restSpeed: 2
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
   awakefullnessMinimumRequiredForExit: 70
   sleepingAnimationTrigger: StartSleeping
@@ -47,6 +47,21 @@ MonoBehaviour:
   children:
   - {fileID: 5751672583721706713}
   - {fileID: -9202344163753328988}
+--- !u!114 &-3736518947697860368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b7543e888fe954e814f226a6522124, type: 3}
+  m_Name: Do Find bed errand
+  m_EditorClassIdentifier: 
+  tmpErrandPathInBlackboard: sleepyErrand
+  errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
+  errandType: {fileID: 11400000, guid: a6be00d5945444847bc586ce4b4a63e8, type: 2}
 --- !u!114 &-3131104013838243521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,20 +76,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryToEatFrom: {fileID: 11400000, guid: ac89416b252457c4193aac159a174953, type: 2}
   caloriesPerFood: 200
---- !u!114 &-2744652390835094031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66329d10c4c51d74b81249d1bc5fdbbb, type: 3}
-  m_Name: OccupySleepingStation
-  m_EditorClassIdentifier: 
-  sleepPathBlackboard: Path
-  sleepStationBlackboard: SleepingBed
 --- !u!114 &-2120107842614436554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,14 +126,6 @@ MonoBehaviour:
     position: {x: -884, y: -109}
     ConnectedChildrenGuids:
     - 5ff60ca3-750b-4cb9-b827-8428a6f92eed
-  - Guid: 7fc4917b-104f-4348-8736-80ae7b979139
-    Title: Find And sleep in station
-    factory: {fileID: 5751672583721706713}
-    position: {x: 90, y: 71}
-    ConnectedChildrenGuids:
-    - 7676891e-fb48-4a61-bc7e-7e02abca1498
-    - 759863e7-57e8-4c7c-83e0-381aef6b5baa
-    - c0f77764-88de-4ed1-9a8f-ee63d013c304
   - Guid: 1192cbb5-198b-4599-9331-2e1e95ed9fb9
     Title: Try To Sleep
     factory: {fileID: 7749208696549623210}
@@ -152,16 +145,6 @@ MonoBehaviour:
     ConnectedChildrenGuids:
     - 7fc4917b-104f-4348-8736-80ae7b979139
     - 4af9b73c-9098-440c-af82-85dd794b285b
-  - Guid: 759863e7-57e8-4c7c-83e0-381aef6b5baa
-    Title: Sleep In Station
-    factory: {fileID: 3221346926286148552}
-    position: {x: 410, y: 78}
-    ConnectedChildrenGuids: []
-  - Guid: c0f77764-88de-4ed1-9a8f-ee63d013c304
-    Title: ExitSleepingStation
-    factory: {fileID: 7770556017436500047}
-    position: {x: 441, y: 177}
-    ConnectedChildrenGuids: []
   - Guid: 5ff60ca3-750b-4cb9-b827-8428a6f92eed
     Title: StickySelector
     factory: {fileID: -2120107842614436554}
@@ -170,11 +153,6 @@ MonoBehaviour:
     - dc67f8b6-2821-4406-bb7f-65c1471bd80c
     - 1192cbb5-198b-4599-9331-2e1e95ed9fb9
     - 
-  - Guid: 4af9b73c-9098-440c-af82-85dd794b285b
-    Title: Sleep On Ground
-    factory: {fileID: -9202344163753328988}
-    position: {x: 101, y: 312}
-    ConnectedChildrenGuids: []
   - Guid: b8b2823e-bed3-41a4-89fb-800e4400d5ca
     Title: IsHungryGuard
     factory: {fileID: 1286606240274092962}
@@ -193,10 +171,39 @@ MonoBehaviour:
     - b8b2823e-bed3-41a4-89fb-800e4400d5ca
     - 20cb6cff-019e-4049-98c6-da9b9e22b2e8
     - 
-  - Guid: 7676891e-fb48-4a61-bc7e-7e02abca1498
-    Title: OccupySleepingStation
-    factory: {fileID: -2744652390835094031}
-    position: {x: 406, y: -22}
+  - Guid: 4af9b73c-9098-440c-af82-85dd794b285b
+    Title: Sleep On Ground
+    factory: {fileID: -9202344163753328988}
+    position: {x: 101, y: 312}
+    ConnectedChildrenGuids: []
+  - Guid: 7fc4917b-104f-4348-8736-80ae7b979139
+    Title: Find And sleep in station
+    factory: {fileID: 5751672583721706713}
+    position: {x: 90, y: 71}
+    ConnectedChildrenGuids:
+    - df95480b-65b3-44b5-b3ab-72cf0c46aa42
+    - 759863e7-57e8-4c7c-83e0-381aef6b5baa
+    - 4a1f1351-da44-43e8-96de-cc96dbd88950
+  - Guid: df95480b-65b3-44b5-b3ab-72cf0c46aa42
+    Title: Do Find bed errand
+    factory: {fileID: -3736518947697860368}
+    position: {x: 413, y: -11}
+    ConnectedChildrenGuids: []
+  - Guid: 759863e7-57e8-4c7c-83e0-381aef6b5baa
+    Title: Sleep In Station
+    factory: {fileID: 3221346926286148552}
+    position: {x: 444, y: 84}
+    ConnectedChildrenGuids: []
+  - Guid: 4a1f1351-da44-43e8-96de-cc96dbd88950
+    Title: OnReset
+    factory: {fileID: 5906347938184682061}
+    position: {x: 411, y: 182}
+    ConnectedChildrenGuids:
+    - c0f77764-88de-4ed1-9a8f-ee63d013c304
+  - Guid: c0f77764-88de-4ed1-9a8f-ee63d013c304
+    Title: Exit Bed
+    factory: {fileID: 7770556017436500047}
+    position: {x: 601, y: 177}
     ConnectedChildrenGuids: []
   entryFactory: {fileID: -2120107842614436554}
   factoriesSavedWithAsset:
@@ -206,12 +213,13 @@ MonoBehaviour:
   - {fileID: -1215833252067380187}
   - {fileID: -7352810876313097259}
   - {fileID: 5751672583721706713}
-  - {fileID: -2744652390835094031}
   - {fileID: 3221346926286148552}
   - {fileID: 7770556017436500047}
   - {fileID: -9202344163753328988}
   - {fileID: 1286606240274092962}
   - {fileID: 1656178432790447497}
+  - {fileID: -3736518947697860368}
+  - {fileID: 5906347938184682061}
 --- !u!114 &1286606240274092962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccd9843718e59f428f818ce0f30bc2a, type: 3}
   m_Name: Sleep In Station
   m_EditorClassIdentifier: 
-  restSpeed: 4
+  restSpeed: 5
   wakefullnessState: {fileID: 11400000, guid: 6547181a7c1b1744b9cfc8af2d7ab43d, type: 2}
   awakefullnessMinimumRequiredForExit: 100
   sleepingAnimationTrigger: StartSleeping
@@ -286,9 +294,23 @@ MonoBehaviour:
   m_Name: Find And sleep in station
   m_EditorClassIdentifier: 
   children:
-  - {fileID: -2744652390835094031}
+  - {fileID: -3736518947697860368}
   - {fileID: 3221346926286148552}
-  - {fileID: 7770556017436500047}
+  - {fileID: 5906347938184682061}
+--- !u!114 &5906347938184682061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383fdcddb07ae5a4eb481cca5afad649, type: 3}
+  m_Name: OnReset
+  m_EditorClassIdentifier: 
+  child: {fileID: 7770556017436500047}
+  ConstantResultOnEvaluate: 1
 --- !u!114 &6317420608426703131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +368,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16c8660700bee7c4d8869105749146e9, type: 3}
-  m_Name: ExitSleepingStation
+  m_Name: Exit Bed
   m_EditorClassIdentifier: 
-  sleepStationBlackboard: SleepingBed

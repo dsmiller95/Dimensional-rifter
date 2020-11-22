@@ -59,7 +59,6 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingEntityErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
-    <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\OccupySleepingStation.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
@@ -109,7 +108,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimHighestPriorityErrand.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\RootFactory.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\SelectorFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\SelectorFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerGenerationConfiguration.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinate.cs" />
@@ -119,7 +118,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawnerComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeDisposableHotSwap.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupiedComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
@@ -127,13 +126,13 @@
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
     <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\DecoratorFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\RectCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\SequenceFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\SequenceFactory.cs" />
     <Compile Include="Assets\Libraries\Utilities\EnumerableExtensions.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountClaimBufferData.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\BuildOrderPlacementManipulator.cs" />
@@ -142,7 +141,7 @@
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\ExecuteErrand.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinate.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\CacheFirstResolutionFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\CacheFirstResolutionFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GrowingThingController.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
@@ -159,7 +158,7 @@
     <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinateToTransformSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FindAndHarvestSomething.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\CompositeFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\CompositeFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTargetPath.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
@@ -287,7 +286,7 @@
     <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\EatingEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\HarvestingErrand.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\StickySelectorFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\StickySelectorFactory.cs" />
     <Compile Include="Assets\Scripts\SwapSpriteColor.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnComponentInBlackboardLeaf.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemPrefabComponent.cs" />
@@ -305,6 +304,7 @@
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\SquareShapeRule.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\IsHungryGuardFactory.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponentAuthoring.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileMapConfigurationData.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ScriptableObjectAssigner.cs" />
@@ -337,7 +337,11 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponentAuthoring.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandRequestSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandSource.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrand.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\OnResetFactory.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

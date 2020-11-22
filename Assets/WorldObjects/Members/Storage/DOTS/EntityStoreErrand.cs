@@ -3,6 +3,7 @@ using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.UI.Buttery_Toast;
 using Assets.UI.ItemTransferAnimations;
 using Assets.WorldObjects.DOTSMembers;
+using Assets.WorldObjects.Members.Buildings.DOTS;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
 using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
