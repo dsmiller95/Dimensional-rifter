@@ -1,6 +1,5 @@
 ﻿using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Inventories;
-using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using Unity.Entities;

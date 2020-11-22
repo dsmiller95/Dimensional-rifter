@@ -1,14 +1,10 @@
 ﻿using Assets.Tiling;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Inventories;
 using Assets.WorldObjects.Members.Food.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
-using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Items.DOTS
 {
@@ -33,7 +29,7 @@ namespace Assets.WorldObjects.Members.Items.DOTS
         EntityCommandBufferSystem commandBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         protected override void OnUpdate()
         {
-            if(SpawnCommandsQuery.IsEmpty)
+            if (SpawnCommandsQuery.IsEmpty)
             {
                 return;
             }
@@ -56,7 +52,7 @@ namespace Assets.WorldObjects.Members.Items.DOTS
                 for (int i = 0; i < spawnCommands.Length; i++)
                 {
                     var command = spawnCommands[i];
-                    if(command.type == prefab.type)
+                    if (command.type == prefab.type)
                     {
                         var spawnedEntity = commandBuffer.Instantiate(entityInQueryIndex, prefab.looseItemPrefab);
                         var amountBuffer = commandBuffer.SetBuffer<ItemAmountClaimBufferData>(entityInQueryIndex, spawnedEntity);

@@ -58,7 +58,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 {
                     continue;
                 }
-                if(!regionMap.TryGetValue(supplyErrandPositions[supplyIndex].Value, out var supplyRequestRegion))
+                if (!regionMap.TryGetValue(supplyErrandPositions[supplyIndex].Value, out var supplyRequestRegion))
                 {
                     continue;
                 }
@@ -74,7 +74,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                         {
                             return;
                         }
-                        if(!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & supplyRequestRegion) == 0)
+                        if (!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & supplyRequestRegion) == 0)
                         {
                             return;
                         }

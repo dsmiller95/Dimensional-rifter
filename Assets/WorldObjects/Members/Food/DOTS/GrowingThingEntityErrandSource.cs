@@ -48,7 +48,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                 return null;
             }
             var actorPos = tileMem.CoordinatePosition;
-            if(!regionMap.TryGetValue(actorPos, out var actorRegion))
+            if (!regionMap.TryGetValue(actorPos, out var actorRegion))
             {
                 Debug.LogError("actor not included in region map");
                 return null;
@@ -68,7 +68,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                         continue;
                     }
                     var targetPos = positions[i].Value;
-                    if(!regionMap.TryGetValue(targetPos, out var targetRegion) || (targetRegion & actorRegion) == 0)
+                    if (!regionMap.TryGetValue(targetPos, out var targetRegion) || (targetRegion & actorRegion) == 0)
                     {
                         continue;
                     }

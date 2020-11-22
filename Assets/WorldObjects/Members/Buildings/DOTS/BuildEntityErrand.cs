@@ -1,7 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using BehaviorTree.Nodes;

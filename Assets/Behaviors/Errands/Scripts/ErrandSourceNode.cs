@@ -17,7 +17,7 @@ namespace Assets.Behaviors.Errands.Scripts
         public T ErrandResult { get; protected set; }
     }
 
-    public class ErrandFromBlackboardDataNode<T>: ErrandSourceNode<T> where T: IErrand
+    public class ErrandFromBlackboardDataNode<T> : ErrandSourceNode<T> where T : IErrand
     {
         private BehaviorNode nodeInternal;
         private Func<Blackboard, T> errandGenerator;
@@ -28,12 +28,12 @@ namespace Assets.Behaviors.Errands.Scripts
         }
         protected override NodeStatus OnEvaluate(Blackboard blackboard)
         {
-            if(ErrandResult != null)
+            if (ErrandResult != null)
             {
                 return NodeStatus.SUCCESS;
             }
             var status = nodeInternal.Evaluate(blackboard);
-            if(status == NodeStatus.SUCCESS)
+            if (status == NodeStatus.SUCCESS)
             {
                 ErrandResult = errandGenerator(blackboard);
             }

@@ -32,7 +32,7 @@ namespace Assets.WorldObjects.Members.Hungry
 
         public float MaxAmountCanBeEatenOfResource(Resource foodtype)
         {
-            if(foodtype == Resource.FOOD)
+            if (foodtype == Resource.FOOD)
             {
                 return (maximumCalories - currentCalories) / CALORIES_PER_FOOD;
             }

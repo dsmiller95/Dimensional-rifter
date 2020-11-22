@@ -77,7 +77,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
         public IErrandSourceNode<EntityStoreErrand> GetErrand(GameObject errandExecutor, StorageSupplyErrandRequestComponent storageRequest)
         {
             var tileMem = errandExecutor.GetComponent<TileMapNavigationMember>();
-            if(tileMem == null)
+            if (tileMem == null)
             {
                 Debug.LogError("Storage errand executor has no navigation member. Needed to discern position of actor");
                 return null;
