@@ -272,5 +272,14 @@ namespace Assets.Tiling
                 other.coordinateDataPartTwo == coordinateDataPartTwo &&
                 other.coordinateDataPartThree == coordinateDataPartThree;
         }
+
+        public static bool operator ==(UniversalCoordinate a, UniversalCoordinate b)
+        {
+            return a.Equals(b);
+        }
+        public static bool operator !=(UniversalCoordinate a, UniversalCoordinate b)
+        {
+            return !a.Equals(b);
+        }
     }
 }
