@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1025186044797064997}
   - component: {fileID: 6082261357034508971}
   - component: {fileID: -1105052018730373616}
+  - component: {fileID: 5715113100459949119}
   - component: {fileID: 6234173217463635425}
   m_Layer: 9
   m_Name: BerryItem
@@ -96,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegionBitMask: 0
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
   orderingLayer: {fileID: 11400000, guid: a7f37be9028d9d74ea5735a957da3172, type: 2}
@@ -115,6 +115,18 @@ MonoBehaviour:
   resource: {fileID: 11400000, guid: 5068b4075b3e89240b6fe905d84bd3ff, type: 2}
   SourceType: {fileID: 11400000, guid: bdaf68769bb5ef744a3e115bf3ea6087, type: 2}
   storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}
+--- !u!114 &5715113100459949119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6082261357034508969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2449b75e8efc1a9409ad1fa7c80ee855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6234173217463635425
 MonoBehaviour:
   m_ObjectHideFlags: 0

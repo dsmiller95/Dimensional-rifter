@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 506530251402321464}
   - component: {fileID: 506530251402321470}
   - component: {fileID: 5104252145145604256}
+  - component: {fileID: 797976391821456852}
   - component: {fileID: 930061497008277623}
   m_Layer: 8
   m_Name: Storage box
@@ -97,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50cafefe9fb9f249bb73e0e0884e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegionBitMask: 0
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: ebfc1c257899c614381964766369ae59, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
@@ -117,6 +117,18 @@ MonoBehaviour:
   sourceClassification: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
   defaultInventoryCapacity: 10
   storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}
+--- !u!114 &797976391821456852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506530251402321468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2449b75e8efc1a9409ad1fa7c80ee855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &930061497008277623
 MonoBehaviour:
   m_ObjectHideFlags: 0

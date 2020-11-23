@@ -61,6 +61,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorAuthoring.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponent.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabComponent.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityEntitySystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IHarvestable.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorEnabledComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Gib.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\DoHighestPriorityErrand.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\NavigateToTargetFactory.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupiedComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
@@ -162,6 +165,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTargetPath.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Die.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorComponent.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationIndexComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindAndClaimSleepStation.cs" />
     <Compile Include="Assets\SceneLoader.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemSpawnCommandComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingSystem.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetRendererSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
@@ -249,6 +254,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Sleep.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryGraphNodeAttribute.cs" />
     <Compile Include="Assets\Scripts\Clickable.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingParentComponent.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandResultComponent.cs" />
@@ -257,6 +263,7 @@
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\RestingTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSourceType.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
     <Compile Include="Assets\Tiling\CoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
@@ -270,6 +277,8 @@
     <Compile Include="Assets\UI\Manipulators\Scripts\ErrandEnableSelectionManipulator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\Decorator.cs" />
+    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookWhenDisabledIndexComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrand.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\BooleanToggle.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindItemSourceTarget.cs" />
@@ -293,6 +302,8 @@
     <Compile Include="Assets\UI\Scripts\InterestingInfoDisplayer.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\EmptyItemDespawnSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetFoodToEatFactory.cs" />
+    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\OnResetFactory.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyEnableAnimationSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\StoreErrand.cs" />
     <Compile Include="Assets\Scripts\DOTS\RemoveTransformData.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\ClaimAndDoErrandFactory.cs" />
@@ -337,17 +348,11 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandRequestSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandSource.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrand.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />
-    <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\OnResetFactory.cs" />
-    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorSystem.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyEnableAnimationSystem.cs" />
-    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorEnabledComponent.cs" />
-    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorComponent.cs" />
-    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookWhenDisabledIndexComponent.cs" />
-    <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorAuthoring.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickDetectorToECS.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickToSelectedItemSystem.cs" />
+    <Compile Include="Assets\UI\ThingSelection\SelectedComponent.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickEventComponent.cs" />
+    <Compile Include="Assets\UI\ThingSelection\SelectableFlagComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
