@@ -206,7 +206,7 @@ namespace Assets.Tiling.Tilemapping
             //}
         }
 
-        public UniversalCoordinate? GetPositionOnActiveTileMapsFromWorldPosition(Vector2 worldPosition)
+        public UniversalCoordinate? GetValidCoordinateFromWorldPosIfExists(Vector2 worldPosition)
         {
             for (short planeID = 0; planeID < allRegions.Length; planeID++)
             {
@@ -221,7 +221,7 @@ namespace Assets.Tiling.Tilemapping
             return null;
         }
 
-        public UniversalCoordinate GetCoordinateOnPlaneIDNoValidCheck(Vector2 worldPosition, UniversalCoordinate otherCoordinate)
+        public UniversalCoordinate GetCoordinateOnSamePlane(Vector2 worldPosition, UniversalCoordinate otherCoordinate)
         {
             var planeID = otherCoordinate.CoordinatePlaneID;
             var planeData = allRegions[planeID];

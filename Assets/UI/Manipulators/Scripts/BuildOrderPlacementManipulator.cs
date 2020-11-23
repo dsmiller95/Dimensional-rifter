@@ -50,7 +50,7 @@ namespace Assets.UI.Manipulators
         private void UpdatePreviewPositionAndBlocking()
         {
             var posInWorld = MyUtilities.GetMousePos2D();
-            var hoveredCoordinate = CombinationTileMapManager.instance.GetPositionOnActiveTileMapsFromWorldPosition(posInWorld);
+            var hoveredCoordinate = CombinationTileMapManager.instance.GetValidCoordinateFromWorldPosIfExists(posInWorld);
             if (!hoveredCoordinate.HasValue || !hoveredCoordinate.Value.IsValid())
             {
                 currentHoverCoordinate = default;

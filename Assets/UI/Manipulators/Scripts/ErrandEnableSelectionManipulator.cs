@@ -42,7 +42,7 @@ namespace Assets.UI.Manipulators
                 {
                     // dragging
                     var posInWorld = MyUtilities.GetMousePos2D();
-                    var hoveredOverCoord = CombinationTileMapManager.instance.GetCoordinateOnPlaneIDNoValidCheck(posInWorld, firstCoordinate);
+                    var hoveredOverCoord = CombinationTileMapManager.instance.GetCoordinateOnSamePlane(posInWorld, firstCoordinate);
                     var newRange = RectCoordinateRange.FromCoordsInclusive(firstCoordinate.squareDataView, hoveredOverCoord.squareDataView);
 
                     if (range == null || range != newRange)
@@ -66,7 +66,7 @@ namespace Assets.UI.Manipulators
             {
                 // drag start
                 var posInWorld = MyUtilities.GetMousePos2D();
-                var hitCoordinate = CombinationTileMapManager.instance.GetPositionOnActiveTileMapsFromWorldPosition(posInWorld);
+                var hitCoordinate = CombinationTileMapManager.instance.GetValidCoordinateFromWorldPosIfExists(posInWorld);
                 Debug.Log(hitCoordinate);
                 if (!hitCoordinate.HasValue || hitCoordinate.Value.type != CoordinateType.SQUARE)
                 {
