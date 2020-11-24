@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8015628037170737364}
   - component: {fileID: 1487727042493597035}
   - component: {fileID: 2709178220890433278}
-  - component: {fileID: 6980937829211480569}
+  - component: {fileID: 1272672205850515107}
   - component: {fileID: 4937728411797083454}
   m_Layer: 12
   m_Name: BerryBush
@@ -125,7 +125,7 @@ MonoBehaviour:
   SpriteSheetSize: {x: 3, y: 1}
   totalSprites: 0
   startingSpriteIndex: 0
---- !u!114 &6980937829211480569
+--- !u!114 &1272672205850515107
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,9 +134,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2449b75e8efc1a9409ad1fa7c80ee855, type: 3}
+  m_Script: {fileID: 11500000, guid: cc2a653fccae7d64a8a3161cc3fa89cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleWhenSelected: Berry Bush
 --- !u!114 &4937728411797083454
 MonoBehaviour:
   m_ObjectHideFlags: 0

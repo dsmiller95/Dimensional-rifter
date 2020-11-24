@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.UI.ThingSelection;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
@@ -85,6 +86,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             // remove all rendering and transform data from the building component. turn it into a data container
             var componentsToRemoveFromBuildingBuffer = new ComponentTypes(new ComponentType[] {
                 typeof(IsNotBuiltFlag),
+                typeof(SelectableFlagComponent),
                 typeof(SupplyTypeComponent),
                 typeof(UniversalCoordinatePositionComponent),
                 typeof(OffsetFromCoordinatePositionComponent),

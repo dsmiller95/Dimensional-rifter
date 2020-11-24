@@ -3,7 +3,7 @@ using Assets.WorldObjects.DOTSMembers;
 using Unity.Entities;
 using UnityEngine;
 
-namespace Assets.UI.ThingSelection
+namespace Assets.UI.ThingSelection.ClickSelector
 {
     /// <summary>
     /// Detects clicks and spawns a new entity with a <see cref="UniversalCoordinatePositionComponent"/> to represent the tile that was clicked

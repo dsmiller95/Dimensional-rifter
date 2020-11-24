@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5695419314638934902}
   - component: {fileID: 6914672389429800212}
   - component: {fileID: 4513986244226919124}
-  - component: {fileID: 1659896339257578714}
+  - component: {fileID: 1708563893484339933}
   - component: {fileID: 6631360537401146393}
   m_Layer: 8
   m_Name: RechargerSquare
@@ -114,7 +114,7 @@ MonoBehaviour:
   AnimationSpeed: 0.02
   AnimationEnabled: 0
   IndexInSpriteSheetWhenAnimationDisabled: 8
---- !u!114 &1659896339257578714
+--- !u!114 &1708563893484339933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,9 +123,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2449b75e8efc1a9409ad1fa7c80ee855, type: 3}
+  m_Script: {fileID: 11500000, guid: cc2a653fccae7d64a8a3161cc3fa89cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleWhenSelected: Rechargin' Station
 --- !u!114 &6631360537401146393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +153,7 @@ GameObject:
   - component: {fileID: 5580315477861371692}
   - component: {fileID: 5801293794086528065}
   - component: {fileID: 2242573818909043239}
-  - component: {fileID: 455545955611748662}
+  - component: {fileID: 5693760346551844478}
   - component: {fileID: 4762840164583409625}
   m_Layer: 0
   m_Name: Building
@@ -252,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orderingLayer: {fileID: 11400000, guid: 10050d4cf5c632d4c8599b41a2df0100, type: 2}
---- !u!114 &455545955611748662
+--- !u!114 &5693760346551844478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,9 +262,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6153742567897544545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2449b75e8efc1a9409ad1fa7c80ee855, type: 3}
+  m_Script: {fileID: 11500000, guid: cc2a653fccae7d64a8a3161cc3fa89cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleWhenSelected: Rechargin' Station Building
 --- !u!114 &4762840164583409625
 MonoBehaviour:
   m_ObjectHideFlags: 0

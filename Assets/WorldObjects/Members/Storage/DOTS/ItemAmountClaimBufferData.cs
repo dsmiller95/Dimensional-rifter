@@ -1,4 +1,6 @@
-﻿using Unity.Entities;
+﻿using System;
+using System.Text;
+using Unity.Entities;
 
 namespace Assets.WorldObjects.Members.Storage.DOTS
 {
@@ -37,6 +39,15 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
                 }
             }
             return -1;
+        }
+
+        public static void SerializeCurrentAmount(this DynamicBuffer<ItemAmountClaimBufferData> claimBuffer, StringBuilder builder)
+        {
+            for (var i = 0; i < claimBuffer.Length; i++)
+            {
+                var resourceAmount = claimBuffer[i];
+                builder.AppendLine($"{Enum.GetName(typeof(Resource), resourceAmount.Type)}: {resourceAmount.Amount}");
+            }
         }
     }
 }

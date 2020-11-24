@@ -1,11 +1,10 @@
 ﻿using Assets.Tiling;
 using Assets.WorldObjects.DOTSMembers;
-using System;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 
-namespace Assets.UI.ThingSelection
+namespace Assets.UI.ThingSelection.ClickSelector
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class ClickToSelectedItemSystem : SystemBase

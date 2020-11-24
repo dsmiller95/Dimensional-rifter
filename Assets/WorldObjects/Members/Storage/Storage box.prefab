@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 506530251402321464}
   - component: {fileID: 506530251402321470}
   - component: {fileID: 5104252145145604256}
-  - component: {fileID: 797976391821456852}
+  - component: {fileID: 6350130431632332689}
   - component: {fileID: 930061497008277623}
   m_Layer: 8
   m_Name: Storage box
@@ -117,7 +117,7 @@ MonoBehaviour:
   sourceClassification: {fileID: 11400000, guid: 73643189df1928449ae94f4e834e7ec4, type: 2}
   defaultInventoryCapacity: 10
   storingCleanupErrandSource: {fileID: 11400000, guid: 979c0e8ed408b4f449f90336c1637882, type: 2}
---- !u!114 &797976391821456852
+--- !u!114 &6350130431632332689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,9 +126,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 506530251402321468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2449b75e8efc1a9409ad1fa7c80ee855, type: 3}
+  m_Script: {fileID: 11500000, guid: cc2a653fccae7d64a8a3161cc3fa89cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleWhenSelected: Storage
 --- !u!114 &930061497008277623
 MonoBehaviour:
   m_ObjectHideFlags: 0
