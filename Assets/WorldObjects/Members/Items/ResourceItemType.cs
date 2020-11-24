@@ -16,7 +16,7 @@ namespace Assets.WorldObjects.Members.Items
             var baseArray = base.InstantiateNewSaveObject();
             var itemData = new InMemberObjectData
             {
-                data = new ItemSaveObject
+                data = new ItemSaveObject // TODO: load this save object as entities?
                 {
                     remainingResourceAmount = new Scripts.ResourceManagement.LimitedResourcePoolSaveObject
                     {

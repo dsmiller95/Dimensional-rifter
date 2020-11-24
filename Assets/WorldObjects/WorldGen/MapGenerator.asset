@@ -36,7 +36,7 @@ MonoBehaviour:
     amount: 2
   - type: {fileID: 11400000, guid: f42627acbc684da40be53c942bffbc20, type: 2}
     amount: 8
-  - type: {fileID: 11400000, guid: 215c239955b61a24f947271f223f94c4, type: 2}
+  - type: {fileID: 11400000, guid: 15e70ca2150949041891aefea6472ce1, type: 2}
     amount: 5
   memberClusterSizeAtCenter: 10
   tileDefinitions: {fileID: 11400000, guid: 5e255742aeb451e49956741c35620578, type: 2}

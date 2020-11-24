@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6082261357034508973}
   - component: {fileID: 6082261357034508971}
-  - component: {fileID: 4430772838501633667}
-  - component: {fileID: 8015628037170737364}
-  - component: {fileID: 1487727042493597035}
+  - component: {fileID: 1764103811390112239}
   - component: {fileID: 2709178220890433278}
   - component: {fileID: 1272672205850515107}
   - component: {fileID: 4937728411797083454}
@@ -52,33 +50,7 @@ MonoBehaviour:
   membersScriptRegistry: {fileID: 11400000, guid: b6d2028d8c8870944943a064f3a1748d, type: 2}
   memberType: {fileID: 11400000, guid: f42627acbc684da40be53c942bffbc20, type: 2}
   orderingLayer: {fileID: 11400000, guid: 3ae61baa5528103409a94fe332230a71, type: 2}
---- !u!61 &4430772838501633667
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.0625}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.4375}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.16, y: 0.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &8015628037170737364
+--- !u!114 &1764103811390112239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,27 +59,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6082261357034508969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3c08d4cbc471be41827adaceb85dce5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentGrowth: 0
-  growthPerSecond: 3
-  finalGrowthAmount: 40
-  Grown: 0
---- !u!114 &1487727042493597035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6082261357034508969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ef67ff7da9ae945bb8873da1723dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: dedd06c5f6eb1ba4f9c8a490f690ce9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   grownResource: 0
   resourceAmount: 1
+  growthPerSecond: 3
+  finalGrowthAmount: 40
 --- !u!114 &2709178220890433278
 MonoBehaviour:
   m_ObjectHideFlags: 0

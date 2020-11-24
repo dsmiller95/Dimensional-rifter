@@ -2,7 +2,6 @@
 
 namespace Assets.WorldObjects.Members.Food.DOTS
 {
-    [GenerateAuthoringComponent]
     public struct GrowingThingComponent : IComponentData
     {
         public float currentGrowth;
