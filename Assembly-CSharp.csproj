@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountsDataComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickDetectorToECS.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableTypeRegistry.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapRegionRoot.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnTargetComponentLeaf.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickToSelectedItemSystem.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
@@ -157,6 +159,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\CompositeFactoryGraph.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\FactoryGraph\FactoryNodeSaveData.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanVariable.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickEventComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FindTargetByNameLeafFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\MembersRegistry.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinateToTransformSystem.cs" />
@@ -199,6 +202,7 @@
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingSystem.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetRendererSystem.cs" />
+    <Compile Include="Assets\UI\ThingSelection\SelectedComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Scripts\Core\GenericState.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\NodeFactory.cs" />
@@ -310,6 +314,7 @@
     <Compile Include="Assets\Scripts\ResourceManagement\ResourceAllocation.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrand.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\CoordinateRangeToRegionMapJob.cs" />
+    <Compile Include="Assets\UI\ThingSelection\SelectableFlagComponent.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Parallel.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\Delay.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\Square\GameOfLifeRule.cs" />
@@ -348,11 +353,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\UI\ThingSelection\ClickDetectorToECS.cs" />
-    <Compile Include="Assets\UI\ThingSelection\ClickToSelectedItemSystem.cs" />
-    <Compile Include="Assets\UI\ThingSelection\SelectedComponent.cs" />
-    <Compile Include="Assets\UI\ThingSelection\ClickEventComponent.cs" />
-    <Compile Include="Assets\UI\ThingSelection\SelectableFlagComponent.cs" />
+    <Compile Include="Assets\UI\ThingSelection\EntityInfoDisplayer.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

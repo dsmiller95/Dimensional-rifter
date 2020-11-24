@@ -132,10 +132,9 @@ namespace Assets.UI.ThingSelection
         /// <param name="jobHandle"></param>
         /// <param name="dependency"></param>
         /// <returns></returns>
-        private NativeList<T> SelectByIndexAndSort<T>(NativeList<int> indexes, NativeArray<T> indexedArray, out JobHandle jobHandle, JobHandle dependency)
-            where T : struct, IComparable<T>
+        private NativeList<Entity> SelectByIndexAndSort(NativeList<int> indexes, NativeArray<Entity> indexedArray, out JobHandle jobHandle, JobHandle dependency)
         {
-            var sortedResult = new NativeList<T>(Allocator.TempJob);
+            var sortedResult = new NativeList<Entity>(Allocator.TempJob);
             jobHandle = Job.WithBurst()
                 .WithDisposeOnCompletion(indexes)
                 .WithDisposeOnCompletion(indexedArray)
