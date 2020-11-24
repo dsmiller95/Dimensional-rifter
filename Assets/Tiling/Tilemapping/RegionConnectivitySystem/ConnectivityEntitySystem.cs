@@ -92,6 +92,11 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         private void ScheduleNewConnectivityJob()
         {
+            if(CombinationTileMapManager.instance == null)
+            {
+                // must be in a scene without all the coordinates and ranges
+                return;
+            }
             var ranges = new NativeArray<UniversalCoordinateRange>(CombinationTileMapManager.instance.allRegions.Select(data => data.baseRange).ToArray(), Allocator.Persistent);
             longRunningDisposables.Add(ranges);
 
