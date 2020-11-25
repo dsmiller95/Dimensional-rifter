@@ -6,33 +6,58 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
 {
     public static class SerializationManager
     {
-        public static bool Save(string saveName, object saveData)
+        public static bool Save(string saveFile, string saveName, object saveData)
         {
             var formatter = SerializationManager.GetBinaryFormatter();
 
-            if (!Directory.Exists(Application.persistentDataPath + "/saves"))
+            var saveFolderPath = Path.Combine(Application.persistentDataPath, "saves");
+            if (!Directory.Exists(saveFolderPath))
             {
-                Directory.CreateDirectory(Application.persistentDataPath + "/saves");
+                Directory.CreateDirectory(saveFolderPath);
+            }
+            var specificSaveDirectoryPath = Path.Combine(saveFolderPath, saveName);
+            if (!Directory.Exists(specificSaveDirectoryPath))
+            {
+                Directory.CreateDirectory(specificSaveDirectoryPath);
             }
 
-            string path = SerializationManager.GetSavePath(saveName);
+            string path = SerializationManager.GetSavePath(saveFile, saveName);
 
             FileStream file = File.Create(path);
-
-            formatter.Serialize(file, saveData);
-            file.Close();
+            try
+            {
+                formatter.Serialize(file, saveData);
+            }
+            catch
+            {
+                Debug.LogError($"Failed to save file to {path}");
+                throw;
+            }
+            finally
+            {
+                file.Close();
+            }
             return true;
         }
 
-        private static string GetSavePath(string saveName)
+        public static string GetSavePath(string saveFile, string saveName)
         {
-            return Application.persistentDataPath + "/saves/" + saveName + ".save";
+            return Path.Combine(Application.persistentDataPath, "saves", saveName, saveFile);
         }
 
-
-        public static object Load(string saveName)
+        public static void DeleteAll(string saveName, params string[] saveFiles)
         {
-            var path = SerializationManager.GetSavePath(saveName);
+            foreach (var file in saveFiles)
+            {
+                var savePath = GetSavePath(file, saveName);
+                if (File.Exists(savePath))
+                    File.Delete(savePath);
+            }
+        }
+
+        public static object Load(string saveFile, string saveName)
+        {
+            var path = SerializationManager.GetSavePath(saveFile, saveName);
             if (!File.Exists(path))
             {
                 return null;

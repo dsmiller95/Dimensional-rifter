@@ -125,22 +125,23 @@ namespace Assets.Tiling
 
         public UniversalTileMembersSaveObject GetSaveObject()
         {
-            return new UniversalTileMembersSaveObject
+            using (var keyValues = tileTypes.GetKeyValueArrays(Allocator.TempJob))
             {
-                tiles = tileTypes.Select(pair => new TileMapDataTile
+                return new UniversalTileMembersSaveObject
                 {
-                    coordinate = pair.Key,
-                    tileType = infoByIndex[pair.Value]
-                }).ToList(),
-                members = allMembers
-                    .Where(member => member.memberType != null)
-                    .Select(member => new TileMemberSaveObject
-                    {
-                        coordinate = member.CoordinatePosition,
-                        objectData = member.GetSaveObject()
-                    }).ToList(),
-                defaultTile = defaultTile
-            };
+                    tileKeys = keyValues.Keys.ToArray(),
+                    tileValues = keyValues.Values.ToArray(),
+                    tileTypeInfoByIndex = infoByIndex,
+                    members = allMembers
+                        .Where(member => member.memberType != null)
+                        .Select(member => new TileMemberSaveObject
+                        {
+                            coordinate = member.CoordinatePosition,
+                            objectData = member.GetSaveObject()
+                        }).ToList(),
+                    defaultTile = defaultTile
+                };
+            }
         }
 
         public NativeHashMap<UniversalCoordinate, int> GetTileTypesByCoordinateReadonlyCollection()
@@ -157,24 +158,12 @@ namespace Assets.Tiling
         {
             defaultTile = save.defaultTile;
 
-            tileTypes = new NativeHashMap<UniversalCoordinate, int>(save.tiles.Count, Allocator.Persistent);
-            var indexByInfo = new Dictionary<TileTypeInfo, int>();
-            var currentInfoIndex = 0;
-            foreach (var tileSaveData in save.tiles)
+            tileTypes = new NativeHashMap<UniversalCoordinate, int>(save.tileKeys.Length, Allocator.Persistent);
+            for (int i = 0; i < save.tileKeys.Length; i++)
             {
-                if (!indexByInfo.TryGetValue(tileSaveData.tileType, out var typeIndex))
-                {
-                    indexByInfo[tileSaveData.tileType] = currentInfoIndex;
-                    typeIndex = currentInfoIndex;
-                    currentInfoIndex++;
-                }
-                tileTypes[tileSaveData.coordinate] = typeIndex;
+                tileTypes[save.tileKeys[i]] = save.tileValues[i];
             }
-            infoByIndex = new TileTypeInfo[currentInfoIndex];
-            foreach (var keyValuePair in indexByInfo)
-            {
-                infoByIndex[keyValuePair.Value] = keyValuePair.Key;
-            }
+            infoByIndex = save.tileTypeInfoByIndex;
 
             foreach (var memberData in save.members)
             {

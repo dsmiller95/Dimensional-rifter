@@ -37,15 +37,17 @@ namespace Assets.WorldObjects.WorldGen
 
             world.members = new UniversalTileMembersSaveObject
             {
-                tiles = new List<TileMapDataTile>(),
+                tileKeys = new UniversalCoordinate[0],
+                tileValues = new int[0],
+                tileTypeInfoByIndex = new Tiling.Tilemapping.TileConfiguration.TileTypeInfo[0],
                 members = new List<TileMemberSaveObject>(),
                 defaultTile = mapGenerationConfiguration.defaultTile
             };
             world.regions.Add(baseRegion.GenerateSaveObject(world.members));
 
 
-            SerializationManager.Save(GeneratedWorldSave, world);
-            SaveContext.instance.saveFile = GeneratedWorldSave;
+            SerializationManager.Save(WorldSaveManager.GAMEOBJECT_WORLD_ROOT, GeneratedWorldSave, world);
+            SaveContext.instance.saveName = GeneratedWorldSave;
 
             levelGenComplete.Invoke();
         }

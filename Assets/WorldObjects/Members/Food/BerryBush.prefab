@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adeb12b17e5cb354681238259933701c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  quadMesh: {fileID: -7001949996748590259, guid: 9f2558da13a37844ab0afdf5ddfce6e2, type: 3}
   spriteSheetMaterial: {fileID: 2100000, guid: 7eb187e914785914c9dc81ac7636122d, type: 2}
   SpriteSheetSize: {x: 3, y: 1}
   totalSprites: 0

@@ -26,16 +26,13 @@ namespace Assets.WorldObjects.SaveObjects
         public TileMemberData objectData;
     }
     [Serializable]
-    public struct TileMapDataTile
-    {
-        public UniversalCoordinate coordinate;
-        public TileTypeInfo tileType;
-    }
-    [Serializable]
     public class UniversalTileMembersSaveObject
     {
         public IList<TileMemberSaveObject> members;
-        public IList<TileMapDataTile> tiles;
         public TileTypeInfo defaultTile;
+
+        public UniversalCoordinate[] tileKeys;
+        public int[] tileValues;
+        public TileTypeInfo[] tileTypeInfoByIndex;
     }
 }

@@ -16,6 +16,6 @@
             set => _instance = value;
         }
 
-        public string saveFile = "defaultSaveName";
+        public string saveName = "defaultSaveName";
     }
 }
