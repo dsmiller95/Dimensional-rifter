@@ -34,92 +34,95 @@ namespace Assets.WorldObjects.Members.Items.DOTS
             {
                 return;
             }
-            var spawnCommandEntities = SpawnCommandsQuery.ToEntityArrayAsync(Allocator.TempJob, out var supplyEntityJob);
-            var spawnCommands = SpawnCommandsQuery.ToComponentDataArrayAsync<LooseItemSpawnCommandComponent>(Allocator.TempJob, out var spawnCommandJob);
-            var spawnCommandPositons = SpawnCommandsQuery.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.TempJob, out var spawnPositionJob);
-            var dataDep = JobHandle.CombineDependencies(supplyEntityJob, spawnCommandJob, spawnPositionJob);
-            Dependency = JobHandle.CombineDependencies(
-                dataDep,
-                Dependency);
-
-            var commandBuffer = commandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-            dataDep.Complete();
-            for (int spawnCommandIndex = 0; spawnCommandIndex < spawnCommandEntities.Length; spawnCommandIndex++)
+            // these are loaded and read from synchronously, so they can be disposed synchronously
+            using (var spawnCommandEntities = SpawnCommandsQuery.ToEntityArrayAsync(Allocator.TempJob, out var supplyEntityJob))
+            using (var spawnCommands = SpawnCommandsQuery.ToComponentDataArrayAsync<LooseItemSpawnCommandComponent>(Allocator.TempJob, out var spawnCommandJob))
+            using (var spawnCommandPositons = SpawnCommandsQuery.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.TempJob, out var spawnPositionJob))
             {
-                // there should only ever be one matching looseItemPrefabComponent, if there are multiple then multiple items will be spawned
-                var command = spawnCommands[spawnCommandIndex];
-                var commandPosition = spawnCommandPositons[spawnCommandIndex];
-                var commandEntity = spawnCommandEntities[spawnCommandIndex];
-                var amountLeftToSpawn = new NativeArray<float>(new[] { command.amount }, Allocator.TempJob);
-                Entities
-                    .WithAll<LooseItemFlagComponent>()
-                    .ForEach((int entityInQueryIndex, Entity entity,
-                        ref DynamicBuffer<ItemAmountClaimBufferData> itemBufferData,
-                        in ItemAmountsDataComponent itemCapacityData,
-                        in UniversalCoordinatePositionComponent position) =>
-                    {
-                        if (amountLeftToSpawn[0] <= 0)
-                        {
-                            return;
-                        }
-                        if (position.Value != commandPosition.Value)
-                        {
-                            return;
-                        }
-                        var indexForItem = itemBufferData.IndexOfType(command.type);
-                        if (indexForItem < 0)
-                        {
-                            return;
-                        }
-                        var freeSpace = itemCapacityData.MaxCapacity - itemBufferData.TotalAmounts() - itemCapacityData.TotalAdditionClaims;
+                var dataDep = JobHandle.CombineDependencies(supplyEntityJob, spawnCommandJob, spawnPositionJob);
+                Dependency = JobHandle.CombineDependencies(
+                    dataDep,
+                    Dependency);
 
-                        var amountToAdd = math.min(freeSpace, amountLeftToSpawn[0]);
-
-                        var itemAmount = itemBufferData[indexForItem];
-                        itemAmount.Amount += amountToAdd;
-                        itemBufferData[indexForItem] = itemAmount;
-                        amountLeftToSpawn[0] -= amountToAdd;
-                        if (amountLeftToSpawn[0] <= 0)
+                var commandBuffer = commandBufferSystem.CreateCommandBuffer().AsParallelWriter();
+                dataDep.Complete();
+                for (int spawnCommandIndex = 0; spawnCommandIndex < spawnCommandEntities.Length; spawnCommandIndex++)
+                {
+                    // there should only ever be one matching looseItemPrefabComponent, if there are multiple then multiple items will be spawned
+                    var commandPosition = spawnCommandPositons[spawnCommandIndex];
+                    var command = spawnCommands[spawnCommandIndex];
+                    var commandEntity = spawnCommandEntities[spawnCommandIndex];
+                    var amountLeftToSpawn = new NativeArray<float>(new[] { command.amount }, Allocator.TempJob);
+                    Entities
+                        .WithAll<LooseItemFlagComponent>()
+                        .ForEach((int entityInQueryIndex, Entity entity,
+                            ref DynamicBuffer<ItemAmountClaimBufferData> itemBufferData,
+                            in ItemAmountsDataComponent itemCapacityData,
+                            in UniversalCoordinatePositionComponent position) =>
                         {
-                            commandBuffer.DestroyEntity(entityInQueryIndex, spawnCommandEntities[spawnCommandIndex]);
-                        }
-                    }).Schedule();
-                Entities
-                    .WithDisposeOnCompletion(amountLeftToSpawn)
-                    .ForEach((int entityInQueryIndex, Entity entity, in LooseItemPrefabComponent prefab) =>
-                    {
-                        if (amountLeftToSpawn[0] <= 0)
-                        {
-                            return;
-                        }
-                        if (command.type == prefab.type)
-                        {
-                            var spawnedEntity = commandBuffer.Instantiate(entityInQueryIndex, prefab.looseItemPrefab);
-                            var amountBuffer = commandBuffer.SetBuffer<ItemAmountClaimBufferData>(entityInQueryIndex, spawnedEntity);
-                            amountBuffer.Add(new ItemAmountClaimBufferData
+                            if (amountLeftToSpawn[0] <= 0)
                             {
-                                Type = command.type,
-                                Amount = amountLeftToSpawn[0],
-                                TotalSubtractionClaims = 0f
-                            });
-
-                            commandBuffer.SetComponent(entityInQueryIndex, spawnedEntity, new UniversalCoordinatePositionComponent
+                                return;
+                            }
+                            if (position.Value != commandPosition.Value)
                             {
-                                Value = spawnCommandPositons[spawnCommandIndex].Value
-                            });
+                                return;
+                            }
+                            var indexForItem = itemBufferData.IndexOfType(command.type);
+                            if (indexForItem < 0)
+                            {
+                                return;
+                            }
+                            var freeSpace = itemCapacityData.MaxCapacity - itemBufferData.TotalAmounts() - itemCapacityData.TotalAdditionClaims;
 
-                            commandBuffer.DestroyEntity(entityInQueryIndex, spawnCommandEntities[spawnCommandIndex]);
-                        }
-                    }).ScheduleParallel();
+                            var amountToAdd = math.min(freeSpace, amountLeftToSpawn[0]);
+
+                            var itemAmount = itemBufferData[indexForItem];
+                            itemAmount.Amount += amountToAdd;
+                            itemBufferData[indexForItem] = itemAmount;
+                            amountLeftToSpawn[0] -= amountToAdd;
+                            if (amountLeftToSpawn[0] <= 0)
+                            {
+                                commandBuffer.DestroyEntity(entityInQueryIndex, commandEntity);
+                            }
+                        }).Schedule();
+                    Entities
+                        .WithDisposeOnCompletion(amountLeftToSpawn)
+                        .ForEach((int entityInQueryIndex, Entity entity, in LooseItemPrefabComponent prefab) =>
+                        {
+                            if (amountLeftToSpawn[0] <= 0)
+                            {
+                                return;
+                            }
+                            if (command.type == prefab.type)
+                            {
+                                var spawnedEntity = commandBuffer.Instantiate(entityInQueryIndex, prefab.looseItemPrefab);
+                                var amountBuffer = commandBuffer.SetBuffer<ItemAmountClaimBufferData>(entityInQueryIndex, spawnedEntity);
+                                amountBuffer.Add(new ItemAmountClaimBufferData
+                                {
+                                    Type = command.type,
+                                    Amount = amountLeftToSpawn[0],
+                                    TotalSubtractionClaims = 0f
+                                });
+
+                                commandBuffer.SetComponent(entityInQueryIndex, spawnedEntity, new UniversalCoordinatePositionComponent
+                                {
+                                    Value = commandPosition.Value
+                                });
+
+                                commandBuffer.DestroyEntity(entityInQueryIndex, commandEntity);
+                            }
+                        }).ScheduleParallel();
+                }
+
+                commandBufferSystem.AddJobHandleForProducer(Dependency);
             }
 
-            commandBufferSystem.AddJobHandleForProducer(Dependency);
-
-            Dependency = JobHandle.CombineDependencies(
-                spawnCommandEntities.Dispose(Dependency),
-                spawnCommands.Dispose(Dependency),
-                spawnCommandPositons.Dispose(Dependency)
-                );
+            //Dependency = JobHandle.CombineDependencies(
+            //    spawnCommandEntities.Dispose(Dependency),
+            //    spawnCommands.Dispose(Dependency),
+            //    spawnCommandPositons.Dispose(Dependency)
+            //    );
         }
 
         public void SpawnLooseItem(UniversalCoordinate postion, GrowthProductComponent growthData, EntityCommandBuffer buffer)

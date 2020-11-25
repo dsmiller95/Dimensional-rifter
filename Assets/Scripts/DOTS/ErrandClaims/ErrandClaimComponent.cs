@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace Assets.WorldObjects.Members.Food.DOTS
+namespace Assets.Scripts.DOTS.ErrandClaims
 {
     /// <summary>
     /// Used to indicate the errand is already claimed on this entity.

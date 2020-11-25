@@ -1,6 +1,6 @@
-﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
+﻿using Assets.Scripts.DOTS.ErrandClaims;
+using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Food.DOTS;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;

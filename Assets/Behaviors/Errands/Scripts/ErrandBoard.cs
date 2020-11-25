@@ -113,7 +113,7 @@ namespace Assets.Behaviors.Errands.Scripts
             var errandType = errandSource.ErrandType;
             var errandIndex = errandType.uniqueID;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
-            Debug.Log($"Deregistered errand source of type: {errandType.name}");
+            Debug.Log($"[ERRANDS]Deregistered errand source of type: {errandType.name}");
             return ErrandSourcesByErrandTypeID[errandIndex].Remove(errandSource);
         }
 
@@ -123,7 +123,7 @@ namespace Assets.Behaviors.Errands.Scripts
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
 
             ErrandSourcesByErrandTypeID[errandIndex].Add(source);
-            Debug.Log($"Registered errand source of type: {source.ErrandType.name}");
+            Debug.Log($"[ERRANDS]Registered errand source of type: {source.ErrandType.name}");
         }
 
         private void ExtendErrandMappingToLengthIfNeeded(int errandIndex)

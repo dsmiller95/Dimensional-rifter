@@ -1,8 +1,8 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Food.DOTS;
 using BehaviorTree.Nodes;
 using Unity.Entities;
 using Unity.Transforms;

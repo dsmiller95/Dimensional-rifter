@@ -32,6 +32,8 @@ namespace Assets.Tiling
 
         private void OnDestroy()
         {
+            // TODO: the ConnectivityEntitySystem creates jobs with a dependency on this. Ensure that the
+            //  connectivity system is destroyed first, somehow
             tileTypes.Dispose();
         }
 

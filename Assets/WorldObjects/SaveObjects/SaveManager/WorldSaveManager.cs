@@ -72,28 +72,35 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             if (!File.Exists(entityDataPath))
             {
                 // NO Ecs data, coming from a map gen
-                // TODO: generate this data as part of mapgen
+                // TODO: generate ECS data as part of mapgen
                 return;
             }
+            var targetWorld = World.DefaultGameObjectInjectionWorld;
+            var targetManager = targetWorld.EntityManager;
+            targetManager.CompleteAllJobs();
+            using (var world = new World("deserialize"))
             using (var entityDataReader = new Unity.Entities.Serialization.StreamBinaryReader(entityDataPath))
             {
+                var sourceManager = world.EntityManager;
                 var assetData = SerializationManager.Load(SHARED_OBJECT_DATA, SaveContext.instance.saveName) as SavedAssetArray;
                 var objectAssetData = assetData.GetObjectAssetData();
+                sourceManager.PrepareForDeserialize();
 
-                var world = World.DefaultGameObjectInjectionWorld;
-                var manager = world.EntityManager;
-                manager.DestroyEntity(manager.UniversalQuery);
-                manager.PrepareForDeserialize();
-
-                var transaction = manager.BeginExclusiveEntityTransaction();
+                var deserializeTransaction = sourceManager.BeginExclusiveEntityTransaction();
                 try
                 {
-                    Unity.Entities.Serialization.SerializeUtility.DeserializeWorld(transaction, entityDataReader, objectAssetData);
+                    Unity.Entities.Serialization.SerializeUtility.DeserializeWorld(deserializeTransaction, entityDataReader, objectAssetData);
                 }
                 finally
                 {
-                    manager.EndExclusiveEntityTransaction();
+                    sourceManager.EndExclusiveEntityTransaction();
                 }
+
+                targetManager.DestroyEntity(targetManager.UniversalQuery);
+                targetManager.MoveEntitiesFrom(sourceManager);
+                targetManager.CreateEntity(typeof(DeserializingFlagComponent));
+                var deserializeGroup = targetWorld.GetExistingSystem<PostDeserialzeSystemGroup>();
+                deserializeGroup.Enabled = true;
             }
         }
 
@@ -108,8 +115,8 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
                 var manager = world.EntityManager;
                 Unity.Entities.Serialization.SerializeUtility.SerializeWorld(manager, writer, out sharedObjects);
             }
-
-            var savedAssets = new SavedAssetArray(sharedObjects);
+            // I think because we are not in Project Tiny, this array will always be UnityEngine.Object[]
+            var savedAssets = new SavedAssetArray(sharedObjects as Object[]);
             SerializationManager.Save(SHARED_OBJECT_DATA, SaveContext.instance.saveName, savedAssets);
         }
     }
@@ -118,26 +125,18 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
     class SavedAssetArray
     {
         private SavedAssetReference[] assetReferences;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="objectData">is actually a UnityEngine.Object[]</param>
-        public SavedAssetArray(object[] objectData)
+        public SavedAssetArray(Object[] objectData)
         {
             assetReferences = new SavedAssetReference[objectData.Length];
             for (int i = 0; i < objectData.Length; i++)
             {
-                if (objectData[i] is Object objAss)
-                {
-                    assetReferences[i] = SavedAssetReference.FromAsset(objAss);
-                }
+                assetReferences[i] = SavedAssetReference.FromAsset(objectData[i]);
             }
         }
 
-        public object[] GetObjectAssetData()
+        public Object[] GetObjectAssetData()
         {
-            var objects = new object[assetReferences.Length];
+            var objects = new Object[assetReferences.Length];
             for (int i = 0; i < objects.Length; i++)
             {
                 var assReference = assetReferences[i];

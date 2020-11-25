@@ -1,7 +1,7 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Food.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using Assets.WorldObjects.SaveObjects.SaveManager;
 using Unity.Entities;

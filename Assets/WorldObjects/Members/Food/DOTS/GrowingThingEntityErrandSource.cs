@@ -1,4 +1,5 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
+using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.SaveObjects.SaveManager;
