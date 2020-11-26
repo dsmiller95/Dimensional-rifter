@@ -78,6 +78,7 @@
     <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
     <Compile Include="Assets\Scripts\Utilities\DestroyAfterDelay.cs" />
+    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\PostDeserialzeSystemGroup.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\ConnectivityEntitySystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\FloatFromInstantiatorComparison.cs" />
     <Compile Include="Assets\WorldObjects\Members\InteractionInterfaces\IHarvestable.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupiedComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\ClearInventoryClaimsSystem.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ObjectAssigner.cs" />
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Assets\Tiling\HexCoords\AxialCoordinate.cs" />
     <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickToSelectedItemSystem.cs" />
     <Compile Include="Assets\Scripts\Core\FloatReference.cs" />
+    <Compile Include="Assets\Scripts\DOTS\ErrandClaims\ClearErrandClaimsSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\ExecuteErrand.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleCoordinate.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\CacheFirstResolutionFactory.cs" />
@@ -354,9 +357,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\PostDeserialzeSystemGroup.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\ClearInventoryClaimsSystem.cs" />
-    <Compile Include="Assets\Scripts\DOTS\ErrandClaims\ClearErrandClaimsSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\ClearSleepStationOccupiedSystem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
