@@ -70,6 +70,7 @@ namespace Assets.WorldObjects.Members.Hungry.DOTS.EatingErrand
                 var errandEntity = errandEntities[errandIndex];
                 var didSetResult = new NativeArray<bool>(new[] { false }, Allocator.TempJob);
                 Entities
+                    .WithReadOnly(regionMap)
                     .ForEach((int entityInQueryIndex, Entity self,
                         ref DynamicBuffer<ItemAmountClaimBufferData> itemAmountBuffer,
                         in UniversalCoordinatePositionComponent position,

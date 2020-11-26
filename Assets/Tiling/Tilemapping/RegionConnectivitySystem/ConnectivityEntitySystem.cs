@@ -92,7 +92,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         private void ScheduleNewConnectivityJob()
         {
-            if(CombinationTileMapManager.instance == null)
+            if (CombinationTileMapManager.instance == null)
             {
                 // must be in a scene without all the coordinates and ranges
                 return;

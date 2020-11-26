@@ -64,6 +64,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 }
                 NativeHashMap<int, ItemAmountSourceRepresentation> availableResourceTargets = new NativeHashMap<int, ItemAmountSourceRepresentation>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
                 Entities
+                    .WithReadOnly(regionMap)
                     .ForEach((int entityInQueryIndex, Entity self,
                         in UniversalCoordinatePositionComponent position,
                         in ItemSourceTypeComponent itemType,
@@ -100,6 +101,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 NativeList<StorageSupplyErrandResultComponent> possibleResults = new NativeList<StorageSupplyErrandResultComponent>(1, Allocator.TempJob);
 
                 Entities
+                    .WithReadOnly(regionMap)
                     .ForEach((int entityInQueryIndex, Entity self,
                         in UniversalCoordinatePositionComponent position,
                         in SupplyTypeComponent storageType,
