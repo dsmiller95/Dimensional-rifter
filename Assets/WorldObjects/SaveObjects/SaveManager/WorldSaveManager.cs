@@ -32,7 +32,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             {
                 Debug.LogError("ECS Save error, clearing save files");
                 Debug.LogException(e);
-                SerializationManager.DeleteAll(SaveContext.instance.saveName, ENTITY_COMPONENTS_DATA, SHARED_OBJECT_DATA);
+                ClearECSWorldSaveFiles();
             }
             SerializationManager.Save(GAMEOBJECT_WORLD_ROOT, SaveContext.instance.saveName, data);
             SaveSystemHooks.TriggerPostSave();
@@ -50,7 +50,7 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             {
                 Debug.LogError("ECS Load error, clearing save files");
                 Debug.LogException(e);
-                SerializationManager.DeleteAll(SaveContext.instance.saveName, ENTITY_COMPONENTS_DATA, SHARED_OBJECT_DATA);
+                ClearECSWorldSaveFiles();
             }
             if (loadedData != null && loadedData is WorldSaveObject worldSaveData)
             {
@@ -118,6 +118,11 @@ namespace Assets.WorldObjects.SaveObjects.SaveManager
             // I think because we are not in Project Tiny, this array will always be UnityEngine.Object[]
             var savedAssets = new SavedAssetArray(sharedObjects as Object[]);
             SerializationManager.Save(SHARED_OBJECT_DATA, SaveContext.instance.saveName, savedAssets);
+        }
+
+        public static void ClearECSWorldSaveFiles()
+        {
+            SerializationManager.DeleteAll(SaveContext.instance.saveName, ENTITY_COMPONENTS_DATA, SHARED_OBJECT_DATA);
         }
     }
 

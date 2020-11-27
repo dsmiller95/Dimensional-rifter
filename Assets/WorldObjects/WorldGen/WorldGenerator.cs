@@ -45,7 +45,7 @@ namespace Assets.WorldObjects.WorldGen
             };
             world.regions.Add(baseRegion.GenerateSaveObject(world.members));
 
-
+            WorldSaveManager.ClearECSWorldSaveFiles();
             SerializationManager.Save(WorldSaveManager.GAMEOBJECT_WORLD_ROOT, GeneratedWorldSave, world);
             SaveContext.instance.saveName = GeneratedWorldSave;
 
