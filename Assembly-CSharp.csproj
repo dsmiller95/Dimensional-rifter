@@ -360,6 +360,7 @@
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedRangeComponent.cs" />
     <Compile Include="Assets\UI\ThingSelection\ClickSelector\DragEventComponent.cs" />
     <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickEventFlagComponent.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerFlagComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
