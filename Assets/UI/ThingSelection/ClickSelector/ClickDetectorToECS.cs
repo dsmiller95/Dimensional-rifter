@@ -34,6 +34,7 @@ namespace Assets.UI.ThingSelection.ClickSelector
 
         private Entity draggingEntity;
         private UniversalCoordinate mouseDownPosition = default;
+        private UniversalCoordinate lastMousePosition = default;
 
         void Update()
         {
@@ -42,47 +43,51 @@ namespace Assets.UI.ThingSelection.ClickSelector
                 var coord = MousePosInMap();
                 if (!coord.HasValue) return;
                 mouseDownPosition = coord.Value;
+                lastMousePosition = mouseDownPosition;
             }
             else if (mouseDownPosition.IsValid() && Input.GetMouseButtonUp(0))
             {
                 var nextCoord = MousePosInMap();
+                var commandBuffer = commandBufferSystem.CreateCommandBuffer();
                 if (nextCoord.HasValue)
                 {
                     if (draggingEntity == Entity.Null)
                     {
                         if (nextCoord.Value == mouseDownPosition)
-                            SpawnClickEvent(mouseDownPosition);
+                            SpawnClickEvent(mouseDownPosition, commandBuffer);
                         else
                             // haven't registered as dragging yet, but this is a drag. create a completed drag event
-                            SpawnCompleteDragEvent(mouseDownPosition, nextCoord.Value);
+                            SpawnCompleteDragEvent(mouseDownPosition, nextCoord.Value, commandBuffer);
                     }
                     else
                     {
-                        var commandBuffer = commandBufferSystem.CreateCommandBuffer();
                         UpdateActiveDragPosition(nextCoord.Value, commandBuffer);
-                        CompleteDrag(commandBuffer);
                     }
                 }
-                else
+                else if (draggingEntity == Entity.Null)
                 {
-                    if (draggingEntity == Entity.Null)
-                    {
-                        SpawnClickEvent(mouseDownPosition);
-                    }
-                    else
-                    {
-                        var commandBuffer = commandBufferSystem.CreateCommandBuffer();
-                        CompleteDrag(commandBuffer);
-                    }
+                    SpawnClickEvent(mouseDownPosition, commandBuffer);
                 }
+
+                if (draggingEntity != Entity.Null)
+                {
+                    CompleteDrag(commandBuffer);
+                }
+                mouseDownPosition = default;
+                lastMousePosition = default;
             }
             else if (mouseDownPosition.IsValid() && Input.GetMouseButton(0))
             {
                 var nextCoord = MousePosInMap();
-                if (!nextCoord.HasValue) return;
-
-                if (nextCoord != mouseDownPosition)
+                if (!nextCoord.HasValue)
                 {
+                    lastMousePosition = default;
+                    return;
+                }
+
+                if (nextCoord != mouseDownPosition && lastMousePosition != nextCoord)
+                {
+                    lastMousePosition = nextCoord.Value;
                     if (draggingEntity == Entity.Null)
                     {
                         CreatePendingDragEvent(mouseDownPosition, nextCoord.Value);
@@ -130,9 +135,8 @@ namespace Assets.UI.ThingSelection.ClickSelector
             });
         }
 
-        private void SpawnCompleteDragEvent(UniversalCoordinate origin, UniversalCoordinate finishedPoint)
+        private void SpawnCompleteDragEvent(UniversalCoordinate origin, UniversalCoordinate finishedPoint, EntityCommandBuffer commandBuffer)
         {
-            var commandBuffer = commandBufferSystem.CreateCommandBuffer();
             var draggingEntity = commandBuffer.CreateEntity(mouseDragEventArchetype);
             commandBuffer.SetComponent(draggingEntity, new UniversalCoordinatePositionComponent
             {
@@ -149,11 +153,12 @@ namespace Assets.UI.ThingSelection.ClickSelector
             draggingEntity = Entity.Null;
         }
 
-        private void SpawnClickEvent(UniversalCoordinate clickPosition)
+        private void SpawnClickEvent(UniversalCoordinate clickPosition, EntityCommandBuffer? commandBuffer = null)
         {
-            var commandBuffer = commandBufferSystem.CreateCommandBuffer();
-            var clickedEvent = commandBuffer.CreateEntity(mouseClickEventArchetype);
-            commandBuffer.SetComponent(clickedEvent, new UniversalCoordinatePositionComponent
+            if (!commandBuffer.HasValue)
+                commandBuffer = commandBufferSystem.CreateCommandBuffer();
+            var clickedEvent = commandBuffer.Value.CreateEntity(mouseClickEventArchetype);
+            commandBuffer.Value.SetComponent(clickedEvent, new UniversalCoordinatePositionComponent
             {
                 Value = clickPosition
             });

@@ -9,6 +9,9 @@ namespace Assets.WorldObjects.DOTSMembers
     [UpdateBefore(typeof(TransformSystemGroup))]
     public class UniversalCoordinateToTransformSystem : SystemBase
     {
+        // TODO: use the real positioning based on root of tile region
+        // TODO: use WriteGroups for this code
+        // https://docs.unity3d.com/Packages/com.unity.entities@0.16/manual/ecs_write_groups.html?q=write
         protected override void OnUpdate()
         {
             Entities
@@ -52,6 +55,7 @@ namespace Assets.WorldObjects.DOTSMembers
                 }).ScheduleParallel();
 
             Entities
+                // TODO: why is this here?
                 //.WithChangeFilter<UniversalCoordinatePositionComponent, OffsetFromCoordinatePositionComponent>()
                 .WithAll<OffsetFromCoordinatePositionComponent>()
                 .WithAll<OffsetLayerComponent>()
