@@ -9,7 +9,7 @@ namespace Assets.UI.Manipulators.Scripts
         World world => World.DefaultGameObjectInjectionWorld;
         public void SetDragVisualizerActive(bool active)
         {
-            var dragVisualizer = world.GetExistingSystem<DragSelectAreaSystem>();
+            var dragVisualizer = world.GetExistingSystem<DragSelectAreaVisualizerSystem>();
             dragVisualizer.SetVisualizerEnabled(active);
         }
     }

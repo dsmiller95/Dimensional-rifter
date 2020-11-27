@@ -355,12 +355,13 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\DragSelectAreaSystem.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\DragSelectAreaVisualizerSystem.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedRangeComponent.cs" />
     <Compile Include="Assets\UI\ThingSelection\ClickSelector\DragEventComponent.cs" />
     <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickEventFlagComponent.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerFlagComponent.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\MapManipulatorVisualizerTriggers.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedAreaManipulationSystem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

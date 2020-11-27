@@ -9,12 +9,13 @@ using Unity.Transforms;
 namespace Assets.UI.Manipulators.Scripts.SelectedArea
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
-    public class DragSelectAreaSystem : SystemBase
+    [UpdateBefore(typeof(SelectedAreaManipulationSystem))]
+    public class DragSelectAreaVisualizerSystem : SystemBase
     {
         EntityCommandBufferSystem commandBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
 
         EntityQuery dragEventQuery;
-        EntityQuery completedDragQuery;
+        EntityQuery dragCompleteQuery;
 
         EntityQuery disabledVisualizerQuery;
         EntityQuery enabledVisualizerQuery;
@@ -28,7 +29,7 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
             dragEventQuery.AddChangedVersionFilter(typeof(DragEventComponent));
             RequireForUpdate(dragEventQuery);
 
-            completedDragQuery = GetEntityQuery(
+            dragCompleteQuery = GetEntityQuery(
                 ComponentType.ReadOnly<DragEventComponent>(),
                 ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
                 ComponentType.ReadOnly<DragEventCompleteFlagComponent>()
@@ -71,12 +72,12 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
 
         protected override void OnUpdate()
         {
-            if (!completedDragQuery.IsEmpty)
+            if (!dragCompleteQuery.IsEmpty)
             {
+                // if the query is completely empty; then stop showing the range
+                //  otherwise check for changes
                 var commandBuffer = commandBufferSystem.CreateCommandBuffer();
-                // TODO: remove this when there is another system which actually does something when the selection is complete
-                commandBuffer.DestroyEntity(completedDragQuery);
-                SetQueryEnabled(false, commandBuffer, disabledVisualizerQuery, enabledVisualizerQuery);
+                commandBuffer.AddComponent<Disabled>(enabledVisualizerQuery);
                 return;
             }
             // The RequireForUpdate ignores changed version filters completely; so this check will make sure that
@@ -90,7 +91,7 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
             var scale = new NativeArray<float3>(1, Allocator.TempJob);
 
             var enableCommandBuffer = commandBufferSystem.CreateCommandBuffer();
-            SetQueryEnabled(true, enableCommandBuffer, disabledVisualizerQuery, enabledVisualizerQuery);
+            enableCommandBuffer.RemoveComponent<Disabled>(disabledVisualizerQuery);
 
             dragDataJob = Job
                 .WithBurst()
