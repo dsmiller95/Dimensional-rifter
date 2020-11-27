@@ -266,7 +266,6 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandResultComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\RandomProviderComponent.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationRenderMesh.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizer.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\RestingTaskType.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSourceType.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />

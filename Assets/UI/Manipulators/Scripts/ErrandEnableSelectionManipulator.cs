@@ -12,7 +12,6 @@ namespace Assets.UI.Manipulators
     public class ErrandEnableSelectionManipulator : MapManipulator
     {
         private ManipulatorController controller;
-        private SelectedAreaVisualizer areaVisualizer;
 
         public ErrandType typeOfErrand;
 
@@ -21,13 +20,11 @@ namespace Assets.UI.Manipulators
             Debug.Log("opening manipulator");
             this.controller = controller;
             firstCoordinate = default;
-            areaVisualizer = controller.GetComponentInChildren<SelectedAreaVisualizer>();
         }
 
         public override void OnClose()
         {
             range = default;
-            areaVisualizer.StopRenderRange();
         }
 
         private UniversalCoordinate firstCoordinate;
@@ -50,7 +47,6 @@ namespace Assets.UI.Manipulators
                         Debug.Log("Range changed");
                         range = newRange;
                         Debug.Log(range);
-                        areaVisualizer.RenderRange(range, firstCoordinate.CoordinatePlaneID);
                     }
                 }
                 else
@@ -59,7 +55,6 @@ namespace Assets.UI.Manipulators
                     Debug.Log(range);
                     range = default;
                     firstCoordinate = default;
-                    areaVisualizer.StopRenderRange();
                 }
             }
             else if (Input.GetMouseButtonDown(0))
