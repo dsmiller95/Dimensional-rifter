@@ -2,7 +2,6 @@
 using Assets.Tiling;
 using Assets.Tiling.SquareCoords;
 using Assets.Tiling.Tilemapping;
-using Assets.UI.Manipulators.Scripts;
 using UnityEngine;
 
 namespace Assets.UI.Manipulators

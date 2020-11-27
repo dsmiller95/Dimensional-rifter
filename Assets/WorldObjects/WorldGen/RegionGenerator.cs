@@ -50,16 +50,17 @@ namespace Assets.WorldObjects.WorldGen
             var maxTileIndex = tiledataIndexed.Length - 1;
             var indexByTileData = tiledataIndexed.Select((key, i) => new KeyValuePair<TileTypeInfo, int>(key, i)).ToDictionary(x => x.Key, x => x.Value);
             everyMemberObject.tileValues = everyMemberObject.tileValues.Concat(
-                    tiles.Select(x => {
+                    tiles.Select(x =>
+                    {
                         var tileInfo = x.Value;
-                        if(indexByTileData.TryGetValue(tileInfo, out var index))
+                        if (indexByTileData.TryGetValue(tileInfo, out var index))
                         {
                             return index;
                         }
                         maxTileIndex++;
                         indexByTileData[tileInfo] = maxTileIndex;
                         return maxTileIndex;
-                        })
+                    })
                 ).ToArray();
             var newTileTypeInfo = new TileTypeInfo[maxTileIndex + 1];
             foreach (var pair in indexByTileData)

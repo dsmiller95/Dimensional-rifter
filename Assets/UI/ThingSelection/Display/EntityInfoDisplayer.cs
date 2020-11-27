@@ -69,7 +69,8 @@ namespace Assets.UI.ThingSelection.Display
             if (isBuildingData)
             {
                 ShowBuildingDataFromEntity(resultText, selectedEntity, manager);
-            }else if (manager.HasComponent<BuildingParentComponent>(selectedEntity))
+            }
+            else if (manager.HasComponent<BuildingParentComponent>(selectedEntity))
             {
                 var buildingParentData = manager.GetComponentData<BuildingParentComponent>(selectedEntity);
                 if (manager.Exists(buildingParentData.buildingEntity))
@@ -77,7 +78,7 @@ namespace Assets.UI.ThingSelection.Display
                     ShowBuildingDataFromEntity(resultText, buildingParentData.buildingEntity, manager);
                 }
             }
-            if(!isBuildingData && manager.HasComponent<ItemAmountClaimBufferData>(selectedEntity))
+            if (!isBuildingData && manager.HasComponent<ItemAmountClaimBufferData>(selectedEntity))
             {
                 ShowInventoryDataFromEntity(resultText, selectedEntity, manager);
             }
