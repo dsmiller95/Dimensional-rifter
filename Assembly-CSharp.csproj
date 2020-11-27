@@ -284,6 +284,7 @@
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\Decorator.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookWhenDisabledIndexComponent.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\ClearSleepStationOccupiedSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrand.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\BooleanToggle.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegion.cs" />
@@ -329,11 +330,9 @@
     <Compile Include="Assets\Scripts\VariableOperators\OnBooleanEdgeEvent.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinatePositionComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\GatherOfTypeFactory.cs" />
-    <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickEventComponent.cs" />
     <Compile Include="Assets\WorldObjects\Resource.cs" />
     <Compile Include="Assets\WorldObjects\TileMapNavigationMember.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableType.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedTile.cs" />
     <Compile Include="Assets\UI\ThingSelection\SelectableEntityAuthoring.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToCoordinate.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\TileMembersSaveObject.cs" />
@@ -357,7 +356,10 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\ClearSleepStationOccupiedSystem.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\DragSelectAreaSystem.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedRangeComponent.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickSelector\DragEventComponent.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickEventFlagComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

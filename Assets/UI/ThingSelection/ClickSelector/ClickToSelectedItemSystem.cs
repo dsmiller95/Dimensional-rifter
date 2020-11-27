@@ -17,7 +17,7 @@ namespace Assets.UI.ThingSelection.ClickSelector
         {
             TileClickedEventQuery = GetEntityQuery(
                 ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
-                ComponentType.ReadOnly<ClickEventComponent>()
+                ComponentType.ReadOnly<ClickEventFlagComponent>()
                 );
             ClickableEntityQuery = GetEntityQuery(
                 ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
@@ -85,7 +85,7 @@ namespace Assets.UI.ThingSelection.ClickSelector
                 })
                 .Schedule(dependency);
             return Entities
-                .WithAll<ClickEventComponent, UniversalCoordinatePositionComponent>()
+                .WithAll<ClickEventFlagComponent, UniversalCoordinatePositionComponent>()
                 .ForEach((Entity self) =>
                 {
                     commandBuffer.DestroyEntity(self);
