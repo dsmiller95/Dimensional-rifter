@@ -1734,6 +1734,7 @@ GameObject:
   - component: {fileID: 499727768}
   - component: {fileID: 499727767}
   - component: {fileID: 499727766}
+  - component: {fileID: 499727764}
   m_Layer: 5
   m_Name: Enable Errands
   m_TagString: Untagged
@@ -1761,6 +1762,18 @@ RectTransform:
   m_AnchoredPosition: {x: 420, y: 0}
   m_SizeDelta: {x: 133.40645, y: 30}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &499727764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499727762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83fa13596a68e4c44936aa2c6ed32593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &499727766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1804,18 +1817,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
-        m_TargetAssemblyTypeName: Assets.Scripts.Core.GenericVariable`1[[UnityEngine.ScriptableObject,
-          UnityEngine
-        m_MethodName: SetValue
-        m_Mode: 2
+      - m_Target: {fileID: 499727764}
+        m_TargetAssemblyTypeName: Assets.UI.Manipulators.Scripts.MapManipulatorVisualizerTriggers,
+          Assembly-CSharp
+        m_MethodName: SetDragVisualizerActive
+        m_Mode: 6
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 62b8d35f58431dd42b38cade922a58b2, type: 2}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.ScriptableObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &499727767
 MonoBehaviour:

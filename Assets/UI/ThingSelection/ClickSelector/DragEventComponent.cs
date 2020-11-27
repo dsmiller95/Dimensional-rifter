@@ -12,8 +12,7 @@ namespace Assets.UI.ThingSelection.ClickSelector
         public UniversalCoordinate dragPos;
     }
 
-    public struct DragEventStateComponent : IComponentData
+    public struct DragEventCompleteFlagComponent : IComponentData
     {
-        public bool dragDone;
     }
 }

@@ -27,7 +27,6 @@ namespace Assets.UI.ThingSelection.ClickSelector
                 );
             mouseDragEventArchetype = entityManager.CreateArchetype(
                 typeof(UniversalCoordinatePositionComponent),
-                typeof(DragEventStateComponent),
                 typeof(DragEventComponent)
                 );
         }
@@ -112,18 +111,11 @@ namespace Assets.UI.ThingSelection.ClickSelector
             {
                 dragPos = pendingDragPoint
             });
-            entityManager.SetComponentData(draggingEntity, new DragEventStateComponent
-            {
-                dragDone = false
-            });
         }
 
         private void CompleteDrag(EntityCommandBuffer commandBuffer)
         {
-            commandBuffer.SetComponent(draggingEntity, new DragEventStateComponent
-            {
-                dragDone = true
-            });
+            commandBuffer.AddComponent<DragEventCompleteFlagComponent>(draggingEntity);
             draggingEntity = Entity.Null;
         }
 
@@ -137,7 +129,7 @@ namespace Assets.UI.ThingSelection.ClickSelector
 
         private void SpawnCompleteDragEvent(UniversalCoordinate origin, UniversalCoordinate finishedPoint, EntityCommandBuffer commandBuffer)
         {
-            var draggingEntity = commandBuffer.CreateEntity(mouseDragEventArchetype);
+            draggingEntity = commandBuffer.CreateEntity(mouseDragEventArchetype);
             commandBuffer.SetComponent(draggingEntity, new UniversalCoordinatePositionComponent
             {
                 Value = origin
@@ -146,10 +138,7 @@ namespace Assets.UI.ThingSelection.ClickSelector
             {
                 dragPos = finishedPoint
             });
-            commandBuffer.SetComponent(draggingEntity, new DragEventStateComponent
-            {
-                dragDone = true
-            });
+            commandBuffer.AddComponent<DragEventCompleteFlagComponent>(draggingEntity);
             draggingEntity = Entity.Null;
         }
 

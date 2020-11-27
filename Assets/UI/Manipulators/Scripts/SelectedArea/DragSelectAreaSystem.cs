@@ -5,61 +5,100 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace Assets.UI.Manipulators.Scripts.SelectedArea
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class DragSelectAreaSystem : SystemBase
     {
+        EntityCommandBufferSystem commandBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+
         EntityQuery dragEventQuery;
-        EntityQuery dragVisualizerQuery;
+        EntityQuery completedDragQuery;
+
+        EntityQuery disabledVisualizerQuery;
+        EntityQuery enabledVisualizerQuery;
 
         protected override void OnCreate()
         {
             base.OnCreate();
             dragEventQuery = GetEntityQuery(
                 ComponentType.ReadOnly<DragEventComponent>(),
-                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
-                ComponentType.ReadOnly<DragEventStateComponent>());
+                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>());
             dragEventQuery.AddChangedVersionFilter(typeof(DragEventComponent));
             RequireForUpdate(dragEventQuery);
+
+            completedDragQuery = GetEntityQuery(
+                ComponentType.ReadOnly<DragEventComponent>(),
+                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
+                ComponentType.ReadOnly<DragEventCompleteFlagComponent>()
+                );
+
+            disabledVisualizerQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[] { ComponentType.ReadOnly<SelectedAreaVisualizerFlagComponent>(), ComponentType.ReadOnly<Disabled>() },
+                Options = EntityQueryOptions.IncludeDisabled
+            });
+            enabledVisualizerQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new ComponentType[] { ComponentType.ReadOnly<SelectedAreaVisualizerFlagComponent>() }
+            });
+        }
+
+        public void SetVisualizerEnabled(bool enabled, EntityCommandBuffer? commandBuffer = null)
+        {
+            if (Enabled == enabled)
+            {
+                return;
+            }
+            if (!commandBuffer.HasValue)
+                commandBuffer = commandBufferSystem.CreateCommandBuffer();
+            Enabled = enabled;
+            SetQueryEnabled(enabled, commandBuffer.Value, disabledVisualizerQuery, enabledVisualizerQuery);
+        }
+
+        private static void SetQueryEnabled(bool visible, EntityCommandBuffer commandBuffer, EntityQuery disabledQuery, EntityQuery enabledQuery)
+        {
+            if (visible == true)
+            {
+                commandBuffer.RemoveComponent<Disabled>(disabledQuery);
+            }
+            else
+            {
+                commandBuffer.AddComponent<Disabled>(enabledQuery);
+            }
         }
 
         protected override void OnUpdate()
         {
+            if (!completedDragQuery.IsEmpty)
+            {
+                var commandBuffer = commandBufferSystem.CreateCommandBuffer();
+                // TODO: remove this when there is another system which actually does something when the selection is complete
+                commandBuffer.DestroyEntity(completedDragQuery);
+                SetQueryEnabled(false, commandBuffer, disabledVisualizerQuery, enabledVisualizerQuery);
+                return;
+            }
             // The RequireForUpdate ignores changed version filters completely; so this check will make sure that
             //  the rest of the job only runs on changes
             if (dragEventQuery.IsEmpty)
             {
                 return;
             }
-            var dragData = dragEventQuery.ToComponentDataArrayAsync<DragEventStateComponent>(Allocator.TempJob, out var dragDataJob);
-            var dragEntities = dragEventQuery.ToEntityArrayAsync(Allocator.TempJob, out var dragEntityJob);
-
-            var shouldUpdate = new NativeArray<bool>(new bool[] { false }, Allocator.TempJob);
+            var dragEntities = dragEventQuery.ToEntityArrayAsync(Allocator.TempJob, out var dragDataJob);
             var center = new NativeArray<float2>(1, Allocator.TempJob);
             var scale = new NativeArray<float3>(1, Allocator.TempJob);
+
+            var enableCommandBuffer = commandBufferSystem.CreateCommandBuffer();
+            SetQueryEnabled(true, enableCommandBuffer, disabledVisualizerQuery, enabledVisualizerQuery);
+
             dragDataJob = Job
                 .WithBurst()
-                .WithDisposeOnCompletion(dragData)
                 .WithDisposeOnCompletion(dragEntities)
                 .WithCode(() =>
                 {
-                    var activeDragIndex = -1;
-                    for (int i = 0; i < dragData.Length; i++)
-                    {
-                        var dragStatus = dragData[i];
-                        if (!dragStatus.dragDone)
-                        {
-                            activeDragIndex = i;
-                            break;
-                        }
-                    }
-                    if (activeDragIndex == -1)
-                    {
-                        return;
-                    }
-                    var activeEntity = dragEntities[activeDragIndex];
+                    var activeEntity = dragEntities[0];
                     var rootPos = GetComponent<UniversalCoordinatePositionComponent>(activeEntity);
                     var dragPos = GetComponent<DragEventComponent>(activeEntity);
                     var root = rootPos.Value.ToPositionInPlane();
@@ -78,22 +117,26 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
                     }
                     center[0] = (root + extent) / 2;
                     scale[0] = new float3((extent - root) + new float2(1, 1), 1);
-                    shouldUpdate[0] = true;
-                }).Schedule(JobHandle.CombineDependencies(dragEntityJob, dragDataJob));
-
+                }).Schedule(dragDataJob);
 
             Dependency = Entities
-                .WithDisposeOnCompletion(shouldUpdate)
                 .WithDisposeOnCompletion(center)
                 .WithDisposeOnCompletion(scale)
-                .WithAll<SelectedAreaVisualizerFlagComponent>()
-                .WithStoreEntityQueryInField(ref dragVisualizerQuery)
-                .ForEach((ref Translation tras, ref NonUniformScale visualizedScale) =>
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithAll<SelectedAreaVisualizerFlagComponent, Translation, NonUniformScale>()
+                .ForEach((Entity entity, in Translation trans) =>
                 {
-                    if (!shouldUpdate[0]) return;
-                    tras.Value = new float3(center[0], tras.Value.z);
-                    visualizedScale.Value = scale[0];
+                    enableCommandBuffer.SetComponent(entity, new Translation
+                    {
+                        Value = new float3(center[0], trans.Value.z)
+                    });
+                    enableCommandBuffer.SetComponent(entity, new NonUniformScale
+                    {
+                        Value = scale[0]
+                    });
                 }).Schedule(JobHandle.CombineDependencies(dragDataJob, Dependency));
+
+            commandBufferSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }
