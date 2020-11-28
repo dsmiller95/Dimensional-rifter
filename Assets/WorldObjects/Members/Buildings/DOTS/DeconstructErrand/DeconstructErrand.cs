@@ -79,7 +79,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.DeconstructErrand
         private bool errandClaimCleared = false;
         private void ClearErrandClaim(EntityCommandBuffer commandBuffer, EntityManager manager)
         {
-            if (errandClaimCleared || manager.Exists(errandResult.deconstructTarget))
+            if (errandClaimCleared || !manager.Exists(errandResult.deconstructTarget))
             {
                 return;
             }

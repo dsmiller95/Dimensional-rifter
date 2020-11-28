@@ -370,6 +370,7 @@
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\ErrandRequestSystem.cs" />
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BasicErrandSource.cs" />
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BasicErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrand\BuildErrandRequestSystem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

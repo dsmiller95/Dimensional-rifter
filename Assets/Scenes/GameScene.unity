@@ -4726,7 +4726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76e29f9cd2f3124983b4f15a995412c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingErrandType: {fileID: 11400000, guid: f68436973f202d24498909e424948e40, type: 2}
+  errandSourceType: {fileID: 11400000, guid: f68436973f202d24498909e424948e40, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
 --- !u!4 &1793753286
 Transform:
