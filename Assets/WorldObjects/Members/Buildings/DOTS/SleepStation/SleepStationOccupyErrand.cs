@@ -10,49 +10,35 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
 {
-    public class SleepStationOccupyErrand : IErrand
+    public class SleepStationOccupyErrand :
+        BasicErrand<SleepStationOccupyErrandResultComponent, SleepStationOccupyErrand>
     {
         public static readonly string FOUND_SLEEP_STATION_PATH = "CurrentlySleepingStation";
-
-        public SleepStationOccupyErrandResultComponent errandResult;
-        public GameObject sleeper;
-
-        private World entityWorld;
-        private EntityCommandBufferSystem commandBufferSystem => entityWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-        private IErrandCompletionReciever<SleepStationOccupyErrand> completionReciever;
-        private bool BehaviorCompleted = false;
 
         public SleepStationOccupyErrand(
             SleepStationOccupyErrandResultComponent errandResult,
             World entityWorld,
-            GameObject sleeper,
+            GameObject actor,
             IErrandCompletionReciever<SleepStationOccupyErrand> completionReciever)
+            : base(errandResult, entityWorld, actor, completionReciever)
         {
-            this.entityWorld = entityWorld;
-            this.errandResult = errandResult;
-            this.sleeper = sleeper;
-            this.completionReciever = completionReciever;
-
-            SetupBehavior();
         }
 
-        private BehaviorNode ErrandBehaviorTreeRoot;
-
-        private void SetupBehavior()
+        protected override BehaviorNode SetupBehavior()
         {
             var manager = entityWorld.EntityManager;
             var targetEntity = errandResult.sleepTarget;
             var targetCoordinates = manager.GetComponentData<UniversalCoordinatePositionComponent>(targetEntity);
             var targetPosition = manager.GetComponentData<Translation>(targetEntity);
-            ErrandBehaviorTreeRoot =
+            return
             new Sequence(
                 new FindPathToCoordinate(
-                    sleeper,
+                    actor,
                     targetCoordinates.Value,
                     "Path",
                     false),
                 new NavigateToTarget(
-                    sleeper,
+                    actor,
                     "Path",
                     "target",
                     false),
@@ -96,18 +82,9 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
             });
         }
 
-        public NodeStatus Execute(Blackboard blackboard)
+        public override void OnErrandFailToComplete()
         {
-            return ErrandBehaviorTreeRoot?.Evaluate(blackboard) ?? NodeStatus.FAILURE;
-        }
-        public void OnReset()
-        {
-            if (!BehaviorCompleted)
-            {
-                ClearSleepErrandClaim(commandBufferSystem.CreateCommandBuffer());
-                completionReciever.ErrandAborted(this);
-            }
-            ErrandBehaviorTreeRoot = null;
+            ClearSleepErrandClaim(commandBufferSystem.CreateCommandBuffer());
         }
     }
 }

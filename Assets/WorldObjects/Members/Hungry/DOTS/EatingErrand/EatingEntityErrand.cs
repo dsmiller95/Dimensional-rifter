@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Storage.DOTS;
@@ -11,47 +12,32 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Hungry.DOTS.EatingErrand
 {
-    public class EatingEntityErrand : IErrand
+    public class EatingEntityErrand :
+        BasicErrand<SpecificResourceErrandResultComponent, EatingEntityErrand>
     {
-        public SpecificResourceErrandResultComponent errandResult;
-        public GameObject eater;
-
-        private World entityWorld;
-        private EntityCommandBufferSystem commandBufferSystem => entityWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-        private IErrandCompletionReciever<EatingEntityErrand> completionReciever;
-        private bool BehaviorCompleted = false;
-
         public EatingEntityErrand(
             SpecificResourceErrandResultComponent errandResult,
             World entityWorld,
-            GameObject eater,
+            GameObject actor,
             IErrandCompletionReciever<EatingEntityErrand> completionReciever)
+            : base(errandResult, entityWorld, actor, completionReciever)
         {
-            this.entityWorld = entityWorld;
-            this.errandResult = errandResult;
-            this.eater = eater;
-            this.completionReciever = completionReciever;
-
-            SetupBehavior();
         }
-
-        private BehaviorNode ErrandBehaviorTreeRoot;
-
-        private void SetupBehavior()
+        protected override BehaviorNode SetupBehavior()
         {
             var manager = entityWorld.EntityManager;
             var targetEntity = errandResult.consumeTarget;
             var targetCoordinates = manager.GetComponentData<UniversalCoordinatePositionComponent>(targetEntity);
             var targetPosition = manager.GetComponentData<Translation>(targetEntity);
-            ErrandBehaviorTreeRoot =
+            return
             new Sequence(
                 new FindPathToCoordinate(
-                    eater,
+                    actor,
                     targetCoordinates.Value,
                     "Path",
                     true),
                 new NavigateToTarget(
-                    eater,
+                    actor,
                     "Path",
                     "target",
                     false),
@@ -77,7 +63,7 @@ namespace Assets.WorldObjects.Members.Hungry.DOTS.EatingErrand
                     growingData[resourceIndex] = resourceAmount;
                     ClearConsumeClaim(localManager);
 
-                    var hungry = eater.GetComponent<Hungry>();
+                    var hungry = actor.GetComponent<Hungry>();
                     hungry.EatAmount(errandResult.resourceType, errandResult.amountToConsume);
 
                     ToastProvider.ShowToast(
@@ -120,19 +106,9 @@ namespace Assets.WorldObjects.Members.Hungry.DOTS.EatingErrand
             itemAmountBuffer[itemIndex] = itemAmount;
         }
 
-
-        public NodeStatus Execute(Blackboard blackboard)
+        public override void OnErrandFailToComplete()
         {
-            return ErrandBehaviorTreeRoot?.Evaluate(blackboard) ?? NodeStatus.FAILURE;
-        }
-        public void OnReset()
-        {
-            if (!BehaviorCompleted)
-            {
-                ClearConsumeClaim(entityWorld.EntityManager);
-                completionReciever.ErrandAborted(this);
-            }
-            ErrandBehaviorTreeRoot = null;
+            ClearConsumeClaim(entityWorld.EntityManager);
         }
     }
 }

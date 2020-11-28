@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food.DOTS
 {
+    // TODO: convert to BasicErrandSource, probably
     public class GrowingThingEntityErrandSource : MonoBehaviour, IErrandSource<HarvestEntityErrand>, IErrandCompletionReciever<HarvestEntityErrand>
     {
         public HarvestErrandType harvestErrandType;

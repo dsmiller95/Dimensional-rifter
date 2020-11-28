@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
+using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.UI.Buttery_Toast;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Items.DOTS;
@@ -11,40 +12,27 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Buildings.DOTS.DeconstructErrand
 {
-    public class DeconstructErrand : IErrand
+    public class DeconstructErrand :
+        BasicErrand<DeconstructErrandResultComponent, DeconstructErrand>
     {
-        public DeconstructErrandResultComponent errandResult;
-        public GameObject actor;
-
-        private World entityWorld;
-        private EntityCommandBufferSystem commandBufferSystem => entityWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         private LooseItemSpawnSystem ItemSpawnSystem => entityWorld.GetOrCreateSystem<LooseItemSpawnSystem>();
-        private IErrandCompletionReciever<DeconstructErrand> completionReciever;
-        private bool BehaviorCompleted = false;
 
         public DeconstructErrand(
             DeconstructErrandResultComponent errandResult,
             World entityWorld,
             GameObject actor,
             IErrandCompletionReciever<DeconstructErrand> completionReciever)
+            : base(errandResult, entityWorld, actor, completionReciever)
         {
-            this.entityWorld = entityWorld;
-            this.errandResult = errandResult;
-            this.actor = actor;
-            this.completionReciever = completionReciever;
-
-            SetupBehavior();
         }
 
-        private BehaviorNode ErrandBehaviorTreeRoot;
-
-        private void SetupBehavior()
+        protected override BehaviorNode SetupBehavior()
         {
             var manager = entityWorld.EntityManager;
             var targetEntity = errandResult.deconstructTarget;
             var targetCoordinates = manager.GetComponentData<UniversalCoordinatePositionComponent>(targetEntity);
             var targetPosition = manager.GetComponentData<Translation>(targetEntity);
-            ErrandBehaviorTreeRoot =
+            return
             new Sequence(
                 new FindPathToCoordinate(
                     actor,
@@ -102,18 +90,9 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.DeconstructErrand
             });
         }
 
-        public NodeStatus Execute(Blackboard blackboard)
+        public override void OnErrandFailToComplete()
         {
-            return ErrandBehaviorTreeRoot?.Evaluate(blackboard) ?? NodeStatus.FAILURE;
-        }
-        public void OnReset()
-        {
-            if (!BehaviorCompleted)
-            {
-                ClearErrandClaim(commandBufferSystem.CreateCommandBuffer(), entityWorld.EntityManager);
-                completionReciever.ErrandAborted(this);
-            }
-            ErrandBehaviorTreeRoot = null;
+            ClearErrandClaim(commandBufferSystem.CreateCommandBuffer(), entityWorld.EntityManager);
         }
     }
 }
