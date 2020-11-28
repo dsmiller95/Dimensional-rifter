@@ -35,7 +35,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             var commandBuffer = commandBufferSystem.CreateCommandBuffer().AsParallelWriter();
 
             Entities
-                .WithNone<DeconstructBuildingFlag>()
+                .WithNone<DeconstructBuildingClaimComponent>()
                 .ForEach((
                     int entityInQueryIndex,
                     Entity self,
@@ -44,7 +44,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 {
                     if (building.isBuilt && dragRange.ContainsCoordinate(position.Value))
                     {
-                        commandBuffer.AddComponent<DeconstructBuildingFlag>(entityInQueryIndex, self);
+                        commandBuffer.AddComponent<DeconstructBuildingClaimComponent>(entityInQueryIndex, self);
                     }
                 }).ScheduleParallel();
 

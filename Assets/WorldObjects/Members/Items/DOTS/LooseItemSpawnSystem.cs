@@ -153,5 +153,13 @@ namespace Assets.WorldObjects.Members.Items.DOTS
                 amount = amount
             });
         }
+
+        public void SpawnAllAsLooseItem(UniversalCoordinate position, DynamicBuffer<ItemAmountClaimBufferData> items, EntityCommandBuffer commandbuffer)
+        {
+            foreach (var itemBufferData in items)
+            {
+                SpawnLooseItem(position, itemBufferData.Type, itemBufferData.Amount, commandbuffer);
+            }
+        }
     }
 }

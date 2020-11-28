@@ -8,12 +8,12 @@ namespace Assets.WorldObjects.Members.Hungry
     public class WorkerGenerationConfiguration : ScriptableObject
     {
         public NameGen nameGenerator;
-        public int prioritySettingCount;
+        public PrioritySetToErrandConfiguration prioritizableErrands;
         public int defaultPrioritySetting;
         internal WorkerSaveObject GenerateSaveObject()
         {
             var priorityObject = new SinglePriorityHolder.SerializablePriorityHolder();
-            priorityObject.priorities = new int[prioritySettingCount];
+            priorityObject.priorities = new int[prioritizableErrands.errandTypesToSetPrioritiesFor.Length];
             for (int i = 0; i < priorityObject.priorities.Length; i++)
             {
                 priorityObject.priorities[i] = defaultPrioritySetting;

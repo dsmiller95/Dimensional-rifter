@@ -3,7 +3,7 @@ using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using Unity.Entities;
 
-namespace Assets.WorldObjects.Members.Buildings.DOTS
+namespace Assets.WorldObjects.Members.Buildings.DOTS.BuildErrand
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class BuildErrandActivateSystem : SystemBase

@@ -1,33 +1,32 @@
-﻿using Assets.Scripts.DOTS.ErrandClaims;
-using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
+﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 
-namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
+namespace Assets.WorldObjects.Members.Buildings.DOTS.DeconstructErrand
 {
-    public struct SleepStationOccupyRequestComponent : IComponentData
+    public struct DeconstructErrandRequestComponent : IComponentData
     {
         public bool DataIsSet;
     }
 
-    public struct SleepStationOccupyErrandResultComponent : IComponentData
+    public struct DeconstructErrandResultComponent : IComponentData
     {
-        public Entity sleepTarget;
+        public Entity deconstructTarget;
     }
 
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class SleepStationOccupyErrandRequestSystem : SystemBase
+    public class DeconstructErrandRequestSystem : SystemBase
     {
         private EntityQuery SleepErrandRequest;
 
         protected override void OnCreate()
         {
             SleepErrandRequest = GetEntityQuery(
-                ComponentType.ReadOnly<SleepStationOccupyRequestComponent>(),
+                ComponentType.ReadOnly<DeconstructErrandRequestComponent>(),
                 ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
-                ComponentType.Exclude<SleepStationOccupyErrandResultComponent>()
+                ComponentType.Exclude<DeconstructErrandResultComponent>()
                 );
         }
 
@@ -41,7 +40,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
                 return;
             }
             var errandEntities = SleepErrandRequest.ToEntityArrayAsync(Allocator.TempJob, out var entityJob);
-            var errandRequests = SleepErrandRequest.ToComponentDataArrayAsync<SleepStationOccupyRequestComponent>(Allocator.TempJob, out var errandJob);
+            var errandRequests = SleepErrandRequest.ToComponentDataArrayAsync<DeconstructErrandRequestComponent>(Allocator.TempJob, out var errandJob);
             var errandPositions = SleepErrandRequest.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.TempJob, out var originPositionJob);
             var dataGrab = JobHandle.CombineDependencies(entityJob, errandJob, originPositionJob);
             dataGrab.Complete();
@@ -64,13 +63,11 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
                 var didSetResult = new NativeArray<bool>(new[] { false }, Allocator.TempJob);
                 Entities
                     .WithReadOnly(regionMap)
-                    .WithNone<DeconstructBuildingClaimComponent>()
                     .ForEach((int entityInQueryIndex, Entity self,
-                        ref ErrandClaimComponent errandClaimed,
-                        in SleepStationOccupiedComponent sleepStation,
+                        ref DeconstructBuildingClaimComponent errandClaimed,
                         in UniversalCoordinatePositionComponent position) =>
                     {
-                        if (didSetResult[0] || errandClaimed.Claimed || sleepStation.Occupied)
+                        if (didSetResult[0] || errandClaimed.DeconstructClaimed)
                         {
                             return;
                         }
@@ -78,10 +75,10 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
                         {
                             return;
                         }
-                        errandClaimed.Claimed = true;
-                        commandBuffer.AddComponent(errandEntity, new SleepStationOccupyErrandResultComponent
+                        errandClaimed.DeconstructClaimed = true;
+                        commandBuffer.AddComponent(errandEntity, new DeconstructErrandResultComponent
                         {
-                            sleepTarget = self
+                            deconstructTarget = self
                         });
                         didSetResult[0] = true;
                     }).Schedule();

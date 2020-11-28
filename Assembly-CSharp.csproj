@@ -74,7 +74,6 @@
     <Compile Include="Assets\UI\ThingSelection\Display\IInterestingInfo.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityRowEditController.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileSet.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildGhostEntityErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\IErrandSource.cs" />
     <Compile Include="Assets\UI\Buttery Toast\ToastProvider.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Composite\Sequence.cs" />
@@ -113,7 +112,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\RootFactory.cs" />
     <Compile Include="Assets\MyUtilities.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\SelectorFactory.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerGenerationConfiguration.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\SquareCoordinate.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Sleeping\SleepUntilAwakeEnough.cs" />
@@ -131,7 +129,6 @@
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
-    <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BuildingDeconstructErrandManipulatorFlag.cs" />
     <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
@@ -155,7 +152,6 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GrowingThingController.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructBuildingFlag.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinate.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationUVCalculatorSystem.cs" />
@@ -201,7 +197,6 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\LeafFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanState.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandBoardOwner.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrandActivateSystem.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryVariable.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\CopiedMeshEditor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemSpawnCommandComponent.cs" />
@@ -269,7 +264,6 @@
     <Compile Include="Assets\Scripts\Clickable.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingParentComponent.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\ManipulationType\ManipulatorFlag.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandResultComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\RandomProviderComponent.cs" />
@@ -366,6 +360,13 @@
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\AreaSelectedSystemGroup.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructSelectedAreaSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrand\BuildEntityErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrand\BuildGhostEntityErrandSource.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrand\BuildErrandActivateSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructErrand\DeconstructErrand.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructErrand\DeconstructErrandRequestSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructErrand\DeconstructErrandSource.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructBuildingClaimComponent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WorkerGenerator
   m_EditorClassIdentifier: 
   nameGenerator: {fileID: 11400000, guid: ae65cb3cd258af74fb4c55041e63139a, type: 2}
-  prioritySettingCount: 4
+  prioritizableErrands: {fileID: 11400000, guid: a93c8993347c9094cbaed0003ad9f933, type: 2}
   defaultPrioritySetting: 2

@@ -10,7 +10,7 @@ using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine;
 
-namespace Assets.WorldObjects.Members.Buildings.DOTS
+namespace Assets.WorldObjects.Members.Buildings.DOTS.BuildErrand
 {
     public class BuildEntityErrand : IErrand
     {

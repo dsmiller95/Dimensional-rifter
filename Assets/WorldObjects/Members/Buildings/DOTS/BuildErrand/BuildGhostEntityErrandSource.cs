@@ -7,7 +7,7 @@ using Assets.WorldObjects.SaveObjects.SaveManager;
 using Unity.Entities;
 using UnityEngine;
 
-namespace Assets.WorldObjects.Members.Buildings.DOTS
+namespace Assets.WorldObjects.Members.Buildings.DOTS.BuildErrand
 {
     public class BuildGhostEntityErrandSource : MonoBehaviour, IErrandSource<BuildEntityErrand>, IErrandCompletionReciever<BuildEntityErrand>
     {
@@ -111,6 +111,5 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             var commandbuffer = commandbufferSystem.CreateCommandBuffer();
             commandbuffer.RemoveComponent<ErrandClaimComponent>(errand.toBeBuilt);
         }
-
     }
 }

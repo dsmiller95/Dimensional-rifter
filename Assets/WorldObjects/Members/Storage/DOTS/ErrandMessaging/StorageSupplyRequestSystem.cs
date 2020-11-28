@@ -1,5 +1,6 @@
 ﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
+using Assets.WorldObjects.Members.Buildings.DOTS;
 using Assets.WorldObjects.Members.Items.DOTS;
 using Unity.Collections;
 using Unity.Entities;
@@ -65,6 +66,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
                 NativeHashMap<int, ItemAmountSourceRepresentation> availableResourceTargets = new NativeHashMap<int, ItemAmountSourceRepresentation>(System.Enum.GetValues(typeof(Resource)).Length, Allocator.TempJob);
                 Entities
                     .WithReadOnly(regionMap)
+                    .WithNone<DeconstructBuildingClaimComponent>()
                     .ForEach((int entityInQueryIndex, Entity self,
                         in UniversalCoordinatePositionComponent position,
                         in ItemSourceTypeComponent itemType,
@@ -102,6 +104,7 @@ namespace Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging
 
                 Entities
                     .WithReadOnly(regionMap)
+                    .WithNone<DeconstructBuildingClaimComponent>()
                     .ForEach((int entityInQueryIndex, Entity self,
                         in UniversalCoordinatePositionComponent position,
                         in SupplyTypeComponent storageType,
