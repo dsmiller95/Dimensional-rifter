@@ -3,10 +3,12 @@ using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.Scripts.ResourceManagement;
 using Assets.WorldObjects.Inventories;
 using BehaviorTree.Nodes;
+using System;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Storage
 {
+    [Obsolete("Use entities")]
     public class StoreErrand : IErrand
     {
         private StoreErrandType errandType;

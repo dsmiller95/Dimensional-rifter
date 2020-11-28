@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.WorldObjects.Members.Food.DOTS.GrowingThingErrand
 {
     public class GrowingHarvestErrandSource :
-        BasicErrandSource<GrowingHarvesErrand, GrowingHarvestErrandRequestComponent, GrowingHarvestErrandResultComponent>
+        BasicErrandSource<GrowingHarvestErrand, GrowingHarvestErrandRequestComponent, GrowingHarvestErrandResultComponent>
     {
         protected override GrowingHarvestErrandRequestComponent GenerateRequestComponent(GameObject errandExecutor)
         {
@@ -15,11 +15,11 @@ namespace Assets.WorldObjects.Members.Food.DOTS.GrowingThingErrand
             };
         }
 
-        protected override GrowingHarvesErrand GenerateErrandFromResponse(
+        protected override GrowingHarvestErrand GenerateErrandFromResponse(
             GrowingHarvestErrandResultComponent response,
             GameObject errandExecutor)
         {
-            return new GrowingHarvesErrand(response, World.DefaultGameObjectInjectionWorld, errandExecutor, this);
+            return new GrowingHarvestErrand(response, World.DefaultGameObjectInjectionWorld, errandExecutor, this);
         }
     }
 }

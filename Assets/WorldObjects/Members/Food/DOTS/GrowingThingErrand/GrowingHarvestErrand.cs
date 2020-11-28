@@ -14,15 +14,15 @@ using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food.DOTS.GrowingThingErrand
 {
-    public class GrowingHarvesErrand :
-        BasicErrand<GrowingHarvestErrandResultComponent, GrowingHarvesErrand>
+    public class GrowingHarvestErrand :
+        BasicErrand<GrowingHarvestErrandResultComponent, GrowingHarvestErrand>
     {
         private LooseItemSpawnSystem itemSpawnSystem => entityWorld.GetOrCreateSystem<LooseItemSpawnSystem>();
-        public GrowingHarvesErrand(
+        public GrowingHarvestErrand(
             GrowingHarvestErrandResultComponent errandResult,
             World entityWorld,
             GameObject actor,
-            IErrandCompletionReciever<GrowingHarvesErrand> completionReciever)
+            IErrandCompletionReciever<GrowingHarvestErrand> completionReciever)
             : base(errandResult, entityWorld, actor, completionReciever)
         {
         }
