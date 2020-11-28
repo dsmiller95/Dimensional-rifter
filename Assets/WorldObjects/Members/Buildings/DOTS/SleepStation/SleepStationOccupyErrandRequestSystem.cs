@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.DOTS.ErrandClaims;
+using Assets.Tiling;
 using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
 using Unity.Collections;
@@ -18,93 +19,49 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.SleepStation
     }
 
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class SleepStationOccupyErrandRequestSystem : SystemBase
+    public class SleepStationOccupyErrandRequestSystem : ErrandRequestSystem<SleepStationOccupyRequestComponent, SleepStationOccupyErrandResultComponent>
     {
-        private EntityQuery SleepErrandRequest;
-
-        protected override void OnCreate()
+        protected override bool PreCheckRequest(in SleepStationOccupyRequestComponent requestData)
         {
-            SleepErrandRequest = GetEntityQuery(
-                ComponentType.ReadOnly<SleepStationOccupyRequestComponent>(),
-                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
-                ComponentType.Exclude<SleepStationOccupyErrandResultComponent>()
-                );
+            return requestData.DataIsSet;
         }
 
-        EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-        ConnectivityEntitySystem ConnectivitySystem => World.GetOrCreateSystem<ConnectivityEntitySystem>();
-        protected override void OnUpdate()
+        protected override void CheckJob(
+            Entity requestEntity,
+            SleepStationOccupyRequestComponent requestData,
+            uint requestRegion,
+            NativeHashMap<UniversalCoordinate, uint> regionMap,
+            EntityCommandBuffer commandBuffer)
         {
-            var connectionSystem = ConnectivitySystem;
-            if (SleepErrandRequest.IsEmpty || !connectionSystem.HasRegionMaps)
-            {
-                return;
-            }
-            var errandEntities = SleepErrandRequest.ToEntityArrayAsync(Allocator.TempJob, out var entityJob);
-            var errandRequests = SleepErrandRequest.ToComponentDataArrayAsync<SleepStationOccupyRequestComponent>(Allocator.TempJob, out var errandJob);
-            var errandPositions = SleepErrandRequest.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.TempJob, out var originPositionJob);
-            var dataGrab = JobHandle.CombineDependencies(entityJob, errandJob, originPositionJob);
-            dataGrab.Complete();
-
-            var commandBuffer = finishedRequestBufferSystem.CreateCommandBuffer();
-            var regionMap = connectionSystem.Regions;
-
-            for (var errandIndex = 0; errandIndex < errandRequests.Length; errandIndex++)
-            {
-                var errandRequest = errandRequests[errandIndex];
-                if (!errandRequest.DataIsSet)
+            var didSetResult = new NativeArray<bool>(new[] { false }, Allocator.TempJob);
+            Entities
+                .WithReadOnly(regionMap)
+                .WithNone<DeconstructBuildingClaimComponent>()
+                .ForEach((int entityInQueryIndex, Entity self,
+                    ref ErrandClaimComponent errandClaimed,
+                    in SleepStationOccupiedComponent sleepStation,
+                    in UniversalCoordinatePositionComponent position) =>
                 {
-                    continue;
-                }
-                if (!regionMap.TryGetValue(errandPositions[errandIndex].Value, out var requestOriginRegion))
-                {
-                    continue; // if request is not in a mapped region, skip
-                }
-                var errandEntity = errandEntities[errandIndex];
-                var didSetResult = new NativeArray<bool>(new[] { false }, Allocator.TempJob);
-                Entities
-                    .WithReadOnly(regionMap)
-                    .WithNone<DeconstructBuildingClaimComponent>()
-                    .ForEach((int entityInQueryIndex, Entity self,
-                        ref ErrandClaimComponent errandClaimed,
-                        in SleepStationOccupiedComponent sleepStation,
-                        in UniversalCoordinatePositionComponent position) =>
+                    if (didSetResult[0] || errandClaimed.Claimed || sleepStation.Occupied)
                     {
-                        if (didSetResult[0] || errandClaimed.Claimed || sleepStation.Occupied)
-                        {
-                            return;
-                        }
-                        if (!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & requestOriginRegion) == 0)
-                        {
-                            return;
-                        }
-                        errandClaimed.Claimed = true;
-                        commandBuffer.AddComponent(errandEntity, new SleepStationOccupyErrandResultComponent
-                        {
-                            sleepTarget = self
-                        });
-                        didSetResult[0] = true;
-                    }).Schedule();
-                Dependency = Job
-                    .WithBurst()
-                    .WithDisposeOnCompletion(didSetResult)
-                    .WithCode(() =>
+                        return;
+                    }
+                    if (!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & requestRegion) == 0)
                     {
-                        if (!didSetResult[0])
-                        {
-                            commandBuffer.DestroyEntity(errandEntity);
-                        }
-                    })
-                    .Schedule(Dependency);
-            }
-
-            finishedRequestBufferSystem.AddJobHandleForProducer(Dependency);
-
-            Dependency = JobHandle.CombineDependencies(
-                errandPositions.Dispose(Dependency),
-                errandEntities.Dispose(Dependency),
-                errandRequests.Dispose(Dependency)
-                );
+                        return;
+                    }
+                    errandClaimed.Claimed = true;
+                    commandBuffer.AddComponent(requestEntity, new SleepStationOccupyErrandResultComponent
+                    {
+                        sleepTarget = self
+                    });
+                    didSetResult[0] = true;
+                }).Schedule();
+            Job.WithBurst().WithDisposeOnCompletion(didSetResult).WithCode(() =>
+            {
+                if (!didSetResult[0])
+                    commandBuffer.DestroyEntity(requestEntity);
+            }).Schedule();
         }
     }
 }

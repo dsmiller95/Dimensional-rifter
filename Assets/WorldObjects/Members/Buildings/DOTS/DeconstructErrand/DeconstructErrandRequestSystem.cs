@@ -1,4 +1,5 @@
-﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
+﻿using Assets.Scripts.DOTS.ErrandClaims;
+using Assets.Tiling;
 using Assets.WorldObjects.DOTSMembers;
 using Unity.Collections;
 using Unity.Entities;
@@ -17,91 +18,46 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.DeconstructErrand
     }
 
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class DeconstructErrandRequestSystem : SystemBase
+    public class DeconstructErrandRequestSystem : ErrandRequestSystem<DeconstructErrandRequestComponent, DeconstructErrandResultComponent>
     {
-        private EntityQuery SleepErrandRequest;
-
-        protected override void OnCreate()
+        protected override bool PreCheckRequest(in DeconstructErrandRequestComponent requestData)
         {
-            SleepErrandRequest = GetEntityQuery(
-                ComponentType.ReadOnly<DeconstructErrandRequestComponent>(),
-                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
-                ComponentType.Exclude<DeconstructErrandResultComponent>()
-                );
+            return requestData.DataIsSet;
         }
-
-        EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-        ConnectivityEntitySystem ConnectivitySystem => World.GetOrCreateSystem<ConnectivityEntitySystem>();
-        protected override void OnUpdate()
+        protected override void CheckJob(
+            Entity requestEntity,
+            DeconstructErrandRequestComponent requestData,
+            uint requestRegion,
+            NativeHashMap<UniversalCoordinate, uint> regionMap,
+            EntityCommandBuffer commandBuffer)
         {
-            var connectionSystem = ConnectivitySystem;
-            if (SleepErrandRequest.IsEmpty || !connectionSystem.HasRegionMaps)
-            {
-                return;
-            }
-            var errandEntities = SleepErrandRequest.ToEntityArrayAsync(Allocator.TempJob, out var entityJob);
-            var errandRequests = SleepErrandRequest.ToComponentDataArrayAsync<DeconstructErrandRequestComponent>(Allocator.TempJob, out var errandJob);
-            var errandPositions = SleepErrandRequest.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.TempJob, out var originPositionJob);
-            var dataGrab = JobHandle.CombineDependencies(entityJob, errandJob, originPositionJob);
-            dataGrab.Complete();
-
-            var commandBuffer = finishedRequestBufferSystem.CreateCommandBuffer();
-            var regionMap = connectionSystem.Regions;
-
-            for (var errandIndex = 0; errandIndex < errandRequests.Length; errandIndex++)
-            {
-                var errandRequest = errandRequests[errandIndex];
-                if (!errandRequest.DataIsSet)
+            var didSetResult = new NativeArray<bool>(new[] { false }, Allocator.TempJob);
+            Entities
+                .WithReadOnly(regionMap)
+                .ForEach((int entityInQueryIndex, Entity self,
+                    ref DeconstructBuildingClaimComponent errandClaimed,
+                    in UniversalCoordinatePositionComponent position) =>
                 {
-                    continue;
-                }
-                if (!regionMap.TryGetValue(errandPositions[errandIndex].Value, out var requestOriginRegion))
-                {
-                    continue; // if request is not in a mapped region, skip
-                }
-                var errandEntity = errandEntities[errandIndex];
-                var didSetResult = new NativeArray<bool>(new[] { false }, Allocator.TempJob);
-                Entities
-                    .WithReadOnly(regionMap)
-                    .ForEach((int entityInQueryIndex, Entity self,
-                        ref DeconstructBuildingClaimComponent errandClaimed,
-                        in UniversalCoordinatePositionComponent position) =>
+                    if (didSetResult[0] || errandClaimed.DeconstructClaimed)
                     {
-                        if (didSetResult[0] || errandClaimed.DeconstructClaimed)
-                        {
-                            return;
-                        }
-                        if (!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & requestOriginRegion) == 0)
-                        {
-                            return;
-                        }
-                        errandClaimed.DeconstructClaimed = true;
-                        commandBuffer.AddComponent(errandEntity, new DeconstructErrandResultComponent
-                        {
-                            deconstructTarget = self
-                        });
-                        didSetResult[0] = true;
-                    }).Schedule();
-                Dependency = Job
-                    .WithBurst()
-                    .WithDisposeOnCompletion(didSetResult)
-                    .WithCode(() =>
+                        return;
+                    }
+                    if (!regionMap.TryGetValue(position.Value, out var itemSourceRegion) || (itemSourceRegion & requestRegion) == 0)
                     {
-                        if (!didSetResult[0])
-                        {
-                            commandBuffer.DestroyEntity(errandEntity);
-                        }
-                    })
-                    .Schedule(Dependency);
-            }
-
-            finishedRequestBufferSystem.AddJobHandleForProducer(Dependency);
-
-            Dependency = JobHandle.CombineDependencies(
-                errandPositions.Dispose(Dependency),
-                errandEntities.Dispose(Dependency),
-                errandRequests.Dispose(Dependency)
-                );
+                        return;
+                    }
+                    errandClaimed.DeconstructClaimed = true;
+                    commandBuffer.AddComponent(requestEntity, new DeconstructErrandResultComponent
+                    {
+                        deconstructTarget = self
+                    });
+                    didSetResult[0] = true;
+                }).Schedule();
+            Job.WithBurst().WithDisposeOnCompletion(didSetResult).WithCode(() =>
+            {
+                if (!didSetResult[0])
+                    commandBuffer.DestroyEntity(requestEntity);
+            }).Schedule();
         }
     }
 }
