@@ -368,6 +368,7 @@
      <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructErrand\DeconstructErrandSource.cs" />
      <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructBuildingClaimComponent.cs" />
      <Compile Include="Assets\Scripts\DOTS\ErrandClaims\ErrandRequestSystem.cs" />
+     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BasicErrandSource.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

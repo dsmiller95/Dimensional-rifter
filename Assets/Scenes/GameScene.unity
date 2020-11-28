@@ -562,7 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7866d58b38e1c78439863b4010936796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sleepingErrandSource: {fileID: 11400000, guid: a6be00d5945444847bc586ce4b4a63e8, type: 2}
+  errandSourceType: {fileID: 11400000, guid: a6be00d5945444847bc586ce4b4a63e8, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
 --- !u!4 &250634796
 Transform:
@@ -3116,7 +3116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb2c8a2872280a4a9f93a63f6456eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatingErrandType: {fileID: 11400000, guid: 43568c3970b7cef489661d014a6c21ac, type: 2}
+  errandSourceType: {fileID: 11400000, guid: 43568c3970b7cef489661d014a6c21ac, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
 --- !u!4 &1063286459
 Transform:
@@ -3493,7 +3493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23b236bac965774b8ed74875708258c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deconstructErrandSource: {fileID: 11400000, guid: 44c517dc7249cac4b84becc2b2f6b67b, type: 2}
+  errandSourceType: {fileID: 11400000, guid: 44c517dc7249cac4b84becc2b2f6b67b, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
 --- !u!4 &1249129089
 Transform:
