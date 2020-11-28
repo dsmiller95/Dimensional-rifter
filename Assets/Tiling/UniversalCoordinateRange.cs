@@ -72,6 +72,8 @@ namespace Assets.Tiling
             }
         }
 
+        public bool IsValid => rangeType != CoordinateRangeType.INVALID;
+
         public bool Equals(UniversalCoordinateRange other)
         {
             if (other.rangeType != rangeType)
@@ -166,6 +168,7 @@ namespace Assets.Tiling
             }
         }
 
+        #region static constructors
         public static UniversalCoordinateRange From(TriangleTriangleCoordinateRange b)
         {
             return new UniversalCoordinateRange
@@ -191,6 +194,31 @@ namespace Assets.Tiling
             };
         }
 
+        /// <summary>
+        /// Returns the default range used for each coordinate type; which uses two points to define its bounds
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static UniversalCoordinateRange From(UniversalCoordinate a, UniversalCoordinate b)
+        {
+            if(a.CoordinateMembershipData != b.CoordinateMembershipData)
+            {
+                return default;
+            }
+            switch (a.type)
+            {
+                case CoordinateType.TRIANGLE:
+                    return From(TriangleRhomboidCoordinateRange.FromCoordsInclusive(a.triangleDataView, b.triangleDataView));
+                case CoordinateType.SQUARE:
+                    return From(RectCoordinateRange.FromCoordsInclusive(a.squareDataView, b.squareDataView));
+                default:
+                    return default;
+            }
+        }
+        #endregion
+
+        #region Serialization
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("data1", rangeDataPartOne);
@@ -211,6 +239,22 @@ namespace Assets.Tiling
             rangeDataPartTwo = info.GetInt64("data2");
             rangeDataPartThree = info.GetInt64("data3");
             rangeType = (CoordinateRangeType)info.GetInt16("rangeType");
+        }
+        #endregion
+
+        public override string ToString()
+        {
+            switch (rangeType)
+            {
+                case CoordinateRangeType.TRIANGLE:
+                    return triangleDataView.ToString();
+                case CoordinateRangeType.TRIANGLE_RHOMBOID:
+                    return triangeRhomboidDataView.ToString();
+                case CoordinateRangeType.RECTANGLE:
+                    return rectangleDataView.ToString();
+                default:
+                    return "Invalid Range";
+            }
         }
     }
 }

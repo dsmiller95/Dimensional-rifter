@@ -69,6 +69,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetResourceFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Wall\DOTS\IsBuildingFlag.cs" />
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\ErrandClaimComponent.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedRangeComponent.cs" />
     <Compile Include="Assets\Scripts\Core\FloatVariable.cs" />
     <Compile Include="Assets\UI\ThingSelection\Display\IInterestingInfo.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityRowEditController.cs" />
@@ -130,11 +131,13 @@
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
+    <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BuildingDeconstructErrandManipulatorFlag.cs" />
     <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
     <Compile Include="Assets\Scripts\ResourceManagement\LimitedMultiResourcePool.cs" />
     <Compile Include="Assets\Tiling\TileAutomata\AutomataSystem.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickSelector\DragEventComponent.cs" />
     <Compile Include="Assets\Tiling\SquareCoords\RectCoordinateRange.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\SquareTileSet.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\SequenceFactory.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\StorageErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\GrowingThingController.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructBuildingFlag.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinate.cs" />
     <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationUVCalculatorSystem.cs" />
@@ -226,6 +230,8 @@
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\WaitForECSResponse.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindPathToBakedTarget.cs" />
     <Compile Include="Assets\Scripts\ObjectVariables\InventoryState.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\DragSelectAreaVisualizerSystem.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\MapManipulatorVisualizerTriggers.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\SetRandomWalkTarget.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\ResourceItemType.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\ResetIfStatus.cs" />
@@ -237,6 +243,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Pathing\FindRandomWalkPathFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\NavigateToTarget.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\DOTS\EatingErrand\SpecificResourceConsumeErrandRequestSystem.cs" />
+    <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickEventFlagComponent.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Blackboard.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ComponentMemberLeaf.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\ISaveable.cs" />
@@ -262,15 +269,17 @@
     <Compile Include="Assets\Scripts\Clickable.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildingParentComponent.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\ManipulationType\ManipulatorFlag.cs" />
     <Compile Include="Assets\Tiling\HexCoords\VoroniTilingMapper.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ErrandMessaging\StorageSupplyErrandResultComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\RandomProviderComponent.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationRenderMesh.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\RestingTaskType.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerFlagComponent.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSourceType.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
-    <Compile Include="Assets\Tiling\CoordinateRange.cs" />
+    <Compile Include="Assets\Tiling\UniversalCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingComponent.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
@@ -355,13 +364,8 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\DragSelectAreaVisualizerSystem.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedRangeComponent.cs" />
-    <Compile Include="Assets\UI\ThingSelection\ClickSelector\DragEventComponent.cs" />
-    <Compile Include="Assets\UI\ThingSelection\ClickSelector\ClickEventFlagComponent.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerFlagComponent.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\MapManipulatorVisualizerTriggers.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedAreaManipulationSystem.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\AreaSelectedSystemGroup.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\DeconstructSelectedAreaSystem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

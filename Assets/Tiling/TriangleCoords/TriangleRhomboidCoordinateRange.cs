@@ -43,6 +43,16 @@ namespace Assets.Tiling.TriangleCoords
                 vSize = endCoord.v - startCoord.v
             };
         }
+        public static TriangleRhomboidCoordinateRange FromCoordsInclusive(TriangleCoordinate startCoord, TriangleCoordinate endCoord)
+        {
+            EnsureCoordOrdering(ref startCoord, ref endCoord);
+            return new TriangleRhomboidCoordinateRange()
+            {
+                coord0 = startCoord,
+                uSize = endCoord.u - startCoord.u + 1,
+                vSize = endCoord.v - startCoord.v + 1
+            };
+        }
 
         [FieldOffset(0)] public TriangleCoordinate coord0;
         [FieldOffset(12)] public int uSize;

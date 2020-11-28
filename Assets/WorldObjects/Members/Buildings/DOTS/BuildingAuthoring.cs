@@ -62,7 +62,8 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             });
             dstManager.AddComponentData(controllerEntity, new BuildingParentComponent
             {
-                buildingEntity = buildingEntity
+                buildingEntity = buildingEntity,
+                isBuilt = false
             });
             dstManager.AddComponent<Disabled>(controllerEntity);
 

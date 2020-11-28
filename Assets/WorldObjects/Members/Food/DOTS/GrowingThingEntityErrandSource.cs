@@ -14,7 +14,6 @@ namespace Assets.WorldObjects.Members.Food.DOTS
         public ErrandType ErrandType => harvestErrandType;
         public ErrandBoard errandBoard;
 
-
         private EntityQuery ErrandTargetQuery;
         EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         ConnectivityEntitySystem ConnectivitySystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ConnectivityEntitySystem>();

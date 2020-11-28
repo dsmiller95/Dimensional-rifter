@@ -9,7 +9,7 @@ using Unity.Transforms;
 namespace Assets.UI.Manipulators.Scripts.SelectedArea
 {
     [UpdateInGroup(typeof(InitializationSystemGroup))]
-    [UpdateBefore(typeof(SelectedAreaManipulationSystem))]
+    [UpdateBefore(typeof(AreaSelectedSystemGroup))]
     public class DragSelectAreaVisualizerSystem : SystemBase
     {
         EntityCommandBufferSystem commandBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
