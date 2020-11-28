@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetCalories.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingEntityErrandSource.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
@@ -348,7 +347,6 @@
     <Compile Include="Assets\Scripts\Core\GenericVariable.cs" />
     <Compile Include="Assets\Scripts\Core\GameObjectVariable.cs" />
     <Compile Include="Assets\UI\Priorities\PriorityHolderSet.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\HarvestEntityErrand.cs" />
     <Compile Include="Assets\WorldObjects\GameTimeOwner.cs" />
     <Compile Include="Assets\WorldObjects\GameTime.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\WorldSaveManager.cs" />
@@ -371,6 +369,9 @@
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BasicErrandSource.cs" />
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BasicErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\BuildErrand\BuildErrandRequestSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingErrand\GrowingHarvestErrandRequestSystem.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingErrand\GrowingHarvestErrandSource.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingErrand\GrowingHarvestErrand.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

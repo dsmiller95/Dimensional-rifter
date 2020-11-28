@@ -249,10 +249,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 131557007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c54a0080ac115409964810f6b55f7e, type: 3}
+  m_Script: {fileID: 11500000, guid: 03f54d85a11c7704fb3d03e7aa57843a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  harvestErrandType: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}
+  errandSourceType: {fileID: 11400000, guid: cb483d9c42faffc4dae8c77f0e22fcd2, type: 2}
   errandBoard: {fileID: 11400000, guid: e76b50e94c59f7e40b7adff18d11350b, type: 2}
 --- !u!4 &131557009
 Transform:
