@@ -7,7 +7,6 @@ using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
-using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -64,7 +63,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 BlockingTilesRatioEstimate = ((float)totalBlockedPositions) / lastTotalTiles;
 
                 DisposeAllWorkingData();
-                Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking");
+                //Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking");
                 regionConnectivityDep = null;
             }
         }

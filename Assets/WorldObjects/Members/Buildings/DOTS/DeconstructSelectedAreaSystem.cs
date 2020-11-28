@@ -20,6 +20,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
                 ComponentType.ReadOnly<DragEventCompleteFlagComponent>(),
                 ComponentType.ReadOnly<DragEventComponent>(),
                 ComponentType.ReadOnly<UniversalCoordinatePositionComponent>());
+            Enabled = false;
         }
 
         protected override void OnUpdate()

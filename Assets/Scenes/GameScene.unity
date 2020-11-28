@@ -871,7 +871,7 @@ RectTransform:
   - {fileID: 1019613977}
   - {fileID: 261729816}
   - {fileID: 1671610720}
-  - {fileID: 499727763}
+  - {fileID: 512458940}
   m_Father: {fileID: 936858387}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1736,7 +1736,7 @@ GameObject:
   - component: {fileID: 499727766}
   - component: {fileID: 499727764}
   m_Layer: 5
-  m_Name: Enable Errands
+  m_Name: Deconstruct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1749,17 +1749,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499727762}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 873715515}
-  m_Father: {fileID: 332394685}
-  m_RootOrder: 4
+  m_Father: {fileID: 512458940}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 420, y: 0}
+  m_AnchoredPosition: {x: 11, y: 0}
   m_SizeDelta: {x: 133.40645, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &499727764
@@ -1771,9 +1771,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 499727762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83fa13596a68e4c44936aa2c6ed32593, type: 3}
+  m_Script: {fileID: 11500000, guid: df67fece68be7a24daf4806174e6bc1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  variableToSet: {fileID: 11400000, guid: 56ef055aadf016f4485323e1eb196bbf, type: 2}
+  objectToAssign: {fileID: 11400000, guid: 09c7b1179b52da84a8ff2796144daf14, type: 2}
+  AssignOnInit: 0
 --- !u!114 &499727766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,10 +1821,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 499727764}
-        m_TargetAssemblyTypeName: Assets.UI.Manipulators.Scripts.MapManipulatorVisualizerTriggers,
+        m_TargetAssemblyTypeName: Assets.Scripts.VariableOperators.ScriptableObjectAssigner,
           Assembly-CSharp
-        m_MethodName: SetDragVisualizerActive
-        m_Mode: 6
+        m_MethodName: SetToVariable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1868,6 +1871,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499727762}
   m_CullTransparentMesh: 0
+--- !u!1 &512458939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 512458940}
+  m_Layer: 5
+  m_Name: RegionSelectors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &512458940
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512458939}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 499727763}
+  m_Father: {fileID: 332394685}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -191.9, y: 0}
+  m_SizeDelta: {x: 383.79352, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2715,7 +2754,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Set Errand
+  m_text: Deconstruct
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

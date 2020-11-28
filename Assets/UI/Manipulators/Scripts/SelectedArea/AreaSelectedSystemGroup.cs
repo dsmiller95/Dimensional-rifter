@@ -1,7 +1,6 @@
 ﻿using Assets.UI.ThingSelection.ClickSelector;
 using Assets.WorldObjects.DOTSMembers;
 using Unity.Entities;
-using UnityEngine;
 
 namespace Assets.UI.Manipulators.Scripts
 {
@@ -28,9 +27,16 @@ namespace Assets.UI.Manipulators.Scripts
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            Debug.Log("group updated");
             var buffer = commandBufferSystem.CreateCommandBuffer();
             buffer.DestroyEntity(completedDragQuery);
+        }
+
+        public void DisableSystemsInGroup()
+        {
+            foreach (var system in Systems)
+            {
+                system.Enabled = false;
+            }
         }
     }
 }
