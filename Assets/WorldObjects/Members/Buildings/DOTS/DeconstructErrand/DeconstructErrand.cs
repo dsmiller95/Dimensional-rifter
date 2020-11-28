@@ -50,7 +50,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.DeconstructErrand
                     actor,
                     targetCoordinates.Value,
                     "Path",
-                    false),
+                    true),
                 new NavigateToTarget(
                     actor,
                     "Path",
