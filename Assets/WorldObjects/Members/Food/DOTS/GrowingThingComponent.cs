@@ -24,6 +24,10 @@ namespace Assets.WorldObjects.Members.Food.DOTS
             return Grown;
         }
 
+        /// <summary>
+        /// clears the grown amount. Returns based on what the grown amount was before it was cleared
+        /// </summary>
+        /// <returns>True when the entity was actually ready to be harvested, false otherwise</returns>
         public bool AfterHarvested()
         {
             var result = Grown;

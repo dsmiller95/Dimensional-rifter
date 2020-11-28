@@ -13,13 +13,14 @@ namespace Assets.WorldObjects.Members.Food.DOTS
         protected override void OnUpdate()
         {
             var deltaTime = Time.DeltaTime;
+            // tick up every growing thing that can grow
             Dependency = Entities
                     .WithNone<ErrandClaimComponent>()
-                .ForEach((int entityInQueryIndex, Entity self, ref GrowingThingComponent growingThing) =>
+                .ForEach((ref GrowingThingComponent growingThing) =>
                 {
                     var newGrowth = deltaTime * growingThing.growthPerSecond + growingThing.currentGrowth;
                     growingThing.SetGrownAmount(newGrowth);
-                }).Schedule(Dependency);
+                }).ScheduleParallel(Dependency);
 
 
             var allRenderMeshes = new List<AnimationRenderMesh>();
@@ -31,6 +32,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                 var animationRenderMesh = allRenderMeshes[index];
 
                 var totalFramesInMesh = animationRenderMesh.totalFrames;
+                // set animation frame based on growth; and mark all grown growers as having a claimable errand
                 Dependency = Entities
                     .WithNone<ErrandClaimComponent>()
                     .WithSharedComponentFilter(animationRenderMesh)
@@ -48,7 +50,7 @@ namespace Assets.WorldObjects.Members.Food.DOTS
                         {
                             animationIndex.SetPageAsFloatInRange(growingThing.currentGrowth, growingThing.finalGrowthAmount, totalFramesInMesh - 1);
                         }
-                    }).Schedule(Dependency);
+                    }).ScheduleParallel(Dependency);
             }
 
             errandAvailabilityCommandSystem.AddJobHandleForProducer(Dependency);
