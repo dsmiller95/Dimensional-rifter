@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.Tiling;
 using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Wall.DOTS;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;

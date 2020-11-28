@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.DOTS.ErrandClaims;
 using Assets.Tiling;
-using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
 using Assets.WorldObjects.DOTSMembers;
 using Unity.Collections;
 using Unity.Entities;

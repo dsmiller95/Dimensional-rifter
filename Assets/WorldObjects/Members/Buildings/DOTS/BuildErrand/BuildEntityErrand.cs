@@ -52,7 +52,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.BuildErrand
                     var commandbuffer = commandBufferSystem.CreateCommandBuffer();
 
                     BuildTarget(manager, commandbuffer);
-                    this.errandClaimCleared = true;
+                    errandClaimCleared = true;
 
                     BehaviorCompleted = true;
                     completionReciever.ErrandCompleted(this);
@@ -64,7 +64,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.BuildErrand
         private bool errandClaimCleared = false;
         private void BuildTarget(EntityManager manager, EntityCommandBuffer commandBuffer)
         {
-            var buildingComponent = this.errandResult.constructTarget;
+            var buildingComponent = errandResult.constructTarget;
             manager.RemoveChunkComponent<ChunkWorldRenderBounds>(buildingComponent);
             manager.RemoveComponent<RenderBounds>(buildingComponent);
 

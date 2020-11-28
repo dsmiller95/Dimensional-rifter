@@ -11,7 +11,7 @@ namespace Assets.Scripts.DOTS.ErrandClaims
 {
     public abstract class BasicErrandSource<E, Request, Response> :
         MonoBehaviour, IErrandSource<E>, IErrandCompletionReciever<E>
-        where E: IErrand
+        where E : IErrand
         where Request : unmanaged, IComponentData
         where Response : unmanaged, IComponentData
     {

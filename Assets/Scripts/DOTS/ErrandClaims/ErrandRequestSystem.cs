@@ -10,7 +10,7 @@ namespace Assets.Scripts.DOTS.ErrandClaims
 
     public abstract class ErrandRequestSystem<Request, Response> : SystemBase
         where Request : unmanaged, IComponentData
-        where Response: unmanaged, IComponentData
+        where Response : unmanaged, IComponentData
     {
         private EntityQuery ErrandRequestQuery;
         EntityCommandBufferSystem finishedRequestBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
@@ -54,9 +54,9 @@ namespace Assets.Scripts.DOTS.ErrandClaims
                 }
                 var errandEntity = errandEntities[errandIndex];
                 CheckJob(
-                    errandEntity, 
-                    errandRequest, 
-                    requestOriginRegion, 
+                    errandEntity,
+                    errandRequest,
+                    requestOriginRegion,
                     regionMap,
                     commandBuffer);
             }

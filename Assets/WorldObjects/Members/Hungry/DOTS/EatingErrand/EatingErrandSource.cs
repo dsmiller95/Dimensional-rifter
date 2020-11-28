@@ -1,9 +1,4 @@
-﻿using Assets.Behaviors.Errands.Scripts;
-using Assets.Scripts.DOTS.ErrandClaims;
-using Assets.WorldObjects.DOTSMembers;
-using Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging;
-using Assets.WorldObjects.SaveObjects.SaveManager;
-using BehaviorTree.Nodes;
+﻿using Assets.Scripts.DOTS.ErrandClaims;
 using Unity.Entities;
 using UnityEngine;
 
@@ -26,7 +21,7 @@ namespace Assets.WorldObjects.Members.Hungry.DOTS.EatingErrand
         }
 
         protected override EatingEntityErrand GenerateErrandFromResponse(
-            SpecificResourceErrandResultComponent response, 
+            SpecificResourceErrandResultComponent response,
             GameObject errandExecutor)
         {
             return new EatingEntityErrand(response, World.DefaultGameObjectInjectionWorld, errandExecutor, this);

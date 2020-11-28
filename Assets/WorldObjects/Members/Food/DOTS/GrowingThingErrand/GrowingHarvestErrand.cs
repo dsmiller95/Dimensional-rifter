@@ -1,15 +1,10 @@
 ﻿using Assets.Behaviors.Errands.Scripts;
 using Assets.Behaviors.Scripts.BehaviorTree.GameNode;
 using Assets.Scripts.DOTS.ErrandClaims;
-using Assets.UI.ThingSelection;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Items.DOTS;
-using Assets.WorldObjects.Members.Storage.DOTS;
-using Assets.WorldObjects.Members.Wall.DOTS;
 using BehaviorTree.Nodes;
 using Unity.Entities;
-using Unity.Rendering;
-using Unity.Transforms;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Members.Food.DOTS.GrowingThingErrand

@@ -202,7 +202,7 @@ namespace Assets.Tiling
         /// <returns></returns>
         public static UniversalCoordinateRange From(UniversalCoordinate a, UniversalCoordinate b)
         {
-            if(a.CoordinateMembershipData != b.CoordinateMembershipData)
+            if (a.CoordinateMembershipData != b.CoordinateMembershipData)
             {
                 return default;
             }
