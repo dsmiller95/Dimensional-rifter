@@ -17,8 +17,8 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
         EntityQuery dragEventQuery;
         EntityQuery dragCompleteQuery;
 
-        EntityQuery disabledVisualizerQuery;
-        EntityQuery enabledVisualizerQuery;
+        EntityQuery visualizerPrefabQuery;
+        EntityQuery visualizerSpawnedQuery;
 
         protected override void OnCreate()
         {
@@ -35,15 +35,9 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
                 ComponentType.ReadOnly<DragEventCompleteFlagComponent>()
                 );
 
-            disabledVisualizerQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new ComponentType[] { ComponentType.ReadOnly<SelectedAreaVisualizerFlagComponent>(), ComponentType.ReadOnly<Disabled>() },
-                Options = EntityQueryOptions.IncludeDisabled
-            });
-            enabledVisualizerQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new ComponentType[] { ComponentType.ReadOnly<SelectedAreaVisualizerFlagComponent>() }
-            });
+            visualizerPrefabQuery = GetEntityQuery(typeof(SelectedAreaVisualizerPrefabComponent));
+            visualizerSpawnedQuery = GetEntityQuery(typeof(SelectedAreaVisualizerFlagComponent));
+            Enabled = false;
         }
 
         public void SetVisualizerEnabled(bool enabled, EntityCommandBuffer? commandBuffer = null)
@@ -55,19 +49,9 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
             if (!commandBuffer.HasValue)
                 commandBuffer = commandBufferSystem.CreateCommandBuffer();
             Enabled = enabled;
-            SetQueryEnabled(enabled, commandBuffer.Value, disabledVisualizerQuery, enabledVisualizerQuery);
-        }
 
-        private static void SetQueryEnabled(bool visible, EntityCommandBuffer commandBuffer, EntityQuery disabledQuery, EntityQuery enabledQuery)
-        {
-            if (visible == true)
-            {
-                commandBuffer.RemoveComponent<Disabled>(disabledQuery);
-            }
-            else
-            {
-                commandBuffer.AddComponent<Disabled>(enabledQuery);
-            }
+            if (!enabled)
+                commandBuffer.Value.DestroyEntity(visualizerSpawnedQuery);
         }
 
         protected override void OnUpdate()
@@ -77,7 +61,7 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
                 // if the query is completely empty; then stop showing the range
                 //  otherwise check for changes
                 var commandBuffer = commandBufferSystem.CreateCommandBuffer();
-                commandBuffer.AddComponent<Disabled>(enabledVisualizerQuery);
+                commandBuffer.DestroyEntity(visualizerSpawnedQuery);
                 return;
             }
             // The RequireForUpdate ignores changed version filters completely; so this check will make sure that
@@ -91,7 +75,11 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
             var scale = new NativeArray<float3>(1, Allocator.TempJob);
 
             var enableCommandBuffer = commandBufferSystem.CreateCommandBuffer();
-            enableCommandBuffer.RemoveComponent<Disabled>(disabledVisualizerQuery);
+            if (visualizerSpawnedQuery.IsEmpty && !visualizerPrefabQuery.IsEmpty)
+            {
+                var prefab = visualizerPrefabQuery.GetSingleton<SelectedAreaVisualizerPrefabComponent>();
+                enableCommandBuffer.Instantiate(prefab.Value);
+            }
 
             dragDataJob = Job
                 .WithBurst()
@@ -122,7 +110,6 @@ namespace Assets.UI.Manipulators.Scripts.SelectedArea
             Dependency = Entities
                 .WithDisposeOnCompletion(center)
                 .WithDisposeOnCompletion(scale)
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
                 .WithAll<SelectedAreaVisualizerFlagComponent, Translation, NonUniformScale>()
                 .ForEach((Entity entity, in Translation trans) =>
                 {
