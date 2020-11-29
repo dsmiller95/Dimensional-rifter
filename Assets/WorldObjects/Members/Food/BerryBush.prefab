@@ -64,8 +64,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grownResource: 0
   resourceAmount: 1
-  growthPerSecond: 3
-  finalGrowthAmount: 40
+  growthPerSecond: 1
+  finalGrowthAmount: 25
 --- !u!114 &2709178220890433278
 MonoBehaviour:
   m_ObjectHideFlags: 0

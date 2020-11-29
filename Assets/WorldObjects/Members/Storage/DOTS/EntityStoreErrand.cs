@@ -5,6 +5,7 @@ using Assets.UI.ItemTransferAnimations;
 using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Buildings.DOTS;
 using Assets.WorldObjects.Members.Hungry.HeldItems;
+using Assets.WorldObjects.Members.Items.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS.ErrandMessaging;
 using BehaviorTree.Nodes;
@@ -26,6 +27,7 @@ namespace Assets.WorldObjects.Members.Storage
 
         private StorageSupplyErrandResultComponent errandResult;
         EntityCommandBufferSystem commandbufferSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+        private LooseItemSpawnSystem itemSpawnSystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<LooseItemSpawnSystem>();
 
         public EntityStoreErrand(
             StorageSupplyErrandResultComponent storageSupplyErrandResult,
@@ -238,11 +240,32 @@ namespace Assets.WorldObjects.Members.Storage
             itemAmountBuffer[itemIndex] = itemAmount;
         }
 
+        private void DropAllItems()
+        {
+            var tileMem = storingWorker.GetComponent<TileMapNavigationMember>();
+            var actorPos = tileMem.CoordinatePosition;
+
+            var actorsInventory = storingWorker.GetComponent<InventoryHoldingController>();
+            var allItems = actorsInventory.DrainAll();
+            var buffer = commandbufferSystem.CreateCommandBuffer();
+            foreach (var item in allItems)
+            {
+                if (item.Value <= 1e-5)
+                    continue;
+                itemSpawnSystem.SpawnLooseItem(
+                    actorPos,
+                    item.Key,
+                    item.Value,
+                    buffer);
+            }
+        }
+
         private void ClearAllClaims()
         {
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             ClearStorageClaim(entityManager);
             ClearItemSourceClaim(entityManager);
+            DropAllItems();
         }
 
         public void OnReset()

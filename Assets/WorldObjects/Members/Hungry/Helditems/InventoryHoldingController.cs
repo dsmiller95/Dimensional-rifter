@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core;
 using Assets.Scripts.ResourceManagement;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using TradeModeling.Inventories;
 using UnityEngine;
@@ -12,6 +13,14 @@ namespace Assets.WorldObjects.Members.Hungry.HeldItems
     {
         public GenericSelector<IInventory<Resource>> inventoryTarget;
         public VariableInstantiator stateHolder;
+
+        public IDictionary<Resource, float> DrainAll()
+        {
+            var inventory = inventoryTarget.GetCurrentValue(stateHolder);
+            var all = inventory.GetCurrentResourceAmounts();
+            inventory.ConsumeAll();
+            return all;
+        }
 
         public float GrabUnclaimedItemIntoSelf(
             Resource itemType,
