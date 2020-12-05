@@ -19,10 +19,50 @@ MonoBehaviour:
       u: 0
       v: 0
       R: 0
-    ID: ground
+    baseID: ground
   - coords0:
       u: -1
       v: 2
       R: 0
-    ID: water
-  tileShape: {fileID: 11400000, guid: 02a18ed18fe3d2a4ebbfe13052283541, type: 2}
+    baseID: water
+  tileShapes:
+  - coords0:
+      u: 0
+      v: 0
+      R: 0
+    shape: 2
+  - coords0:
+      u: 0
+      v: 0
+      R: 1
+    shape: 1
+  - coords0:
+      u: 1
+      v: 0
+      R: 0
+    shape: 3
+  - coords0:
+      u: 1
+      v: 0
+      R: 1
+    shape: 5
+  - coords0:
+      u: 0
+      v: 1
+      R: 0
+    shape: 4
+  - coords0:
+      u: 0
+      v: 1
+      R: 1
+    shape: 7
+  - coords0:
+      u: 1
+      v: 1
+      R: 0
+    shape: 0
+  - coords0:
+      u: 1
+      v: 1
+      R: 1
+    shape: 6

@@ -8,7 +8,7 @@ namespace Assets.Tiling.Tilemapping
     /// contains data used to display and configure tilemaps by coordinate type. should contain nothing
     ///     that gets modified per-plane, ver global
     /// </summary>
-    [CreateAssetMenu(fileName = "TileMapConfigData", menuName = "TileMap/ConfigDataObject", order = 1)]
+    [CreateAssetMenu(fileName = "TileMapConfigurationData", menuName = "TileMap/TileMapConfigurationData", order = 1)]
     public class TileMapConfigurationData : ScriptableObject
     {
         public CoordinateType coordinateType;

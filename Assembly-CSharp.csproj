@@ -158,7 +158,6 @@
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingErrand\GrowingHarvestErrandSource.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\BuildingErrandType.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinate.cs" />
-    <Compile Include="Assets\Tiling\ScriptableObjects\CoordinateRangeObject.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\AnimationUVCalculatorSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Hungry.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\TryToDieLeafFactory.cs" />
@@ -280,6 +279,7 @@
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\RestingTaskType.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerFlagComponent.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSourceType.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerPrefabComponent.cs" />
     <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\AreaSelectedSystemGroup.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\EvaluateOnReset.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
@@ -293,6 +293,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingErrand\GrowingHarvestErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
+    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapPlacementManipulator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\Decorator.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookWhenDisabledIndexComponent.cs" />
@@ -372,7 +373,9 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\SelectedArea\SelectedAreaVisualizerPrefabComponent.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapPreviewsByCoordinateRangeType.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionRenderer.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionPreview.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

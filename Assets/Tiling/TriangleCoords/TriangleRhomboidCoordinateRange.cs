@@ -107,6 +107,7 @@ namespace Assets.Tiling.TriangleCoords
             nextPos = nextCoord.ToPositionInPlane();
             yield return (Vector2)nextPos - Vector2.up * TriangleCoordinate.rBasis.y * 2 * scaling;
         }
+        public int[] BoundingPolyTriangles => new int[] { 0, 1, 2, 0, 2, 3 };
 
         public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)
         {

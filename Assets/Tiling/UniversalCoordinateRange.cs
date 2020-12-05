@@ -24,6 +24,8 @@ namespace Assets.Tiling
         /// </summary>
         /// <returns></returns>
         IEnumerable<Vector2> BoundingPolygon();
+        int[] BoundingPolyTriangles { get; }
+
         bool ContainsCoordinate(UniversalCoordinate coordinate);
 
         bool ContainsCoordinate(T coordinate);
@@ -123,6 +125,9 @@ namespace Assets.Tiling
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>a list of points which form the borders of this range</returns>
         public IEnumerable<Vector2> BoundingPolygon()
         {
             switch (rangeType)
@@ -133,6 +138,21 @@ namespace Assets.Tiling
                     return triangeRhomboidDataView.BoundingPolygon();
                 case CoordinateRangeType.RECTANGLE:
                     return rectangleDataView.BoundingPolygon();
+                default:
+                    return null;
+            }
+        }
+
+        public int[] BoundingPolyTriangles()
+        {
+            switch (rangeType)
+            {
+                case CoordinateRangeType.TRIANGLE:
+                    return triangleDataView.BoundingPolyTriangles;
+                case CoordinateRangeType.TRIANGLE_RHOMBOID:
+                    return triangeRhomboidDataView.BoundingPolyTriangles;
+                case CoordinateRangeType.RECTANGLE:
+                    return rectangleDataView.BoundingPolyTriangles;
                 default:
                     return null;
             }

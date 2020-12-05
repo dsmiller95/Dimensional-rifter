@@ -7,98 +7,22 @@ using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
 {
-    /// <summary>
-    /// Data set up in map-gen; or in the inspector. Data that should be Saved and loaded
-    /// </summary>
-    [Serializable]
-    public class TileMapRegionData
-    {
-        public Matrix4x4 coordinateTransform;
-        public short planeIDIndex;
-        public UniversalCoordinateRange baseRange;
-    }
-    [Serializable]
-    public class TileRegionSaveObject
-    {
-        public SerializableMatrix4x4 matrixSerialized;
-        public UniversalCoordinateRange range;
-    }
-
-    public class TileMapRegionRuntimeData
-    {
-        public HashSet<UniversalCoordinate> disabledCoordinates;
-    }
-
-    [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(PolygonCollider2D))]
-    [RequireComponent(typeof(PolygonCollider2D))]
-    public class TileMapRegion : MonoBehaviour
+    public class TileMapRegion : TileMapRegionRenderer
     {
-        protected PolygonCollider2D BoundingBoxCollider;
-        protected PolygonCollider2D IndividualCellCollider;
         public TileMapMeshBuilder meshBuilder;
+        public TileMapPreviewsByCoordinateRangeType previewIndex;
+        protected PolygonCollider2D IndividualCellCollider;
 
-        public TileMapRegionRuntimeData runtimeData;
-        public CombinationTileMapManager BigManager => GetComponentInParent<CombinationTileMapManager>();
-
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             var polygons = GetComponents<PolygonCollider2D>();
-            if (polygons.Length != 2)
+            if (polygons.Length < 2)
             {
                 throw new Exception("not enough polygon colliders to use");
             }
-            BoundingBoxCollider = polygons[0];
             IndividualCellCollider = polygons[1];
-
-            runtimeData = new TileMapRegionRuntimeData();
-        }
-
-        public UniversalCoordinate? GetCoordinateFromRealPositionIffValid(
-            Vector2 realPositionInPlane,
-            TileMapRegionData data)
-        {
-            var coord = GetCoordinateFromRealPosition(realPositionInPlane, data);
-            if (IsValidInThisPlane(coord, data))
-            {
-                return coord;
-            }
-            return null;
-        }
-        public UniversalCoordinate GetCoordinateFromRealPosition(
-            Vector2 realPositionInPlane,
-            TileMapRegionData data)
-        {
-            Vector2 pointInPlane = data.coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
-            return UniversalCoordinate.FromPositionInPlane(pointInPlane, data.baseRange.CoordinateType, data.planeIDIndex);
-        }
-
-        public bool IsValidInThisPlane(UniversalCoordinate coordinate, TileMapRegionData data)
-        {
-            if (!data.baseRange.ContainsCoordinate(coordinate))
-            {
-                return false;
-            }
-            return !runtimeData.disabledCoordinates.Contains(coordinate);
-        }
-
-        public void InitializeMeshBuilder(
-            TileMapConfigurationData tileConfiguration,
-            UniversalCoordinateSystemMembers members)
-        {
-
-            meshBuilder = new TileMapMeshBuilder(tileConfiguration.tileSet, members);
-            var renderer = GetComponent<MeshRenderer>();
-            renderer.material = tileConfiguration.tileMaterial;
-            meshBuilder.SetupTilesForGivenTexture(renderer.material.mainTexture);
-        }
-
-        public PolygonCollider2D SetupBoundingCollider(TileMapRegionData data)
-        {
-            var path = data.baseRange.BoundingPolygon()
-                .Select(point => (Vector2)data.coordinateTransform.MultiplyPoint3x4(point));
-            BoundingBoxCollider.SetPath(0, path.ToArray());
-            return BoundingBoxCollider;
         }
 
         public PolygonCollider2D SetupIndividualCollider(Vector2[] vertexes)
@@ -107,13 +31,64 @@ namespace Assets.Tiling.Tilemapping
             return IndividualCellCollider;
         }
 
-        public void BakeTopologyAvoidingOthers(
-            TileMapRegionData data,
-            IEnumerable<TileMapRegion> otherRegionsToAvoid)
+        public override void InitializeForTopologyBake(
+            TileMapConfigurationData tileConfiguration,
+            UniversalCoordinateSystemMembers members)
         {
-            var colliderList = otherRegionsToAvoid.Select(x => x.BoundingBoxCollider).ToArray();
+            meshBuilder = new TileMapMeshBuilder(tileConfiguration.tileSet, members);
+            var renderer = GetComponent<MeshRenderer>();
+            renderer.material = tileConfiguration.tileMaterial;
+            meshBuilder.SetupTilesForGivenTexture(renderer.material.mainTexture);
+        }
+        public void SetNoPreviews(TileMapRegionData data)
+        {
+            foreach (var noLongerHidden in data.runtimeData.previewFadeoutCoordiantes)
+            {
+                meshBuilder.EnableCoordinate(noLongerHidden);
+            }
+            data.runtimeData.previewFadeoutCoordiantes.Clear();
+        }
+        public void SetPreviewOnCollidesWith(
+            TileMapRegionData data,
+            TileMapRegionPreview previewRegion
+            )
+        {
+            var boundingCollider = previewRegion.RangeBoundsCollider;
+
+            var oldFadeoutCoordinates = data.runtimeData.previewFadeoutCoordiantes;
+            var newFadeoutCoordinates = new HashSet<UniversalCoordinate>();
+
+            var boundingColliderAsList = new[] { boundingCollider };
+            var colliderCollisionFlag = new[] { false };
+            foreach (var coordinate in data.baseRange.GetUniversalCoordinates())
+            {
+                if(GetCollidesWith(data.coordinateTransform, coordinate, boundingColliderAsList, colliderCollisionFlag))
+                {
+                    newFadeoutCoordinates.Add(coordinate);
+                }
+            }
+            // TODO: utility to change the material instead of moving the geometry around
+            foreach (var noLongerHidden in oldFadeoutCoordinates.Except(newFadeoutCoordinates))
+            {
+                meshBuilder.EnableCoordinate(noLongerHidden);
+            }
+            foreach (var newlyHidden in newFadeoutCoordinates.Except(oldFadeoutCoordinates))
+            {
+                meshBuilder.DisableCoordiante(newlyHidden);
+            }
+            data.runtimeData.previewFadeoutCoordiantes = newFadeoutCoordinates;
+        }
+
+        public override void BakeTopology(
+            TileMapRegionData data,
+            IEnumerable<TileMapRegionRenderer> otherRegionsToAvoid)
+        {
+            var colliderList = otherRegionsToAvoid
+                .Where(x => x is TileMapRegion)
+                .Select(x => x.RangeBoundsCollider).ToArray();
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
-            runtimeData.disabledCoordinates = new HashSet<UniversalCoordinate>();
+            data.runtimeData.disabledCoordinates = new HashSet<UniversalCoordinate>();
+            data.runtimeData.previewFadeoutCoordiantes = new HashSet<UniversalCoordinate>();
             var setupMesh = meshBuilder.BakeTilemapMesh(
                 data.baseRange,
                 (coord, position) =>
@@ -124,7 +99,7 @@ namespace Assets.Tiling.Tilemapping
                         colliderList,
                         colliderFlagSpace))
                     {
-                        runtimeData.disabledCoordinates.Add(coord);
+                        data.runtimeData.disabledCoordinates.Add(coord);
                         return false;
                     }
                     return true;
@@ -190,11 +165,6 @@ namespace Assets.Tiling.Tilemapping
             }
 
             return false;
-        }
-
-        public int GreedyCordinateTotalEstimate(TileMapRegionData data)
-        {
-            return data.baseRange.TotalCoordinateContents();
         }
     }
 }

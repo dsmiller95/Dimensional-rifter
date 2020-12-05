@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484f7de71acb35e47be588b0d9732b68, type: 3}
+  m_Name: TileMapPreviews
+  m_EditorClassIdentifier: 
+  prefabKeys:
+  - type: 1
+    prefab: {fileID: 8363230159755292085, guid: c78f9998b46c02d4f84e507f5bcaa370, type: 3}

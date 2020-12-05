@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306245ce25c36b146b6de7eb88ab9d01, type: 3}
+  m_Name: TriangleTileMapConfigurationData
+  m_EditorClassIdentifier: 
+  coordinateType: 1
+  tileSet: {fileID: 11400000, guid: 08a112150bb992b4d8b8766a7778b3b2, type: 2}
+  atomataSystem: {fileID: 11400000, guid: 37f1afc9556f01b4d86869b6947b4c3b, type: 2}
+  tileMaterial: {fileID: 2100000, guid: ab271645927c6c741a411c7213a3bfa6, type: 2}

@@ -9,9 +9,7 @@ namespace Assets.Tiling.TriangleCoords
 {
 
     /// <summary>
-    /// represents a range of triangular coordinates in a rhombus shape. Ignores the R of the input range
-    ///     iterates through the triangles as if they were rectangular coordinates, and returns
-    ///     both R=false and R=true coords for each rhombus
+    /// represents a range of triangular coordinates in a triangular shape
     /// </summary>
     [System.Serializable]
     [StructLayout(LayoutKind.Explicit)] // total size: 16 bytes
@@ -35,7 +33,7 @@ namespace Assets.Tiling.TriangleCoords
             nextPos = rightcoord.ToPositionInPlane();
             yield return (Vector2)nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinate.rBasis * scale);
         }
-
+        public int[] BoundingPolyTriangles => new int[] { 0, 1, 2 };
 
         IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
         {
@@ -54,6 +52,15 @@ namespace Assets.Tiling.TriangleCoords
                     }
                 }
             }
+        }
+
+        public static TriangleTriangleCoordinateRange From(TriangleCoordinate root, int sideLength)
+        {
+            return new TriangleTriangleCoordinateRange
+            {
+                root = root,
+                triangleSideLength = sideLength
+            };
         }
 
         /// <summary>

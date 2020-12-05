@@ -41,6 +41,11 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
 
         private IDictionary<string, MultiVertTileConfig> tileTypesDictionary;
 
+        /// <summary>
+        /// a sort of initialization. Generate and caches UV idexes for mapping the <see cref="tileSet"/>
+        ///     tiles into <paramref name="textureToSample"/>
+        /// </summary>
+        /// <param name="textureToSample"></param>
         public void SetupTilesForGivenTexture(
             Texture textureToSample)
         {
@@ -80,48 +85,28 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
         }
 
         [Obsolete("No longer used, nothing edits the tilemap. may not function correctly")]
-        public void SetTileEnabled(UniversalCoordinate coordinate, bool enabled)
-        {
-            var isTileDisabled = disabledCoordinates.Contains(coordinate);
-            if (enabled == !isTileDisabled)
-            {
-                return;
-            }
-            if (coordinateCopyIndexes.TryGetValue(coordinate, out var index))
-            {
-                if (isTileDisabled && enabled)
-                {
-                    meshEditor.EnableGeometryAtDuplicate(index);
-                    disabledCoordinates.Remove(coordinate);
-                }
-                else if (!isTileDisabled && !enabled)
-                {
-                    meshEditor.DisableGeometryAtDuplicate(index);
-                    disabledCoordinates.Add(coordinate);
-                }
-            }
-        }
-
-        [Obsolete("No longer used, nothing edits the tilemap. may not function correctly")]
         public IEnumerable<UniversalCoordinate> GetBakedTiles()
         {
             return coordinateCopyIndexes.Keys;
         }
-        [Obsolete("No longer used, nothing edits the tilemap. may not function correctly")]
-        public void SetMeshForTileToType(UniversalCoordinate coordinate, TileTypeInfo tileID)
+
+        public void DisableCoordiante(UniversalCoordinate coordinate)
         {
             if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
             {
-                if (tileTypesDictionary.TryGetValue(tileID.ID, out var tileconfig))
-                {
-                    meshEditor.SetUVForVertexesAtDuplicate(index, tileconfig.uvs);
-                }
+                meshEditor.DisableGeometryAtDuplicate(index);
+            }
+        }
+        public void EnableCoordinate(UniversalCoordinate coordinate)
+        {
+            if (coordinateCopyIndexes != null && coordinateCopyIndexes.TryGetValue(coordinate, out var index))
+            {
+                meshEditor.EnableGeometryAtDuplicate(index);
             }
         }
 
         private CopiedMeshEditor meshEditor;
         private Dictionary<UniversalCoordinate, int> coordinateCopyIndexes;
-        private ISet<UniversalCoordinate> disabledCoordinates;
 
         public Mesh BakeTilemapMesh(
             UniversalCoordinateRange range,
@@ -168,8 +153,6 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
                     Debug.LogError("help");
                 }
 
-                //var tileConfig = tileTypesDictionary[tileTypeId];
-
                 Vector2[] uvs = tileConfig.uvs;
 
                 var vertexes = coord.GetVertexesAround().Select(x => (Vector3)x);
@@ -180,8 +163,6 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
             }
 
             meshEditor = copier.FinalizeCopy();
-
-            disabledCoordinates = new HashSet<UniversalCoordinate>();
 
             return targetMesh;
         }
