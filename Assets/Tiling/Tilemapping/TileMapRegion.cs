@@ -50,19 +50,18 @@ namespace Assets.Tiling.Tilemapping
         }
         public void SetPreviewOnCollidesWith(
             TileMapRegionData data,
-            TileMapRegionPreview previewRegion
+            IEnumerable<TileMapRegionPreview> previewRegions
             )
         {
-            var boundingCollider = previewRegion.RangeBoundsCollider;
-
             var oldFadeoutCoordinates = data.runtimeData.previewFadeoutCoordiantes;
             var newFadeoutCoordinates = new HashSet<UniversalCoordinate>();
 
-            var boundingColliderAsList = new[] { boundingCollider };
-            var colliderCollisionFlag = new[] { false };
+            var boundingColliderAsList = previewRegions
+                .Select(x => x.RangeBoundsCollider).ToArray();// new[] { boundingCollider };
+            var colliderFlagSpace = boundingColliderAsList.Select(x => false).ToArray();
             foreach (var coordinate in data.baseRange.GetUniversalCoordinates())
             {
-                if(GetCollidesWith(data.coordinateTransform, coordinate, boundingColliderAsList, colliderCollisionFlag))
+                if(GetCollidesWith(data.coordinateTransform, coordinate, boundingColliderAsList, colliderFlagSpace))
                 {
                     newFadeoutCoordinates.Add(coordinate);
                 }

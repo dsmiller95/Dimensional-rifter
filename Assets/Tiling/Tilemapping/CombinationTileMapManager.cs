@@ -25,7 +25,7 @@ namespace Assets.Tiling.Tilemapping
             }
         }
 
-        public TileMapPreviewsByCoordinateRangeType previewIndex;
+        public TileMapPreviewsByCoordinateRangeType previewPrefabIndex;
 
         /// <summary>
         /// the most "On Top" region is at index N, all regions at a lower index will avoid overlapping with it
@@ -73,6 +73,8 @@ namespace Assets.Tiling.Tilemapping
 
                 return region;
             }).ToArray();
+            // TODO: figure out how to load build previews
+            previewBehaviors = new List<TileMapRegionPreview>();
 
             for (short i = 0; i < allRegions.Length; i++)
             {
@@ -84,23 +86,44 @@ namespace Assets.Tiling.Tilemapping
         }
 
         #region Previewing
-        public TileMapRegionPreview BeginPreviewRegion(Matrix4x4 initialTransform, UniversalCoordinateRange initialRange)
+
+        private List<TileMapRegionData> previewData;
+        private List<TileMapRegionPreview> previewBehaviors;
+        private static readonly ushort previewPlaneIndexFlag = 1 << 15;
+
+        private ushort GetFreePreviewIndex()
         {
-            var nextPlaneID = allRegions.Length;
-            var newData = new TileMapRegionData
-                {
-                    coordinateTransform = initialTransform,
-                    planeIDIndex = (short)nextPlaneID,
-                    baseRange = initialRange
-                };
-            if (!previewIndex.keyedPrefabs.TryGetValue(initialRange.rangeType, out var prefabSource))
+            for (ushort i = 0; i < previewData.Count; i++)
             {
-                return null;
+                if (previewData[i] == null)
+                {
+                    return i;
+                }
+            }
+            previewData.Add(null);
+            previewBehaviors.Add(null);
+            return (ushort)(previewData.Count - 1);
+        }
+
+        public ushort BeginPreviewRegion(Matrix4x4 initialTransform, UniversalCoordinateRange initialRange)
+        {
+            var nextPlanePreviewIndex = GetFreePreviewIndex();
+
+            var newData = new TileMapRegionData
+            {
+                coordinateTransform = initialTransform,
+                planeIDIndex = nextPlanePreviewIndex,
+                baseRange = initialRange,
+                preview = true
+            };
+            if (!previewPrefabIndex.keyedPrefabs.TryGetValue(initialRange.rangeType, out var prefabSource))
+            {
+                throw new System.Exception("prefab for range type not found");
             }
             var newPreview = Instantiate(prefabSource.prefab, transform);
 
-            allRegions = allRegions.Append(newData).ToArray();
-            regionBehaviors = regionBehaviors.Append(newPreview).ToArray();
+            previewData[nextPlanePreviewIndex] = newData;
+            previewBehaviors[nextPlanePreviewIndex] = newPreview;
 
             var configData = ConfigDataDict[newData.baseRange.CoordinateType];
 
@@ -108,33 +131,49 @@ namespace Assets.Tiling.Tilemapping
             newPreview.BakeTopology(newData, new TileMapRegionRenderer[0]);
             newPreview.SetupBoundingCollider(newData);
 
-            PreviewColorBelowTop();
-            return newPreview;
+            SetPreviewColors();
+            return nextPlanePreviewIndex;
         }
 
-        public void SetPreviewRegionData(Matrix4x4 regionTransform, UniversalCoordinateRange newRange)
+        public void SetPreviewRegionData(Matrix4x4 regionTransform, UniversalCoordinateRange newRange, ushort previewRegionID)
         {
-            if(!(regionBehaviors.Last() is TileMapRegionPreview previewer))
-            {
-                return;
-            }
-            var regionData = allRegions.Last();
+            var previewer = previewBehaviors[previewRegionID];
+            var regionData = previewData[previewRegionID];
             regionData.coordinateTransform = regionTransform;
             regionData.baseRange = newRange;
 
             previewer.BakeTopology(regionData, new TileMapRegionRenderer[0]);
             previewer.SetupBoundingCollider(regionData);
 
-            PreviewColorBelowTop();
+            SetPreviewColors();
         }
-        public void ClosePreviewRegion()
+        public void ClosePreviewRegion(ushort previewRegionID)
         {
-            if(regionBehaviors.Last() is TileMapRegionPreview oldPreview)
+            Destroy(previewBehaviors[previewRegionID]);
+            previewData[previewRegionID] = null;
+            previewBehaviors[previewRegionID] = null;
+            if (previewRegionID == previewData.Count - 1)
             {
-                Destroy(oldPreview.gameObject);
-                allRegions = allRegions.Take(allRegions.Length - 1).ToArray();
-                regionBehaviors = regionBehaviors.Take(regionBehaviors.Length - 1).ToArray();
+                for (var i = previewData.Count - 1; i >= 0; i--)
+                {
+                    if (previewData[i] == null)
+                    {
+                        previewData.RemoveAt(i);
+                        previewBehaviors.RemoveAt(i);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
 
+            SetPreviewColors();
+        }
+        private void SetPreviewColors()
+        {
+            if (previewBehaviors.Count <= 0)
+            {
                 for (var i = 0; i < allRegions.Length; i++)
                 {
                     if (regionBehaviors[i] is TileMapRegion region)
@@ -143,19 +182,14 @@ namespace Assets.Tiling.Tilemapping
                     }
                 }
             }
-        }
-        private void PreviewColorBelowTop()
-        {
-            if (!(regionBehaviors.Last() is TileMapRegionPreview previewer))
+            else
             {
-                return;
-            }
-
-            for (var i = 0; i < allRegions.Length - 1; i++)
-            {
-                if (regionBehaviors[i] is TileMapRegion region)
+                for (var i = 0; i < allRegions.Length; i++)
                 {
-                    region.SetPreviewOnCollidesWith(allRegions[i], previewer);
+                    if (regionBehaviors[i] is TileMapRegion region)
+                    {
+                        region.SetPreviewOnCollidesWith(allRegions[i], previewBehaviors);
+                    }
                 }
             }
         }
@@ -163,7 +197,7 @@ namespace Assets.Tiling.Tilemapping
 
         private void SetPlaneIDs()
         {
-            for (short planeID = 0; planeID < allRegions.Length; planeID++)
+            for (ushort planeID = 0; planeID < allRegions.Length; planeID++)
             {
                 allRegions[planeID].planeIDIndex = planeID;
             }
@@ -180,7 +214,7 @@ namespace Assets.Tiling.Tilemapping
 
         private void BakeAllTileMapMeshes(int startFromIndex = -1)
         {
-            if(startFromIndex == -1)
+            if (startFromIndex == -1)
             {
                 startFromIndex = allRegions.Length - 1;
             }
@@ -264,10 +298,11 @@ namespace Assets.Tiling.Tilemapping
                 return new TileMapRegionData
                 {
                     coordinateTransform = GetTransformForPlane(saved),
-                    planeIDIndex = (short)index,
+                    planeIDIndex = (ushort)index,
                     baseRange = saved.range
                 };
             }).ToArray();
+            previewData = new List<TileMapRegionData>();
             everyMember.SetupFromSaveObject(save.members);
 
 

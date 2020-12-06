@@ -128,7 +128,7 @@ namespace Assets.Tiling.SquareCoords
             yield return this + LEFT;
             yield return this + RIGHT;
         }
-        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
+        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, ushort planeID)
         {
             swapSpace[0] = UniversalCoordinate.From(this + UP, planeID);
             swapSpace[1] = UniversalCoordinate.From(this + DOWN, planeID);

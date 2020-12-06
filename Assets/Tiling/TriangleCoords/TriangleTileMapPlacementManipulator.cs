@@ -2,6 +2,7 @@
 using Assets.UI.Manipulators;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Tiling.TriangleCoords
 {
@@ -9,6 +10,7 @@ namespace Assets.Tiling.TriangleCoords
     public class TriangleTileMapPlacementManipulator : MapManipulator
     {
         public GameObject placingPreviewPrefab;
+        public RectTransform confirmUIPrefab;
         public float zLayer;
 
         private ManipulatorController controller;
@@ -28,8 +30,10 @@ namespace Assets.Tiling.TriangleCoords
 
 
         private bool isDragging;
-        private TriangleCoordinate regionRootCoordinate;
+        private bool previewActive;
+        private UniversalCoordinate regionRootCoordinate;
         private Vector2 mouseDragOrigin;
+
         //private GameObject placingPreview;
 
         public override void OnUpdate()
@@ -38,22 +42,24 @@ namespace Assets.Tiling.TriangleCoords
             if (Input.GetMouseButtonDown(0) && !isDragging)
             {
                 isDragging = true;
+                previewActive = true;
 
                 mouseDragOrigin = MyUtilities.GetMousePos2D();
-                regionRootCoordinate = TriangleCoordinate.AtOrigin();
+                var originCoordinate = TriangleCoordinate.AtOrigin();
 
                 var previewRegion = UniversalCoordinateRange.From(
-                    TriangleTriangleCoordinateRange.From(regionRootCoordinate, 1)
+                    TriangleTriangleCoordinateRange.From(originCoordinate, 1)
                     );
 
-                CombinationTileMapManager.instance.BeginPreviewRegion(
+                var planeID = CombinationTileMapManager.instance.BeginPreviewRegion(
                     Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, zLayer)),
                     previewRegion
                     );
+                regionRootCoordinate = UniversalCoordinate.From(originCoordinate, planeID);
             }
             else if (Input.GetMouseButtonUp(0) && isDragging)
             {
-                AbortPreview();
+                StopDrag();
             }
             else if (Input.GetMouseButton(0) && isDragging)
             {
@@ -68,7 +74,7 @@ namespace Assets.Tiling.TriangleCoords
                 var triangleNum = Mathf.FloorToInt(distance / triangleRadius);
 
                 var previewRegion = UniversalCoordinateRange.From(
-                    TriangleTriangleCoordinateRange.From(regionRootCoordinate, triangleNum)
+                    TriangleTriangleCoordinateRange.From(regionRootCoordinate.triangleDataView, triangleNum)
                     );
 
 
@@ -79,15 +85,34 @@ namespace Assets.Tiling.TriangleCoords
 
                 CombinationTileMapManager.instance.SetPreviewRegionData(
                     transformMatrix,
-                    previewRegion);
+                    previewRegion,
+                    regionRootCoordinate.CoordinatePlaneID);
             }
         }
-        private void AbortPreview()
+
+        private RectTransform confirmUiInstance;
+        private void OpenConfirmUI()
+        {
+            confirmUiInstance = Instantiate(confirmUIPrefab);
+            var button = confirmUiInstance.gameObject.GetComponentInChildren<Button>();
+        }
+
+        private void StopDrag()
         {
             if (isDragging)
             {
                 isDragging = false;
-                CombinationTileMapManager.instance.ClosePreviewRegion();
+                mouseDragOrigin = default;
+            }
+        }
+
+        private void AbortPreview()
+        {
+            if (previewActive)
+            {
+                previewActive = false;
+                isDragging = false;
+                CombinationTileMapManager.instance.ClosePreviewRegion(regionRootCoordinate.CoordinatePlaneID);
                 mouseDragOrigin = default;
                 regionRootCoordinate = default;
             }

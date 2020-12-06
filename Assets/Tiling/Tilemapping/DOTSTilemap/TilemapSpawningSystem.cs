@@ -24,7 +24,7 @@ namespace Assets.Tiling.Tilemapping.DOTSTilemap
                     {
                         spawner.nextSpawnTime = time + spawner.timePerSpawn;
                         var randCoord = spawner.spawningRange.GetRandomCoordinate(ref randomProvider.value);
-                        var newCoordinate = UniversalCoordinate.From(randCoord, -1);
+                        var newCoordinate = UniversalCoordinate.From(randCoord, 0);
 
 
                         var newEntity = commandBuffer.Instantiate(entityInQueryIndex, entityPrefab.prefab);

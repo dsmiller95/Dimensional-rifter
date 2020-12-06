@@ -48,7 +48,7 @@ MonoBehaviour:
   tileMapConfig:
   - {fileID: 11400000, guid: 1d4fae95506942d43837e6edecd5cbe0, type: 2}
   - {fileID: 11400000, guid: d7835df95819adb458690d169069fc4a, type: 2}
-  previewIndex: {fileID: 11400000, guid: f05f307729c49c841b2d84513b0c1196, type: 2}
+  previewPrefabIndex: {fileID: 11400000, guid: f05f307729c49c841b2d84513b0c1196, type: 2}
   allRegions: []
   everyMember: {fileID: 3806863156771743869}
   regionBehaviorPrefab: {fileID: 1750253564374762929, guid: f9891ad79ba804b49a0ab1e7b4221ad2, type: 3}

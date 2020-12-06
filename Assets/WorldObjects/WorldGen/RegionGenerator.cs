@@ -16,11 +16,11 @@ namespace Assets.WorldObjects.WorldGen
         private System.Random randomGenerator;
         private Vector2 noiseOffset;
 
-        private short layerID;
+        private ushort layerID;
 
         public RegionGenerator(
             UniversalCoordinateRange size,
-            short layerID,
+            ushort layerID,
             MapGenerationConfiguration config)
         {
             mapGenConfig = config;

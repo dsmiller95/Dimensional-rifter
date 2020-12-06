@@ -158,7 +158,7 @@ namespace Assets.Tiling
             }
         }
 
-        public IEnumerable<UniversalCoordinate> GetUniversalCoordinates(short coordPlaneID = 0)
+        public IEnumerable<UniversalCoordinate> GetUniversalCoordinates(ushort coordPlaneID = 0)
         {
             switch (rangeType)
             {
@@ -173,7 +173,7 @@ namespace Assets.Tiling
             }
         }
 
-        public UniversalCoordinate AtIndex(int index, short coordPlaneID = 0)
+        public UniversalCoordinate AtIndex(int index, ushort coordPlaneID = 0)
         {
             switch (rangeType)
             {

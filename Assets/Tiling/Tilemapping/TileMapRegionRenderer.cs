@@ -13,7 +13,7 @@ namespace Assets.Tiling.Tilemapping
     public class TileMapRegionData
     {
         public Matrix4x4 coordinateTransform;
-        public short planeIDIndex;
+        public ushort planeIDIndex;
         public UniversalCoordinateRange baseRange;
         public bool preview;
         public TileMapRegionRuntimeData runtimeData = new TileMapRegionRuntimeData();

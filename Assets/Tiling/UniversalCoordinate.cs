@@ -47,9 +47,9 @@ namespace Assets.Tiling
         /// </summary>
         [FieldOffset(12)] public int CoordinateMembershipData;
         [FieldOffset(12)] public CoordinateType type;
-        [FieldOffset(14)] public short CoordinatePlaneID;
+        [FieldOffset(14)] public ushort CoordinatePlaneID;
 
-        public static UniversalCoordinate From(TriangleCoordinate b, short CoordinatePlaneID)
+        public static UniversalCoordinate From(TriangleCoordinate b, ushort CoordinatePlaneID)
         {
             return new UniversalCoordinate
             {
@@ -58,7 +58,7 @@ namespace Assets.Tiling
                 CoordinatePlaneID = CoordinatePlaneID
             };
         }
-        public static UniversalCoordinate From(SquareCoordinate b, short CoordinatePlaneID)
+        public static UniversalCoordinate From(SquareCoordinate b, ushort CoordinatePlaneID)
         {
             return new UniversalCoordinate
             {
@@ -81,7 +81,7 @@ namespace Assets.Tiling
             }
         }
 
-        public static UniversalCoordinate FromPositionInPlane(Vector2 pos, CoordinateType type, short coordinatePlaneID)
+        public static UniversalCoordinate FromPositionInPlane(Vector2 pos, CoordinateType type, ushort coordinatePlaneID)
         {
             switch (type)
             {

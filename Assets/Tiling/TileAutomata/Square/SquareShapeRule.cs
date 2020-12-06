@@ -73,7 +73,7 @@ namespace Assets.Tiling.TileAutomata.Square
         private bool GetFlag(
             SquareCoordinate coordinate,
             UniversalCoordinateSystemMembers members,
-            short planeID)
+            ushort planeID)
         {
             var universalcoord = UniversalCoordinate.From(coordinate, planeID);
             return members.GetTileType(universalcoord).baseID == targetBaseType;
