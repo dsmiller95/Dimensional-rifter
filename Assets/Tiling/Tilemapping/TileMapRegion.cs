@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Utilities;
-using Assets.Tiling.Tilemapping.MeshEdit;
+﻿using Assets.Tiling.Tilemapping.MeshEdit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +60,7 @@ namespace Assets.Tiling.Tilemapping
             var colliderFlagSpace = boundingColliderAsList.Select(x => false).ToArray();
             foreach (var coordinate in data.baseRange.GetUniversalCoordinates())
             {
-                if(GetCollidesWith(data.coordinateTransform, coordinate, boundingColliderAsList, colliderFlagSpace))
+                if (GetCollidesWith(data.coordinateTransform, coordinate, boundingColliderAsList, colliderFlagSpace))
                 {
                     newFadeoutCoordinates.Add(coordinate);
                 }
