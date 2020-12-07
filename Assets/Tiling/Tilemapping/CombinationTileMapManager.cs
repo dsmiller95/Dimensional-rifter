@@ -104,6 +104,15 @@ namespace Assets.Tiling.Tilemapping
             return (ushort)(previewData.Count - 1);
         }
 
+        public TileMapRegionPreview GetPreviewBehavior(ushort previewIndex)
+        {
+            if (previewIndex >= previewBehaviors.Count)
+            {
+                return null;
+            }
+            return previewBehaviors[previewIndex];
+        }
+
         public ushort BeginPreviewRegion(Matrix4x4 initialTransform, UniversalCoordinateRange initialRange)
         {
             var nextPlanePreviewIndex = GetFreePreviewIndex();
@@ -148,7 +157,7 @@ namespace Assets.Tiling.Tilemapping
         }
         public void ClosePreviewRegion(ushort previewRegionID)
         {
-            Destroy(previewBehaviors[previewRegionID]);
+            Destroy(previewBehaviors[previewRegionID].gameObject);
             previewData[previewRegionID] = null;
             previewBehaviors[previewRegionID] = null;
             if (previewRegionID == previewData.Count - 1)

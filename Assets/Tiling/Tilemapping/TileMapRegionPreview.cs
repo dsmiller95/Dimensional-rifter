@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Tiling.Tilemapping
 {
@@ -9,6 +10,9 @@ namespace Assets.Tiling.Tilemapping
     /// </summary>
     public class TileMapRegionPreview : TileMapRegionRenderer
     {
+        public Button ConfirmButton;
+        public Button CancelButton;
+        public GameObject confirmUIParent;
         protected override void Awake()
         {
             base.Awake();

@@ -26,11 +26,13 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                 previewRegion
                 );
             var regionRootCoordinate = UniversalCoordinate.From(originCoordinate, planeID);
-            return new DragContinuing(mouseDragOrigin, regionRootCoordinate);
+            data.regionRootCoordinate = regionRootCoordinate;
+            return new DragContinuing(mouseDragOrigin);
         }
 
         public void TransitionIntoState(TriangleTileMapPlacementManipulator data)
         {
+            data.regionRootCoordinate = default;
         }
 
         public void TransitionOutOfState(TriangleTileMapPlacementManipulator data)

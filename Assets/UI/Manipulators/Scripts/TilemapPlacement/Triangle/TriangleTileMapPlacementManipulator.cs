@@ -1,4 +1,5 @@
 ﻿using Assets.Behaviors.Scripts;
+using Assets.Tiling;
 using UnityEngine;
 
 namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
@@ -12,6 +13,8 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         private ManipulatorController controller;
 
         private StateMachine<TriangleTileMapPlacementManipulator> dragEditStateMachine;
+
+        public UniversalCoordinate regionRootCoordinate;
 
         public override void OnOpen(ManipulatorController controller)
         {

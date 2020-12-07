@@ -8,19 +8,17 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 {
     public class DragContinuing : IGenericStateHandler<TriangleTileMapPlacementManipulator>
     {
-        private UniversalCoordinate regionRootCoordinate;
         private Vector2 mouseDragOrigin;
-        public DragContinuing(Vector2 mouseDragOrigin, UniversalCoordinate regionRoot)
+        public DragContinuing(Vector2 mouseDragOrigin)
         {
             this.mouseDragOrigin = mouseDragOrigin;
-            regionRootCoordinate = regionRoot;
         }
 
         public IGenericStateHandler<TriangleTileMapPlacementManipulator> HandleState(TriangleTileMapPlacementManipulator data)
         {
             if (!Input.GetMouseButton(0))
             {
-                return new DragEnd();
+                return new WaitForConfirm();
             }
             var currentPos = MyUtilities.GetMousePos2D();
             var diff = mouseDragOrigin - currentPos;
@@ -33,7 +31,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             var triangleNum = Mathf.FloorToInt(distance / triangleRadius);
 
             var previewRegion = UniversalCoordinateRange.From(
-                TriangleTriangleCoordinateRange.From(regionRootCoordinate.triangleDataView, triangleNum)
+                TriangleTriangleCoordinateRange.From(data.regionRootCoordinate.triangleDataView, triangleNum)
                 );
 
 
@@ -45,7 +43,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             CombinationTileMapManager.instance.SetPreviewRegionData(
                 transformMatrix,
                 previewRegion,
-                regionRootCoordinate.CoordinatePlaneID);
+                data.regionRootCoordinate.CoordinatePlaneID);
             return this;
         }
 
