@@ -1,8 +1,5 @@
 ﻿using Assets.Behaviors.Scripts;
-using Assets.Tiling;
-using Assets.Tiling.Tilemapping;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 {
@@ -10,7 +7,6 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
     public class TriangleTileMapPlacementManipulator : MapManipulator
     {
         public GameObject placingPreviewPrefab;
-        public RectTransform confirmUIPrefab;
         public float zLayer;
 
         private ManipulatorController controller;
@@ -19,10 +15,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 
         public override void OnOpen(ManipulatorController controller)
         {
-            Debug.Log("opening triangle placement manipulator");
             this.controller = controller;
-            //activeBuildPreview = GameObject.Instantiate(buildPreviewPrefab, controller.transform);
-            regionRootCoordinate = default;
             dragEditStateMachine = new StateMachine<TriangleTileMapPlacementManipulator>(new DragStartDetectState());
         }
 
@@ -32,31 +25,9 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             dragEditStateMachine = null;
         }
 
-
-        private bool isDragging;
-        private UniversalCoordinate regionRootCoordinate;
-        private Vector2 mouseDragOrigin;
-
-        //private GameObject placingPreview;
-
         public override void OnUpdate()
         {
             dragEditStateMachine.update(this);
-        }
-
-        private RectTransform confirmUiInstance;
-        private void OpenConfirmUI()
-        {
-            confirmUiInstance = Instantiate(confirmUIPrefab);
-            var button = confirmUiInstance.gameObject.GetComponentInChildren<Button>();
-        }
-
-        private void AbortPreview()
-        {
-            isDragging = false;
-            CombinationTileMapManager.instance.ClosePreviewRegion(regionRootCoordinate.CoordinatePlaneID);
-            mouseDragOrigin = default;
-            regionRootCoordinate = default;
         }
     }
 }

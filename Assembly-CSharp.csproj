@@ -211,7 +211,7 @@
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemSpawnCommandComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingSystem.cs" />
-    <Compile Include="Assets\UI\Manipulators\Scripts\TilemapPlacement\Triangle\DragEnd.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\TilemapPlacement\Triangle\WaitForConfirm.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetRendererSystem.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapPreviewsByCoordinateRangeType.cs" />
     <Compile Include="Assets\UI\ThingSelection\SelectedComponent.cs" />

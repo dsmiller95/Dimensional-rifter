@@ -16,6 +16,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 
         public void TransitionIntoState(TriangleTileMapPlacementManipulator data)
         {
+
         }
 
         public void TransitionOutOfState(TriangleTileMapPlacementManipulator data)
