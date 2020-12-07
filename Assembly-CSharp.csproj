@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\Utilities\SerializableMatrix4x4.cs" />
     <Compile Include="Assets\WorldObjects\Members\Storage\DOTS\ItemAmountsDataComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\SleepStation.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionRenderer.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\SuppliableTypeRegistry.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapRegionRoot.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\ActionOnTargetComponentLeaf.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawnerComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\NativeDisposableHotSwap.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Grab.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\TilemapPlacement\Triangle\DragContinuing.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupiedComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\WorkerController.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\StateMachine.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinateToTransformSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\FindAndHarvestSomething.cs" />
     <Compile Include="Assets\Scripts\DOTS\ErrandClaims\BasicErrandSource.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\TilemapPlacement\Triangle\DragStartDetectState.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Composites\CompositeFactory.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\Pathfinders\FindTargetPath.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\IGenericStateHandler.cs" />
@@ -208,7 +211,9 @@
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemSpawnCommandComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\SleepStation\SleepStationOccupyErrandRequestSystem.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingSystem.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\TilemapPlacement\Triangle\DragEnd.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\SpriteSheetRendererSystem.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapPreviewsByCoordinateRangeType.cs" />
     <Compile Include="Assets\UI\ThingSelection\SelectedComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TriangleTileSet.cs" />
     <Compile Include="Assets\Scripts\Core\GenericState.cs" />
@@ -286,6 +291,7 @@
     <Compile Include="Assets\Tiling\UniversalCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingComponent.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionPreview.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemFlagComponent.cs" />
     <Compile Include="Assets\UI\Priorities\SinglePriorityHolder.cs" />
@@ -293,7 +299,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingErrand\GrowingHarvestErrand.cs" />
     <Compile Include="Assets\WorldObjects\Members\Hungry\Helditems\InventoryHoldingController.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\AnimationSetTrigger.cs" />
-    <Compile Include="Assets\Tiling\TriangleCoords\TriangleTileMapPlacementManipulator.cs" />
+    <Compile Include="Assets\UI\Manipulators\Scripts\TilemapPlacement\Triangle\TriangleTileMapPlacementManipulator.cs" />
     <Compile Include="Assets\Tiling\HexCoords\HexCoordinateSystem.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Decorator\Decorator.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookWhenDisabledIndexComponent.cs" />
@@ -373,9 +379,6 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapPreviewsByCoordinateRangeType.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionRenderer.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionPreview.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

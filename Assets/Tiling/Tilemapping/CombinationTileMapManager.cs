@@ -89,7 +89,6 @@ namespace Assets.Tiling.Tilemapping
 
         private List<TileMapRegionData> previewData;
         private List<TileMapRegionPreview> previewBehaviors;
-        private static readonly ushort previewPlaneIndexFlag = 1 << 15;
 
         private ushort GetFreePreviewIndex()
         {
