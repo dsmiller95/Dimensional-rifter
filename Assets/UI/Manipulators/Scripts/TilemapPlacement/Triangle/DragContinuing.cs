@@ -20,31 +20,42 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             {
                 return new WaitForConfirm();
             }
+
             var currentPos = MyUtilities.GetMousePos2D();
-            var diff = mouseDragOrigin - currentPos;
-            var distance = diff.magnitude;
-            var angle = Quaternion.AngleAxis(
-                Mathf.Rad2Deg * Mathf.Atan2(diff.y, diff.x) + 90,
-                Vector3.forward);
-
-            var triangleRadius = .5f / TriangleCoordinate.vBasis.y;
-            var triangleNum = Mathf.FloorToInt(distance / triangleRadius);
-
+            var triangleNum = GetTriangleSideLengthFromNextDragPosition(currentPos);
+            var transformMatrix = GetTransformationBasedOnNextDragPosition(currentPos, triangleNum, data.zLayer);
             var previewRegion = UniversalCoordinateRange.From(
                 TriangleTriangleCoordinateRange.From(data.regionRootCoordinate.triangleDataView, triangleNum)
                 );
-
-
-            var transformMatrix = Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, data.zLayer));
-            transformMatrix *= Matrix4x4.Rotate(angle);
-            var transformToCenterOfTriangle = -(TriangleCoordinate.rBasis * (triangleNum * 2 - 3));
-            transformMatrix *= Matrix4x4.Translate(new Vector3(transformToCenterOfTriangle.x, transformToCenterOfTriangle.y, 0));
 
             CombinationTileMapManager.instance.SetPreviewRegionData(
                 transformMatrix,
                 previewRegion,
                 data.regionRootCoordinate.CoordinatePlaneID);
             return this;
+        }
+
+        private int GetTriangleSideLengthFromNextDragPosition(Vector2 dragPosition)
+        {
+            var distance = Vector2.Distance(mouseDragOrigin, dragPosition);
+
+            var triangleRadius = .5f / TriangleCoordinate.vBasis.y;
+            return Mathf.FloorToInt(distance / triangleRadius);
+        }
+
+        private Matrix4x4 GetTransformationBasedOnNextDragPosition(Vector2 dragPosition, int triangleSideLength, float zLayer)
+        {
+            var diff = mouseDragOrigin - dragPosition;
+            var angle = Quaternion.AngleAxis(
+                Mathf.Rad2Deg * Mathf.Atan2(diff.y, diff.x) + 90,
+                Vector3.forward);
+
+            var transformMatrix = Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, zLayer));
+            transformMatrix *= Matrix4x4.Rotate(angle);
+            var transformToCenterOfTriangle = -(TriangleCoordinate.rBasis * (triangleSideLength * 2 - 3));
+            transformMatrix *= Matrix4x4.Translate(new Vector3(transformToCenterOfTriangle.x, transformToCenterOfTriangle.y, 0));
+
+            return transformMatrix;
         }
 
         public void TransitionIntoState(TriangleTileMapPlacementManipulator data)

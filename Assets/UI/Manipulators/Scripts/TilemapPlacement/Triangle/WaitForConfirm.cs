@@ -9,7 +9,6 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         private bool Confirmed;
         private bool Canceled;
 
-
         public IGenericStateHandler<TriangleTileMapPlacementManipulator> HandleState(TriangleTileMapPlacementManipulator data)
         {
             if (Confirmed)
