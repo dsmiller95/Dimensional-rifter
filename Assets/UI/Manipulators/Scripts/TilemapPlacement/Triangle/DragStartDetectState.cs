@@ -14,18 +14,17 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             {
                 return this;
             }
+
             var mouseDragOrigin = MyUtilities.GetMousePos2D();
             var originCoordinate = TriangleCoordinate.AtOrigin();
 
             var previewRegion = UniversalCoordinateRange.From(
                 TriangleTriangleCoordinateRange.From(originCoordinate, 1)
                 );
-
-            var planeID = CombinationTileMapManager.instance.BeginPreviewRegion(
+            data.previewer = CombinationTileMapManager.instance.SpawnNewPreviewBehavior(
                 Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, data.zLayer)),
-                previewRegion
-                );
-            var regionRootCoordinate = UniversalCoordinate.From(originCoordinate, planeID);
+                previewRegion);
+            var regionRootCoordinate = UniversalCoordinate.From(originCoordinate, -1);
             data.regionRootCoordinate = regionRootCoordinate;
             return new DragContinuing(mouseDragOrigin);
         }
@@ -33,6 +32,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         public void TransitionIntoState(TriangleTileMapPlacementManipulator data)
         {
             data.regionRootCoordinate = default;
+            data.previewer = null;
         }
 
         public void TransitionOutOfState(TriangleTileMapPlacementManipulator data)

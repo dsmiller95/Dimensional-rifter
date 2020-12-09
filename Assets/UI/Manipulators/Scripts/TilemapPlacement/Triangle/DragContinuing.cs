@@ -29,9 +29,9 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                 );
 
             CombinationTileMapManager.instance.SetPreviewRegionData(
+                data.previewer,
                 transformMatrix,
-                previewRegion,
-                data.regionRootCoordinate.CoordinatePlaneID);
+                previewRegion);
             return this;
         }
 

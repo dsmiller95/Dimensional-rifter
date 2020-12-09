@@ -74,7 +74,7 @@ namespace Assets.Tiling.TriangleCoords
                 yield return new TriangleCoordinate(u - 1, v, true);
             }
         }
-        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, ushort planeID)
+        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
         {
             if (R)
             {

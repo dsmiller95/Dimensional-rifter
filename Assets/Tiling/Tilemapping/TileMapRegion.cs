@@ -24,7 +24,7 @@ namespace Assets.Tiling.Tilemapping
             IndividualCellCollider = polygons[1];
         }
 
-        public PolygonCollider2D SetupIndividualCollider(Vector2[] vertexes)
+        public PolygonCollider2D SetupIndividualTileCollider(Vector2[] vertexes)
         {
             IndividualCellCollider.SetPath(0, vertexes.ToArray());
             return IndividualCellCollider;
@@ -131,8 +131,6 @@ namespace Assets.Tiling.Tilemapping
                 .Select(vert => (Vector2)planeToWorldSpaceTransform.MultiplyPoint3x4(vert))
                 .ToArray();
 
-            // var individualTileVertexesWorldSpace = GetTileBoundingVertsWorldSpace(coord).ToArray();
-
             for (var i = 0; i < otherBounds.Length; i++)
             {
                 if (anyPossibleCollisionFlags[i])
@@ -146,7 +144,7 @@ namespace Assets.Tiling.Tilemapping
                 }
             }
 
-            var individualTileCollider = SetupIndividualCollider(tileVertexesWorldSpace);
+            var individualTileCollider = SetupIndividualTileCollider(tileVertexesWorldSpace);
 
             for (var i = 0; i < otherBounds.Length; i++)
             {

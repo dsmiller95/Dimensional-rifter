@@ -10,6 +10,8 @@ namespace Assets.Tiling.Tilemapping
     /// </summary>
     public class TileMapRegionPreview : TileMapRegionRenderer
     {
+        public TileMapRegionData ownRegionData;
+
         public Button ConfirmButton;
         public Button CancelButton;
         public GameObject confirmUIParent;

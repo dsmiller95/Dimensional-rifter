@@ -14,14 +14,13 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             if (Confirmed)
             {
                 Debug.Log("confirm");
-                var previewBehavior = CombinationTileMapManager.instance.GetPreviewBehavior(data.regionRootCoordinate.CoordinatePlaneID);
-                GameObject.Destroy(previewBehavior.confirmUIParent);
+                GameObject.Destroy(data.previewer.confirmUIParent);
                 return new DragStartDetectState();
             }
             if (Canceled)
             {
                 Debug.Log("cancel");
-                CombinationTileMapManager.instance.ClosePreviewRegion(data.regionRootCoordinate.CoordinatePlaneID);
+                CombinationTileMapManager.instance.ClosePreviewRegion(data.previewer);
                 return new DragStartDetectState();
             }
             return this;
@@ -29,13 +28,13 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 
         public void TransitionIntoState(TriangleTileMapPlacementManipulator data)
         {
-            var previewBehavior = CombinationTileMapManager.instance.GetPreviewBehavior(data.regionRootCoordinate.CoordinatePlaneID);
+            var previewBehavior = data.previewer;
             previewBehavior.ConfirmButton.onClick.AddListener(OnConfirm);
             previewBehavior.CancelButton.onClick.AddListener(OnCancel);
         }
         public void TransitionOutOfState(TriangleTileMapPlacementManipulator data)
         {
-            var previewBehavior = CombinationTileMapManager.instance.GetPreviewBehavior(data.regionRootCoordinate.CoordinatePlaneID);
+            var previewBehavior = data.previewer;
             previewBehavior?.ConfirmButton.onClick.RemoveListener(OnConfirm);
             previewBehavior?.CancelButton.onClick.RemoveListener(OnCancel);
         }

@@ -13,10 +13,33 @@ namespace Assets.Tiling.Tilemapping
     public class TileMapRegionData
     {
         public Matrix4x4 coordinateTransform;
-        public ushort planeIDIndex;
+        public short planeIDIndex;
         public UniversalCoordinateRange baseRange;
         public bool preview;
         public TileMapRegionRuntimeData runtimeData = new TileMapRegionRuntimeData();
+        public UniversalCoordinate? GetCoordinateFromRealPositionIffValid(Vector2 realPositionInPlane)
+        {
+            var coord = GetCoordinateFromRealPosition(realPositionInPlane);
+            if (IsValidInThisPlane(coord))
+            {
+                return coord;
+            }
+            return null;
+        }
+        public UniversalCoordinate GetCoordinateFromRealPosition(Vector2 realPositionInPlane)
+        {
+            Vector2 pointInPlane = coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
+            return UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeIDIndex);
+        }
+
+        public bool IsValidInThisPlane(UniversalCoordinate coordinate)
+        {
+            if (!baseRange.ContainsCoordinate(coordinate))
+            {
+                return false;
+            }
+            return !runtimeData.disabledCoordinates.Contains(coordinate);
+        }
     }
     [Serializable]
     public class TileRegionSaveObject
@@ -47,34 +70,6 @@ namespace Assets.Tiling.Tilemapping
                 throw new Exception("not enough polygon colliders to use");
             }
             RangeBoundsCollider = polygons[0];
-        }
-
-        public static UniversalCoordinate? GetCoordinateFromRealPositionIffValid(
-            Vector2 realPositionInPlane,
-            TileMapRegionData data)
-        {
-            var coord = GetCoordinateFromRealPosition(realPositionInPlane, data);
-            if (IsValidInThisPlane(coord, data))
-            {
-                return coord;
-            }
-            return null;
-        }
-        public static UniversalCoordinate GetCoordinateFromRealPosition(
-            Vector2 realPositionInPlane,
-            TileMapRegionData data)
-        {
-            Vector2 pointInPlane = data.coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
-            return UniversalCoordinate.FromPositionInPlane(pointInPlane, data.baseRange.CoordinateType, data.planeIDIndex);
-        }
-
-        public static bool IsValidInThisPlane(UniversalCoordinate coordinate, TileMapRegionData data)
-        {
-            if (!data.baseRange.ContainsCoordinate(coordinate))
-            {
-                return false;
-            }
-            return !data.runtimeData.disabledCoordinates.Contains(coordinate);
         }
 
 
