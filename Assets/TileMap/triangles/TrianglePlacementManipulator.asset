@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TrianglePlacementManipulator
   m_EditorClassIdentifier: 
   placingPreviewPrefab: {fileID: 6576551787073737435, guid: c78f9998b46c02d4f84e507f5bcaa370, type: 3}
-  anchorMemberBuildingPrefab: {fileID: 506530251402321470, guid: 29465b1bce103a242b07078334768294, type: 3}
+  anchorMemberBuildingPrefab: {fileID: 506530251402321470, guid: c6834b6a6e0afe1438c23fb4daea49a6, type: 3}
   zLayer: 0
