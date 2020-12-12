@@ -23,15 +23,16 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 
             var currentPos = MyUtilities.GetMousePos2D();
             var triangleNum = GetTriangleSideLengthFromNextDragPosition(currentPos);
-            var transformMatrix = GetTransformationBasedOnNextDragPosition(currentPos, triangleNum, data.zLayer);
             var previewRegion = UniversalCoordinateRange.From(
                 TriangleTriangleCoordinateRange.From(data.regionRootCoordinate.triangleDataView, triangleNum)
                 );
+            var previewer = data.previewer;
+            previewer.ownRegionData.coordinateTransform = GetTransformationBasedOnNextDragPosition(currentPos, triangleNum, data.zLayer);
+            previewer.ownRegionData.baseRange = previewRegion;
 
-            CombinationTileMapManager.instance.SetPreviewRegionData(
-                data.previewer,
-                transformMatrix,
-                previewRegion);
+            CombinationTileMapManager.instance.SetPreviewRegionData(previewer);
+            data.PositionAnchors();
+
             return this;
         }
 

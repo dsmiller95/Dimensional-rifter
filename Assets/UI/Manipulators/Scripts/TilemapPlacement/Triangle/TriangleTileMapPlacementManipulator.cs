@@ -1,6 +1,10 @@
 ﻿using Assets.Behaviors.Scripts;
 using Assets.Tiling;
 using Assets.Tiling.Tilemapping;
+using Assets.WorldObjects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
@@ -9,18 +13,19 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
     public class TriangleTileMapPlacementManipulator : MapManipulator
     {
         public GameObject placingPreviewPrefab;
+        public TileMapMember anchorMemberBuildingPrefab;
         public float zLayer;
-
-        private ManipulatorController controller;
-
         private StateMachine<TriangleTileMapPlacementManipulator> dragEditStateMachine;
 
+        [NonSerialized]
         public UniversalCoordinate regionRootCoordinate;
+        [NonSerialized]
         public TileMapRegionPreview previewer;
+        [NonSerialized]
+        public List<TileMapMember> anchorPreviewers;
 
         public override void OnOpen(ManipulatorController controller)
         {
-            this.controller = controller;
             dragEditStateMachine = new StateMachine<TriangleTileMapPlacementManipulator>(new DragStartDetectState());
         }
 
@@ -33,6 +38,35 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         public override void OnUpdate()
         {
             dragEditStateMachine.update(this);
+        }
+
+        public void PositionAnchors()
+        {
+            if (!this.TryPositionAllAnchors())
+            {
+                foreach (var anchor in anchorPreviewers)
+                {
+                    anchor.gameObject.SetActive(false);
+                }
+            }
+        }
+        
+        private bool TryPositionAllAnchors()
+        {
+            var boundingPoints = previewer.ownRegionData.BoundingPoints().ToArray();
+            for(var i = 0; i < anchorPreviewers.Count; i++)
+            {
+                var boundingPoint = boundingPoints[i];
+                var anchor = anchorPreviewers[i];
+                var previewCoordinate = CombinationTileMapManager.instance.ClosestNonPreviewValidCoordinate(boundingPoint);
+                if (!previewCoordinate.IsValid())
+                {
+                    return false;
+                }
+                anchor.gameObject.SetActive(true);
+                anchor.SetPosition(previewCoordinate);
+            }
+            return true;
         }
     }
 }

@@ -21,11 +21,24 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             var previewRegion = UniversalCoordinateRange.From(
                 TriangleTriangleCoordinateRange.From(originCoordinate, 1)
                 );
-            data.previewer = CombinationTileMapManager.instance.SpawnNewPreviewBehavior(
-                Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, data.zLayer)),
-                previewRegion);
-            var regionRootCoordinate = UniversalCoordinate.From(originCoordinate, -1);
-            data.regionRootCoordinate = regionRootCoordinate;
+            var initialData = new TileMapRegionData
+            {
+                coordinateTransform = Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, data.zLayer)),
+                planeIDIndex = -1,
+                baseRange = previewRegion,
+                preview = true
+            };
+
+            data.previewer = CombinationTileMapManager.instance.SpawnNewPreviewBehavior(initialData);
+            data.regionRootCoordinate = UniversalCoordinate.From(originCoordinate, -1);
+
+            data.anchorPreviewers = new System.Collections.Generic.List<WorldObjects.TileMapMember>(3);
+            for (int i = 0; i < 3; i++)
+            {
+                data.anchorPreviewers.Add(GameObject.Instantiate(data.anchorMemberBuildingPrefab, CombinationTileMapManager.instance.transform));
+            }
+            data.PositionAnchors();
+
             return new DragContinuing(mouseDragOrigin);
         }
 
@@ -33,6 +46,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         {
             data.regionRootCoordinate = default;
             data.previewer = null;
+            data.anchorPreviewers = null;
         }
 
         public void TransitionOutOfState(TriangleTileMapPlacementManipulator data)

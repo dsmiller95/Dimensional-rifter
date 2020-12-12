@@ -15,12 +15,20 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             {
                 Debug.Log("confirm");
                 GameObject.Destroy(data.previewer.confirmUIParent);
+                foreach (var anchor in data.anchorPreviewers)
+                {
+                    GameObject.Destroy(anchor.gameObject);
+                }
                 return new DragStartDetectState();
             }
             if (Canceled)
             {
                 Debug.Log("cancel");
                 CombinationTileMapManager.instance.ClosePreviewRegion(data.previewer);
+                foreach (var anchor in data.anchorPreviewers)
+                {
+                    GameObject.Destroy(anchor.gameObject);
+                }
                 return new DragStartDetectState();
             }
             return this;

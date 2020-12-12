@@ -85,41 +85,27 @@ namespace Assets.Tiling.Tilemapping
 
         #region Previewing
 
-        public TileMapRegionPreview SpawnNewPreviewBehavior(Matrix4x4 initialTransform, UniversalCoordinateRange initialRange)
+        public TileMapRegionPreview SpawnNewPreviewBehavior(TileMapRegionData initialData)
         {
-            if (!previewPrefabIndex.keyedPrefabs.TryGetValue(initialRange.rangeType, out var prefabSource))
+            if (!previewPrefabIndex.keyedPrefabs.TryGetValue(initialData.baseRange.rangeType, out var prefabSource))
             {
                 throw new System.Exception("prefab for range type not found");
             }
-
             var newPreview = Instantiate(prefabSource.prefab, transform);
-            var newData = newPreview.ownRegionData = new TileMapRegionData
-            {
-                coordinateTransform = initialTransform,
-                planeIDIndex = -1,
-                baseRange = initialRange,
-                preview = true
-            };
+            newPreview.ownRegionData = initialData;
+            newPreview.InitializeForTopologyBake(ConfigDataDict[initialData.baseRange.CoordinateType], everyMember);
 
-            var configData = ConfigDataDict[newData.baseRange.CoordinateType];
-
-            newPreview.InitializeForTopologyBake(configData, everyMember);
-            newPreview.BakeTopology(newData, new TileMapRegionRenderer[0]);
-            newPreview.SetupBoundingCollider(newData);
+            newPreview.BakeTopology(initialData, new TileMapRegionRenderer[0]);
+            newPreview.SetupBoundingCollider(initialData);
 
             SetPreviewColors();
-
             return newPreview;
         }
 
-        public void SetPreviewRegionData(TileMapRegionPreview previewBehavior, Matrix4x4 regionTransform, UniversalCoordinateRange newRange)
+        public void SetPreviewRegionData(TileMapRegionPreview previewBehavior)
         {
-            previewBehavior.ownRegionData.coordinateTransform = regionTransform;
-            previewBehavior.ownRegionData.baseRange = newRange;
-
             previewBehavior.BakeTopology(previewBehavior.ownRegionData, new TileMapRegionRenderer[0]);
             previewBehavior.SetupBoundingCollider(previewBehavior.ownRegionData);
-
             SetPreviewColors();
         }
         public void ClosePreviewRegion(TileMapRegionPreview previewBehavior)
@@ -128,9 +114,31 @@ namespace Assets.Tiling.Tilemapping
             SetPreviewColors();
         }
 
+        public UniversalCoordinate ClosestNonPreviewValidCoordinate(Vector2 position)
+        {
+            var minDistance = float.MaxValue;
+            UniversalCoordinate minCoordinate = default;
+            foreach (var region in allRegions)
+            {
+                var coord = region.GetClosestValidCoordinate(position);
+                if (!coord.IsValid())
+                {
+                    continue;
+                }
+                var coordsPosition = PositionInRealWorld(coord);
+                var dist = Vector2.Distance(coordsPosition, position);
+                if(dist < minDistance)
+                {
+                    minDistance = dist;
+                    minCoordinate = coord;
+                }
+            }
+            return minCoordinate;
+        }
+
         private void SetPreviewColors()
         {
-            var previews = this.GetComponentsInChildren<TileMapRegionPreview>();
+            var previews = GetComponentsInChildren<TileMapRegionPreview>();
             if (previews.Length <= 0)
             {
                 for (var i = 0; i < allRegions.Length; i++)
@@ -226,8 +234,7 @@ namespace Assets.Tiling.Tilemapping
 
         public UniversalCoordinate GetCoordinateOnSamePlane(Vector2 worldPosition, UniversalCoordinate otherCoordinate)
         {
-            var planeID = otherCoordinate.CoordinatePlaneID;
-            var planeData = allRegions[planeID];
+            var planeData = allRegions[otherCoordinate.CoordinatePlaneID];
             return planeData.GetCoordinateFromRealPosition(worldPosition);
         }
         #endregion
@@ -247,7 +254,6 @@ namespace Assets.Tiling.Tilemapping
             {
                 regions = allRegionSaveData.ToList(),
                 members = everyMember.GetSaveObject()
-                //regions = allRegions.Select(x => x.GetSaveObject()).ToList()
             };
         }
 
