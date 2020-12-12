@@ -18,7 +18,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         {
             if (!Input.GetMouseButton(0))
             {
-                return new WaitForConfirm();
+                return new WaitForConfirm(!data.placementValid);
             }
 
             var currentPos = MyUtilities.GetMousePos2D();

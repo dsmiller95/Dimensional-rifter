@@ -190,7 +190,7 @@
     <Compile Include="Assets\WorldObjects\Members\Items\DOTS\LooseItemSpawnSystem.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Utility states\ContinueableState.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberSaveable.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetFromCoordinatePositionComponent.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetFromCoordinatePositionComponentAuthoring.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\IItemSource.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TileMapEntityGenerator.cs" />
     <Compile Include="Assets\UI\Buttery Toast\ToastController.cs" />

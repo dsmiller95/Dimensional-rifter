@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2af76e6256cd3e4292933deff07653a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value:
+  Offset:
     x: 0
     y: 0.25
 --- !u!114 &6082261357034508971
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c3b7d3c27b58744f995d7301c744e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnchoredTileMap: 0
+  AnchoredTileMapIndex: 0
 --- !u!114 &1708563893484339933
 MonoBehaviour:
   m_ObjectHideFlags: 0

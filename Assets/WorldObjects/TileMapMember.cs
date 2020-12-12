@@ -52,6 +52,12 @@ namespace Assets.WorldObjects
             if (newPosition.HasValue)
                 transform.position = orderingLayer.ApplyPositionInOrderingLayer(newPosition.Value);
 
+            var offset = this.GetComponent<OffsetFromCoordinatePositionComponentAuthoring>();
+            if(offset != null)
+            {
+                this.transform.position += (Vector3)(Vector2)offset.Offset;
+            }
+
             if (this != null)
                 bigManager?.everyMember.RegisterInTileMap(this);
         }

@@ -26,6 +26,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
         public TileMapRegionPreview previewer;
         [NonSerialized]
         public List<TileMapMember> anchorPreviewers;
+        public bool placementValid;
 
         public override void OnOpen(ManipulatorController controller)
         {
@@ -45,29 +46,52 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 
         public void PositionAnchors()
         {
-            if (!this.TryPositionAllAnchors())
+            var meshRenderer = previewer.GetComponent<MeshRenderer>();
+            placementValid = TryPositionAllAnchors();
+            if (placementValid)
             {
                 foreach (var anchor in anchorPreviewers)
                 {
-                    anchor.gameObject.SetActive(false);
+                    anchor.GetComponent<MeshRenderer>().material.color = Color.white;
                 }
+                meshRenderer.material.color = Color.white;
+            }
+            else
+            {
+                foreach (var anchor in anchorPreviewers)
+                {
+                    anchor.GetComponent<MeshRenderer>().material.color = Color.red;
+                }
+                meshRenderer.material.color = Color.red;
             }
         }
-        
+
         private bool TryPositionAllAnchors()
         {
             var boundingPoints = previewer.ownRegionData.BoundingPoints().ToArray();
-            for(var i = 0; i < anchorPreviewers.Count; i++)
+            var allValid = true;
+            for (var i = 0; i < anchorPreviewers.Count; i++)
             {
                 var boundingPoint = boundingPoints[i];
                 var anchor = anchorPreviewers[i];
                 var previewCoordinate = CombinationTileMapManager.instance.ClosestNonPreviewValidCoordinate(boundingPoint);
-                if (!previewCoordinate.IsValid())
-                {
-                    return false;
-                }
-                anchor.gameObject.SetActive(true);
+
+                allValid &= IsPositionValid(previewCoordinate);
                 anchor.SetPosition(previewCoordinate);
+            }
+            return allValid;
+        }
+
+        private bool IsPositionValid(UniversalCoordinate previewCoordinate)
+        {
+            if (!previewCoordinate.IsValid())
+            {
+                return false;
+            }
+            var propertiesAt = CombinationTileMapManager.instance.everyMember.TilePropertiesAt(previewCoordinate);
+            if (!propertiesAt.isPassable)
+            {
+                return false;
             }
             return true;
         }

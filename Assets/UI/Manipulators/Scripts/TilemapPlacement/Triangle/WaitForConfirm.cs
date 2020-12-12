@@ -7,6 +7,10 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
 {
     public class WaitForConfirm : IGenericStateHandler<TriangleTileMapPlacementManipulator>
     {
+        public WaitForConfirm(bool ImmediateCancel = false)
+        {
+            Canceled = ImmediateCancel;
+        }
         private bool Confirmed;
         private bool Canceled;
 
