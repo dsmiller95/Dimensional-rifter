@@ -24,7 +24,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             var initialData = new TileMapRegionData
             {
                 coordinateTransform = Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, data.zLayer)),
-                planeIDIndex = -1,
+                planeID = -1,
                 baseRange = previewRegion,
                 preview = true
             };

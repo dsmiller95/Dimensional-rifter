@@ -10,11 +10,10 @@ namespace Assets.Tiling.Tilemapping
     /// <summary>
     /// Data set up in map-gen; or in the inspector. Data that should be Saved and loaded
     /// </summary>
-    [Serializable]
     public class TileMapRegionData
     {
         public Matrix4x4 coordinateTransform;
-        public short planeIDIndex;
+        public short planeID;
         public UniversalCoordinateRange baseRange;
         public bool preview;
         public TileMapRegionRuntimeData runtimeData = new TileMapRegionRuntimeData();
@@ -30,7 +29,7 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinate GetCoordinateFromRealPosition(Vector2 realPositionInPlane)
         {
             Vector2 pointInPlane = coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
-            return UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeIDIndex);
+            return UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeID);
         }
 
         public bool IsValidInThisPlane(UniversalCoordinate coordinate)
@@ -51,7 +50,7 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinate GetClosestValidCoordinate(Vector2 realPosition)
         {
             Vector2 pointInPlane = coordinateTransform.inverse.MultiplyPoint3x4(realPosition);
-            var origin = UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeIDIndex);
+            var origin = UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeID);
 
             if (!baseRange.ContainsCoordinate(origin))
             {
@@ -99,12 +98,42 @@ namespace Assets.Tiling.Tilemapping
 
             return minDistCoordinate;
         }
+
+        public TileRegionSaveObject Serialize()
+        {
+            if (preview)
+            {
+                return null;
+            }
+            return new TileRegionSaveObject
+            {
+                matrixSerialized = new SerializableMatrix4x4(coordinateTransform),
+                PlaneID = this.planeID,
+                range = baseRange
+            };
+        }
+
+        public static TileMapRegionData Deserialize(TileRegionSaveObject serialized)
+        {
+            return new TileMapRegionData
+            {
+                coordinateTransform = GetSerializedTransform(serialized),
+                planeID = serialized.PlaneID,
+                baseRange = serialized.range
+            };
+        }
+
+        private static Matrix4x4 GetSerializedTransform(TileRegionSaveObject regionPlane)
+        {
+            return regionPlane?.matrixSerialized?.GetMatrix() ?? Matrix4x4.identity;
+        }
     }
     [Serializable]
     public class TileRegionSaveObject
     {
         public SerializableMatrix4x4 matrixSerialized;
         public UniversalCoordinateRange range;
+        public short PlaneID;
     }
 
     public class TileMapRegionRuntimeData
@@ -118,7 +147,7 @@ namespace Assets.Tiling.Tilemapping
     public abstract class TileMapRegionRenderer : MonoBehaviour
     {
         public PolygonCollider2D RangeBoundsCollider;
-
+        public TileMapRegionData MyOwnData;
         public CombinationTileMapManager BigManager => GetComponentInParent<CombinationTileMapManager>();
 
         protected virtual void Awake()

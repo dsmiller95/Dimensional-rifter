@@ -8,9 +8,8 @@ namespace Assets.Tiling.TileAutomata
     {
         public AutomataRule[] rules;
 
-        public void ExecuteOnRegion(CombinationTileMapManager manager, short layerID)
+        public void ExecuteOnRegion(CombinationTileMapManager manager, TileMapRegionData regionData)
         {
-            var regionData = manager.allRegions[layerID];
             ExecuteAutomataStep(regionData.baseRange, manager.everyMember);
         }
 

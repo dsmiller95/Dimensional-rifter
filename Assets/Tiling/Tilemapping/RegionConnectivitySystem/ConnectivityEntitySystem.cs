@@ -96,7 +96,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 // must be in a scene without all the coordinates and ranges
                 return;
             }
-            var ranges = new NativeArray<UniversalCoordinateRange>(CombinationTileMapManager.instance.allRegions.Select(data => data.baseRange).ToArray(), Allocator.Persistent);
+            var ranges = new NativeArray<UniversalCoordinateRange>(
+                CombinationTileMapManager.instance.regionBehaviors
+                    .Select(data => data.MyOwnData.baseRange).ToArray(),
+                Allocator.Persistent);
             longRunningDisposables.Add(ranges);
 
             lastTotalTiles = ranges.Sum(x => x.TotalCoordinateContents());

@@ -16,18 +16,16 @@ namespace Assets.WorldObjects.WorldGen
         private System.Random randomGenerator;
         private Vector2 noiseOffset;
 
-        private short layerID;
-
         public RegionGenerator(
             UniversalCoordinateRange size,
             short layerID,
             MapGenerationConfiguration config)
         {
             mapGenConfig = config;
-            this.layerID = layerID;
 
             mySaveObject = new TileRegionSaveObject();
             mySaveObject.range = size;
+            mySaveObject.PlaneID = layerID;
 
 
             randomGenerator = new System.Random(mapGenConfig.seed);
@@ -121,7 +119,7 @@ namespace Assets.WorldObjects.WorldGen
             var haltonGenerator = new HaltonSequenceGenerator(2, 3, randomGenerator.Next(), maxVect, minVect);
             var type = range.CoordinateType;
             return haltonGenerator.InfiniteSample()
-                .Select(x => UniversalCoordinate.FromPositionInPlane(x, type, layerID))
+                .Select(x => UniversalCoordinate.FromPositionInPlane(x, type, mySaveObject.PlaneID))
                 .Where(coord => range.ContainsCoordinate(coord));
         }
 
