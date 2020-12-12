@@ -1,5 +1,6 @@
 ﻿using Assets.Behaviors.Scripts;
 using Assets.Tiling.Tilemapping;
+using Assets.WorldObjects.Members.Buildings.DOTS.Anchor;
 using UnityEngine;
 
 namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
@@ -17,6 +18,10 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                 GameObject.Destroy(data.previewer.confirmUIParent);
                 foreach (var anchor in data.anchorPreviewers)
                 {
+                    var newAnchor = GameObject.Instantiate(data.anchorBuildPrefab, CombinationTileMapManager.instance.transform);
+                    newAnchor.SetPosition(anchor);
+                    var anchoringIndex = newAnchor.GetComponent<TilemapAnchorComponentAuthoring>();
+                    anchoringIndex.AnchoredTileMapIndex = -1;
                     GameObject.Destroy(anchor.gameObject);
                 }
                 return new DragStartDetectState();

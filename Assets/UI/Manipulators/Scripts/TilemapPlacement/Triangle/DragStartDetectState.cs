@@ -35,7 +35,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             data.anchorPreviewers = new System.Collections.Generic.List<WorldObjects.TileMapMember>(3);
             for (int i = 0; i < 3; i++)
             {
-                data.anchorPreviewers.Add(GameObject.Instantiate(data.anchorMemberBuildingPrefab, CombinationTileMapManager.instance.transform));
+                data.anchorPreviewers.Add(GameObject.Instantiate(data.anchorMemberBuildingPreviewPrefab, CombinationTileMapManager.instance.transform));
             }
             data.PositionAnchors();
 

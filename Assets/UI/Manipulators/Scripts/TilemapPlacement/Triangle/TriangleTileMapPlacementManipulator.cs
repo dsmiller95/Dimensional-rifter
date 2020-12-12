@@ -12,9 +12,12 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
     [CreateAssetMenu(fileName = "TriangleTileMapPlacement", menuName = "TileMap/Manipulators/TriangleTileMapPlacement", order = 2)]
     public class TriangleTileMapPlacementManipulator : MapManipulator
     {
-        public GameObject placingPreviewPrefab;
-        public TileMapMember anchorMemberBuildingPrefab;
+        public GameObject tilemapPlacingPreviewPrefab;
+        public TileMapMember anchorMemberBuildingPreviewPrefab;
         public float zLayer;
+        // TODO: accomidate multi-tile-type placement
+        public TileMapMember anchorBuildPrefab;
+
         private StateMachine<TriangleTileMapPlacementManipulator> dragEditStateMachine;
 
         [NonSerialized]

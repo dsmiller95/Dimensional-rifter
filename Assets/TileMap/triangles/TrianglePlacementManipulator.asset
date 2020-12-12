@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3095fcac159d60046b5000fc801b83b6, type: 3}
   m_Name: TrianglePlacementManipulator
   m_EditorClassIdentifier: 
-  placingPreviewPrefab: {fileID: 6576551787073737435, guid: c78f9998b46c02d4f84e507f5bcaa370, type: 3}
-  anchorMemberBuildingPrefab: {fileID: 506530251402321470, guid: c6834b6a6e0afe1438c23fb4daea49a6, type: 3}
+  tilemapPlacingPreviewPrefab: {fileID: 6576551787073737435, guid: c78f9998b46c02d4f84e507f5bcaa370, type: 3}
+  anchorMemberBuildingPreviewPrefab: {fileID: 506530251402321470, guid: c6834b6a6e0afe1438c23fb4daea49a6, type: 3}
   zLayer: 0
+  anchorBuildPrefab: {fileID: 6082261357034508971, guid: 269bdfab057b60146b1e81f3c3c7ac7f, type: 3}
