@@ -65,7 +65,7 @@ namespace Assets.Tiling.Tilemapping
             if (RenderParemeterChangeRegistered)
             {
                 RenderParemeterChangeRegistered = false;
-                this.OnRegionPlaneDataChanged();
+                OnRegionPlaneDataChanged();
             }
         }
 

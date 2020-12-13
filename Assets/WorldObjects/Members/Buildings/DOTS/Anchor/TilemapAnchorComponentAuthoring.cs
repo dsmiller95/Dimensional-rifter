@@ -16,7 +16,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS.Anchor
         {
             dstManager.AddComponentData(entity, new TilemapAnchorComponent
             {
-                AnchoredTileMap = this.AnchoredTileMapIndex
+                AnchoredTileMap = AnchoredTileMapIndex
             });
         }
     }

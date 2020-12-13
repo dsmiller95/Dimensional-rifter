@@ -114,7 +114,7 @@ namespace Assets.Tiling.Tilemapping
             return new TileRegionSaveObject
             {
                 matrixSerialized = new SerializableMatrix4x4(coordinateTransform),
-                PlaneID = this.planeID,
+                PlaneID = planeID,
                 range = baseRange
             };
         }

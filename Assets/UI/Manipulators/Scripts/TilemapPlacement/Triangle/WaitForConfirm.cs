@@ -25,7 +25,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                 Debug.Log("confirm");
                 var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
                 var newRegionIndex = data.previewer.ReplaceWithRealRegion();
-                var anchorPrefab = this.GetAnchorPrefab(data, entityManager);
+                var anchorPrefab = GetAnchorPrefab(data, entityManager);
                 foreach (var anchor in data.anchorPreviewers)
                 {
                     var newAnchor = entityManager.Instantiate(anchorPrefab);// GameObject.Instantiate(data.anchorBuildPrefab, CombinationTileMapManager.instance.transform);

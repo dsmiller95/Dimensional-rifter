@@ -32,7 +32,7 @@ namespace Assets.Tiling.Tilemapping
             anchorEntities = World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntityQuery(
                 new EntityQueryDesc
                 {
-                    All = new ComponentType[] {typeof(TilemapAnchorComponent)},
+                    All = new ComponentType[] { typeof(TilemapAnchorComponent) },
                     Options = EntityQueryOptions.IncludeDisabled
                 });
         }
