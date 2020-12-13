@@ -37,20 +37,17 @@ namespace Assets.Tiling.TriangleCoords
 
         IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
         {
-            for (var u = 0; u < triangleSideLength; u++)
+            var maxIndex = triangleSideLength - 1;
+            for (var u = maxIndex; u >= 0 ; u--)
             {
-                for (var v = 0; v <= u; v++)
+                var vMax = maxIndex - u;
+                for (var v = 0; v < vMax; v++)
                 {
-                    if (v < u)
-                    {
-                        yield return new TriangleCoordinate(u + root.u, v + root.v, false);
-                        yield return new TriangleCoordinate(u + root.u, v + root.v, true);
-                    }
-                    else if (v == u)
-                    {
-                        yield return new TriangleCoordinate(u + root.u, v + root.v, false);
-                    }
+                    yield return new TriangleCoordinate(u + root.u, v + root.v, false);
+                    yield return new TriangleCoordinate(u + root.u, v + root.v, true);
                 }
+                // v == vMax
+                yield return new TriangleCoordinate(u + root.u, vMax + root.v, false);
             }
         }
 
@@ -72,8 +69,11 @@ namespace Assets.Tiling.TriangleCoords
         public TriangleCoordinate AtIndex(int index)
         {
             var resultStruct = new TriangleCoordinate();
-            resultStruct.u = (int)math.floor(math.sqrt(index));
-            var indexInU = index - resultStruct.u;
+            var maxUMinusU = (int)math.floor(math.sqrt(index));
+            var maxU = triangleSideLength - 1;
+            resultStruct.u = maxU - maxUMinusU;
+
+            var indexInU = index - (maxUMinusU * maxUMinusU);
             resultStruct.R = (indexInU % 2) == 1;
             resultStruct.v = indexInU / 2;
 
