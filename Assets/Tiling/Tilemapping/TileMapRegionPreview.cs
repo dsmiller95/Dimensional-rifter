@@ -10,14 +10,20 @@ namespace Assets.Tiling.Tilemapping
     /// </summary>
     public class TileMapRegionPreview : TileMapRegionRenderer
     {
-        public TileMapRegionData ownRegionData;
-
         public Button ConfirmButton;
         public Button CancelButton;
         public GameObject confirmUIParent;
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        public short ReplaceWithRealRegion()
+        {
+            MyOwnData.preview = false;
+            var newPlaneID = CombinationTileMapManager.instance.CreateNewRegion(MyOwnData);
+            CombinationTileMapManager.instance.ClosePreviewRegion(this);
+            return newPlaneID;
         }
 
         public override void InitializeForTopologyBake(

@@ -55,6 +55,20 @@ namespace Assets.Tiling.Tilemapping
         }
         #endregion
 
+        private bool RenderParemeterChangeRegistered = false;
+        public void OnRegionRenderParametersChanged()
+        {
+            RenderParemeterChangeRegistered = true;
+        }
+        private void Update()
+        {
+            if (RenderParemeterChangeRegistered)
+            {
+                RenderParemeterChangeRegistered = false;
+                this.OnRegionPlaneDataChanged();
+            }
+        }
+
         private void OnRegionPlaneDataChanged()
         {
             SortByPlaneID();
@@ -73,6 +87,14 @@ namespace Assets.Tiling.Tilemapping
             BakeAllTileMapMeshes();
         }
 
+        public void DestroyRegion(short regionId)
+        {
+            var regionIndex = GetIndexFromTileID(regionId);
+            var behavior = regionBehaviors[regionIndex];
+            regionBehaviors.RemoveAt(regionIndex);
+            Destroy(behavior.gameObject);
+        }
+
         private int GetIndexFromTileID(short tileId)
         {
             return regionBehaviors.FindIndex(region => region.MyOwnData.planeID == tileId);
@@ -87,7 +109,7 @@ namespace Assets.Tiling.Tilemapping
                 throw new System.Exception("prefab for range type not found");
             }
             var newPreview = Instantiate(prefabSource.prefab, transform);
-            newPreview.ownRegionData = initialData;
+            newPreview.MyOwnData = initialData;
             newPreview.InitializeForTopologyBake(ConfigDataDict[initialData.baseRange.CoordinateType], everyMember);
 
             newPreview.BakeTopology(initialData, new TileMapRegionRenderer[0]);
@@ -99,8 +121,8 @@ namespace Assets.Tiling.Tilemapping
 
         public void SetPreviewRegionData(TileMapRegionPreview previewBehavior)
         {
-            previewBehavior.BakeTopology(previewBehavior.ownRegionData, new TileMapRegionRenderer[0]);
-            previewBehavior.SetupBoundingCollider(previewBehavior.ownRegionData);
+            previewBehavior.BakeTopology(previewBehavior.MyOwnData, new TileMapRegionRenderer[0]);
+            previewBehavior.SetupBoundingCollider(previewBehavior.MyOwnData);
             SetPreviewColors();
         }
         public void ClosePreviewRegion(TileMapRegionPreview previewBehavior)
@@ -182,7 +204,7 @@ namespace Assets.Tiling.Tilemapping
                     return;
                 }
 
-                regionBehavior.BakeTopology(regionBehavior.MyOwnData, regionBehaviors.Take(regionIndex));
+                regionBehavior.BakeTopology(regionBehavior.MyOwnData, regionBehaviors.Skip(regionIndex + 1));
                 regionBehavior.SetupBoundingCollider(regionBehavior.MyOwnData);
             }
         }
@@ -229,6 +251,18 @@ namespace Assets.Tiling.Tilemapping
         }
         #endregion
 
+        public short CreateNewRegion(TileMapRegionData regionData)
+        {
+            var region = Instantiate(regionBehaviorPrefab, transform);
+            region.MyOwnData = regionData;
+            short newPlaneId = (short)(regionBehaviors.Max(r => r.MyOwnData.planeID) + 1);
+            region.MyOwnData.planeID = newPlaneId;
+
+            regionBehaviors.Add(region);
+
+            return newPlaneId;
+        }
+
         public WorldSaveObject GetSaveObject()
         {
             var allRegionSaveData = regionBehaviors
@@ -255,32 +289,8 @@ namespace Assets.Tiling.Tilemapping
                 }).ToList();
             everyMember.SetupFromSaveObject(save.members);
 
-            OnRegionPlaneDataChanged();
+            RenderParemeterChangeRegistered = true;
         }
 
-        private void Update()
-        {
-            //var currentMousePos = MyUtilities.GetMousePos2D();
-            //var mouseDelta = currentMousePos - lastMousePos;
-            //lastMousePos = currentMousePos;
-
-            //if (Input.GetKeyDown(KeyCode.A) && !isPlacingTileMap)
-            //{
-            //    var newTileMap = Instantiate(tileMapPrefab, transform).GetComponent<TileMapRegionNoCoordinateType>();
-            //    newTileMap.BakeTopologyAvoidingColliders(null);
-            //    tileMapToMove = newTileMap;
-            //    BeginMovingTileMap(tileMapToMove);
-            //}
-            //else if (Input.GetMouseButtonDown(0) && isPlacingTileMap)
-            //{
-            //    FinishMovingTileMap();
-            //}
-
-            //if (isPlacingTileMap)
-            //{
-            //    tileMapToMove.transform.position += (Vector3)(mouseDelta);
-            //    UpdateTileMapsBelow(tileMapToMove);
-            //}
-        }
     }
 }

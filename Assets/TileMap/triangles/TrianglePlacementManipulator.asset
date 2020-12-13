@@ -15,4 +15,5 @@ MonoBehaviour:
   tilemapPlacingPreviewPrefab: {fileID: 6576551787073737435, guid: c78f9998b46c02d4f84e507f5bcaa370, type: 3}
   anchorMemberBuildingPreviewPrefab: {fileID: 506530251402321470, guid: c6834b6a6e0afe1438c23fb4daea49a6, type: 3}
   zLayer: 0
-  anchorBuildPrefab: {fileID: 6082261357034508971, guid: 269bdfab057b60146b1e81f3c3c7ac7f, type: 3}
+  anchorMemberType: {fileID: 11400000, guid: b50eaae4c49c6d6469499d248559f5df, type: 2}
+  placementValid: 0

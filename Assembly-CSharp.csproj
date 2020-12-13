@@ -63,7 +63,7 @@
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorAuthoring.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SaveContext.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\OffsetLayerComponent.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabComponent.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabs\MemberPrefabComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\MemberType.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\Eating\GetResourceFactory.cs" />
     <Compile Include="Assets\WorldObjects\Members\Wall\DOTS\IsBuildingFlag.cs" />
@@ -290,6 +290,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\Anchor\TilemapAnchorComponentAuthoring.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionPreview.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
@@ -347,7 +348,6 @@
     <Compile Include="Assets\Tiling\Tilemapping\TileConfiguration\TileMapConfigurationData.cs" />
     <Compile Include="Assets\Tiling\HexCoords\CubeCoordinate.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\ScriptableObjectAssigner.cs" />
-    <Compile Include="Assets\Tiling\Tilemapping\DOTSTilemap\TilemapSpawningSystem.cs" />
     <Compile Include="Assets\Scripts\VariableOperators\OnBooleanEdgeEvent.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\UniversalCoordinatePositionComponent.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNodeFactories\StaticFactories\GatherOfTypeFactory.cs" />
@@ -379,7 +379,7 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\Anchor\TilemapAnchorComponentAuthoring.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabs\MemberPrefabIDComponentAuthoring.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

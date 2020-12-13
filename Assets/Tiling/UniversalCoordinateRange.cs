@@ -143,6 +143,21 @@ namespace Assets.Tiling
             }
         }
 
+        public int BoundingVertexCount()
+        {
+            switch (rangeType)
+            {
+                case CoordinateRangeType.TRIANGLE:
+                    return 3;
+                case CoordinateRangeType.TRIANGLE_RHOMBOID:
+                    return 4;
+                case CoordinateRangeType.RECTANGLE:
+                    return 4;
+                default:
+                    return -1;
+            }
+        }
+
         public int[] BoundingPolyTriangles()
         {
             switch (rangeType)

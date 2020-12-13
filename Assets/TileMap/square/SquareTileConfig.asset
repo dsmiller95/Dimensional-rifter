@@ -16,3 +16,4 @@ MonoBehaviour:
   tileSet: {fileID: 11400000, guid: a40f50217fb8eb4468512e1868190bb1, type: 2}
   atomataSystem: {fileID: 11400000, guid: 1a1993a5e44253f49a2e613caa1df494, type: 2}
   tileMaterial: {fileID: 2100000, guid: 349edbd21c42a8c4abd3ec0793b49e32, type: 2}
+  tilePreviewMaterial: {fileID: 2100000, guid: def04162a9644244e929aee01c85052f, type: 2}

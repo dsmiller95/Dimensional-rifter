@@ -27,8 +27,8 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                 TriangleTriangleCoordinateRange.From(data.regionRootCoordinate.triangleDataView, triangleNum)
                 );
             var previewer = data.previewer;
-            previewer.ownRegionData.coordinateTransform = GetTransformationBasedOnNextDragPosition(currentPos, triangleNum, data.zLayer);
-            previewer.ownRegionData.baseRange = previewRegion;
+            previewer.MyOwnData.coordinateTransform = GetTransformationBasedOnNextDragPosition(currentPos, triangleNum, data.zLayer);
+            previewer.MyOwnData.baseRange = previewRegion;
 
             CombinationTileMapManager.instance.SetPreviewRegionData(previewer);
             data.PositionAnchors();

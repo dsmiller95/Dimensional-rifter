@@ -1,17 +1,24 @@
 ﻿using Assets.Tiling.Tilemapping.MeshEdit;
+using Assets.WorldObjects.Members.Buildings.DOTS;
+using Assets.WorldObjects.Members.Buildings.DOTS.Anchor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
 {
+
     [RequireComponent(typeof(PolygonCollider2D))]
     public class TileMapRegion : TileMapRegionRenderer
     {
         public TileMapMeshBuilder meshBuilder;
-        public TileMapPreviewsByCoordinateRangeType previewIndex;
         protected PolygonCollider2D IndividualCellCollider;
+
+        private EntityQuery anchorEntities;
+
+        private bool isBuilt;
 
         protected override void Awake()
         {
@@ -22,6 +29,68 @@ namespace Assets.Tiling.Tilemapping
                 throw new Exception("not enough polygon colliders to use");
             }
             IndividualCellCollider = polygons[1];
+            anchorEntities = World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntityQuery(
+                new EntityQueryDesc
+                {
+                    All = new ComponentType[] {typeof(TilemapAnchorComponent)},
+                    Options = EntityQueryOptions.IncludeDisabled
+                });
+        }
+
+        private void Start()
+        {
+            isBuilt = MyOwnData.planeID == 0;
+            CombinationTileMapManager.instance.OnRegionRenderParametersChanged();
+        }
+
+        private void Update()
+        {
+            var lastIsBuilt = isBuilt;
+            isBuilt = GetIsBuilt();
+            if (lastIsBuilt != isBuilt)
+            {
+                Debug.Log("Isbuild changed to " + isBuilt);
+                CombinationTileMapManager.instance.OnRegionRenderParametersChanged();
+            }
+        }
+
+        private bool GetIsBuilt()
+        {
+            if (MyOwnData.planeID == 0)
+            {
+                return true;
+            }
+            var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            var anchors = anchorEntities.ToEntityArray(Unity.Collections.Allocator.Temp);
+            MyOwnData.anchorEntities = anchors
+                .Where(anc => entityManager.GetComponentData<TilemapAnchorComponent>(anc).AnchoredTileMap == MyOwnData.planeID)
+                .ToList();
+
+            var requiredAnchors = MyOwnData.baseRange.BoundingVertexCount();
+            if (MyOwnData.anchorEntities.Count != requiredAnchors)
+            {
+                foreach (var anchor in MyOwnData.anchorEntities)
+                {
+                    var buildData = entityManager.GetComponentData<BuildingParentComponent>(anchor);
+                    if (buildData.isBuilt)
+                    {
+                        continue;
+                    }
+                    entityManager.DestroyEntity(buildData.buildingEntity);
+                    entityManager.DestroyEntity(anchor);
+                }
+                CombinationTileMapManager.instance.DestroyRegion(MyOwnData.planeID);
+                return false;
+            }
+            foreach (var anchor in MyOwnData.anchorEntities)
+            {
+                var buildData = entityManager.GetComponentData<BuildingParentComponent>(anchor);
+                if (!buildData.isBuilt)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public PolygonCollider2D SetupIndividualTileCollider(Vector2[] vertexes)
@@ -36,7 +105,7 @@ namespace Assets.Tiling.Tilemapping
         {
             meshBuilder = new TileMapMeshBuilder(tileConfiguration.tileSet, members);
             var renderer = GetComponent<MeshRenderer>();
-            renderer.material = tileConfiguration.tileMaterial;
+            renderer.material = isBuilt ? tileConfiguration.tileMaterial : tileConfiguration.tilePreviewMaterial;
             meshBuilder.SetupTilesForGivenTexture(renderer.material.mainTexture);
         }
         public void SetNoPreviews(TileMapRegionData data)
@@ -52,6 +121,11 @@ namespace Assets.Tiling.Tilemapping
             IEnumerable<TileMapRegionPreview> previewRegions
             )
         {
+            if (!isBuilt)
+            {
+                SetNoPreviews(data);
+                return;
+            }
             var oldFadeoutCoordinates = data.runtimeData.previewFadeoutCoordiantes;
             var newFadeoutCoordinates = new HashSet<UniversalCoordinate>();
 

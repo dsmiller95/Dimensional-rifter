@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Assets.Tiling.Tilemapping
@@ -13,9 +14,14 @@ namespace Assets.Tiling.Tilemapping
     public class TileMapRegionData
     {
         public Matrix4x4 coordinateTransform;
+        /// <summary>
+        /// planeID of 0 is assumed to be the root region
+        /// </summary>
         public short planeID;
         public UniversalCoordinateRange baseRange;
         public bool preview;
+        public List<Entity> anchorEntities;
+
         public TileMapRegionRuntimeData runtimeData = new TileMapRegionRuntimeData();
         public UniversalCoordinate? GetCoordinateFromRealPositionIffValid(Vector2 realPositionInPlane)
         {
@@ -138,8 +144,8 @@ namespace Assets.Tiling.Tilemapping
 
     public class TileMapRegionRuntimeData
     {
-        public HashSet<UniversalCoordinate> disabledCoordinates;
-        public HashSet<UniversalCoordinate> previewFadeoutCoordiantes;
+        public HashSet<UniversalCoordinate> disabledCoordinates = new HashSet<UniversalCoordinate>();
+        public HashSet<UniversalCoordinate> previewFadeoutCoordiantes = new HashSet<UniversalCoordinate>();
     }
 
     [RequireComponent(typeof(MeshRenderer))]

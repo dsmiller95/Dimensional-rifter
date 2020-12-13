@@ -15,5 +15,7 @@ namespace Assets.Tiling.Tilemapping
         public TileSet tileSet;
         public AutomataSystem atomataSystem;
         public Material tileMaterial;
+        [Tooltip("should sample texture with same shape as tileMaterial. Used to render the range when it is not fully anchored yet")]
+        public Material tilePreviewMaterial;
     }
 }

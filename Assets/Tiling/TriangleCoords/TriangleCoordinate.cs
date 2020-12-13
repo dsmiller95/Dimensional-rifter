@@ -143,7 +143,8 @@ namespace Assets.Tiling.TriangleCoords
                 var rotation = Quaternion.Euler(0, 0, -60);
                 verts = verts.Select(x => (Vector2)(rotation * x));
             }
-            return verts;
+            Vector2 myPos = ToPositionInPlane();
+            return verts.Select(x => x + myPos);
         }
 
         public Bounds GetRawBounds(float sideLength, Matrix4x4 systemTransform)
