@@ -163,7 +163,8 @@ namespace Assets.Tiling.Tilemapping
             data.runtimeData.previewFadeoutCoordiantes = new HashSet<UniversalCoordinate>();
             var setupMesh = meshBuilder.BakeTilemapMesh(
                 data.baseRange,
-                (coord, position) =>
+                data.coordinateTransform,
+                coord =>
                 {
                     if (GetCollidesWith(
                         data.coordinateTransform,

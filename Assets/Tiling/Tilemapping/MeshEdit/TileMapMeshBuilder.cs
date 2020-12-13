@@ -110,7 +110,8 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
 
         public Mesh BakeTilemapMesh(
             UniversalCoordinateRange range,
-            Func<UniversalCoordinate, Vector2, bool> tileFilter)
+            Matrix4x4 planeTransformation,
+            Func<UniversalCoordinate, bool> tileFilter)
         {
             Mesh sourceMesh = new Mesh();
             sourceMesh.subMeshCount = 1;
@@ -139,8 +140,7 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
 
             foreach (var coord in range.GetUniversalCoordinates())
             {
-                var tileLocation = coord.ToPositionInPlane();
-                if (!tileFilter(coord, tileLocation))
+                if (!tileFilter(coord))
                 {
                     continue;
                 }
@@ -155,8 +155,8 @@ namespace Assets.Tiling.Tilemapping.MeshEdit
 
                 Vector2[] uvs = tileConfig.uvs;
 
-                var vertexes = coord.GetVertexesAround().Select(x => (Vector3)x);
-                var indexAdded = copier.NextCopy((Vector2)tileLocation, UVOverride: uvs, vertexOverrides: vertexes);
+                var vertexes = coord.GetVertexesAround().Select(x => planeTransformation.MultiplyPoint(x));
+                var indexAdded = copier.NextCopy(UVOverride: uvs, vertexOverrides: vertexes);
                 copier.CopySubmeshTrianglesToOffsetIndex(0, 0);
 
                 coordinateCopyIndexes[coord] = indexAdded;
