@@ -6,6 +6,7 @@ using Assets.WorldObjects.SaveObjects;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace Assets.Tiling
@@ -21,6 +22,7 @@ namespace Assets.Tiling
 
         private NativeHashMap<UniversalCoordinate, int> tileTypes;
         private TileTypeInfo[] infoByIndex;
+
 
         private IDictionary<UniversalCoordinate, IList<TileMapMember>> tileMembers;
         public IEnumerable<TileMapMember> allMembers => tileMembers.SelectMany(pair => pair.Value);
@@ -69,6 +71,10 @@ namespace Assets.Tiling
 
         public void SetTile(UniversalCoordinate coordinate, TileTypeInfo tileID)
         {
+            if (!isWritable)
+            {
+                throw new System.Exception("Members is not in a writable state! be sure the map is opened for edits with OpenForEdit before making changes to tile data");
+            }
             if (tileTypes.TryGetValue(coordinate, out var currentID) && currentID.Equals(tileID))
             {
                 return;
@@ -150,6 +156,21 @@ namespace Assets.Tiling
         {
             return tileTypes;
         }
+
+        #region Read/Write management
+        private JobHandle readersJobHandle;
+        private bool isWritable = true;
+        public void RegisterJobHandleForReader(JobHandle handle)
+        {
+            readersJobHandle = JobHandle.CombineDependencies(readersJobHandle, handle);
+            isWritable = false;
+        }
+        public void OpenForEdit()
+        {
+            readersJobHandle.Complete();
+            isWritable = true;
+        }
+        #endregion
 
         public TileProperties[] GetTileInfoByTypeIndex()
         {

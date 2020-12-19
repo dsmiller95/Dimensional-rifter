@@ -144,7 +144,7 @@ namespace Assets.WorldObjects
             var nonClosedNeighbors = currentCoordinate
                 .Neighbors()
                 .Where(neighbor => !completed.Contains(neighbor)
-                    && bigboi.ValidCoordinateInOwnPlane(neighbor)
+                    && bigboi.ValidCoordinateInOwnPlane(neighbor) // TODO: use this same data in the region classification system. when there is disparity then lagspikes happen due to poor region optimization
                     && coordinateFilterFunction(neighbor, bigboi.everyMember.TilePropertiesAt(neighbor))
                 );
 

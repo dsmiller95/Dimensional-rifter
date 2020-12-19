@@ -112,6 +112,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             var concurrentWriter = pendingBlockedPositionIndexed.AsParallelWriter();
             // only pass through the job which queries the entities
             //  all other jobs will run long
+            // TODO: read data about which items in the range are blocked by other ranges
             Dependency = ScheduleEntityBlockingJob(concurrentWriter, Dependency);
             var dataQueryDep = ScheduleTileMapBlockingJob(ranges, concurrentWriter, Dependency);
             Profiler.EndSample();
@@ -195,7 +196,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             JobHandle dependency = default)
         {
             Profiler.BeginSample("Schedule: tile Map blocking");
-            var tileTypeDict = CombinationTileMapManager.instance.everyMember.GetTileTypesByCoordinateReadonlyCollection();
+            var memberManager = CombinationTileMapManager.instance.everyMember;
+            var tileTypeDict = memberManager.GetTileTypesByCoordinateReadonlyCollection();
             var impassibleIDs = GetImpassibleIDSet(Allocator.TempJob);
 
             foreach (var range in ranges)
@@ -213,6 +215,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     TileTypesToImpassibleQueryBatchSize,
                     dependency);
             }
+            memberManager.RegisterJobHandleForReader(dependency);
 
             dependency = impassibleIDs.Dispose(dependency);
             Profiler.EndSample();
