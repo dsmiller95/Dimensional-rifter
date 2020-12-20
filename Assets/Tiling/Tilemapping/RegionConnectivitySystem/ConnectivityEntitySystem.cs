@@ -164,9 +164,9 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         }
 
         private NativeArray<UniversalCoordinate> ScheduleSeedPoints(
-            NativeArray<TilemapAnchorComponent> anchors, 
+            NativeArray<TilemapAnchorComponent> anchors,
             NativeArray<UniversalCoordinatePositionComponent> anchorPositions,
-            JobHandle dependency, 
+            JobHandle dependency,
             out JobHandle newJob)
         {
             /** seed regions with all members that have a navigation member

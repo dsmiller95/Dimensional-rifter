@@ -44,7 +44,7 @@ namespace Assets.Tiling.TriangleCoords
         IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
         {
             var maxIndex = triangleSideLength - 1;
-            for (var u = maxIndex; u >= 0 ; u--)
+            for (var u = maxIndex; u >= 0; u--)
             {
                 var vMax = maxIndex - u;
                 for (var v = 0; v < vMax; v++)

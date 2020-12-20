@@ -115,7 +115,7 @@ namespace Assets.Tiling
 
         public bool ContainsCoordinate(UniversalCoordinate coordiante)
         {
-            if(coordiante.CoordinatePlaneID != this.CoordinatePlaneID)
+            if (coordiante.CoordinatePlaneID != CoordinatePlaneID)
             {
                 return false;
             }

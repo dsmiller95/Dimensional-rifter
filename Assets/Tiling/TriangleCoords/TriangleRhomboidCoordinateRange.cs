@@ -107,7 +107,7 @@ namespace Assets.Tiling.TriangleCoords
             nextPos = nextCoord.ToPositionInPlane();
             yield return (Vector2)nextPos - Vector2.up * TriangleCoordinate.rBasis.y * 2 * scaling;
         }
-    
+
         public IEnumerable<TriangleCoordinate> BoundingCoordinates()
         {
             yield return coord0;
