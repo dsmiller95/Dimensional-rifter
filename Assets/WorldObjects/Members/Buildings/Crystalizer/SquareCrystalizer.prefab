@@ -219,8 +219,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grownResource: 1
-  resourceAmount: 1
-  growthPerSecond: 1
+  resourceAmount: 2
+  growthPerSecond: 5
   finalGrowthAmount: 50
 --- !u!114 &7261982333862167604
 MonoBehaviour:
