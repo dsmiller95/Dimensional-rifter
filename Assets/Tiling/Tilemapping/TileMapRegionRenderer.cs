@@ -17,7 +17,6 @@ namespace Assets.Tiling.Tilemapping
         /// <summary>
         /// planeID of 0 is assumed to be the root region
         /// </summary>
-        public short planeID;
         public UniversalCoordinateRange baseRange;
         public bool preview;
         public List<Entity> anchorEntities;
@@ -35,7 +34,7 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinate GetCoordinateFromRealPosition(Vector2 realPositionInPlane)
         {
             Vector2 pointInPlane = coordinateTransform.inverse.MultiplyPoint3x4(realPositionInPlane);
-            return UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeID);
+            return UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, baseRange.CoordinatePlaneID);
         }
 
         public bool IsValidInThisPlane(UniversalCoordinate coordinate)
@@ -56,7 +55,7 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinate GetClosestValidCoordinate(Vector2 realPosition)
         {
             Vector2 pointInPlane = coordinateTransform.inverse.MultiplyPoint3x4(realPosition);
-            var origin = UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, planeID);
+            var origin = UniversalCoordinate.FromPositionInPlane(pointInPlane, baseRange.CoordinateType, baseRange.CoordinatePlaneID);
 
             if (!baseRange.ContainsCoordinate(origin))
             {
@@ -114,7 +113,6 @@ namespace Assets.Tiling.Tilemapping
             return new TileRegionSaveObject
             {
                 matrixSerialized = new SerializableMatrix4x4(coordinateTransform),
-                PlaneID = planeID,
                 range = baseRange
             };
         }
@@ -124,7 +122,6 @@ namespace Assets.Tiling.Tilemapping
             return new TileMapRegionData
             {
                 coordinateTransform = GetSerializedTransform(serialized),
-                planeID = serialized.PlaneID,
                 baseRange = serialized.range
             };
         }
@@ -139,7 +136,6 @@ namespace Assets.Tiling.Tilemapping
     {
         public SerializableMatrix4x4 matrixSerialized;
         public UniversalCoordinateRange range;
-        public short PlaneID;
     }
 
     public class TileMapRegionRuntimeData

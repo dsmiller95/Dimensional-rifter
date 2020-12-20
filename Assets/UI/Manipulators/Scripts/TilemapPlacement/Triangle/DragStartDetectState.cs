@@ -19,12 +19,11 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             var originCoordinate = TriangleCoordinate.AtOrigin();
 
             var previewRegion = UniversalCoordinateRange.From(
-                TriangleTriangleCoordinateRange.From(originCoordinate, 1)
-                );
+                TriangleTriangleCoordinateRange.From(originCoordinate, 1),
+                -1);
             var initialData = new TileMapRegionData
             {
                 coordinateTransform = Matrix4x4.Translate(new Vector3(mouseDragOrigin.x, mouseDragOrigin.y, data.zLayer)),
-                planeID = -1,
                 baseRange = previewRegion,
                 preview = true
             };

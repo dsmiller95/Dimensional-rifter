@@ -31,8 +31,7 @@ namespace Assets.WorldObjects.WorldGen
                 rootCoord,
                 -rootCoord);
             var baseRegion = new RegionGenerator(
-                UniversalCoordinateRange.From(mapSize),
-                0,
+                UniversalCoordinateRange.From(mapSize, 0),
                 mapGenerationConfiguration);
 
             world.members = new UniversalTileMembersSaveObject

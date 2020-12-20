@@ -39,7 +39,7 @@ namespace Assets.Tiling.Tilemapping
 
         private void Start()
         {
-            isBuilt = MyOwnData.planeID == 0;
+            isBuilt = MyOwnData.baseRange.CoordinatePlaneID == 0;
             CombinationTileMapManager.instance.OnRegionRenderParametersChanged();
         }
 
@@ -56,14 +56,14 @@ namespace Assets.Tiling.Tilemapping
 
         private bool GetIsBuilt()
         {
-            if (MyOwnData.planeID == 0)
+            if (MyOwnData.baseRange.CoordinatePlaneID == 0)
             {
                 return true;
             }
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             var anchors = anchorEntities.ToEntityArray(Unity.Collections.Allocator.Temp);
             MyOwnData.anchorEntities = anchors
-                .Where(anc => entityManager.GetComponentData<TilemapAnchorComponent>(anc).destinationCoordinate.CoordinatePlaneID == MyOwnData.planeID)
+                .Where(anc => entityManager.GetComponentData<TilemapAnchorComponent>(anc).destinationCoordinate.CoordinatePlaneID == MyOwnData.baseRange.CoordinatePlaneID)
                 .ToList();
 
             var requiredAnchors = MyOwnData.baseRange.BoundingVertexCount();
@@ -79,7 +79,7 @@ namespace Assets.Tiling.Tilemapping
                     entityManager.DestroyEntity(buildData.buildingEntity);
                     entityManager.DestroyEntity(anchor);
                 }
-                CombinationTileMapManager.instance.DestroyRegion(MyOwnData.planeID);
+                CombinationTileMapManager.instance.DestroyRegion(MyOwnData.baseRange.CoordinatePlaneID);
                 return false;
             }
             foreach (var anchor in MyOwnData.anchorEntities)

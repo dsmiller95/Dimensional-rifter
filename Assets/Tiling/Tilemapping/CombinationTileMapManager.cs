@@ -98,7 +98,7 @@ namespace Assets.Tiling.Tilemapping
 
         private int GetIndexFromTileID(short tileId)
         {
-            return regionBehaviors.FindIndex(region => region.MyOwnData.planeID == tileId);
+            return regionBehaviors.FindIndex(region => region.MyOwnData.baseRange.CoordinatePlaneID == tileId);
         }
 
         #region Previewing
@@ -182,7 +182,7 @@ namespace Assets.Tiling.Tilemapping
 
         private void SortByPlaneID()
         {
-            regionBehaviors = regionBehaviors.OrderBy(x => x.MyOwnData.planeID).ToList();
+            regionBehaviors = regionBehaviors.OrderBy(x => x.MyOwnData.baseRange.CoordinatePlaneID).ToList();
         }
 
         private void OnDestroy()
@@ -252,16 +252,16 @@ namespace Assets.Tiling.Tilemapping
         }
         #endregion
 
-        public short CreateNewRegion(TileMapRegionData regionData)
+        public TileMapRegion CreateNewRegion(TileMapRegionData regionData)
         {
             var region = Instantiate(regionBehaviorPrefab, transform);
             region.MyOwnData = regionData;
-            short newPlaneId = (short)(regionBehaviors.Max(r => r.MyOwnData.planeID) + 1);
-            region.MyOwnData.planeID = newPlaneId;
+            short newPlaneId = (short)(regionBehaviors.Max(r => r.MyOwnData.baseRange.CoordinatePlaneID) + 1);
+            region.MyOwnData.baseRange.CoordinatePlaneID = newPlaneId;
 
             regionBehaviors.Add(region);
 
-            return newPlaneId;
+            return region;
         }
 
         public WorldSaveObject GetSaveObject()

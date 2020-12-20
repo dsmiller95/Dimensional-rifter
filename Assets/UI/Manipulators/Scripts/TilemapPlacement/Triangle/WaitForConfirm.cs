@@ -25,9 +25,9 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             {
                 Debug.Log("confirm");
                 var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-                var newRegionIndex = data.previewer.ReplaceWithRealRegion();
-                var placingRange = data.previewer.MyOwnData.baseRange;
-                var boundingCoordinates = placingRange.BoundingCoordinates(newRegionIndex).ToArray();
+                var newRegion = data.previewer.ReplaceWithRealRegion();
+                var placingRange = newRegion.MyOwnData.baseRange;
+                var boundingCoordinates = placingRange.BoundingCoordinates().ToArray();
 
                 var anchorPrefab = GetAnchorPrefab(data, entityManager);
                 for (var i = 0; i < data.anchorPreviewers.Count; i++)

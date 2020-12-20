@@ -18,12 +18,12 @@ namespace Assets.Tiling.Tilemapping
             base.Awake();
         }
 
-        public short ReplaceWithRealRegion()
+        public TileMapRegion ReplaceWithRealRegion()
         {
             MyOwnData.preview = false;
-            var newPlaneID = CombinationTileMapManager.instance.CreateNewRegion(MyOwnData);
+            var newRegion = CombinationTileMapManager.instance.CreateNewRegion(MyOwnData);
             CombinationTileMapManager.instance.ClosePreviewRegion(this);
-            return newPlaneID;
+            return newRegion;
         }
 
         public override void InitializeForTopologyBake(

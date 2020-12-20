@@ -24,8 +24,8 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             var currentPos = MyUtilities.GetMousePos2D();
             var triangleNum = GetTriangleSideLengthFromNextDragPosition(currentPos);
             var previewRegion = UniversalCoordinateRange.From(
-                TriangleTriangleCoordinateRange.From(data.regionRootCoordinate.triangleDataView, triangleNum)
-                );
+                TriangleTriangleCoordinateRange.From(data.regionRootCoordinate.triangleDataView, triangleNum),
+                -1);
             var previewer = data.previewer;
             previewer.MyOwnData.coordinateTransform = GetTransformationBasedOnNextDragPosition(currentPos, triangleNum, data.zLayer);
             previewer.MyOwnData.baseRange = previewRegion;

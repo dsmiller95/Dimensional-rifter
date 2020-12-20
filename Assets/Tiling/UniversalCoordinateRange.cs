@@ -57,6 +57,7 @@ namespace Assets.Tiling
 
         // TODO: Add plane index data!!
         [FieldOffset(24)] public CoordinateRangeType rangeType;
+        [FieldOffset(26)] public short CoordinatePlaneID;
 
         public CoordinateType CoordinateType
         {
@@ -80,7 +81,7 @@ namespace Assets.Tiling
 
         public bool Equals(UniversalCoordinateRange other)
         {
-            if (other.rangeType != rangeType)
+            if (other.rangeType != rangeType || other.CoordinatePlaneID != CoordinatePlaneID)
             {
                 return false;
             }
@@ -114,6 +115,10 @@ namespace Assets.Tiling
 
         public bool ContainsCoordinate(UniversalCoordinate coordiante)
         {
+            if(coordiante.CoordinatePlaneID != this.CoordinatePlaneID)
+            {
+                return false;
+            }
             switch (rangeType)
             {
                 case CoordinateRangeType.TRIANGLE:
@@ -149,16 +154,17 @@ namespace Assets.Tiling
         /// These coordinates come back in the same order as the bounding polygon call, and will match up 1 to 1
         /// </summary>
         /// <returns>A list of coordinates at the most extreme points on this range</returns>
-        public IEnumerable<UniversalCoordinate> BoundingCoordinates(short coordPlaneID = 0)
+        public IEnumerable<UniversalCoordinate> BoundingCoordinates()
         {
+            var planeIndexLambdaCapture = CoordinatePlaneID;
             switch (rangeType)
             {
                 case CoordinateRangeType.TRIANGLE:
-                    return triangleDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                    return triangleDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, planeIndexLambdaCapture));
                 case CoordinateRangeType.TRIANGLE_RHOMBOID:
-                    return triangeRhomboidDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                    return triangeRhomboidDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, planeIndexLambdaCapture));
                 case CoordinateRangeType.RECTANGLE:
-                    return rectangleDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                    return rectangleDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, planeIndexLambdaCapture));
                 default:
                     return null;
             }
@@ -194,59 +200,63 @@ namespace Assets.Tiling
             }
         }
 
-        public IEnumerable<UniversalCoordinate> GetUniversalCoordinates(short coordPlaneID = 0)
+        public IEnumerable<UniversalCoordinate> GetUniversalCoordinates()
         {
+            var planeIndexLambdaCapture = CoordinatePlaneID;
             switch (rangeType)
             {
                 case CoordinateRangeType.TRIANGLE:
-                    return triangleDataView.Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                    return triangleDataView.Select(coord => UniversalCoordinate.From(coord, planeIndexLambdaCapture));
                 case CoordinateRangeType.TRIANGLE_RHOMBOID:
-                    return triangeRhomboidDataView.Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                    return triangeRhomboidDataView.Select(coord => UniversalCoordinate.From(coord, planeIndexLambdaCapture));
                 case CoordinateRangeType.RECTANGLE:
-                    return rectangleDataView.Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                    return rectangleDataView.Select(coord => UniversalCoordinate.From(coord, planeIndexLambdaCapture));
                 default:
                     return null;
             }
         }
 
-        public UniversalCoordinate AtIndex(int index, short coordPlaneID = 0)
+        public UniversalCoordinate AtIndex(int index)
         {
             switch (rangeType)
             {
                 case CoordinateRangeType.TRIANGLE:
-                    return UniversalCoordinate.From(triangleDataView.AtIndex(index), coordPlaneID);
+                    return UniversalCoordinate.From(triangleDataView.AtIndex(index), CoordinatePlaneID);
                 case CoordinateRangeType.TRIANGLE_RHOMBOID:
-                    return UniversalCoordinate.From(triangeRhomboidDataView.AtIndex(index), coordPlaneID);
+                    return UniversalCoordinate.From(triangeRhomboidDataView.AtIndex(index), CoordinatePlaneID);
                 case CoordinateRangeType.RECTANGLE:
-                    return UniversalCoordinate.From(rectangleDataView.AtIndex(index), coordPlaneID);
+                    return UniversalCoordinate.From(rectangleDataView.AtIndex(index), CoordinatePlaneID);
                 default:
                     return default;
             }
         }
 
         #region static constructors
-        public static UniversalCoordinateRange From(TriangleTriangleCoordinateRange b)
+        public static UniversalCoordinateRange From(TriangleTriangleCoordinateRange b, short planeId)
         {
             return new UniversalCoordinateRange
             {
                 triangleDataView = b,
-                rangeType = CoordinateRangeType.TRIANGLE
+                rangeType = CoordinateRangeType.TRIANGLE,
+                CoordinatePlaneID = planeId
             };
         }
-        public static UniversalCoordinateRange From(TriangleRhomboidCoordinateRange b)
+        public static UniversalCoordinateRange From(TriangleRhomboidCoordinateRange b, short planeId)
         {
             return new UniversalCoordinateRange
             {
                 triangeRhomboidDataView = b,
-                rangeType = CoordinateRangeType.TRIANGLE_RHOMBOID
+                rangeType = CoordinateRangeType.TRIANGLE_RHOMBOID,
+                CoordinatePlaneID = planeId
             };
         }
-        public static UniversalCoordinateRange From(RectCoordinateRange b)
+        public static UniversalCoordinateRange From(RectCoordinateRange b, short planeId)
         {
             return new UniversalCoordinateRange
             {
                 rectangleDataView = b,
-                rangeType = CoordinateRangeType.RECTANGLE
+                rangeType = CoordinateRangeType.RECTANGLE,
+                CoordinatePlaneID = planeId
             };
         }
 
@@ -265,9 +275,9 @@ namespace Assets.Tiling
             switch (a.type)
             {
                 case CoordinateType.TRIANGLE:
-                    return From(TriangleRhomboidCoordinateRange.FromCoordsInclusive(a.triangleDataView, b.triangleDataView));
+                    return From(TriangleRhomboidCoordinateRange.FromCoordsInclusive(a.triangleDataView, b.triangleDataView), a.CoordinatePlaneID);
                 case CoordinateType.SQUARE:
-                    return From(RectCoordinateRange.FromCoordsInclusive(a.squareDataView, b.squareDataView));
+                    return From(RectCoordinateRange.FromCoordsInclusive(a.squareDataView, b.squareDataView), a.CoordinatePlaneID);
                 default:
                     return default;
             }
@@ -281,6 +291,7 @@ namespace Assets.Tiling
             info.AddValue("data2", rangeDataPartTwo);
             info.AddValue("data3", rangeDataPartThree);
             info.AddValue("rangeType", (short)rangeType);
+            info.AddValue("planeId", CoordinatePlaneID);
         }
 
         // The special constructor is used to deserialize values.
@@ -295,6 +306,7 @@ namespace Assets.Tiling
             rangeDataPartTwo = info.GetInt64("data2");
             rangeDataPartThree = info.GetInt64("data3");
             rangeType = (CoordinateRangeType)info.GetInt16("rangeType");
+            CoordinatePlaneID = info.GetInt16("planeId");
         }
         #endregion
 
