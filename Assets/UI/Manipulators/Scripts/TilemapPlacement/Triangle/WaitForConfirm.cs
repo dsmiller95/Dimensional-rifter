@@ -4,6 +4,7 @@ using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.DOTSMembers.MemberPrefabs;
 using Assets.WorldObjects.Members.Buildings.DOTS;
 using Assets.WorldObjects.Members.Buildings.DOTS.Anchor;
+using System.Linq;
 using Unity.Entities;
 using UnityEngine;
 
@@ -25,10 +26,14 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                 Debug.Log("confirm");
                 var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
                 var newRegionIndex = data.previewer.ReplaceWithRealRegion();
+                var placingRange = data.previewer.MyOwnData.baseRange;
+                var boundingCoordinates = placingRange.BoundingCoordinates(newRegionIndex).ToArray();
+
                 var anchorPrefab = GetAnchorPrefab(data, entityManager);
-                foreach (var anchor in data.anchorPreviewers)
+                for (var i = 0; i < data.anchorPreviewers.Count; i++)
                 {
-                    var newAnchor = entityManager.Instantiate(anchorPrefab);// GameObject.Instantiate(data.anchorBuildPrefab, CombinationTileMapManager.instance.transform);
+                    var anchor = data.anchorPreviewers[i];
+                    var newAnchor = entityManager.Instantiate(anchorPrefab);
                     entityManager.SetComponentData(newAnchor, new UniversalCoordinatePositionComponent
                     {
                         Value = anchor.CoordinatePosition
@@ -40,7 +45,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
                     });
                     entityManager.SetComponentData(newAnchor, new TilemapAnchorComponent
                     {
-                        AnchoredTileMap = newRegionIndex
+                        destinationCoordinate = boundingCoordinates[i]
                     });
                     GameObject.Destroy(anchor.gameObject);
                 }

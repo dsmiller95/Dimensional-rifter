@@ -133,6 +133,7 @@
     <Compile Include="Assets\WorldObjects\WorldGen\MapGenerationConfiguration.cs" />
     <Compile Include="Assets\WorldObjects\SaveObjects\SaveManager\SerializationManager.cs" />
     <Compile Include="Assets\Behaviors\Scripts\StateMachine\Tasks\TaskType.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\AllocatedRegion.cs" />
     <Compile Include="Assets\UI\Priorities\PrioritySetToErrandConfiguration.cs" />
     <Compile Include="Assets\Libraries\BehaviorTree\Factories\Decorators\DecoratorFactory.cs" />
     <Compile Include="Assets\Scripts\Core\BooleanReference.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Leaf\Leaf.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\MeshEdit\MeshCopier.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\SelectFromCoordinateRangeJob.cs" />
+    <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabs\MemberPrefabIDComponentAuthoring.cs" />
     <Compile Include="Assets\Behaviors\Errands\Scripts\ErrandSourceNode.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ItemSourceTypeRegistry.cs" />
     <Compile Include="Assets\WorldObjects\TileDefinitions.cs" />
@@ -290,7 +292,7 @@
     <Compile Include="Assets\Libraries\BehaviorTree\Nodes\Root.cs" />
     <Compile Include="Assets\Tiling\UniversalCoordinateRange.cs" />
     <Compile Include="Assets\WorldObjects\Members\TaskExecutor.cs" />
-    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\Anchor\TilemapAnchorComponentAuthoring.cs" />
+    <Compile Include="Assets\WorldObjects\Members\Buildings\DOTS\Anchor\TilemapAnchorComponent.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowingThingComponent.cs" />
     <Compile Include="Assets\Tiling\Tilemapping\TileMapRegionPreview.cs" />
     <Compile Include="Assets\WorldObjects\Inventories\ISuppliable.cs" />
@@ -379,7 +381,6 @@
     <Compile Include="Assets\WorldObjects\Members\Food\SelfContainedGrowthController.cs" />
     <Compile Include="Assets\WorldObjects\TileMapMember.cs" />
     <Compile Include="Assets\WorldObjects\Members\Food\DOTS\GrowthProductComponent.cs" />
-    <Compile Include="Assets\WorldObjects\DOTSMembers\MemberPrefabs\MemberPrefabIDComponentAuthoring.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

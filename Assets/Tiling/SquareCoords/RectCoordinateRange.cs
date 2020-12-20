@@ -62,6 +62,13 @@ namespace Assets.Tiling.SquareCoords
             nextPos = nextCoord.ToPositionInPlane();
             yield return (Vector2)nextPos + new Vector2(1, -1) * halfScale;
         }
+        public IEnumerable<SquareCoordinate> BoundingCoordinates()
+        {
+            yield return coord0;
+            yield return new SquareCoordinate(coord0.row + rows, coord0.column);
+            yield return new SquareCoordinate(coord0.row + rows, coord0.column + cols);
+            yield return new SquareCoordinate(coord0.row, coord0.column + cols);
+        }
         public int[] BoundingPolyTriangles => new int[] { 0, 1, 2, 0, 2, 3 };
 
         public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)

@@ -5,8 +5,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
     public struct CoordinateRangeToRegionMapJob : IJob
     {
-        [ReadOnly] public UniversalCoordinateRange coordinateRangeToIterate;
-        [ReadOnly] public NativeHashSet<UniversalCoordinate> impassableTiles;
+        [ReadOnly] public UniversalCoordinateRange coordinateRangeToIterate_input;
+        [ReadOnly] public NativeHashSet<UniversalCoordinate> impassableTiles_input;
 
         /// <summary>
         /// populate this with the points from which to evaluate regions from. the
@@ -14,20 +14,20 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// these must be passable points, otherwise if they are on the boundary of what should be two regions
         ///     it will instead show only one region
         /// </summary>
-        [ReadOnly] public NativeArray<UniversalCoordinate> seedPoints;
+        [ReadOnly] public NativeArray<UniversalCoordinate> seedPoints_input;
 
         /// <summary>
         /// hard limit of 32 regions, one for each bit in the data type
         /// </summary>
-        public NativeHashMap<UniversalCoordinate, uint> outputRegionBitMasks;
+        public NativeHashMap<UniversalCoordinate, uint> regionBitMasks_output;
+        public NativeList<AllocatedRegion> allRegions_output;
+        public NativeArray<int> regionCounter_working;
 
         /// <summary>
         /// Used to store all points on the fringe of the current region iteration
         /// </summary>
-        public NativeQueue<UniversalCoordinate> workingFringe;
-        [DeallocateOnJobCompletion] public NativeArray<UniversalCoordinate> workingNeighborCoordinatesSwapSpace;
-
-        private int currentRegionIndex;
+        public NativeQueue<UniversalCoordinate> fringe_working;
+        [DeallocateOnJobCompletion] public NativeArray<UniversalCoordinate> neighborCoordinatesSwapSpace_working;
 
         /**
          * execution pattern:
@@ -42,16 +42,15 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         public void Execute()
         {
-            currentRegionIndex = 0;
-            for (int seedIndex = 0; seedIndex < seedPoints.Length; seedIndex++)
+            for (int seedIndex = 0; seedIndex < seedPoints_input.Length; seedIndex++)
             {
-                var seedPoint = seedPoints[seedIndex];
-                if (!coordinateRangeToIterate.ContainsCoordinate(seedPoint))
+                var seedPoint = seedPoints_input[seedIndex];
+                if (!coordinateRangeToIterate_input.ContainsCoordinate(seedPoint))
                 {
                     // the seed is on a different range, or out of bounds. ignore it
                     continue;
                 }
-                if (outputRegionBitMasks.TryGetValue(seedPoint, out var seedRegion))
+                if (regionBitMasks_output.TryGetValue(seedPoint, out var seedRegion))
                 {
                     if (seedRegion != 0)
                     {
@@ -60,10 +59,15 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     }
                 }
 
-                seedRegion = ((uint)1) << currentRegionIndex;
-                currentRegionIndex++;
-                outputRegionBitMasks[seedPoint] = seedRegion;
-                workingFringe.Enqueue(seedPoint);
+                seedRegion = ((uint)1) << regionCounter_working[0];
+                allRegions_output.Add(new AllocatedRegion
+                {
+                    regionIndex = regionCounter_working[0],
+                    planeIndex = seedPoint.CoordinatePlaneID
+                });
+                regionCounter_working[0]++;
+                regionBitMasks_output[seedPoint] = seedRegion;
+                fringe_working.Enqueue(seedPoint);
 
                 BreadthFirstAssignFromQueue();
             }
@@ -71,26 +75,26 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         private void BreadthFirstAssignFromQueue()
         {
-            while (workingFringe.TryDequeue(out var nextNode))
+            while (fringe_working.TryDequeue(out var nextNode))
             {
-                var currentRegionBitMask = outputRegionBitMasks[nextNode];
+                var currentRegionBitMask = regionBitMasks_output[nextNode];
 
-                nextNode.SetNeighborsIntoSwapSpace(workingNeighborCoordinatesSwapSpace);
+                nextNode.SetNeighborsIntoSwapSpace(neighborCoordinatesSwapSpace_working);
                 var neighborCount = nextNode.NeighborCount();
                 for (int i = 0; i < neighborCount; i++)
                 {
-                    var neighborCoordinate = workingNeighborCoordinatesSwapSpace[i];
-                    if (!coordinateRangeToIterate.ContainsCoordinate(neighborCoordinate))
+                    var neighborCoordinate = neighborCoordinatesSwapSpace_working[i];
+                    if (!coordinateRangeToIterate_input.ContainsCoordinate(neighborCoordinate))
                     {
                         continue;
                     }
 
-                    outputRegionBitMasks.TryGetValue(neighborCoordinate, out var originalNeighborRegionMask);
-                    outputRegionBitMasks[neighborCoordinate] = originalNeighborRegionMask | currentRegionBitMask;
+                    regionBitMasks_output.TryGetValue(neighborCoordinate, out var originalNeighborRegionMask);
+                    regionBitMasks_output[neighborCoordinate] = originalNeighborRegionMask | currentRegionBitMask;
 
-                    if (originalNeighborRegionMask == 0 && !impassableTiles.Contains(neighborCoordinate))
+                    if (originalNeighborRegionMask == 0 && !impassableTiles_input.Contains(neighborCoordinate))
                     {
-                        workingFringe.Enqueue(neighborCoordinate);
+                        fringe_working.Enqueue(neighborCoordinate);
                     }
                 }
             }

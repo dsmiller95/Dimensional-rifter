@@ -1,5 +1,6 @@
 ﻿using Assets.WorldObjects;
 using Assets.WorldObjects.DOTSMembers;
+using Assets.WorldObjects.Members.Buildings.DOTS.Anchor;
 using Assets.WorldObjects.Members.Wall.DOTS;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -30,6 +32,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private float BlockingTilesRatioEstimate = 0.2f;
         private int lastTotalTiles;
 
+        private NativeArray<int> regionCounter;
         /// <summary>
         /// Set when the job is scheduled
         ///     set to null when the job is completed and the system has handled the completion
@@ -37,12 +40,18 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private JobHandle? regionConnectivityDep = null;
         private double lastRegionConnectivityJob = 0;
 
+        private EntityQuery anchorEntities;
+
         protected override void OnCreate()
         {
             lastRegionConnectivityJob = TimeBetweenConnectivityUpdates * -10;
             longRunningDisposables = new List<IDisposable>();
             regionConnectivityClassification = new NativeDisposableHotSwap<NativeHashMap<UniversalCoordinate, uint>>();
             blockedCoordinates = new NativeDisposableHotSwap<NativeHashSet<UniversalCoordinate>>();
+
+            anchorEntities = GetEntityQuery(
+                ComponentType.ReadOnly<TilemapAnchorComponent>(),
+                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>());
         }
 
         protected override void OnUpdate()
@@ -62,8 +71,9 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 var totalBlockedPositions = blockedCoordinates.ActiveData?.Count() ?? -1;
                 BlockingTilesRatioEstimate = ((float)totalBlockedPositions) / lastTotalTiles;
 
+                Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking. {regionCounter[0]} distinct regions classified");
+
                 DisposeAllWorkingData();
-                //Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking");
                 regionConnectivityDep = null;
             }
         }
@@ -117,49 +127,116 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             var dataQueryDep = ScheduleTileMapBlockingJob(ranges, concurrentWriter, Dependency);
             Profiler.EndSample();
 
+            Profiler.BeginSample("Sample for seed points");
+            var anchorComponents = anchorEntities.ToComponentDataArrayAsync<TilemapAnchorComponent>(Allocator.Persistent, out var anchorComponent_job);
+            longRunningDisposables.Add(anchorComponents);
+            var anchorPositions = anchorEntities.ToComponentDataArrayAsync<UniversalCoordinatePositionComponent>(Allocator.Persistent, out var anchorPosition_job);
+            longRunningDisposables.Add(anchorPositions);
+            // make sure that the primary Dependency includes all readers of component data
+            Dependency = JobHandle.CombineDependencies(Dependency, anchorComponent_job, anchorPosition_job);
+
+            var seedPoints = ScheduleSeedPoints(
+                anchorComponents,
+                anchorPositions,
+                Dependency,
+                out var seedPointJob);
+
+            dataQueryDep = JobHandle.CombineDependencies(dataQueryDep, seedPointJob);
+            Profiler.EndSample();
+
 
             // -----region classification-----
             var outputRegionClassification = new NativeHashMap<UniversalCoordinate, uint>(lastTotalTiles, Allocator.Persistent);
             regionConnectivityClassification.AssignPending(outputRegionClassification);
 
             // keep track of the full dep, don't schedule more until this is complete
-            regionConnectivityDep = ScheduleRegionClassificationJobs(ranges, pendingBlockedPositionIndexed, outputRegionClassification, dataQueryDep);
+            regionConnectivityDep = ScheduleRegionClassificationJobs(
+                ranges,
+                seedPoints,
+                pendingBlockedPositionIndexed,
+                outputRegionClassification,
+                out var allocatedRegions,
+                out var regionCounter,
+                dataQueryDep);
             // TODO: add support here for links between like map ranges, to merge into one range
+            this.regionCounter = regionCounter;
+
         }
 
-        private JobHandle ScheduleRegionClassificationJobs(
-            NativeArray<UniversalCoordinateRange> ranges,
-            NativeHashSet<UniversalCoordinate> impassibleCoordiantes,
-            NativeHashMap<UniversalCoordinate, uint> outputRegionMasks,
-            JobHandle dependency = default)
+        private NativeArray<UniversalCoordinate> ScheduleSeedPoints(
+            NativeArray<TilemapAnchorComponent> anchors, 
+            NativeArray<UniversalCoordinatePositionComponent> anchorPositions,
+            JobHandle dependency, 
+            out JobHandle newJob)
         {
-            Profiler.BeginSample("Schedule: region classification");
             /** seed regions with all members that have a navigation member
              *  assumptions:
              *    only gameObjects care about reachability
              *    only gameObjects with a NavigationMember move
              *    only gameObjects with a NavigationMember care about reachability
              */
-            var allActors = UnityEngine.Object.FindObjectsOfType<TileMapNavigationMember>();
-            var seedPoints = new NativeArray<UniversalCoordinate>(
-                allActors.Select(x => x.CoordinatePosition).ToArray(),
-                Allocator.Persistent);
+            var actorSeeds = new NativeArray<UniversalCoordinate>(GetActorPositions(), Allocator.TempJob);
+            var seedPoints = new NativeArray<UniversalCoordinate>(actorSeeds.Length + anchorEntities.CalculateEntityCount() * 2, Allocator.Persistent);
             longRunningDisposables.Add(seedPoints);
+            newJob = Job
+                .WithBurst()
+                .WithDisposeOnCompletion(actorSeeds)
+                .WithCode(() =>
+                {
+                    for (int i = 0; i < actorSeeds.Length; i++)
+                    {
+                        seedPoints[i] = actorSeeds[i];
+                    }
+                    for (int i = 0; i < anchors.Length; i++)
+                    {
+                        seedPoints[i + actorSeeds.Length] = anchors[i].destinationCoordinate;
+                        seedPoints[i + actorSeeds.Length + anchors.Length] = anchorPositions[i].Value;
+                    }
+                })
+                .Schedule(dependency);
+            return seedPoints;
+        }
+
+        private UniversalCoordinate[] GetActorPositions()
+        {
+            return UnityEngine.Object.FindObjectsOfType<TileMapNavigationMember>()
+                .Select(x => x.CoordinatePosition)
+                .ToArray();
+        }
+
+        private JobHandle ScheduleRegionClassificationJobs(
+            NativeArray<UniversalCoordinateRange> ranges,
+            NativeArray<UniversalCoordinate> seedPoints,
+            NativeHashSet<UniversalCoordinate> impassibleCoordiantes,
+            NativeHashMap<UniversalCoordinate, uint> outputRegionMasks,
+            out NativeList<AllocatedRegion> allocatedRegions,
+            out NativeArray<int> regionCounter,
+            JobHandle dependency = default)
+        {
+            Profiler.BeginSample("Schedule: region classification");
+
+            allocatedRegions = new NativeList<AllocatedRegion>(ranges.Length, Allocator.Persistent);
+            longRunningDisposables.Add(allocatedRegions);
+            regionCounter = new NativeArray<int>(1, Allocator.Persistent);
+            regionCounter[0] = 0;
+            longRunningDisposables.Add(regionCounter);
             foreach (var coordinateRange in ranges)
             {
                 // inputs have to be persistent, this job is long-running
                 var regionClassifierJob = new CoordinateRangeToRegionMapJob
                 {
-                    coordinateRangeToIterate = coordinateRange,
-                    impassableTiles = impassibleCoordiantes,
-                    seedPoints = seedPoints,
-                    outputRegionBitMasks = outputRegionMasks,
-                    workingFringe = new NativeQueue<UniversalCoordinate>(Allocator.Persistent),
-                    workingNeighborCoordinatesSwapSpace = new NativeArray<UniversalCoordinate>(UniversalCoordinate.MaxNeighborCount, Allocator.Persistent)
+                    coordinateRangeToIterate_input = coordinateRange,
+                    impassableTiles_input = impassibleCoordiantes,
+                    seedPoints_input = seedPoints,
+                    fringe_working = new NativeQueue<UniversalCoordinate>(Allocator.Persistent),
+                    neighborCoordinatesSwapSpace_working = new NativeArray<UniversalCoordinate>(UniversalCoordinate.MaxNeighborCount, Allocator.Persistent),
+                    regionBitMasks_output = outputRegionMasks,
+                    allRegions_output = allocatedRegions,
+                    regionCounter_working = regionCounter
                 };
 
                 dependency = regionClassifierJob.Schedule(dependency);
-                longRunningDisposables.Add(regionClassifierJob.workingFringe);
+                longRunningDisposables.Add(regionClassifierJob.fringe_working);
             }
             Profiler.EndSample();
             return dependency;

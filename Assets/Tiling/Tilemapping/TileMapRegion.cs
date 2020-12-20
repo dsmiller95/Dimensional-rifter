@@ -63,7 +63,7 @@ namespace Assets.Tiling.Tilemapping
             var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
             var anchors = anchorEntities.ToEntityArray(Unity.Collections.Allocator.Temp);
             MyOwnData.anchorEntities = anchors
-                .Where(anc => entityManager.GetComponentData<TilemapAnchorComponent>(anc).AnchoredTileMap == MyOwnData.planeID)
+                .Where(anc => entityManager.GetComponentData<TilemapAnchorComponent>(anc).destinationCoordinate.CoordinatePlaneID == MyOwnData.planeID)
                 .ToList();
 
             var requiredAnchors = MyOwnData.baseRange.BoundingVertexCount();

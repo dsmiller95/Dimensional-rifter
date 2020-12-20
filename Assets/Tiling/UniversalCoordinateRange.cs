@@ -24,6 +24,7 @@ namespace Assets.Tiling
         /// </summary>
         /// <returns></returns>
         IEnumerable<Vector2> BoundingPolygon();
+        IEnumerable<T> BoundingCoordinates();
         int[] BoundingPolyTriangles { get; }
 
         bool ContainsCoordinate(UniversalCoordinate coordinate);
@@ -54,6 +55,7 @@ namespace Assets.Tiling
         [FieldOffset(0)] public TriangleRhomboidCoordinateRange triangeRhomboidDataView;
         [FieldOffset(0)] public RectCoordinateRange rectangleDataView;
 
+        // TODO: Add plane index data!!
         [FieldOffset(24)] public CoordinateRangeType rangeType;
 
         public CoordinateType CoordinateType
@@ -138,6 +140,25 @@ namespace Assets.Tiling
                     return triangeRhomboidDataView.BoundingPolygon();
                 case CoordinateRangeType.RECTANGLE:
                     return rectangleDataView.BoundingPolygon();
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// These coordinates come back in the same order as the bounding polygon call, and will match up 1 to 1
+        /// </summary>
+        /// <returns>A list of coordinates at the most extreme points on this range</returns>
+        public IEnumerable<UniversalCoordinate> BoundingCoordinates(short coordPlaneID = 0)
+        {
+            switch (rangeType)
+            {
+                case CoordinateRangeType.TRIANGLE:
+                    return triangleDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                case CoordinateRangeType.TRIANGLE_RHOMBOID:
+                    return triangeRhomboidDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
+                case CoordinateRangeType.RECTANGLE:
+                    return rectangleDataView.BoundingCoordinates().Select(coord => UniversalCoordinate.From(coord, coordPlaneID));
                 default:
                     return null;
             }

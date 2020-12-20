@@ -107,6 +107,15 @@ namespace Assets.Tiling.TriangleCoords
             nextPos = nextCoord.ToPositionInPlane();
             yield return (Vector2)nextPos - Vector2.up * TriangleCoordinate.rBasis.y * 2 * scaling;
         }
+    
+        public IEnumerable<TriangleCoordinate> BoundingCoordinates()
+        {
+            yield return coord0;
+            yield return new TriangleCoordinate(coord0.u, coord0.v + vSize - 1, false);
+            yield return new TriangleCoordinate(coord0.u + uSize - 1, coord0.v + vSize - 1, true);
+            yield return new TriangleCoordinate(coord0.u + uSize - 1, coord0.v, true);
+        }
+
         public int[] BoundingPolyTriangles => new int[] { 0, 1, 2, 0, 2, 3 };
 
         public bool ContainsCoordinate(UniversalCoordinate universalCoordinate)

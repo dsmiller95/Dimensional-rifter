@@ -33,6 +33,12 @@ namespace Assets.Tiling.TriangleCoords
             nextPos = rightcoord.ToPositionInPlane();
             yield return (Vector2)nextPos + Vector2.Scale(new Vector2(1, -1), TriangleCoordinate.rBasis * scale);
         }
+        public IEnumerable<TriangleCoordinate> BoundingCoordinates()
+        {
+            yield return root;
+            yield return new TriangleCoordinate(root.u, root.v + triangleSideLength - 1, false);
+            yield return new TriangleCoordinate(root.u + triangleSideLength - 1, root.v, false);
+        }
         public int[] BoundingPolyTriangles => new int[] { 0, 1, 2 };
 
         IEnumerator<TriangleCoordinate> IEnumerable<TriangleCoordinate>.GetEnumerator()
