@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemTypeRequriement: 1
-  defaultResourceRequiredAmount: 1
+  defaultResourceRequiredAmount: 0
   supplyClassification: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
 --- !u!114 &4075997297305362460
 MonoBehaviour:

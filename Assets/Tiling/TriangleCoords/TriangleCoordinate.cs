@@ -76,48 +76,68 @@ namespace Assets.Tiling.TriangleCoords
         }
         public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
         {
+            swapSpace[0] = UniversalCoordinate.From(NeighborAtIndex(0), planeID);
+            swapSpace[1] = UniversalCoordinate.From(NeighborAtIndex(1), planeID);
+            swapSpace[2] = UniversalCoordinate.From(NeighborAtIndex(2), planeID);
+        }
+
+        public TriangleCoordinate NeighborAtIndex(int neighborIndex)
+        {
             if (R)
             {
-                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinate
+                switch (neighborIndex % 3)
                 {
-                    u = u + 1,
-                    v = v,
-                    R = false
-                }, planeID);
-                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinate
-                {
-                    u = u,
-                    v = v,
-                    R = false
-                }, planeID);
-                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinate
-                {
-                    u = u,
-                    v = v + 1,
-                    R = false
-                }, planeID);
+                    case 0:
+                        return new TriangleCoordinate
+                        {
+                            u = u + 1,
+                            v = v,
+                            R = false
+                        };
+                    case 1:
+                        return new TriangleCoordinate
+                        {
+                            u = u,
+                            v = v,
+                            R = false
+                        };
+                    case 2:
+                        return new TriangleCoordinate
+                        {
+                            u = u,
+                            v = v + 1,
+                            R = false
+                        };
+                }
             }
             else
             {
-                swapSpace[0] = UniversalCoordinate.From(new TriangleCoordinate
+                switch (neighborIndex % 3)
                 {
-                    u = u,
-                    v = v,
-                    R = true
-                }, planeID);
-                swapSpace[1] = UniversalCoordinate.From(new TriangleCoordinate
-                {
-                    u = u,
-                    v = v - 1,
-                    R = true
-                }, planeID);
-                swapSpace[2] = UniversalCoordinate.From(new TriangleCoordinate
-                {
-                    u = u - 1,
-                    v = v,
-                    R = true
-                }, planeID);
+                    case 0:
+                        return new TriangleCoordinate
+                        {
+                            u = u,
+                            v = v,
+                            R = true
+                        };
+                    case 1:
+                        return new TriangleCoordinate
+                        {
+                            u = u,
+                            v = v - 1,
+                            R = true
+                        };
+                    case 2:
+                        return new TriangleCoordinate
+                        {
+                            u = u - 1,
+                            v = v,
+                            R = true
+                        };
+                }
             }
+            return default;
         }
 
         public static float HeuristicDistance(TriangleCoordinate origin, TriangleCoordinate destination)

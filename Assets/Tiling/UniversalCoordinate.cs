@@ -182,6 +182,7 @@ namespace Assets.Tiling
 
         public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace)
         {
+            // TODO: eliminate implementations in the coordinate classes, rely only on neighborAtIndex
             switch (type)
             {
                 case CoordinateType.TRIANGLE:
@@ -194,6 +195,20 @@ namespace Assets.Tiling
                     break;
             }
         }
+
+        public UniversalCoordinate NeighborAtIndex(int neighborIndex)
+        {
+            switch (type)
+            {
+                case CoordinateType.TRIANGLE:
+                    return From(triangleDataView.NeighborAtIndex(neighborIndex), CoordinatePlaneID);
+                case CoordinateType.SQUARE:
+                    return From(squareDataView.NeighborAtIndex(neighborIndex), CoordinatePlaneID);
+                default:
+                    return default;
+            }
+        }
+
         public int NeighborCount()
         {
             return NeighborCount(type);

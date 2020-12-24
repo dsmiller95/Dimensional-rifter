@@ -19,7 +19,11 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         /// <summary>
         /// hard limit of 32 regions, one for each bit in the data type
         /// </summary>
-        public NativeHashMap<UniversalCoordinate, uint> regionBitMasks_output;
+        //public NativeHashMap<UniversalCoordinate, uint> regionBitMasks_output;
+        /// <summary>
+        /// value of -1, or unset, is invalid.
+        /// </summary>
+        public NativeHashMap<UniversalCoordinate, int> regionIndexes_output;
         public NativeList<AllocatedRegion> allRegions_output;
         public NativeArray<int> regionCounter_working;
 
@@ -35,8 +39,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
          *  If no region set for that seed, set with a new region ID, and add to the fringe.
          *      for each item dequed from the fringe:
          *          for each neighbor inside the coordinate range:
-         *              assign its region ID to all neighbors
-         *              if the neighbor is passable, and had no region ID orignally
+         *              if the neighbor is passable, and has no region ID
+         *                  assign the current region ID the neighbor
          *                  add to the fringe
          */
 
@@ -50,23 +54,24 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     // the seed is on a different range, or out of bounds. ignore it
                     continue;
                 }
-                if (regionBitMasks_output.TryGetValue(seedPoint, out var seedRegion))
+                if (regionIndexes_output.TryGetValue(seedPoint, out var seedRegionIndex))
                 {
-                    if (seedRegion != 0)
+                    if (seedRegionIndex != -1)
                     {
                         // this seed has already been visited, skip it
                         continue;
                     }
                 }
 
-                seedRegion = ((uint)1) << regionCounter_working[0];
+                seedRegionIndex = regionCounter_working[0];
                 allRegions_output.Add(new AllocatedRegion
                 {
-                    regionIndex = regionCounter_working[0],
+                    regionIndex = seedRegionIndex,
                     planeIndex = seedPoint.CoordinatePlaneID
                 });
                 regionCounter_working[0]++;
-                regionBitMasks_output[seedPoint] = seedRegion;
+                //regionBitMasks_output[seedPoint] = seedRegion;
+                regionIndexes_output[seedPoint] = seedRegionIndex;
                 fringe_working.Enqueue(seedPoint);
 
                 BreadthFirstAssignFromQueue();
@@ -77,7 +82,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             while (fringe_working.TryDequeue(out var nextNode))
             {
-                var currentRegionBitMask = regionBitMasks_output[nextNode];
+                var currentRegionIndex = regionIndexes_output[nextNode];
 
                 nextNode.SetNeighborsIntoSwapSpace(neighborCoordinatesSwapSpace_working);
                 var neighborCount = nextNode.NeighborCount();
@@ -89,11 +94,12 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                         continue;
                     }
 
-                    regionBitMasks_output.TryGetValue(neighborCoordinate, out var originalNeighborRegionMask);
-                    regionBitMasks_output[neighborCoordinate] = originalNeighborRegionMask | currentRegionBitMask;
+                    var neighborHasRegion = regionIndexes_output.TryGetValue(neighborCoordinate, out var neighborRegionIndex) && neighborRegionIndex != -1;
 
-                    if (originalNeighborRegionMask == 0 && !impassableTiles_input.Contains(neighborCoordinate))
+                    //if the neighbor is passable, and has no region ID
+                    if (!neighborHasRegion && !impassableTiles_input.Contains(neighborCoordinate))
                     {
+                        regionIndexes_output[neighborCoordinate] = currentRegionIndex;
                         fringe_working.Enqueue(neighborCoordinate);
                     }
                 }

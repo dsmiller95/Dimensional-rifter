@@ -8,15 +8,23 @@ using System.Linq;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 {
+
     [AlwaysUpdateSystem]
     public class ConnectivityEntitySystem : SystemBase
     {
-        private static readonly int TileTypesToImpassibleQueryBatchSize = 128;
+        private enum ErrorCodes
+        {
+            NONE = 0,
+            FAIL_ANCHORS_MULTIPLE_REGIONS
+        }
+
+        private static readonly int CoordinateRangeJobsBatchSize = 128;
         private static readonly float TimeBetweenConnectivityUpdates = 1;
 
         private NativeDisposableHotSwap<NativeHashMap<UniversalCoordinate, uint>> regionConnectivityClassification;
@@ -33,6 +41,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private int lastTotalTiles;
 
         private NativeArray<int> regionCounter;
+        private NativeArray<ErrorCodes> errorCode;
         /// <summary>
         /// Set when the job is scheduled
         ///     set to null when the job is completed and the system has handled the completion
@@ -135,9 +144,11 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             // make sure that the primary Dependency includes all readers of component data
             Dependency = JobHandle.CombineDependencies(Dependency, anchorComponent_job, anchorPosition_job);
 
+            var totalAnchors = anchorEntities.CalculateEntityCount();
             var seedPoints = ScheduleSeedPoints(
                 anchorComponents,
                 anchorPositions,
+                totalAnchors,
                 Dependency,
                 out var seedPointJob);
 
@@ -146,26 +157,90 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
 
             // -----region classification-----
-            var outputRegionClassification = new NativeHashMap<UniversalCoordinate, uint>(lastTotalTiles, Allocator.Persistent);
-            regionConnectivityClassification.AssignPending(outputRegionClassification);
+
+            var regionIndexes = new NativeHashMap<UniversalCoordinate, int>(lastTotalTiles, Allocator.Persistent);
+            longRunningDisposables.Add(regionIndexes);
 
             // keep track of the full dep, don't schedule more until this is complete
-            regionConnectivityDep = ScheduleRegionClassificationJobs(
+            var individualRegionJob = ScheduleRegionClassificationJobs(
                 ranges,
                 seedPoints,
                 pendingBlockedPositionIndexed,
-                outputRegionClassification,
+                regionIndexes,
                 out var allocatedRegions,
                 out var regionCounter,
                 dataQueryDep);
             // TODO: add support here for links between like map ranges, to merge into one range
             this.regionCounter = regionCounter;
+            var errorCode = new NativeArray<ErrorCodes>(1, Allocator.Persistent);
+            longRunningDisposables.Add(errorCode);
+            this.errorCode = errorCode;
 
+            var outputRegionClassification = new NativeHashMap<UniversalCoordinate, uint>(lastTotalTiles, Allocator.Persistent);
+            regionConnectivityClassification.AssignPending(outputRegionClassification);
+            individualRegionJob = ScheduleIndexesToBitMaskJobs(
+                ranges,
+                regionIndexes,
+                outputRegionClassification,
+                individualRegionJob);
+
+//            var regionRemaps = new NativeHashMap<int, int>(totalAnchors, Allocator.Persistent);
+//            longRunningDisposables.Add(regionRemaps);
+//            Job.WithBurst()
+//                .WithCode(() =>
+//                {
+//                    for (int anchorIndex = 0; anchorIndex < totalAnchors; anchorIndex++)
+//                    {
+//                        var anchoredPos = anchorComponents[anchorIndex].destinationCoordinate;
+//                        var anchorPos = anchorPositions[anchorIndex].Value;
+//                        var regionA = math.log2(outputRegionClassification[anchoredPos]);
+//                        var regionB = math.log2(outputRegionClassification[anchorPos]);
+//                        var aIndex = Mathf.RoundToInt(regionA);
+//                        var bIndex = Mathf.RoundToInt(regionB);
+//#if UNITY_EDITOR
+//                        if(math.abs(aIndex - regionA) > 0.001 || math.abs(bIndex - regionB) > 0.001)
+//                        {
+//                            errorCode[0] = ErrorCodes.FAIL_ANCHORS_MULTIPLE_REGIONS;
+//                            return;
+//                        }
+//#endif
+//                        // Map a to B
+//                        regionRemaps.Add(aIndex, bIndex);
+//                    }
+
+//                });
+
+            this.regionConnectivityDep = individualRegionJob;
+        }
+
+        private JobHandle ScheduleIndexesToBitMaskJobs(
+            NativeArray<UniversalCoordinateRange> ranges,
+            NativeHashMap<UniversalCoordinate, int> inputRegionIndexes,
+            NativeHashMap<UniversalCoordinate, uint> outputRegionBitMasks,
+            JobHandle dependency)
+        {
+            var outputWriter = outputRegionBitMasks.AsParallelWriter();
+            foreach (var range in ranges)
+            {
+                var nextRangeJob = new MapIndexesToBitMaskRegionsJob
+                {
+                    range = range,
+                    regionIndexes_input = inputRegionIndexes,
+                    regionBitMasks_output = outputWriter
+                };
+                var totalCoordinates = range.TotalCoordinateContents();
+                dependency = nextRangeJob.Schedule(
+                    totalCoordinates,
+                    CoordinateRangeJobsBatchSize,
+                    dependency);
+            }
+            return dependency;
         }
 
         private NativeArray<UniversalCoordinate> ScheduleSeedPoints(
             NativeArray<TilemapAnchorComponent> anchors,
             NativeArray<UniversalCoordinatePositionComponent> anchorPositions,
+            int calculatedAnchorEntityLength,
             JobHandle dependency,
             out JobHandle newJob)
         {
@@ -176,7 +251,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
              *    only gameObjects with a NavigationMember care about reachability
              */
             var actorSeeds = new NativeArray<UniversalCoordinate>(GetActorPositions(), Allocator.TempJob);
-            var seedPoints = new NativeArray<UniversalCoordinate>(actorSeeds.Length + anchorEntities.CalculateEntityCount() * 2, Allocator.Persistent);
+            var seedPoints = new NativeArray<UniversalCoordinate>(actorSeeds.Length + calculatedAnchorEntityLength * 2, Allocator.Persistent);
             longRunningDisposables.Add(seedPoints);
             newJob = Job
                 .WithBurst()
@@ -208,7 +283,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             NativeArray<UniversalCoordinateRange> ranges,
             NativeArray<UniversalCoordinate> seedPoints,
             NativeHashSet<UniversalCoordinate> impassibleCoordiantes,
-            NativeHashMap<UniversalCoordinate, uint> outputRegionMasks,
+            NativeHashMap<UniversalCoordinate, int> outputRegionIndexes,
             out NativeList<AllocatedRegion> allocatedRegions,
             out NativeArray<int> regionCounter,
             JobHandle dependency = default)
@@ -230,7 +305,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     seedPoints_input = seedPoints,
                     fringe_working = new NativeQueue<UniversalCoordinate>(Allocator.Persistent),
                     neighborCoordinatesSwapSpace_working = new NativeArray<UniversalCoordinate>(UniversalCoordinate.MaxNeighborCount, Allocator.Persistent),
-                    regionBitMasks_output = outputRegionMasks,
+                    regionIndexes_output = outputRegionIndexes,
                     allRegions_output = allocatedRegions,
                     regionCounter_working = regionCounter
                 };
@@ -289,7 +364,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 var totalCoordinates = range.TotalCoordinateContents();
                 dependency = nextRangeJob.Schedule(
                     totalCoordinates,
-                    TileTypesToImpassibleQueryBatchSize,
+                    CoordinateRangeJobsBatchSize,
                     dependency);
             }
             memberManager.RegisterJobHandleForReader(dependency);

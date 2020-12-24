@@ -59,6 +59,7 @@
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\GetCalories.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\Actions\Eat.cs" />
     <Compile Include="Assets\Behaviors\Scripts\BehaviorTree\GameNode\DataGrabbers\ClaimErrandOfType.cs" />
+    <Compile Include="Assets\Tiling\Tilemapping\RegionConnectivitySystem\MapIndexesToBitMaskRegionsJob.cs" />
     <Compile Include="Assets\WorldObjects\DOTSMembers\ReachabilityFlagComponent.cs" />
     <Compile Include="Assets\Tiling\TriangleCoords\TriangleTriangleCoordinateRange.cs" />
     <Compile Include="Assets\Libraries\ECS_SpriteSheetAnimation\FlibookComponents\FlipbookAnimatorAuthoring.cs" />

@@ -135,5 +135,20 @@ namespace Assets.Tiling.SquareCoords
             swapSpace[2] = UniversalCoordinate.From(this + LEFT, planeID);
             swapSpace[3] = UniversalCoordinate.From(this + RIGHT, planeID);
         }
+        public SquareCoordinate NeighborAtIndex(int neighborIndex)
+        {
+            switch (neighborIndex % 4)
+            {
+                case 0:
+                    return this + UP;
+                case 1:
+                    return this + DOWN;
+                case 2:
+                    return this + LEFT;
+                case 3:
+                    return this + RIGHT;
+            }
+            return default;
+        }
     }
 }
