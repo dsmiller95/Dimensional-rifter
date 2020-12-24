@@ -14,6 +14,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     {
         public UniversalCoordinateRange range;
         [ReadOnly] public NativeHashMap<UniversalCoordinate, int> regionIndexes_input;
+        [ReadOnly] public NativeHashMap<int, int> regionRemappings_input;
         public NativeHashMap<UniversalCoordinate, uint>.ParallelWriter regionBitMasks_output;
 
         public void Execute(int index)
@@ -33,6 +34,10 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             if (regionIndexes_input.TryGetValue(coordinate, out int coordinateIndex) && coordinateIndex != -1)
             {
+                if(regionRemappings_input.TryGetValue(coordinateIndex, out var remappedIndex))
+                {
+                    coordinateIndex = remappedIndex;
+                }
                 currentMask |= (uint)1 << coordinateIndex;
             }
             return currentMask;

@@ -99,7 +99,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c3b7d3c27b58744f995d7301c744e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnchoredTileMapIndex: 0
+  destinationCoordinate:
+    triangleDataView:
+      u: 0
+      v: 0
+      R: 0
+    squareDataView:
+      row: 0
+      column: 0
+    CoordinateMembershipData: 0
+    type: 0
+    CoordinatePlaneID: 0
 --- !u!114 &1708563893484339933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemTypeRequriement: 1
-  defaultResourceRequiredAmount: 1
+  defaultResourceRequiredAmount: 0
   supplyClassification: {fileID: 11400000, guid: 03746b3cc0566124faa2469eec477f58, type: 2}
 --- !u!114 &2242573818909043239
 MonoBehaviour:

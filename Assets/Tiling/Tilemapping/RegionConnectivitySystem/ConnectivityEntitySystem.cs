@@ -21,7 +21,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         private enum ErrorCodes
         {
             NONE = 0,
-            FAIL_ANCHORS_MULTIPLE_REGIONS
+            FAIL_ANCHORS_SAME_REGION
         }
 
         private static readonly int CoordinateRangeJobsBatchSize = 128;
@@ -42,6 +42,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
         private NativeArray<int> regionCounter;
         private NativeArray<ErrorCodes> errorCode;
+        private NativeHashMap<int, int> remaps;
         /// <summary>
         /// Set when the job is scheduled
         ///     set to null when the job is completed and the system has handled the completion
@@ -80,7 +81,20 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 var totalBlockedPositions = blockedCoordinates.ActiveData?.Count() ?? -1;
                 BlockingTilesRatioEstimate = ((float)totalBlockedPositions) / lastTotalTiles;
 
+                if(errorCode[0] != ErrorCodes.NONE)
+                {
+                    Debug.LogError($"[CONNECTIVITY] Error during classification: {Enum.GetName(typeof(ErrorCodes), errorCode[0])}");
+                }
+
                 Debug.Log($"[CONNECTIVITY] Classified {regionConnectivityClassification.ActiveData?.Count() ?? -1} points. {BlockingTilesRatioEstimate * 100:F1}% of tiles are blocking. {regionCounter[0]} distinct regions classified");
+
+                var remapString = "[CONNECTIVITY] Remaps: ";
+                foreach (var regionMapping in remaps)
+                {
+                    remapString += $"[{regionMapping.Key} : {regionMapping.Value}]";
+                }
+                Debug.Log(remapString);
+
 
                 DisposeAllWorkingData();
                 regionConnectivityDep = null;
@@ -176,46 +190,92 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             longRunningDisposables.Add(errorCode);
             this.errorCode = errorCode;
 
+
+            var regionRemaps = new NativeHashMap<int, int>(totalAnchors, Allocator.Persistent);
+            this.remaps = regionRemaps;
+            longRunningDisposables.Add(regionRemaps);
+            individualRegionJob = RemapRegions(
+                totalAnchors,
+                anchorComponents,
+                anchorPositions,
+                regionIndexes,
+                regionRemaps,
+                individualRegionJob);
+
             var outputRegionClassification = new NativeHashMap<UniversalCoordinate, uint>(lastTotalTiles, Allocator.Persistent);
             regionConnectivityClassification.AssignPending(outputRegionClassification);
             individualRegionJob = ScheduleIndexesToBitMaskJobs(
                 ranges,
                 regionIndexes,
+                regionRemaps,
                 outputRegionClassification,
                 individualRegionJob);
 
-//            var regionRemaps = new NativeHashMap<int, int>(totalAnchors, Allocator.Persistent);
-//            longRunningDisposables.Add(regionRemaps);
-//            Job.WithBurst()
-//                .WithCode(() =>
-//                {
-//                    for (int anchorIndex = 0; anchorIndex < totalAnchors; anchorIndex++)
-//                    {
-//                        var anchoredPos = anchorComponents[anchorIndex].destinationCoordinate;
-//                        var anchorPos = anchorPositions[anchorIndex].Value;
-//                        var regionA = math.log2(outputRegionClassification[anchoredPos]);
-//                        var regionB = math.log2(outputRegionClassification[anchorPos]);
-//                        var aIndex = Mathf.RoundToInt(regionA);
-//                        var bIndex = Mathf.RoundToInt(regionB);
-//#if UNITY_EDITOR
-//                        if(math.abs(aIndex - regionA) > 0.001 || math.abs(bIndex - regionB) > 0.001)
-//                        {
-//                            errorCode[0] = ErrorCodes.FAIL_ANCHORS_MULTIPLE_REGIONS;
-//                            return;
-//                        }
-//#endif
-//                        // Map a to B
-//                        regionRemaps.Add(aIndex, bIndex);
-//                    }
-
-//                });
-
             this.regionConnectivityDep = individualRegionJob;
+        }
+
+        private JobHandle RemapRegions(
+            int totalAnchors,
+            NativeArray<TilemapAnchorComponent> anchorComponentsInput,
+            NativeArray<UniversalCoordinatePositionComponent> anchorPositionsInput,
+            NativeHashMap<UniversalCoordinate, int> regionIndexesInput,
+            NativeHashMap<int, int> regionRemapsOuput,
+            JobHandle dependency)
+        {
+            var errorCode_lambdaCapture = errorCode;
+            return Job.WithBurst()
+                .WithCode(() =>
+                {
+                    int maxMappedRegion = 0;
+                    for (int anchorIndex = 0; anchorIndex < totalAnchors; anchorIndex++)
+                    {
+                        var anchoredPos = anchorComponentsInput[anchorIndex].destinationCoordinate;
+                        var anchorPos = anchorPositionsInput[anchorIndex].Value;
+                        var anchoredRegion = regionIndexesInput[anchoredPos];
+                        var anchorRegion = regionIndexesInput[anchorPos];
+                        if (anchoredRegion == anchorRegion)
+                        {
+                            errorCode_lambdaCapture[0] = ErrorCodes.FAIL_ANCHORS_SAME_REGION;
+                            return;
+                        }
+                        var regionA = math.min(anchorRegion, anchoredRegion);
+                        var regionB = math.max(anchorRegion, anchoredRegion);
+                        // Map region B to A, to get smallest region indexes
+                        if (regionRemapsOuput.TryGetValue(regionB, out var existingMapping))
+                        {
+                            if (existingMapping == regionA)
+                            {
+                                continue;
+                            }
+                            // If C -> B, and then C -> A, then B -> A and C -> A
+                            var newRemapRegion = math.min(existingMapping, regionA);
+                            var extraMapping = math.max(existingMapping, regionA);
+                            regionRemapsOuput[regionB] = newRemapRegion;
+                            regionRemapsOuput[extraMapping] = newRemapRegion;
+                            continue;
+                        }
+                        regionRemapsOuput[regionB] = regionA;
+                        maxMappedRegion = math.max(regionB, maxMappedRegion);
+                    }
+                    for (int i = 0; i < maxMappedRegion; i++)
+                    {
+                        // if C -> B, and then B -> A, then C -> A
+                        // only requires one iteration because all mappings point to a smaller index, which guarantees all mappings less than the current index have no chains
+                        if (regionRemapsOuput.TryGetValue(i, out var mappedToRegion))
+                        {
+                            if (regionRemapsOuput.TryGetValue(mappedToRegion, out var transitiveMappedRegion))
+                            {
+                                regionRemapsOuput[i] = transitiveMappedRegion;
+                            }
+                        }
+                    }
+                }).Schedule(dependency);
         }
 
         private JobHandle ScheduleIndexesToBitMaskJobs(
             NativeArray<UniversalCoordinateRange> ranges,
             NativeHashMap<UniversalCoordinate, int> inputRegionIndexes,
+            NativeHashMap<int, int> inputRegionRemaps,
             NativeHashMap<UniversalCoordinate, uint> outputRegionBitMasks,
             JobHandle dependency)
         {
@@ -226,6 +286,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 {
                     range = range,
                     regionIndexes_input = inputRegionIndexes,
+                    regionRemappings_input = inputRegionRemaps,
                     regionBitMasks_output = outputWriter
                 };
                 var totalCoordinates = range.TotalCoordinateContents();
