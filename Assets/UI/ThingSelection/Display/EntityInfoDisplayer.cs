@@ -1,4 +1,5 @@
-﻿using Assets.WorldObjects.DOTSMembers;
+﻿using Assets.Tiling.Tilemapping.RegionConnectivitySystem;
+using Assets.WorldObjects.DOTSMembers;
 using Assets.WorldObjects.Members.Buildings.DOTS;
 using Assets.WorldObjects.Members.Storage.DOTS;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Assets.UI.ThingSelection.Display
 
         private EntityQuery selectedEntityQuery;
         private EntityManager EntityManager => World.DefaultGameObjectInjectionWorld.EntityManager;
+        private ConnectivityEntitySystem ConnectivitySystem => World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ConnectivityEntitySystem>();
 
         public TextMeshProUGUI text;
 
@@ -64,6 +66,11 @@ namespace Assets.UI.ThingSelection.Display
             {
                 var coordinateData = manager.GetComponentData<UniversalCoordinatePositionComponent>(selectedEntity);
                 resultText.AppendLine($"Position: {coordinateData.Value}");
+                var connector = ConnectivitySystem;
+                if (connector.HasRegionMaps && connector.Regions.ContainsKey(coordinateData.Value))
+                {
+                    resultText.AppendLine($"Region: {System.Convert.ToString(connector.Regions[coordinateData.Value], 2).PadLeft(16, '0')}");
+                }
             }
             var isBuildingData = manager.HasComponent<BuildingChildComponent>(selectedEntity);
             if (isBuildingData)
