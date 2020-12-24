@@ -168,31 +168,19 @@ namespace Assets.Tiling
 
         public IEnumerable<UniversalCoordinate> Neighbors()
         {
-            var myPlaneID = CoordinatePlaneID;
-            switch (type)
+            var neighborCount = NeighborCount();
+            for (int i = 0; i < neighborCount; i++)
             {
-                case CoordinateType.TRIANGLE:
-                    return triangleDataView.Neighbors().Select(x => From(x, myPlaneID));
-                case CoordinateType.SQUARE:
-                    return squareDataView.Neighbors().Select(x => From(x, myPlaneID));
-                default:
-                    return null;
+                yield return NeighborAtIndex(i);
             }
         }
 
         public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace)
         {
-            // TODO: eliminate implementations in the coordinate classes, rely only on neighborAtIndex
-            switch (type)
+            var neighborCount = NeighborCount();
+            for (int i = 0; i < neighborCount; i++)
             {
-                case CoordinateType.TRIANGLE:
-                    triangleDataView.SetNeighborsIntoSwapSpace(swapSpace, CoordinatePlaneID);
-                    return;
-                case CoordinateType.SQUARE:
-                    squareDataView.SetNeighborsIntoSwapSpace(swapSpace, CoordinatePlaneID);
-                    return;
-                default:
-                    break;
+                swapSpace[i] = NeighborAtIndex(i);
             }
         }
 

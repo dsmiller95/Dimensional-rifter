@@ -59,28 +59,6 @@ namespace Assets.Tiling.TriangleCoords
             return realCoord;
         }
 
-        public IEnumerable<TriangleCoordinate> Neighbors()
-        {
-            if (R)
-            {
-                yield return new TriangleCoordinate(u + 1, v, false);
-                yield return new TriangleCoordinate(u, v, false);
-                yield return new TriangleCoordinate(u, v + 1, false);
-            }
-            else
-            {
-                yield return new TriangleCoordinate(u, v, true);
-                yield return new TriangleCoordinate(u, v - 1, true);
-                yield return new TriangleCoordinate(u - 1, v, true);
-            }
-        }
-        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
-        {
-            swapSpace[0] = UniversalCoordinate.From(NeighborAtIndex(0), planeID);
-            swapSpace[1] = UniversalCoordinate.From(NeighborAtIndex(1), planeID);
-            swapSpace[2] = UniversalCoordinate.From(NeighborAtIndex(2), planeID);
-        }
-
         public TriangleCoordinate NeighborAtIndex(int neighborIndex)
         {
             if (R)

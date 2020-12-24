@@ -120,21 +120,6 @@ namespace Assets.Tiling.SquareCoords
         {
             return other.row == row && other.column == column;
         }
-
-        public IEnumerable<SquareCoordinate> Neighbors()
-        {
-            yield return this + UP;
-            yield return this + DOWN;
-            yield return this + LEFT;
-            yield return this + RIGHT;
-        }
-        public void SetNeighborsIntoSwapSpace(NativeArray<UniversalCoordinate> swapSpace, short planeID)
-        {
-            swapSpace[0] = UniversalCoordinate.From(this + UP, planeID);
-            swapSpace[1] = UniversalCoordinate.From(this + DOWN, planeID);
-            swapSpace[2] = UniversalCoordinate.From(this + LEFT, planeID);
-            swapSpace[3] = UniversalCoordinate.From(this + RIGHT, planeID);
-        }
         public SquareCoordinate NeighborAtIndex(int neighborIndex)
         {
             switch (neighborIndex % 4)
