@@ -138,10 +138,16 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinateRange range;
     }
 
-    public class TileMapRegionRuntimeData
+    public class TileMapRegionRuntimeData: IDisposable
     {
-        public HashSet<UniversalCoordinate> disabledCoordinates = new HashSet<UniversalCoordinate>();
-        public HashSet<UniversalCoordinate> previewFadeoutCoordiantes = new HashSet<UniversalCoordinate>();
+        public NativeHashSet<UniversalCoordinate> disabledCoordinates = new NativeHashSet<UniversalCoordinate>(1, Allocator.Persistent);
+        public NativeHashSet<UniversalCoordinate> previewFadeoutCoordiantes = new NativeHashSet<UniversalCoordinate>(1, Allocator.Persistent);
+
+        public void Dispose()
+        {
+            disabledCoordinates.Dispose();
+            previewFadeoutCoordiantes.Dispose();
+        }
     }
 
     [RequireComponent(typeof(MeshRenderer))]
@@ -161,7 +167,6 @@ namespace Assets.Tiling.Tilemapping
             }
             RangeBoundsCollider = polygons[0];
         }
-
 
         public PolygonCollider2D SetupBoundingCollider(TileMapRegionData data)
         {

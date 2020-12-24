@@ -4,6 +4,7 @@ using Assets.WorldObjects.Members.Buildings.DOTS.Anchor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
@@ -52,6 +53,10 @@ namespace Assets.Tiling.Tilemapping
                 Debug.Log("Isbuild changed to " + isBuilt);
                 CombinationTileMapManager.instance.OnRegionRenderParametersChanged();
             }
+        }
+        protected void OnDestroy()
+        {
+            MyOwnData.runtimeData.Dispose();
         }
 
         private bool GetIsBuilt()
@@ -127,7 +132,7 @@ namespace Assets.Tiling.Tilemapping
                 return;
             }
             var oldFadeoutCoordinates = data.runtimeData.previewFadeoutCoordiantes;
-            var newFadeoutCoordinates = new HashSet<UniversalCoordinate>();
+            var newFadeoutCoordinates = new NativeHashSet<UniversalCoordinate>(oldFadeoutCoordinates.Count(), Allocator.Persistent);
 
             var boundingColliderAsList = previewRegions
                 .Select(x => x.RangeBoundsCollider).ToArray();// new[] { boundingCollider };
@@ -140,15 +145,22 @@ namespace Assets.Tiling.Tilemapping
                 }
             }
             // TODO: utility to change the material instead of moving the geometry around
-            foreach (var noLongerHidden in oldFadeoutCoordinates.Except(newFadeoutCoordinates))
+            foreach (var oldFaded in oldFadeoutCoordinates)
             {
-                meshBuilder.EnableCoordinate(noLongerHidden);
+                if (!newFadeoutCoordinates.Contains(oldFaded))
+                {
+                    meshBuilder.EnableCoordinate(oldFaded);
+                }
             }
-            foreach (var newlyHidden in newFadeoutCoordinates.Except(oldFadeoutCoordinates))
+            foreach (var newFaded in newFadeoutCoordinates)
             {
-                meshBuilder.DisableCoordiante(newlyHidden);
+                if (!oldFadeoutCoordinates.Contains(newFaded))
+                {
+                    meshBuilder.DisableCoordiante(newFaded);
+                }
             }
             data.runtimeData.previewFadeoutCoordiantes = newFadeoutCoordinates;
+            oldFadeoutCoordinates.Dispose();
         }
 
         public override void BakeTopology(
@@ -159,8 +171,8 @@ namespace Assets.Tiling.Tilemapping
                 .Where(x => x is TileMapRegion)
                 .Select(x => x.RangeBoundsCollider).ToArray();
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
-            data.runtimeData.disabledCoordinates = new HashSet<UniversalCoordinate>();
-            data.runtimeData.previewFadeoutCoordiantes = new HashSet<UniversalCoordinate>();
+            data.runtimeData.disabledCoordinates.Clear();
+            data.runtimeData.previewFadeoutCoordiantes.Clear();
             var setupMesh = meshBuilder.BakeTilemapMesh(
                 data.baseRange,
                 data.coordinateTransform,

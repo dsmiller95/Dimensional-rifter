@@ -13,15 +13,26 @@ namespace Assets.Tiling.Tilemapping
         public Button ConfirmButton;
         public Button CancelButton;
         public GameObject confirmUIParent;
+
+        private bool DataIsTransferred = false;
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        protected void OnDestroy()
+        {
+            if (!DataIsTransferred)
+            {
+                this.MyOwnData.runtimeData.Dispose();
+            }
         }
 
         public TileMapRegion ReplaceWithRealRegion()
         {
             MyOwnData.preview = false;
             var newRegion = CombinationTileMapManager.instance.CreateNewRegion(MyOwnData);
+            DataIsTransferred = true;
             CombinationTileMapManager.instance.ClosePreviewRegion(this);
             return newRegion;
         }
