@@ -22,7 +22,7 @@ namespace Assets.UI.ThingSelection.Display
         void Start()
         {
             var entityManager = EntityManager;
-            selectedEntityQuery = entityManager.CreateEntityQuery(typeof(SelectedComponent));
+            selectedEntityQuery = entityManager.CreateEntityQuery(typeof(SelectedComponentFlag));
         }
 
         // Update is called once per frame

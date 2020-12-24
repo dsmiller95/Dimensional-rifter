@@ -6,12 +6,19 @@ using Unity.Jobs;
 
 namespace Assets.UI.ThingSelection.ClickSelector
 {
+    public struct EmptyTileClickedComponenFlag: IComponentData
+    {
+
+    }
+
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class ClickToSelectedItemSystem : SystemBase
     {
         EntityCommandBufferSystem commandBufferSystem => World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         private EntityQuery TileClickedEventQuery;
         private EntityQuery ClickableEntityQuery;
+        private EntityQuery EmptyTilesClicked;
+        private EntityArchetype EmptyTileClickedArchetype;
 
         protected override void OnCreate()
         {
@@ -22,6 +29,14 @@ namespace Assets.UI.ThingSelection.ClickSelector
             ClickableEntityQuery = GetEntityQuery(
                 ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
                 ComponentType.ReadOnly<SelectableFlagComponent>()
+                );
+            EmptyTilesClicked = GetEntityQuery(
+                ComponentType.ReadOnly<UniversalCoordinatePositionComponent>(),
+                ComponentType.ReadOnly<EmptyTileClickedComponenFlag>());
+            EmptyTileClickedArchetype = EntityManager.CreateArchetype(
+                typeof(UniversalCoordinatePositionComponent),
+                typeof(EmptyTileClickedComponenFlag),
+                typeof(SelectedComponentFlag)
                 );
 
             clickCoordinate = new NativeArray<UniversalCoordinate>(1, Allocator.Persistent);
@@ -54,6 +69,8 @@ namespace Assets.UI.ThingSelection.ClickSelector
                 sortedEntityListJob
                 );
             var selectionIndexInTile_LambdaCapture = selectionIndexInTile;
+            var clickCoordinate_LambdaCapture = clickCoordinate;
+            var emptyTileClickedArchetype_lambdaCapture = EmptyTileClickedArchetype;
             Job
                 .WithBurst()
                 .WithDisposeOnCompletion(entitiesOnTile)
@@ -62,13 +79,18 @@ namespace Assets.UI.ThingSelection.ClickSelector
                     if (entitiesOnTile.Length <= 0)
                     {
                         // nothing is on the clicked tile; selection index is invalid
+                        var newEntity = commandBuffer.CreateEntity(emptyTileClickedArchetype_lambdaCapture);
+                        commandBuffer.SetComponent(newEntity, new UniversalCoordinatePositionComponent
+                        {
+                            Value = clickCoordinate_LambdaCapture[0]
+                        });
                         selectionIndexInTile_LambdaCapture[0] = -1;
                         return;
                     }
 
                     selectionIndexInTile_LambdaCapture[0] = selectionIndexInTile_LambdaCapture[0] % entitiesOnTile.Length;
                     var newlySelectedEntity = entitiesOnTile[selectionIndexInTile_LambdaCapture[0]];
-                    commandBuffer.AddComponent<SelectedComponent>(newlySelectedEntity);
+                    commandBuffer.AddComponent<SelectedComponentFlag>(newlySelectedEntity);
                 })
                 .Schedule();
             commandBufferSystem.AddJobHandleForProducer(Dependency);
@@ -77,11 +99,12 @@ namespace Assets.UI.ThingSelection.ClickSelector
         private JobHandle ClearSelectedComponentsAndClickEvents(JobHandle dependency, EntityCommandBuffer commandBuffer)
         {
             // not parallelizing this, since only one item will be selected, and only one click event
+            commandBuffer.DestroyEntity(EmptyTilesClicked);
             var depResult = Entities
-                .WithAll<SelectedComponent>()
+                .WithAll<SelectedComponentFlag>()
                 .ForEach((Entity self) =>
                 {
-                    commandBuffer.RemoveComponent<SelectedComponent>(self);
+                    commandBuffer.RemoveComponent<SelectedComponentFlag>(self);
                 })
                 .Schedule(dependency);
             return Entities
