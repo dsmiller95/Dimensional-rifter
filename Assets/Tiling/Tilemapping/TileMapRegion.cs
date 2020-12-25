@@ -119,6 +119,7 @@ namespace Assets.Tiling.Tilemapping
             {
                 meshBuilder.EnableCoordinate(noLongerHidden);
             }
+            data.runtimeData.readWriteLock.OpenForEdit();
             data.runtimeData.previewFadeoutCoordiantes.Clear();
         }
         public void SetPreviewOnCollidesWith(
@@ -159,6 +160,7 @@ namespace Assets.Tiling.Tilemapping
                     meshBuilder.DisableCoordiante(newFaded);
                 }
             }
+            data.runtimeData.readWriteLock.OpenForEdit();
             data.runtimeData.previewFadeoutCoordiantes = newFadeoutCoordinates;
             oldFadeoutCoordinates.Dispose();
         }
@@ -171,6 +173,7 @@ namespace Assets.Tiling.Tilemapping
                 .Where(x => x is TileMapRegion)
                 .Select(x => x.RangeBoundsCollider).ToArray();
             var colliderFlagSpace = colliderList.Select(x => false).ToArray();
+            data.runtimeData.readWriteLock.OpenForEdit();
             data.runtimeData.disabledCoordinates.Clear();
             data.runtimeData.previewFadeoutCoordiantes.Clear();
             var setupMesh = meshBuilder.BakeTilemapMesh(

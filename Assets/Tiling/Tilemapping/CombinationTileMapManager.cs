@@ -78,7 +78,7 @@ namespace Assets.Tiling.Tilemapping
                 region.InitializeForTopologyBake(configData, everyMember);
             }
 
-            everyMember.OpenForEdit();
+            everyMember.readWriteLock.OpenForEdit();
             foreach (var region in regionBehaviors)
             {
                 var configData = ConfigDataDict[region.MyOwnData.baseRange.CoordinateType];

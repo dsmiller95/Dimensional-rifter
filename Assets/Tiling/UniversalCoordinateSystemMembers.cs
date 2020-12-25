@@ -1,4 +1,5 @@
-﻿using Assets.Tiling.Tilemapping.TileConfiguration;
+﻿using Assets.Scripts.Utilities;
+using Assets.Tiling.Tilemapping.TileConfiguration;
 using Assets.WorldObjects;
 using Assets.WorldObjects.Members;
 using Assets.WorldObjects.Members.Wall;
@@ -71,7 +72,7 @@ namespace Assets.Tiling
 
         public void SetTile(UniversalCoordinate coordinate, TileTypeInfo tileID)
         {
-            if (!isWritable)
+            if (!readWriteLock.isWritable)
             {
                 throw new System.Exception("Members is not in a writable state! be sure the map is opened for edits with OpenForEdit before making changes to tile data");
             }
@@ -157,20 +158,7 @@ namespace Assets.Tiling
             return tileTypes;
         }
 
-        #region Read/Write management
-        private JobHandle readersJobHandle;
-        private bool isWritable = true;
-        public void RegisterJobHandleForReader(JobHandle handle)
-        {
-            readersJobHandle = JobHandle.CombineDependencies(readersJobHandle, handle);
-            isWritable = false;
-        }
-        public void OpenForEdit()
-        {
-            readersJobHandle.Complete();
-            isWritable = true;
-        }
-        #endregion
+        public ReadWriteJobHandleProtector readWriteLock = new ReadWriteJobHandleProtector();
 
         public TileProperties[] GetTileInfoByTypeIndex()
         {

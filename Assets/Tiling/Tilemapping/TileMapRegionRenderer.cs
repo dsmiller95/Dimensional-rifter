@@ -138,13 +138,15 @@ namespace Assets.Tiling.Tilemapping
         public UniversalCoordinateRange range;
     }
 
-    public class TileMapRegionRuntimeData: IDisposable
+    public class TileMapRegionRuntimeData : IDisposable
     {
         public NativeHashSet<UniversalCoordinate> disabledCoordinates = new NativeHashSet<UniversalCoordinate>(1, Allocator.Persistent);
         public NativeHashSet<UniversalCoordinate> previewFadeoutCoordiantes = new NativeHashSet<UniversalCoordinate>(1, Allocator.Persistent);
+        public ReadWriteJobHandleProtector readWriteLock = new ReadWriteJobHandleProtector();
 
         public void Dispose()
         {
+            readWriteLock.Dispose();
             disabledCoordinates.Dispose();
             previewFadeoutCoordiantes.Dispose();
         }

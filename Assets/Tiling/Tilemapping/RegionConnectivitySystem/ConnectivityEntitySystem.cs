@@ -147,7 +147,8 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             //  all other jobs will run long
             // TODO: read data about which items in the range are blocked by other ranges
             Dependency = ScheduleEntityBlockingJob(concurrentWriter, Dependency);
-            var dataQueryDep = ScheduleTileMapBlockingJob(ranges, concurrentWriter, Dependency);
+            var dataQueryDep = ScheduleTileMapBlockingJob(concurrentWriter, Dependency);
+
             Profiler.EndSample();
 
             Profiler.BeginSample("Sample for seed points");
@@ -404,7 +405,6 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         }
 
         private JobHandle ScheduleTileMapBlockingJob(
-            NativeArray<UniversalCoordinateRange> ranges,
             NativeHashSet<UniversalCoordinate>.ParallelWriter concurrentWriter,
             JobHandle dependency = default)
         {
@@ -413,13 +413,16 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
             var tileTypeDict = memberManager.GetTileTypesByCoordinateReadonlyCollection();
             var impassibleIDs = GetImpassibleIDSet(Allocator.TempJob);
 
-            foreach (var range in ranges)
+            foreach (var regionData in CombinationTileMapManager.instance.regionBehaviors.Select(x => x.MyOwnData))
             {
-                var nextRangeJob = new SelectFromCoordinateRangeJob<int>
+                var range = regionData.baseRange;
+                var nextRangeJob = new SelectBlockingTilesJob
                 {
                     range = range,
-                    hashMapToFilter = tileTypeDict,
-                    ValuesToSelectFor = impassibleIDs,
+                    coordinatesToTileIDs_input = tileTypeDict,
+                    blockingTileIDs_input = impassibleIDs,
+                    disabledCoordinates_input = regionData.runtimeData.disabledCoordinates,
+                    previewCoordinates_input = regionData.runtimeData.previewFadeoutCoordiantes,
                     HashSetWriter = concurrentWriter
                 };
                 var totalCoordinates = range.TotalCoordinateContents();
@@ -427,8 +430,9 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                     totalCoordinates,
                     CoordinateRangeJobsBatchSize,
                     dependency);
+                regionData.runtimeData.readWriteLock.RegisterJobHandleForReader(dependency);
             }
-            memberManager.RegisterJobHandleForReader(dependency);
+            memberManager.readWriteLock.RegisterJobHandleForReader(dependency);
 
             dependency = impassibleIDs.Dispose(dependency);
             Profiler.EndSample();
