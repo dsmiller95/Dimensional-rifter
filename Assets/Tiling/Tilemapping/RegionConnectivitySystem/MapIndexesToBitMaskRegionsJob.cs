@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Jobs;
 
 namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
@@ -10,7 +9,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="J"></typeparam>
-    public struct MapIndexesToBitMaskRegionsJob: IJobParallelFor
+    public struct MapIndexesToBitMaskRegionsJob : IJobParallelFor
     {
         public UniversalCoordinateRange range;
         [ReadOnly] public NativeHashMap<UniversalCoordinate, int> regionIndexes_input;
@@ -34,7 +33,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
         {
             if (regionIndexes_input.TryGetValue(coordinate, out int coordinateIndex) && coordinateIndex != -1)
             {
-                if(regionRemappings_input.TryGetValue(coordinateIndex, out var remappedIndex))
+                if (regionRemappings_input.TryGetValue(coordinateIndex, out var remappedIndex))
                 {
                     coordinateIndex = remappedIndex;
                 }

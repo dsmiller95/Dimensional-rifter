@@ -24,7 +24,7 @@ namespace Assets.Tiling.Tilemapping
         {
             if (!DataIsTransferred)
             {
-                this.MyOwnData.runtimeData.Dispose();
+                MyOwnData.runtimeData.Dispose();
             }
         }
 

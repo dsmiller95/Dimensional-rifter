@@ -81,7 +81,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 var totalBlockedPositions = blockedCoordinates.ActiveData?.Count() ?? -1;
                 BlockingTilesRatioEstimate = ((float)totalBlockedPositions) / lastTotalTiles;
 
-                if(errorCode[0] != ErrorCodes.NONE)
+                if (errorCode[0] != ErrorCodes.NONE)
                 {
                     Debug.LogError($"[CONNECTIVITY] Error during classification: {Enum.GetName(typeof(ErrorCodes), errorCode[0])}");
                 }
@@ -193,7 +193,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
 
 
             var regionRemaps = new NativeHashMap<int, int>(totalAnchors, Allocator.Persistent);
-            this.remaps = regionRemaps;
+            remaps = regionRemaps;
             longRunningDisposables.Add(regionRemaps);
             individualRegionJob = RemapRegions(
                 totalAnchors,
@@ -212,7 +212,7 @@ namespace Assets.Tiling.Tilemapping.RegionConnectivitySystem
                 outputRegionClassification,
                 individualRegionJob);
 
-            this.regionConnectivityDep = individualRegionJob;
+            regionConnectivityDep = individualRegionJob;
         }
 
         private JobHandle RemapRegions(

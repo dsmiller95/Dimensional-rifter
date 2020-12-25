@@ -6,7 +6,7 @@ using Unity.Jobs;
 
 namespace Assets.UI.ThingSelection.ClickSelector
 {
-    public struct EmptyTileClickedComponenFlag: IComponentData
+    public struct EmptyTileClickedComponenFlag : IComponentData
     {
 
     }
