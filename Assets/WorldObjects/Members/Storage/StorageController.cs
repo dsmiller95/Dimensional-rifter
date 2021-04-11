@@ -197,11 +197,11 @@ namespace Assets.WorldObjects.Members.Storage
 
             dstManager.AddComponentData(entity, new ItemSourceTypeComponent
             {
-                SourceTypeFlag = ((uint)1) << ItemSourceType.ID
+                SourceTypeFlag = ((uint)1) << ItemSourceType.myId
             });
             dstManager.AddComponentData(entity, new SupplyTypeComponent
             {
-                SupplyTypeFlag = ((uint)1) << SuppliableClassification.ID
+                SupplyTypeFlag = ((uint)1) << SuppliableClassification.myId
             });
         }
     }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ffeef1fbf7fad043a519dd999f6df3b, type: 3}
   m_Name: BuildingSuppliableType
   m_EditorClassIdentifier: 
+  myId: 0
   DeveloperDescription: Supply for building
-  ID: 0

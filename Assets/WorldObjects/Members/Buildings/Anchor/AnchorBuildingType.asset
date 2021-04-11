@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f94bdf08ff35449abf35db83c578c6, type: 3}
   m_Name: AnchorBuildingType
   m_EditorClassIdentifier: 
-  memberID: 9
+  myId: 9
   recieveStorage: 0
   memberPrefab: {fileID: 6082261357034508969, guid: 269bdfab057b60146b1e81f3c3c7ac7f, type: 3}
   boolDefaults: []

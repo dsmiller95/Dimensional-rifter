@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
   m_Name: HungryMember
   m_EditorClassIdentifier: 
-  memberID: 4
+  myId: 4
   recieveStorage: 0
   memberPrefab: {fileID: 5372322527512826100, guid: 600b02263f4987c4b8c8bff7ef8ca550, type: 3}

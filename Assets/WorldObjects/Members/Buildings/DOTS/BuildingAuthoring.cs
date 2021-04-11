@@ -53,7 +53,7 @@ namespace Assets.WorldObjects.Members.Buildings.DOTS
             });
             dstManager.AddComponentData(buildingEntity, new SupplyTypeComponent
             {
-                SupplyTypeFlag = ((uint)1) << supplyClassification.ID
+                SupplyTypeFlag = ((uint)1) << supplyClassification.myId
             });
 
             dstManager.AddComponentData(buildingEntity, new BuildingChildComponent

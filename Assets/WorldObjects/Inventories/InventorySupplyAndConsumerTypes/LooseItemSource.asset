@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fb12db8770cc748b102dbcfac10c6e, type: 3}
   m_Name: LooseItemSource
   m_EditorClassIdentifier: 
+  myId: 1
   DeveloperDescription: An item on the ground, just laying around
-  ID: 1

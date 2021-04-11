@@ -251,7 +251,7 @@ namespace Assets.WorldObjects.Members.Buildings
             });
             dstManager.SetComponentData(buildingEntity, new SupplyTypeComponent
             {
-                SupplyTypeFlag = ((uint)1) << SuppliableClassification.ID
+                SupplyTypeFlag = ((uint)1) << SuppliableClassification.myId
             });
 
             dstManager.SetComponentData(buildingEntity, new BuildingChildComponent

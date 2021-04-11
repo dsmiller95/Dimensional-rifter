@@ -36,7 +36,7 @@ namespace Assets.Behaviors.Errands.Scripts
         /// <returns>Errand if any found, otherwise null</returns>
         public ErrandClaimingNode AttemptClaimAnyErrandOfType(ErrandType type, GameObject claimer)
         {
-            var errandIndex = type.uniqueID;
+            var errandIndex = type.myId;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
             return new ErrandClaimingNode(
                 claimer,
@@ -111,7 +111,7 @@ namespace Assets.Behaviors.Errands.Scripts
         public bool DeRegisterErrandSource(IErrandSource<IErrand> errandSource)
         {
             var errandType = errandSource.ErrandType;
-            var errandIndex = errandType.uniqueID;
+            var errandIndex = errandType.myId;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
             Debug.Log($"[ERRANDS]Deregistered errand source of type: {errandType.name}");
             return ErrandSourcesByErrandTypeID[errandIndex].Remove(errandSource);
@@ -119,7 +119,7 @@ namespace Assets.Behaviors.Errands.Scripts
 
         public void RegisterErrandSource(IErrandSource<IErrand> source)
         {
-            var errandIndex = source.ErrandType.uniqueID;
+            var errandIndex = source.ErrandType.myId;
             ExtendErrandMappingToLengthIfNeeded(errandIndex);
 
             ErrandSourcesByErrandTypeID[errandIndex].Add(source);

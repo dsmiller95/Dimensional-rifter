@@ -102,7 +102,7 @@ namespace Assets.WorldObjects
             var saveAble = GetComponent<IMemberSaveable>();
             return new TileMemberData
             {
-                memberID = memberType.memberID,
+                memberID = memberType.myId,
                 objectDatas = saveableData.ToArray()
             };
         }

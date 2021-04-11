@@ -28,9 +28,9 @@ namespace Assets.WorldObjects.Members.Storage.DOTS
             validSourceFlags = 0;
             foreach (var source in validSources)
             {
-                validSourceFlags |= ((uint)1) << source.ID;
+                validSourceFlags |= ((uint)1) << source.myId;
             }
-            validSupplyFlags = ((uint)1) << supplyTypeTarget.ID;
+            validSupplyFlags = ((uint)1) << supplyTypeTarget.myId;
         }
 
         public IErrandSourceNode<EntityStoreErrand> GetErrand(GameObject errandExecutor)

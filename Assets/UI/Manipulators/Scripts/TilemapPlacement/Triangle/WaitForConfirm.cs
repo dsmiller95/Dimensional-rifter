@@ -71,7 +71,7 @@ namespace Assets.UI.Manipulators.Scripts.TilemapPlacement.Triangle
             foreach (var prefab in prefabs)
             {
                 var memberType = entityManager.GetComponentData<MemberPrefabIDComponent>(prefab);
-                if (memberType.prefabID == data.anchorMemberType.memberID)
+                if (memberType.prefabID == data.anchorMemberType.myId)
                 {
                     var prefabData = entityManager.GetComponentData<MemberPrefabComponent>(prefab);
                     return prefabData.prefab;

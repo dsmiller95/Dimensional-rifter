@@ -204,7 +204,7 @@ namespace Assets.WorldObjects.Members.Items
 
             dstManager.AddComponentData(entity, new ItemSourceTypeComponent
             {
-                SourceTypeFlag = ((uint)1) << ItemSourceType.ID
+                SourceTypeFlag = ((uint)1) << ItemSourceType.myId
             });
         }
     }

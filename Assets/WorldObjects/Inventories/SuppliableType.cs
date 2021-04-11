@@ -1,4 +1,5 @@
 ﻿using Assets.WorldObjects.Members;
+using Dman.ObjectSets;
 using UnityEngine;
 
 namespace Assets.WorldObjects.Inventories
@@ -10,12 +11,5 @@ namespace Assets.WorldObjects.Inventories
         [Multiline]
         public string DeveloperDescription = "";
 #endif
-
-        public int ID;
-
-        public override void AssignId(int myNewID)
-        {
-            ID = myNewID;
-        }
     }
 }

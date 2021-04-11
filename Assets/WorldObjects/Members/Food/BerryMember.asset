@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68810c702f88d0041ba351a9aebdd0bc, type: 3}
   m_Name: BerryMember
   m_EditorClassIdentifier: 
-  memberID: 1
+  myId: 1
   recieveStorage: 0
   memberPrefab: {fileID: 6082261357034508969, guid: d1ff4f65846937747be9bdc57cc66862, type: 3}

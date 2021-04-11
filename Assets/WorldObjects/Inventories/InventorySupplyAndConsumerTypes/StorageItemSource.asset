@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fb12db8770cc748b102dbcfac10c6e, type: 3}
   m_Name: StorageItemSource
   m_EditorClassIdentifier: 
+  myId: 2
   DeveloperDescription: 'A source of items coming from some sort of building which
     stores
 
     items from some other place'
-  ID: 2

@@ -1,4 +1,5 @@
 ﻿using Assets.WorldObjects.SaveObjects;
+using Dman.ObjectSets;
 using System;
 using UnityEngine;
 
@@ -9,9 +10,6 @@ namespace Assets.WorldObjects.Members
     [CreateAssetMenu(fileName = "MemberType", menuName = "Members/MemberType/Type", order = 2)]
     public class MemberType : IDableObject
     {
-        [SerializeField]
-        public int memberID;
-
         [Tooltip("When true this member will be included in the list of possible recepticals for a storage task")]
         public bool recieveStorage = false;
 
@@ -26,19 +24,14 @@ namespace Assets.WorldObjects.Members
         {
             if (obj is MemberType other)
             {
-                return other.memberID == memberID;
+                return other.myId == this.myId;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return memberID;
-        }
-
-        public override void AssignId(int myNewID)
-        {
-            memberID = myNewID;
+            return myId;
         }
     }
 }

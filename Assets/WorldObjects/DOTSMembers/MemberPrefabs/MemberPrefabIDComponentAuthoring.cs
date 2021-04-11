@@ -16,7 +16,7 @@ namespace Assets.WorldObjects.DOTSMembers.MemberPrefabs
         {
             dstManager.AddComponentData(entity, new MemberPrefabIDComponent
             {
-                prefabID = memberType.memberID
+                prefabID = memberType.myId
             });
         }
     }

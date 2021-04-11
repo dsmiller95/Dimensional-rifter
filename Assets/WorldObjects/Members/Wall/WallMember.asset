@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f94bdf08ff35449abf35db83c578c6, type: 3}
   m_Name: WallMember
   m_EditorClassIdentifier: 
-  memberID: 3
+  myId: 3
   recieveStorage: 0
   memberPrefab: {fileID: 506530251402321468, guid: 65d8ea125a350a54abbae288076a3896, type: 3}
   boolDefaults:

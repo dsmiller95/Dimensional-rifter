@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fb12db8770cc748b102dbcfac10c6e, type: 3}
   m_Name: GrowthItemSource
   m_EditorClassIdentifier: 
+  myId: 0
   DeveloperDescription: A source of items which produces some sort of product to
     be gathered
-  ID: 0
